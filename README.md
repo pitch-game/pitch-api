@@ -4,6 +4,4 @@ RESTful API for pitch
 - Microservices architecture
 - Node.js, Typescript, Docker, Kubernetes
 
-- Gateway API
-  - Microservice 1
-  - Microservice 2
+https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/multi-container-microservice-net-applications/microservice-application-design
