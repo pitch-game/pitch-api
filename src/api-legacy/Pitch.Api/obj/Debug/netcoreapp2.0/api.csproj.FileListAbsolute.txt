@@ -1,0 +1,12 @@
+D:\Source\pitch\api\obj\Debug\netcoreapp2.0\api.csprojAssemblyReference.cache
+D:\Source\pitch\api\obj\Debug\netcoreapp2.0\api.csproj.CoreCompileInputs.cache
+D:\Source\pitch\api\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+D:\Source\pitch\api\obj\Debug\netcoreapp2.0\api.AssemblyInfoInputs.cache
+D:\Source\pitch\api\obj\Debug\netcoreapp2.0\api.AssemblyInfo.cs
+D:\Source\pitch\api\bin\Debug\netcoreapp2.0\api.deps.json
+D:\Source\pitch\api\bin\Debug\netcoreapp2.0\api.runtimeconfig.json
+D:\Source\pitch\api\bin\Debug\netcoreapp2.0\api.runtimeconfig.dev.json
+D:\Source\pitch\api\bin\Debug\netcoreapp2.0\api.dll
+D:\Source\pitch\api\bin\Debug\netcoreapp2.0\api.pdb
+D:\Source\pitch\api\obj\Debug\netcoreapp2.0\api.dll
+D:\Source\pitch\api\obj\Debug\netcoreapp2.0\api.pdb

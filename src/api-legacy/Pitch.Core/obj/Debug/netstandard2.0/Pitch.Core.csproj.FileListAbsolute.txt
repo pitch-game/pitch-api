@@ -1,0 +1,9 @@
+D:\Source\pitch\src\backend\Pitch.Core\bin\Debug\netstandard2.0\Pitch.Core.deps.json
+D:\Source\pitch\src\backend\Pitch.Core\bin\Debug\netstandard2.0\Pitch.Core.dll
+D:\Source\pitch\src\backend\Pitch.Core\bin\Debug\netstandard2.0\Pitch.Core.pdb
+D:\Source\pitch\src\backend\Pitch.Core\obj\Debug\netstandard2.0\Pitch.Core.csprojAssemblyReference.cache
+D:\Source\pitch\src\backend\Pitch.Core\obj\Debug\netstandard2.0\Pitch.Core.csproj.CoreCompileInputs.cache
+D:\Source\pitch\src\backend\Pitch.Core\obj\Debug\netstandard2.0\Pitch.Core.AssemblyInfoInputs.cache
+D:\Source\pitch\src\backend\Pitch.Core\obj\Debug\netstandard2.0\Pitch.Core.AssemblyInfo.cs
+D:\Source\pitch\src\backend\Pitch.Core\obj\Debug\netstandard2.0\Pitch.Core.dll
+D:\Source\pitch\src\backend\Pitch.Core\obj\Debug\netstandard2.0\Pitch.Core.pdb

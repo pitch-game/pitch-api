@@ -1,5 +1,10 @@
 # pitch-api
-RESTful API for pitch
+
+API for the online multiplayer football trading card game.
+
+You can [read more](https://github.com/jcbcn/pitch-blog) about the development of the project on the blog.
+
+## Notes
 
 - Microservices architecture
 - Node.js, Typescript, Docker, Kubernetes
