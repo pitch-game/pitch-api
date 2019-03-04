@@ -10,3 +10,5 @@ You can [read more](https://github.com/jcbcn/pitch-blog) about the development o
 - Node.js, Typescript, Docker, Kubernetes
 
 https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/multi-container-microservice-net-applications/microservice-application-design
+
+https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/architect-microservice-container-applications/direct-client-to-microservice-communication-versus-the-api-gateway-pattern

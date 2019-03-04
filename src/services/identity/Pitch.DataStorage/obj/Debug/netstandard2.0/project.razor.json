@@ -1,0 +1,14 @@
+{
+  "ProjectFilePath": "d:\\Source\\pitch-api\\src\\services\\identity\\Pitch.DataStorage\\Pitch.DataStorage.csproj",
+  "TargetFramework": "netstandard2.0",
+  "TagHelpers": [],
+  "Configuration": {
+    "ConfigurationName": "UnsupportedRazor",
+    "LanguageVersion": "1.0",
+    "Extensions": [
+      {
+        "ExtensionName": "UnsupportedRazorExtension"
+      }
+    ]
+  }
+}
