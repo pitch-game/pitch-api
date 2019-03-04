@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run build:live",
     "build": "tsc -p .",
-    "build:live": "nodemon --exec \"ts-node\" src/index.ts"
+    "build:live": "nodemon --exec \"ts-node\" src/server.ts"
   },
   "keywords": [],
   "author": "",
