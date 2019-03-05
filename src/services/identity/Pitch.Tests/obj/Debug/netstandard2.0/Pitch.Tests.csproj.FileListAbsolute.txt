@@ -1,9 +1,0 @@
-D:\Source\pitch\src\backend\Pitch.Tests\bin\Debug\netstandard2.0\Pitch.Tests.deps.json
-D:\Source\pitch\src\backend\Pitch.Tests\bin\Debug\netstandard2.0\Pitch.Tests.dll
-D:\Source\pitch\src\backend\Pitch.Tests\bin\Debug\netstandard2.0\Pitch.Tests.pdb
-D:\Source\pitch\src\backend\Pitch.Tests\obj\Debug\netstandard2.0\Pitch.Tests.csprojAssemblyReference.cache
-D:\Source\pitch\src\backend\Pitch.Tests\obj\Debug\netstandard2.0\Pitch.Tests.csproj.CoreCompileInputs.cache
-D:\Source\pitch\src\backend\Pitch.Tests\obj\Debug\netstandard2.0\Pitch.Tests.AssemblyInfoInputs.cache
-D:\Source\pitch\src\backend\Pitch.Tests\obj\Debug\netstandard2.0\Pitch.Tests.AssemblyInfo.cs
-D:\Source\pitch\src\backend\Pitch.Tests\obj\Debug\netstandard2.0\Pitch.Tests.dll
-D:\Source\pitch\src\backend\Pitch.Tests\obj\Debug\netstandard2.0\Pitch.Tests.pdb
