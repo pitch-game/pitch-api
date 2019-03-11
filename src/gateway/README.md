@@ -1,3 +1,3 @@
-# api-gateway
+# pitch-gateway
 
-run `json-server --watch db.json` for mock api
+`npm start`
