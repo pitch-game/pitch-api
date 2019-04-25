@@ -1,2 +1,9 @@
-node_modules
-npm-debug.log
+.dockerignore
+.env
+.git
+.gitignore
+.vs
+.vscode
+*/bin
+*/obj
+**/.toolstarget

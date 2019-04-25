@@ -1,3 +1,0 @@
-# pitch-gateway
-
-`npm start`
