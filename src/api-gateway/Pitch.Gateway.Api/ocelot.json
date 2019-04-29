@@ -1,16 +1,16 @@
 ﻿{
   "ReRoutes": [
     {
-      "DownstreamPathTemplate": "/connect/authorize",
+      "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5000
+          "Host": "identity_identity_1",
+          "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/identity/connect/authorize",
-      "UpstreamHttpMethod": ["Get"]
+      "UpstreamPathTemplate": "/identity/{everything}",
+      "UpstreamHttpMethod": [ "Get" ]
     }
   ],
   "GlobalConfiguration": {}

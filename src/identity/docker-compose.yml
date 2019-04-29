@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+ identity:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - USER_SECRETS_ID=b81defd8-be86-4464-b1f2-056cc660fc4f
+    build: .
+    ports:
+     - "8080:80"
+    volumes:
+      - $APPDATA/Microsoft/UserSecrets/b81defd8-be86-4464-b1f2-056cc660fc4f:/root/.microsoft/usersecrets/b81defd8-be86-4464-b1f2-056cc660fc4f
+      - $HOME/.microsoft/usersecrets/b81defd8-be86-4464-b1f2-056cc660fc4f:/root/.microsoft/usersecrets/b81defd8-be86-4464-b1f2-056cc660fc4f
+    networks:
+      - mynetwork
+networks:
+  mynetwork:
+    external: true

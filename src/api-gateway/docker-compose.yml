@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+ gateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    build: .
+    ports:
+     - "5000:80"
+     - "5001:443"
+    networks:
+      - mynetwork
+networks:
+  mynetwork:
+    external: true
