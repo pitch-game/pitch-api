@@ -5,10 +5,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "identity_identity_1",
+          "Host": "identity",
           "Port": 80
         }
       ],
+      "UpstreamHeaderTransform": {
+        "X-Forwarded-Host": "localhost:5000",
+        "X-Forwarded-Proto": "http"
+      },
       "UpstreamPathTemplate": "/identity/{everything}",
       "UpstreamHttpMethod": [ "Get" ]
     }

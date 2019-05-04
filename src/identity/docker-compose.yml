@@ -13,6 +13,7 @@ services:
       - $HOME/.microsoft/usersecrets/b81defd8-be86-4464-b1f2-056cc660fc4f:/root/.microsoft/usersecrets/b81defd8-be86-4464-b1f2-056cc660fc4f
     networks:
       - mynetwork
+    container_name: identity
 networks:
   mynetwork:
     external: true

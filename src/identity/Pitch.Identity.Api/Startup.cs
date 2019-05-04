@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using OpenIddict.Abstractions;
 using OpenIddict.Core;
 using OpenIddict.EntityFrameworkCore.Models;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Http;
 
 namespace PitchApi
 {
@@ -43,6 +45,12 @@ namespace PitchApi
             services.AddCors();
 
             services.AddMvc();
+
+            //services.Configure<ForwardedHeadersOptions>(options =>
+            //{
+            //    options.ForwardedHeaders = ForwardedHeaders.All;
+            //    options.Known
+            //});
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie()
@@ -86,16 +94,31 @@ namespace PitchApi
                 options.IgnoreEndpointPermissions();
                 options.IgnoreGrantTypePermissions();
                 options.IgnoreScopePermissions();
+                options.SetIssuer(new Uri("http://localhost:5000/identity"));
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var forwardingOptions = new ForwardedHeadersOptions()
+            {
+                ForwardedHeaders = ForwardedHeaders.All
+            };
+            forwardingOptions.KnownNetworks.Clear(); //Loopback by default, this should be temporary
+            forwardingOptions.KnownProxies.Clear(); //Update to include
+            app.UseForwardedHeaders(forwardingOptions);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.Use((context, next) =>
+            {
+                context.Request.PathBase = new PathString("/identity");
+                return next();
+            });
 
             app.UseCors(builder => builder.WithOrigins(new string[] {"http://localhost:4200", "https://pitch-game.io"}).AllowAnyHeader().AllowCredentials());
 

@@ -10,6 +10,7 @@ services:
      - "5001:443"
     networks:
       - mynetwork
+    container_name: gateway
 networks:
   mynetwork:
     external: true
