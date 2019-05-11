@@ -3,13 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28822.285
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pitch.Store.Api", "Pitch.Store.Api\Pitch.Store.Api.csproj", "{A0CB4387-5EBA-4033-AF31-302C8F6A1F4D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pitch.Store.Domain", "Pitch.Store.Domain\Pitch.Store.Domain.csproj", "{7646610C-B742-4E8E-B103-D44F63519A5A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pitch.Store.Handlers", "Pitch.Store.Handlers\Pitch.Store.Handlers.csproj", "{262DD487-613F-4D78-B22F-68929370B2A3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pitch.Store.Messages", "Pitch.Store.Messages\Pitch.Store.Messages.csproj", "{84A53046-8A16-4DD3-8FE0-07B0B535741A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Store.Api", "Pitch.Store.Api\Pitch.Store.Api.csproj", "{A0CB4387-5EBA-4033-AF31-302C8F6A1F4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +15,6 @@ Global
 		{A0CB4387-5EBA-4033-AF31-302C8F6A1F4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0CB4387-5EBA-4033-AF31-302C8F6A1F4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0CB4387-5EBA-4033-AF31-302C8F6A1F4D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7646610C-B742-4E8E-B103-D44F63519A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7646610C-B742-4E8E-B103-D44F63519A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7646610C-B742-4E8E-B103-D44F63519A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7646610C-B742-4E8E-B103-D44F63519A5A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{262DD487-613F-4D78-B22F-68929370B2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{262DD487-613F-4D78-B22F-68929370B2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{262DD487-613F-4D78-B22F-68929370B2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{262DD487-613F-4D78-B22F-68929370B2A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84A53046-8A16-4DD3-8FE0-07B0B535741A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84A53046-8A16-4DD3-8FE0-07B0B535741A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84A53046-8A16-4DD3-8FE0-07B0B535741A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84A53046-8A16-4DD3-8FE0-07B0B535741A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
