@@ -25,7 +25,7 @@ namespace PitchApi
 
         public IConfiguration Configuration { get; }
 
-        // http://localhost:5000/connect/authorize?client_id=angular-app&redirect_uri=https%3A%2F%2Foidcdebugger.com%2Fdebug&scope=openid&response_type=id_token&response_mode=fragment&nonce=tbgr049ja3
+        // http://localhost:5000/connect/authorize?client_id=cbf24cc4a1bb79e441a5b5937be6dd84&redirect_uri=https%3A%2F%2Foidcdebugger.com%2Fdebug&scope=openid&response_type=id_token&response_mode=fragment&nonce=tbgr049ja3
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -62,7 +62,7 @@ namespace PitchApi
                 .AddJwtBearer(options =>
                 {
                     options.Authority = Configuration["AppUri"];
-                    options.Audience = "angular-app";
+                    options.Audience = "cbf24cc4a1bb79e441a5b5937be6dd84";
                     options.RequireHttpsMetadata = false;
                 });
 
@@ -138,11 +138,11 @@ namespace PitchApi
                 await scope.ServiceProvider.GetRequiredService<AuthorizationDbContext>().Database.EnsureCreatedAsync();
                 var manager = scope.ServiceProvider.GetRequiredService<OpenIddictApplicationManager<OpenIddictApplication>>();
 
-                if (await manager.FindByClientIdAsync("angular-app", cancellationToken) == null)
+                if (await manager.FindByClientIdAsync("cbf24cc4a1bb79e441a5b5937be6dd84", cancellationToken) == null)
                 {
                     var descriptor = new OpenIddictApplicationDescriptor
                     {
-                        ClientId = "angular-app",
+                        ClientId = "cbf24cc4a1bb79e441a5b5937be6dd84",
                         DisplayName = "Angular Application",
                         PostLogoutRedirectUris = { new Uri("http://localhost:4200"), new Uri("https://pitch-game.io") },
                         RedirectUris = { new Uri("http://localhost:4200/auth-callback"), new Uri("https://pitch-game.io/auth-callback") }
