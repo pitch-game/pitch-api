@@ -21,7 +21,7 @@ namespace Pitch.Card.Api
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            var identityUrl = Configuration.GetValue<string>("IdentityUrl");
+            var identityUrl = "http://localhost:5000/identity";
 
             services.AddAuthentication(options =>
             {

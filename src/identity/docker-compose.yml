@@ -9,8 +9,8 @@ services:
     ports:
      - "8080:80"
     volumes:
-      - $APPDATA/Microsoft/UserSecrets/b81defd8-be86-4464-b1f2-056cc660fc4f:/root/.microsoft/usersecrets/b81defd8-be86-4464-b1f2-056cc660fc4f
-      - $HOME/.microsoft/usersecrets/b81defd8-be86-4464-b1f2-056cc660fc4f:/root/.microsoft/usersecrets/b81defd8-be86-4464-b1f2-056cc660fc4f
+    - "$APPDATA/Microsoft/UserSecrets:/root/.microsoft/usersecrets/"
+    - "$HOME/.microsoft/usersecrets:/root/.microsoft/usersecrets/"
     networks:
       - mynetwork
     container_name: identity
