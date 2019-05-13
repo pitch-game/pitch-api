@@ -13,8 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Commands\" />
-    <Folder Include="Infrastructure\Handlers\" />
+    <Folder Include="Application\Commands\" />
+    <Folder Include="Application\Handlers\" />
+    <Folder Include="Application\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
 
