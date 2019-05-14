@@ -1,0 +1,34 @@
+[
+  {
+    "id": "d2d3a552-d65f-47f8-b5d5-4082574e6d4b",
+    "name": "Jordan Henderson",
+    "nationality": "English",
+    "positions": [ "CM", "CAM", "CDM" ],
+    "rating": 83,
+    "form": 0.9
+  },
+  {
+    "id": "a6c83234-7a57-49c8-9387-7adac0a7dd33",
+    "name": "Callum Hudson-Odoi",
+    "nationality": "English",
+    "positions": [ "LM", "RM" ],
+    "rating": 71,
+    "form": 0.5
+  },
+  {
+    "id": "1fd4c8b5-b912-4fbb-a8e5-d94011f2fe4e",
+    "name": "Jack Grealish",
+    "nationality": "English",
+    "positions": [ "CM", "CAM" ],
+    "rating": 76,
+    "form": 0.5
+  },
+  {
+    "id": "3e73db57-5e50-4545-9bf4-a3cf47f8f3c5",
+    "name": "Mathew Ryan",
+    "nationality": "Australian",
+    "positions": [ "GK" ],
+    "rating": 80,
+    "form": 0.5
+  }
+]
