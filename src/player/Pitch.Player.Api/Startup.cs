@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Pitch.Player.Api.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,6 +36,8 @@ namespace Pitch.Player.Api
                 var json = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.GetData("AppDataDir").ToString(), "players_sample.json"));
                 return JsonConvert.DeserializeObject<IList<Models.Player>>(json);
             });
+
+            services.AddSingleton<IPlayerService, PlayerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
