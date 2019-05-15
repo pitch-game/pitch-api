@@ -1,4 +1,4 @@
-﻿namespace Pitch.Player.Consumer.Messages
+﻿namespace Pitch.Player.Api.Application.Requests
 {
     public class PlayerRequest
     {

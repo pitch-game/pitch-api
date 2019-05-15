@@ -1,4 +1,5 @@
-﻿using EasyNetQ;
+﻿using AutoMapper;
+using EasyNetQ;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -6,9 +7,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Pitch.Player.Api.Services;
+using Pitch.Player.Api.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Pitch.Player.Api.Application.Responders;
+using Pitch.Player.Api.Application.Requests;
+using Pitch.Player.Api.Application.Responses;
 
 namespace Pitch.Player.Api
 {
@@ -24,11 +29,26 @@ namespace Pitch.Player.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddSingleton(sp =>
+            services.AddSingleton<IPlayerRequestResponder, PlayerRequestResponder>();
+            services.AddSingleton<IPlayerService, PlayerService>();
+
+            services.AddSingleton(s =>
             {
-                return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"));
+                var bus = RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"));
+                var sp = services.BuildServiceProvider();
+                var playerRequestResponder = sp.GetService<IPlayerRequestResponder>();
+                bus.Respond<PlayerRequest, PlayerResponse>(playerRequestResponder.Response); //todo move to each responder and register automatically
+                return bus;
             });
 
             services.AddSingleton(sp =>
@@ -36,8 +56,6 @@ namespace Pitch.Player.Api
                 var json = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.GetData("AppDataDir").ToString(), "players_sample.json"));
                 return JsonConvert.DeserializeObject<IList<Models.Player>>(json);
             });
-
-            services.AddSingleton<IPlayerService, PlayerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,6 @@
 ﻿namespace Pitch.Player.Api.Models
 {
-    public class RandomPlayerRequestModel
+    public class PlayerRequestModel
     {
         //TODO support nullable
         public (int lower, int upper) RatingRange { get; set; }

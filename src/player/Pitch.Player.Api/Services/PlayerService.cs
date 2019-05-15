@@ -7,7 +7,7 @@ namespace Pitch.Player.Api.Services
 {
     public interface IPlayerService
     {
-        Models.Player GetRandom(RandomPlayerRequestModel req);
+        Models.Player GetRandom(PlayerRequestModel req);
     }
     public class PlayerService : IPlayerService
     {
@@ -18,7 +18,7 @@ namespace Pitch.Player.Api.Services
             _players = players;
         }
 
-        public Models.Player GetRandom(RandomPlayerRequestModel req)
+        public Models.Player GetRandom(PlayerRequestModel req)
         {
             var filter = _players.Where(x => x.Rating >= req.RatingRange.lower && x.Rating <= req.RatingRange.upper && x.Positions.Contains(req.Position));
 
