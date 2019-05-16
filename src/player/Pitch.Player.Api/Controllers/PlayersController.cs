@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Pitch.Player.Api.Services;
 
 namespace Pitch.Player.Api.Controllers
 {
@@ -10,18 +9,18 @@ namespace Pitch.Player.Api.Controllers
     [ApiController]
     public class PlayersController : ControllerBase
     {
-        private readonly IList<Models.Player> _players;
+        private readonly IPlayerService _playerService;
 
-        public PlayersController(IList<Models.Player> players)
+        public PlayersController(IPlayerService playerService)
         {
-            _players = players;
+            _playerService = playerService;
         }
 
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<Models.Player>> Get()
+        public ActionResult<Models.Player> Get()
         {
-            return _players.ToList();
+            return _playerService.GetRandom(new Models.PlayerRequestModel());
         }
 
         // GET api/values/5

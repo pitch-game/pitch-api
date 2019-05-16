@@ -20,10 +20,31 @@ namespace Pitch.Player.Api.Services
 
         public Models.Player GetRandom(PlayerRequestModel req)
         {
-            var filter = _players.Where(x => x.Rating >= req.RatingRange.lower && x.Rating <= req.RatingRange.upper && x.Positions.Contains(req.Position));
+            IEnumerable<Models.Player> players = _players;
 
-            //todo weighting based on x.Rating
-            return new Models.Player();
+            if (req.Position != null)
+                players = players.Where(x => x.Positions.Contains(req.Position));
+            if (req.RatingRange.HasValue && req.RatingRange.Value.lower != null)
+                players = players.Where(x => x.Rating >= req.RatingRange.Value.lower);
+            if (req.RatingRange.HasValue && req.RatingRange.Value.upper != null)
+                players = players.Where(x => x.Rating <= req.RatingRange.Value.upper);
+
+            return GetRandomPlayerWeightedByRating(players);
+        }
+
+        private const int RATING_OFFSET = 100;
+        private static Models.Player GetRandomPlayerWeightedByRating(IEnumerable<Models.Player> players)
+        {
+            var totalWeight = players.Sum(x => RATING_OFFSET - x.Rating);
+            var random = new Random().Next(totalWeight);
+
+            foreach (var player in players)
+            {
+                random = random - (RATING_OFFSET - player.Rating);
+                if (random <= 0)
+                    return player;
+            }
+            throw new IndexOutOfRangeException();
         }
     }
 }
