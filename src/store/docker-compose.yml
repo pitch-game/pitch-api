@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  pitch.store.api:
+    image: ${DOCKER_REGISTRY-}pitchstoreapi
+    build:
+      context: .
+      dockerfile: Pitch.Store.Api/Dockerfile
+    networks:
+      - pitchnetwork
+    container_name: store
+networks:
+  pitchnetwork:
+    external: true

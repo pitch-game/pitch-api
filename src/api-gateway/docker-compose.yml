@@ -1,16 +1,16 @@
-version: '3'
+version: '3.4'
 
 services:
- gateway:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    build: .
+  pitch.gateway.api:
+    image: ${DOCKER_REGISTRY-}pitchgatewayapi
+    build:
+      context: .
+      dockerfile: Pitch.Gateway.Api/Dockerfile
     ports:
      - "5000:80"
-     - "5001:443"
     networks:
-      - mynetwork
+      - pitchnetwork
     container_name: gateway
 networks:
-  mynetwork:
+  pitchnetwork:
     external: true

@@ -1,19 +1,14 @@
-version: '3'
+version: '3.4'
 
 services:
- identity:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - USER_SECRETS_ID=b81defd8-be86-4464-b1f2-056cc660fc4f
-    build: .
-    ports:
-     - "8080:80"
-    volumes:
-    - "$APPDATA/Microsoft/UserSecrets:/root/.microsoft/usersecrets/"
-    - "$HOME/.microsoft/usersecrets:/root/.microsoft/usersecrets/"
+  pitch.identity.api:
+    image: ${DOCKER_REGISTRY-}pitchidentityapi
+    build:
+      context: .
+      dockerfile: Pitch.Identity.Api/Dockerfile
     networks:
-      - mynetwork
+      - pitchnetwork
     container_name: identity
 networks:
-  mynetwork:
+  pitchnetwork:
     external: true

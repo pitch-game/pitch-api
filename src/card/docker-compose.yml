@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  pitch.card.api:
+    image: ${DOCKER_REGISTRY-}pitchcardapi
+    build:
+      context: .
+      dockerfile: Pitch.Card.Api/Dockerfile
+    networks:
+      - pitchnetwork
+    container_name: card
+networks:
+  pitchnetwork:
+    external: true

@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  pitch.player.api:
+    image: ${DOCKER_REGISTRY-}pitchplayerapi
+    build:
+      context: .
+      dockerfile: Pitch.Player.Api/Dockerfile
+    networks:
+      - pitchnetwork
+    container_name: player
+networks:
+  pitchnetwork:
+    external: true
