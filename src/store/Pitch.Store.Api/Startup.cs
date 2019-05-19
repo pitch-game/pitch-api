@@ -1,6 +1,7 @@
 ﻿using EasyNetQ;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,8 @@ namespace Pitch.Store.Api
 
             services.AddScoped<IPackService, PackService>();
             services.AddScoped<IPackRepository, PackRepository>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddSingleton(s =>
             {
