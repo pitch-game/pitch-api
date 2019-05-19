@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Pitch.Card.Api.Infrastructure.Commands
+namespace Pitch.Card.Api.Application.Events
 {
-    public class CreateCardCommand
+    public class PlayerFormUpdatedEvent
     {
     }
 }

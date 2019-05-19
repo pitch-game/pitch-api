@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Pitch.Card.Api.Infrastructure.Services
+namespace Pitch.Store.Api.Application.Requests
 {
-    public class CardService
+    public class CreateCardRequest
     {
     }
 }

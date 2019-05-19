@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using EasyNetQ;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pitch.Store.Api.Infrastructure;
+using Pitch.Store.Api.Infrastructure.Repositories;
+using Pitch.Store.Api.Infrastructure.Services;
+using Pitch.Store.Api.Supporting;
 
 namespace Pitch.Store.Api
 {
@@ -21,6 +25,16 @@ namespace Pitch.Store.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddScoped<IPackService, PackService>();
+            services.AddScoped<IPackRepository, PackRepository>();
+
+            services.AddSingleton(s =>
+            {
+                return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
+                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer()));
+            });
+
             services.AddDbContext<PackDBContext>(options => options.UseInMemoryDatabase(databaseName: "Packs"));
         }
 

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Pitch.Card.Api.Models
+namespace Pitch.Store.Api.Application.Responses
 {
-    public class Card
+    public class CreateCardResponse
     {
         public Guid Id { get; set; }
         public Guid PlayerId { get; set; }

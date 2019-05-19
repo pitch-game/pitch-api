@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Pitch.Store.Api.Application.Responses;
 using Pitch.Store.Api.Infrastructure.Services;
 
 namespace Pitch.Store.Api.Controllers
@@ -14,9 +13,14 @@ namespace Pitch.Store.Api.Controllers
 
         private readonly IPackService _packService;
 
+        public OpenController(IPackService packService)
+        {
+            _packService = packService;
+        }
+
         // GET open/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<string>> Open(Guid id)
+        public async Task<CreateCardResponse> Open(Guid id)
         {
             return await _packService.Open(id);
         }
