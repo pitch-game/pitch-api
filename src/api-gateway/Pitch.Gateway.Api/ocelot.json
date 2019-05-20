@@ -19,6 +19,7 @@
     {
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "https",
+      "DangerousAcceptAnyServerCertificateValidator": true, //TODO SSL for local individual certs
       "DownstreamHostAndPorts": [
         {
           "Host": "store",
