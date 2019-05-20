@@ -6,9 +6,3 @@ services:
     build:
       context: .
       dockerfile: Pitch.Card.Api/Dockerfile
-    networks:
-      - pitchnetwork
-    container_name: card
-networks:
-  pitchnetwork:
-    external: true

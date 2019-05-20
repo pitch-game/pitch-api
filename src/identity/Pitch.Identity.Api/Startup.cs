@@ -94,7 +94,7 @@ namespace PitchApi
                 options.IgnoreEndpointPermissions();
                 options.IgnoreGrantTypePermissions();
                 options.IgnoreScopePermissions();
-                options.SetIssuer(new Uri("http://localhost:5000/identity"));
+                options.SetIssuer(new Uri("https://localhost:44383/identity"));
             });
         }
 

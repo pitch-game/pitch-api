@@ -6,9 +6,3 @@ services:
     build:
       context: .
       dockerfile: Pitch.Player.Api/Dockerfile
-    networks:
-      - pitchnetwork
-    container_name: player
-networks:
-  pitchnetwork:
-    external: true

@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+      image: rabbitmq:3.7-management
+      container_name: rabbitmq
+      hostname: rabbitmq
+      # volumes:
+      #   - rabbitmqdata:/var/lib/rabbitmq
+      ports:
+        - "15672"
+        - "5672"
+      environment:
+        - RABBITMQ_DEFAULT_USER=test
+        - RABBITMQ_DEFAULT_PASS=test
+      networks:
+        - pitchnetwork
+networks:
+  pitchnetwork:
+    external: true

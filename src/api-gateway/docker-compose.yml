@@ -6,11 +6,3 @@ services:
     build:
       context: .
       dockerfile: Pitch.Gateway.Api/Dockerfile
-    ports:
-     - "5000:80"
-    networks:
-      - pitchnetwork
-    container_name: gateway
-networks:
-  pitchnetwork:
-    external: true

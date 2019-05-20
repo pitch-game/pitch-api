@@ -10,19 +10,19 @@
         }
       ],
       "UpstreamHeaderTransform": {
-        "X-Forwarded-Host": "localhost:5000",
-        "X-Forwarded-Proto": "http"
+        "X-Forwarded-Host": "localhost:44383",
+        "X-Forwarded-Proto": "https"
       },
       "UpstreamPathTemplate": "/identity/{everything}",
       "UpstreamHttpMethod": [ "Get" ]
     },
     {
       "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "store",
-          "Port": 80
+          "Port": 443
         }
       ],
       "UpstreamPathTemplate": "/store/{everything}",
@@ -30,11 +30,11 @@
     },
     {
       "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "card",
-          "Port": 80
+          "Port": 443
         }
       ],
       "UpstreamPathTemplate": "/card/{everything}",

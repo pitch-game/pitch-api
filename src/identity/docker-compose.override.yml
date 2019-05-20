@@ -8,3 +8,9 @@ services:
       - "80"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+    networks:
+      - pitchnetwork
+    container_name: identity
+networks:
+  pitchnetwork:
+    external: true

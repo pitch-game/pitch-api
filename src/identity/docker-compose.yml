@@ -6,9 +6,3 @@ services:
     build:
       context: .
       dockerfile: Pitch.Identity.Api/Dockerfile
-    networks:
-      - pitchnetwork
-    container_name: identity
-networks:
-  pitchnetwork:
-    external: true
