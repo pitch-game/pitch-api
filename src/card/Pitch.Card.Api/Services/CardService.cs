@@ -1,4 +1,5 @@
-﻿using EasyNetQ;
+﻿using AutoMapper;
+using EasyNetQ;
 using Pitch.Card.Api.Application.Requests;
 using Pitch.Card.Api.Application.Responses;
 using Pitch.Card.Api.Infrastructure.Repositories;
@@ -12,23 +13,26 @@ namespace Pitch.Card.Api.Infrastructure.Services
     {
         private readonly IBus _bus;
         private readonly ICardRepository _cardRepository;
-        public CardService(IBus bus, ICardRepository cardRepository)
+        private readonly IMapper _mapper;
+        public CardService(IBus bus, ICardRepository cardRepository, IMapper mapper)
         {
             _bus = bus;
             _cardRepository = cardRepository;
+            _mapper = mapper;
         }
         public async Task<Models.Card> GetAsync(Guid id)
         {
             return await _cardRepository.GetAsync(id);
         }
-        public async Task<Models.Card> CreateCardAsync()
+        public async Task<Models.Card> CreateCardAsync(CreateCardModel createCardReq)
         {
-            var request = new PlayerRequest((55, 99));
+            var request = _mapper.Map<PlayerRequest>(createCardReq);
             var player = await _bus.RequestAsync<PlayerRequest, PlayerResponse>(request);
             var card = new Models.Card()
             {
                 Id = Guid.NewGuid(),
                 PlayerId = player.Id,
+                UserId = createCardReq.UserId,
                 Name = player.Name,
                 Position = player.Positions[0], //todo randomise,
                 Rating = player.Rating,

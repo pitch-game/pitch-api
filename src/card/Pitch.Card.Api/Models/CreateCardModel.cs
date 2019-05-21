@@ -1,13 +1,9 @@
 ﻿using System;
 
-namespace Pitch.Store.Api.Application.Requests
+namespace Pitch.Card.Api.Models
 {
-    public class CreateCardRequest
+    public class CreateCardModel
     {
-        public CreateCardRequest(Guid userId)
-        {
-            UserId = userId;
-        }
         public Guid UserId { get; set; }
         public (int? lower, int? upper)? RatingRange { get; set; }
         public string Position { get; set; }

@@ -32,7 +32,8 @@ namespace Pitch.Store.Api.Infrastructure.Services
             var pack = await _packRepository.GetAsync(id);
             //check logged in userid matches card userid
 
-            var request = new CreateCardRequest();
+            var userId = Guid.NewGuid(); //todo get userid from auth
+            var request = new CreateCardRequest(userId);
             return await _bus.RequestAsync<CreateCardRequest, CreateCardResponse>(request);
         }
 
