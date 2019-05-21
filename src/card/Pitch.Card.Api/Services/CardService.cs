@@ -32,8 +32,9 @@ namespace Pitch.Card.Api.Infrastructure.Services
                 Name = player.Name,
                 Position = player.Positions[0], //todo randomise,
                 Rating = player.Rating,
-                Rarity = "TODO",
-                Form = player.Form
+                Rarity = "gold", //todo
+                Form = player.Form,
+                Opened = true
             };
             await _cardRepository.AddAsync(card);
             return card;
