@@ -32,6 +32,7 @@ namespace PitchApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddEntityFrameworkCosmos();
+            services.AddHealthChecks();
 
             services.AddDbContext<AuthorizationDbContext>(options =>
             {
@@ -101,6 +102,8 @@ namespace PitchApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseHealthChecks("/health");
+
             var forwardingOptions = new ForwardedHeadersOptions()
             {
                 ForwardedHeaders = ForwardedHeaders.All

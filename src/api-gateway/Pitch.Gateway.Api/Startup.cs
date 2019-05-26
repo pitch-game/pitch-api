@@ -31,8 +31,9 @@ namespace Pitch.Gateway.Api
         {
             services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy())
-                .AddUrlGroup(new Uri(Configuration["StoreHealthCheckUrl"]), name: "storeapi-check", tags: new string[] { "storeapi" });
-
+                .AddUrlGroup(new Uri(Configuration["StoreHealthCheckUrl"]), name: "storeapi-check", tags: new string[] { "storeapi" })
+                .AddUrlGroup(new Uri(Configuration["IdentityHealthCheckUrl"]), name: "identityapi-check", tags: new string[] { "identityapi" });
+                
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddOcelot(Configuration);
