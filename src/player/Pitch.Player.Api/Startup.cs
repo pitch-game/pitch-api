@@ -47,6 +47,8 @@ namespace Pitch.Player.Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSingleton<IPlayerRequestResponder, PlayerRequestResponder>();
+            services.AddSingleton<IResponder, PlayerRequestResponder>();
+
             services.AddSingleton<IPlayerService, PlayerService>();
 
             services.AddSingleton(s =>
@@ -79,39 +81,9 @@ namespace Pitch.Player.Api
             }
 
             app.UseHealthChecks("/health");
-            app.UseRabbitListener();
+            app.UseEasyNetQ();
             app.UseHttpsRedirection();
             app.UseMvc();
-        }
-    }
-    public static class ApplicationBuilderExtentions
-    {
-        private static IBus _bus { get; set; }
-        private static IPlayerRequestResponder _playerRequestResponder { get; set; }
-
-        public static IApplicationBuilder UseRabbitListener(this IApplicationBuilder app)
-        {
-            _bus = app.ApplicationServices.GetService<IBus>();
-            _playerRequestResponder = app.ApplicationServices.GetService<IPlayerRequestResponder>();
-
-            var lifetime = app.ApplicationServices.GetService<IApplicationLifetime>();
-
-            lifetime.ApplicationStarted.Register(OnStarted);
-
-            //press Ctrl+C to reproduce if your app runs in Kestrel as a console app
-            lifetime.ApplicationStopping.Register(OnStopping);
-
-            return app;
-        }
-
-        private static void OnStarted()
-        {
-            _bus.Respond<PlayerRequest, PlayerResponse>(_playerRequestResponder.Response); //todo move to each responder and register automatically
-        }
-
-        private static void OnStopping()
-        {
-            _bus.Dispose();
         }
     }
 }

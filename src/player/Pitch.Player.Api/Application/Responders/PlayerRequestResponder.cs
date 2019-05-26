@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EasyNetQ;
 using Pitch.Player.Api.Application.Requests;
 using Pitch.Player.Api.Application.Responses;
 using Pitch.Player.Api.Models;
@@ -6,7 +7,7 @@ using Pitch.Player.Api.Services;
 
 namespace Pitch.Player.Api.Application.Responders
 {
-    public interface IPlayerRequestResponder
+    public interface IPlayerRequestResponder : IResponder
     {
         PlayerResponse Response(PlayerRequest request);
     }
@@ -15,10 +16,17 @@ namespace Pitch.Player.Api.Application.Responders
     {
         private readonly IPlayerService _playerService;
         private readonly IMapper _mapper;
-        public PlayerRequestResponder(IPlayerService playerService, IMapper mapper)
+        private readonly IBus _bus;
+        public PlayerRequestResponder(IPlayerService playerService, IMapper mapper, IBus bus)
         {
             _playerService = playerService;
             _mapper = mapper;
+            _bus = bus;
+        }
+
+        public void Register()
+        {
+            _bus.Respond<PlayerRequest, PlayerResponse>(Response);
         }
 
         public PlayerResponse Response(PlayerRequest @request)
