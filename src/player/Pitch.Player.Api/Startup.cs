@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
 using Pitch.Player.Api.Services;
 using Pitch.Player.Api.Infrastructure;
@@ -15,6 +16,7 @@ using Pitch.Player.Api.Application.Responders;
 using Pitch.Player.Api.Application.Requests;
 using Pitch.Player.Api.Application.Responses;
 using Pitch.Player.Api.Supporting;
+using RabbitMQ.Client;
 
 namespace Pitch.Player.Api
 {
@@ -37,6 +39,10 @@ namespace Pitch.Player.Api
 
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy())
+                .AddRabbitMQ(Configuration.GetConnectionString("RabbitMQHealthCheck"), name: "rabbitmq-check", tags: new string[] { "rabbitmq" });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -72,6 +78,7 @@ namespace Pitch.Player.Api
                 app.UseHsts();
             }
 
+            app.UseHealthChecks("/health");
             app.UseRabbitListener();
             app.UseHttpsRedirection();
             app.UseMvc();

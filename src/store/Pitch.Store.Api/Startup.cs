@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Pitch.Store.Api.Infrastructure;
 using Pitch.Store.Api.Infrastructure.Repositories;
 using Pitch.Store.Api.Infrastructure.Services;
 using Pitch.Store.Api.Supporting;
+using System;
 
 namespace Pitch.Store.Api
 {
@@ -25,6 +27,11 @@ namespace Pitch.Store.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy())
+                .AddUrlGroup(new Uri(Configuration["CardHealthCheckUrl"]), name: "cardapi-check", tags: new string[] { "cardapi" })
+                .AddRabbitMQ(Configuration.GetConnectionString("RabbitMQHealthCheck"), name: "rabbitmq-check", tags: new string[] { "rabbitmq" });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped<IPackService, PackService>();
@@ -44,6 +51,7 @@ namespace Pitch.Store.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseHealthChecks("/health");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

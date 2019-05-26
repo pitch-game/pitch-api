@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Pitch.Card.Api.Application.Responses;
 using Pitch.Card.Api.Infrastructure;
 using Pitch.Card.Api.Infrastructure.Handlers;
@@ -14,6 +15,7 @@ using Pitch.Card.Api.Infrastructure.Repositories;
 using Pitch.Card.Api.Infrastructure.Requests;
 using Pitch.Card.Api.Infrastructure.Services;
 using Pitch.Card.Api.Supporting;
+using System;
 
 namespace Pitch.Card.Api
 {
@@ -29,6 +31,11 @@ namespace Pitch.Card.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy())
+                .AddUrlGroup(new Uri(Configuration["PlayerHealthCheckUrl"]), name: "playerapi-check", tags: new string[] { "playerapi" })
+                .AddRabbitMQ(Configuration.GetConnectionString("RabbitMQHealthCheck"), name: "rabbitmq-check", tags: new string[] { "rabbitmq" });
+
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
@@ -79,6 +86,8 @@ namespace Pitch.Card.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseHealthChecks("/health");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
