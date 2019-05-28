@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pitch.Store.Api.Application.Responses;
 using Pitch.Store.Api.Infrastructure.Services;
 
 namespace Pitch.Store.Api.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class PacksController : ControllerBase

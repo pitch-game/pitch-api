@@ -5,16 +5,16 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_HTTPS_PORT=44383
+      - ASPNETCORE_HTTPS_PORT=443
     ports:
-      - "58369:80"
-      - "44383:443"
+      - "80:80"
+      - "443:443"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     networks:
       - pitchnetwork
-    container_name: gateway
+    container_name: localhost.pitch-game.io
 networks:
   pitchnetwork:
     external: true
