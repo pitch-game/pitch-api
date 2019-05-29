@@ -10,20 +10,20 @@
         }
       ],
       "UpstreamHeaderTransform": {
-        "X-Forwarded-Host": "localhost.pitch-game.io:443",
-        "X-Forwarded-Proto": "https"
+        "X-Forwarded-Host": "localhost.pitch-game.io",
+        "X-Forwarded-Proto": "http"
       },
       "UpstreamPathTemplate": "/identity/{everything}",
       "UpstreamHttpMethod": [ "Get" ]
     },
     {
       "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DangerousAcceptAnyServerCertificateValidator": true, //TODO SSL for local individual certs
       "DownstreamHostAndPorts": [
         {
           "Host": "store",
-          "Port": 443
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/store/{everything}",
@@ -31,11 +31,11 @@
     },
     {
       "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "card",
-          "Port": 443
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/card/{everything}",

@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "https://localhost.pitch-game.io:443/identity",
+      "applicationUrl": "http://localhost.pitch-game.io/identity",
       "sslPort": 0
     }
   },
