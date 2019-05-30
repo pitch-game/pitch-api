@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Extensions;
@@ -49,6 +50,8 @@ namespace AuthorizationServer.Controllers
             var ticket = new AuthenticationTicket(principal,
                 new AuthenticationProperties(),
                 OpenIdConnectServerDefaults.AuthenticationScheme);
+
+            ticket.SetIdentityTokenLifetime(TimeSpan.FromDays(1));
 
             // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
             return SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);

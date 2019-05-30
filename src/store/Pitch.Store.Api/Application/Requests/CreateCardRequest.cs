@@ -4,11 +4,11 @@ namespace Pitch.Store.Api.Application.Requests
 {
     public class CreateCardRequest
     {
-        public CreateCardRequest(Guid userId)
+        public CreateCardRequest(string userId)
         {
             UserId = userId;
         }
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public (int? lower, int? upper)? RatingRange { get; set; }
         public string Position { get; set; }
     }

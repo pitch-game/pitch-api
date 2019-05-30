@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,8 @@ namespace Pitch.Store.Api.Controllers
         [HttpGet("open/{id}")]
         public async Task<CreateCardResponse> Open(Guid id)
         {
-            return await _packService.Open(id);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
+            return await _packService.Open(id, userId);
         }
 
         // GET buy

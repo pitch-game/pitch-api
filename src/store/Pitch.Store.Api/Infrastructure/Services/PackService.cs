@@ -11,7 +11,7 @@ namespace Pitch.Store.Api.Infrastructure.Services
 {
     public interface IPackService
     {
-        Task<CreateCardResponse> Open(Guid id);
+        Task<CreateCardResponse> Open(Guid id, string userId);
         Task<Guid> Buy();
     }
     public class PackService : IPackService
@@ -27,12 +27,10 @@ namespace Pitch.Store.Api.Infrastructure.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<CreateCardResponse> Open(Guid id)
+        public async Task<CreateCardResponse> Open(Guid id, string userId)
         {
             var pack = await _packRepository.GetAsync(id);
-            //check logged in userid matches card userid
-
-            var userId = Guid.NewGuid(); //todo get userid from auth
+            //TODO check logged in userid matches card userid
             var request = new CreateCardRequest(userId);
             return await _bus.RequestAsync<CreateCardRequest, CreateCardResponse>(request);
         }

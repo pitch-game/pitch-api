@@ -5,6 +5,7 @@ using Pitch.Card.Api.Application.Responses;
 using Pitch.Card.Api.Infrastructure.Repositories;
 using Pitch.Card.Api.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Pitch.Card.Api.Infrastructure.Services
@@ -38,10 +39,17 @@ namespace Pitch.Card.Api.Infrastructure.Services
                 Rating = player.Rating,
                 Rarity = "gold", //todo
                 Form = player.Form,
-                Opened = true
+                Opened = true,
+                Fitness = 100,
+                CreatedOn = DateTime.Now
             };
             await _cardRepository.AddAsync(card);
             return card;
+        }
+
+        public async Task<IEnumerable<Models.Card>> GetAllAsync(string userId)
+        {
+            return await _cardRepository.GetAllAsync(userId);
         }
     }
 }
