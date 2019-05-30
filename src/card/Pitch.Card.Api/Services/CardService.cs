@@ -37,7 +37,7 @@ namespace Pitch.Card.Api.Infrastructure.Services
                 Name = player.Name,
                 Position = player.Positions[0], //todo randomise,
                 Rating = player.Rating,
-                Rarity = "gold", //todo
+                Rarity = CardRarity(player.Rating),
                 Form = player.Form,
                 Opened = true,
                 Fitness = 100,
@@ -50,6 +50,20 @@ namespace Pitch.Card.Api.Infrastructure.Services
         public async Task<IEnumerable<Models.Card>> GetAllAsync(string userId)
         {
             return await _cardRepository.GetAllAsync(userId);
+        }
+
+        private string CardRarity(int rating)
+        {
+            switch (rating)
+            {
+                case int n when (n >= 80):
+                    return "gold";
+                case int n when (n >= 70 && n < 80):
+                    return "silver";
+                case int n when (n < 70):
+                    return "bronze";
+            }
+            throw new Exception();
         }
     }
 }
