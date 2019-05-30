@@ -10,13 +10,13 @@ namespace Pitch.Squad.Api.Models
         public Squad(SquadFormation formation = SquadFormation.FourFourTwo)
         {
             Formation = formation;
-            Lineup = FormationLookup.AllowedPositions[Formation].ToDictionary(x => x, x => (Guid?)null);
+            Lineup = FormationLookup.AllowedPositions[Formation].ToDictionary(x => x.ToString(), x => (Guid?)null);
         }
 
         public Guid Id { get; set; }
         public string UserId { get; set; }
         public SquadFormation Formation;
-        public IDictionary<Position, Guid?> Lineup { get; set; }
+        public IDictionary<string, Guid?> Lineup { get; set; }
         public IEnumerable<Guid> Subs { get; set; }
     }
 

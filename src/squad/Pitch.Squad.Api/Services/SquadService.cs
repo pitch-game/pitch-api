@@ -28,7 +28,7 @@ namespace Pitch.Squad.Api.Services
 
         private bool ValidateSquad(Models.Squad squad) //TODO move to validation service
         {
-            var allowedPositions = FormationLookup.AllowedPositions[squad.Formation];
+            var allowedPositions = FormationLookup.AllowedPositions[squad.Formation].Select(x => x.ToString());
             var inLineup = squad.Lineup.Keys.Except(allowedPositions);
             var inAllowed = allowedPositions.Except(squad.Lineup.Keys);
             return !inLineup.Any() && !inAllowed.Any();
