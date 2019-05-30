@@ -29,18 +29,18 @@
       "UpstreamPathTemplate": "/store/{everything}",
       "UpstreamHttpMethod": [ "Get" ]
     },
-    //{
-    //  "DownstreamPathTemplate": "/{everything}",
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "card",
-    //      "Port": 80
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/card/{everything}",
-    //  "UpstreamHttpMethod": [ "Get" ]
-    //},
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "card",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/card/{everything}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
     {
       "DownstreamPathTemplate": "/",
       "DownstreamScheme": "http",
