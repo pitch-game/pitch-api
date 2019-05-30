@@ -28,6 +28,8 @@ namespace Pitch.Squad.Api.Services
 
         private bool ValidateSquad(Models.Squad squad) //TODO move to validation service
         {
+            //TODO all ids must be unique
+            //TODO Check cards belong to current user
             var allowedPositions = FormationLookup.AllowedPositions[squad.Formation].Select(x => x.ToString());
             var inLineup = squad.Lineup.Keys.Except(allowedPositions);
             var inAllowed = allowedPositions.Except(squad.Lineup.Keys);
