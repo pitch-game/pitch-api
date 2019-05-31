@@ -35,6 +35,7 @@ namespace Pitch.Card.Api.Infrastructure.Services
                 PlayerId = player.Id,
                 UserId = createCardReq.UserId,
                 Name = player.Name,
+                ShortName = player.ShortName,
                 Position = player.Positions[0], //todo randomise,
                 Rating = player.Rating,
                 Rarity = CardRarity(player.Rating),
