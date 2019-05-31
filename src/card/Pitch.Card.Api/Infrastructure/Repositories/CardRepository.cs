@@ -38,7 +38,7 @@ namespace Pitch.Card.Api.Infrastructure.Repositories
 
         public async Task<IEnumerable<Models.Card>> GetAllAsync(CardRequestModel req, string userId)
         {
-            return await _cardDbContext.Cards.Where(x => x.UserId == userId).Skip(req.Skip).Take(req.Take).OrderByDescending(x => x.Position == req.PositionPriority).ThenByDescending(x => x.CreatedOn).ToListAsync();
+            return await _cardDbContext.Cards.Where(x => x.UserId == userId).OrderByDescending(x => x.Position == req.PositionPriority).ThenByDescending(x => x.Rating).Skip(req.Skip).Take(req.Take).ToListAsync();
         }
     }
 }
