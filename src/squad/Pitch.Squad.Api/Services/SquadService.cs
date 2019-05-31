@@ -20,14 +20,16 @@ namespace Pitch.Squad.Api.Services
             return activeSquad ?? await _squadRepository.CreateAsync(userId);
         }
 
-        public async Task<Models.Squad> Update(Models.Squad squad)
+        public async Task<Models.Squad> UpdateAsync(Models.Squad squad, string userId)
         {
-            if (!ValidateSquad(squad)) throw new System.Exception("Squad formation is invalid.");
+            if (!await ValidateSquad(squad, userId)) throw new System.Exception("Squad formation is invalid.");
             return await _squadRepository.UpdateAsync(squad);
         }
 
-        private bool ValidateSquad(Models.Squad squad) //TODO move to validation service
+        private async Task<bool> ValidateSquad(Models.Squad squad, string userId) //TODO move to validation service
         {
+            var squadInDb = await _squadRepository.GetAsync(userId);
+            if (squad.Id != squadInDb.Id) return false;
             //TODO all ids must be unique
             //TODO Check cards belong to current user
             var allowedPositions = FormationLookup.AllowedPositions[squad.Formation].Select(x => x.ToString());

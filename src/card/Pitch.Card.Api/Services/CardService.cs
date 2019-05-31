@@ -47,9 +47,9 @@ namespace Pitch.Card.Api.Infrastructure.Services
             return card;
         }
 
-        public async Task<IEnumerable<Models.Card>> GetAllAsync(string userId)
+        public async Task<IEnumerable<Models.Card>> GetAllAsync(CardRequestModel req, string userId)
         {
-            return await _cardRepository.GetAllAsync(userId);
+            return await _cardRepository.GetAllAsync(req, userId);
         }
 
         private string CardRarity(int rating)

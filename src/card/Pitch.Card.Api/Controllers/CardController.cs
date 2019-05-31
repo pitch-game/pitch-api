@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Pitch.Card.Api.Models;
 
 namespace Pitch.Card.Api.Controllers
 {
@@ -21,10 +22,11 @@ namespace Pitch.Card.Api.Controllers
 
         //GET /
         [HttpGet]
-        public async Task<IEnumerable<Models.Card>> Get()
+        public async Task<IEnumerable<Models.Card>> Get([FromQuery] int skip, [FromQuery] int? take, [FromQuery] string position)
         {
+            var req = new CardRequestModel() { Skip = skip, Take = take ?? 10, PositionPriority = position };
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
-            return await _cardService.GetAllAsync(userId);
+            return await _cardService.GetAllAsync(req, userId);
         }
 
         //GET /1922b2d1-38db-4180-a29b-1b7dbbf94647

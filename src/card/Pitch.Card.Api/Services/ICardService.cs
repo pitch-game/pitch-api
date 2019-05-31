@@ -7,7 +7,7 @@ namespace Pitch.Card.Api.Infrastructure.Services
 {
     public interface ICardService
     {
-        Task<IEnumerable<Models.Card>> GetAllAsync(string userId);
+        Task<IEnumerable<Models.Card>> GetAllAsync(CardRequestModel req, string userId);
         Task<Models.Card> GetAsync(Guid id);
         Task<Models.Card> CreateCardAsync(CreateCardModel createCardReq);
     }

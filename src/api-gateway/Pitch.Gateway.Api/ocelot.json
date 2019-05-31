@@ -63,7 +63,7 @@
         }
       ],
       "UpstreamPathTemplate": "/squad",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get", "Put" ]
     }
   ],
   "GlobalConfiguration": {}

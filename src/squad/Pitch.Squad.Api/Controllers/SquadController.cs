@@ -24,5 +24,12 @@ namespace Pitch.Squad.Api.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
             return await _squadService.GetOrCreateAsync(userId);
         }
+
+        [HttpPut]
+        public async Task<Models.Squad> Update(Models.Squad squad)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
+            return await _squadService.UpdateAsync(squad, userId);
+        }
     }
 }

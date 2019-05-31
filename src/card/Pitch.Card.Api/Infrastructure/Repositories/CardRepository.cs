@@ -10,7 +10,7 @@ namespace Pitch.Card.Api.Infrastructure.Repositories
 {
     public interface ICardRepository
     {
-        Task<IEnumerable<Models.Card>> GetAllAsync(string userId);
+        Task<IEnumerable<Models.Card>> GetAllAsync(CardRequestModel req, string userId);
         Task<Models.Card> GetAsync(Guid id);
         Task<EntityEntry<Models.Card>> AddAsync(Models.Card card);
     }
@@ -36,10 +36,9 @@ namespace Pitch.Card.Api.Infrastructure.Repositories
             return entry;
         }
 
-        public async Task<IEnumerable<Models.Card>> GetAllAsync(string userId)
+        public async Task<IEnumerable<Models.Card>> GetAllAsync(CardRequestModel req, string userId)
         {
-            //TODO paginate
-            return await _cardDbContext.Cards.Where(x => x.UserId == userId).ToListAsync();
+            return await _cardDbContext.Cards.Where(x => x.UserId == userId).Skip(req.Skip).Take(req.Take).OrderByDescending(x => x.Position == req.PositionPriority).ThenByDescending(x => x.CreatedOn).ToListAsync();
         }
     }
 }
