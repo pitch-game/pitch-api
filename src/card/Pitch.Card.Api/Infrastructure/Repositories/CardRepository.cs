@@ -11,7 +11,7 @@ namespace Pitch.Card.Api.Infrastructure.Repositories
     public interface ICardRepository
     {
         Task<IEnumerable<Models.Card>> GetAllAsync(CardRequestModel req, string userId);
-        Task<Models.Card> GetAsync(Guid id);
+        Task<IEnumerable<Models.Card>> GetAsync(IEnumerable<Guid> ids);
         Task<EntityEntry<Models.Card>> AddAsync(Models.Card card);
     }
 
@@ -24,9 +24,9 @@ namespace Pitch.Card.Api.Infrastructure.Repositories
             _cardDbContext = cardDbContext;
         }
 
-        public async Task<Models.Card> GetAsync(Guid id)
+        public async Task<IEnumerable<Models.Card>> GetAsync(IEnumerable<Guid> ids)
         {
-            return await _cardDbContext.Cards.FindAsync(id);
+            return await _cardDbContext.Cards.Where(x => ids.Contains(x.Id)).ToListAsync();
         }
 
         public async Task<EntityEntry<Models.Card>> AddAsync(Models.Card card)

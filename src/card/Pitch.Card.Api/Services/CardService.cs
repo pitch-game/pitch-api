@@ -21,9 +21,9 @@ namespace Pitch.Card.Api.Infrastructure.Services
             _cardRepository = cardRepository;
             _mapper = mapper;
         }
-        public async Task<Models.Card> GetAsync(Guid id)
+        public async Task<IEnumerable<Models.Card>> GetAsync(IEnumerable<Guid> ids)
         {
-            return await _cardRepository.GetAsync(id);
+            return await _cardRepository.GetAsync(ids);
         }
         public async Task<Models.Card> CreateCardAsync(CreateCardModel createCardReq)
         {
@@ -50,6 +50,7 @@ namespace Pitch.Card.Api.Infrastructure.Services
 
         public async Task<IEnumerable<Models.Card>> GetAllAsync(CardRequestModel req, string userId)
         {
+            req.PositionPriority = PositionMap(req.PositionPriority);
             return await _cardRepository.GetAllAsync(req, userId);
         }
 
@@ -65,6 +66,25 @@ namespace Pitch.Card.Api.Infrastructure.Services
                     return "bronze";
             }
             throw new Exception();
+        }
+
+        //todo frontend responsibility?
+        private string PositionMap(string position)
+        {
+            switch (position)
+            {
+                case "RST":
+                case "LST":
+                    return "ST";
+                case "RCM":
+                case "LCM":
+                    return "CM";
+                case "RCB":
+                case "LCB":
+                    return "CB";
+                default:
+                    return position;
+            }
         }
     }
 }

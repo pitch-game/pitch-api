@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Pitch.Card.Api.Models;
+using System.Linq;
 
 namespace Pitch.Card.Api.Controllers
 {
@@ -33,7 +34,15 @@ namespace Pitch.Card.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Models.Card>> Get(Guid id)
         {
-            return await _cardService.GetAsync(id);
+            var cards = await _cardService.GetAsync(new[] { id });
+            return cards.FirstOrDefault();
+        }
+
+        [HttpGet("cards/{ids}")]
+        public async Task<IEnumerable<Models.Card>> Get(string ids)
+        {
+            var guids = ids.Split(";").Select(x => new Guid(x));
+            return await _cardService.GetAsync(guids);
         }
     }
 }
