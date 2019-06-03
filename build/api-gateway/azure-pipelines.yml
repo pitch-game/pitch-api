@@ -15,7 +15,7 @@ jobs:
       dockerComposeCommand: 'build pitch.gateway.api'
       containerregistrytype: Container Registry
       dockerRegistryEndpoint: $(registryEndpoint)
-      dockerComposeFile: docker-compose.yml
+      dockerComposeFile: src/api-gateway/docker-compose.yml
       qualifyImageNames: true
       projectName: ""
       dockerComposeFileArgs: |
@@ -26,7 +26,7 @@ jobs:
       dockerComposeCommand: 'push pitch.gateway.api'
       containerregistrytype: Container Registry
       dockerRegistryEndpoint: $(registryEndpoint)
-      dockerComposeFile: docker-compose.yml
+      dockerComposeFile: src/api-gateway/docker-compose.yml
       qualifyImageNames: true
       projectName: ""
       dockerComposeFileArgs: |
