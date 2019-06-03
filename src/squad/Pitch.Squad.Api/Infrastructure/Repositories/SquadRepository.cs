@@ -31,6 +31,7 @@ namespace Pitch.Squad.Api.Infrastructure.Repositories
 
         public async Task<Models.Squad> UpdateAsync(Models.Squad squad)
         {
+            squad.LastUpdated = DateTime.Now;
             await _squads.ReplaceOneAsync(x => x.Id == squad.Id, squad);
             return squad;
         }
