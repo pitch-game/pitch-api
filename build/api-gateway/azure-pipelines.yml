@@ -12,7 +12,7 @@ jobs:
   - task: DockerCompose@0
     displayName: Compose build api-gateway
     inputs:
-      dockerComposeCommand: 'build jcbcn/pitch.api-gateway'
+      dockerComposeCommand: 'build pitch.gateway.api'
       containerregistrytype: Container Registry
       dockerRegistryEndpoint: $(registryEndpoint)
       dockerComposeFile: src/api-gateway/docker-compose.yml
@@ -23,7 +23,7 @@ jobs:
   - task: DockerCompose@0
     displayName: Compose push api-gateway
     inputs:
-      dockerComposeCommand: 'push jcbcn/pitch.api-gateway'
+      dockerComposeCommand: 'push jcbcn/pitch.gateway.api'
       containerregistrytype: Container Registry
       dockerRegistryEndpoint: $(registryEndpoint)
       dockerComposeFile: src/api-gateway/docker-compose.yml
