@@ -23,9 +23,9 @@ namespace Pitch.Card.Api.Controllers
 
         //GET /
         [HttpGet]
-        public async Task<IEnumerable<Models.Card>> Get([FromQuery] int skip, [FromQuery] int? take, [FromQuery] string position)
+        public async Task<IEnumerable<Models.Card>> Get([FromQuery] int skip, [FromQuery] int? take, [FromQuery] string position, [FromQuery] string notIn = null)
         {
-            var req = new CardRequestModel() { Skip = skip, Take = take ?? 10, PositionPriority = position };
+            var req = new CardRequestModel() { Skip = skip, Take = take ?? 10, PositionPriority = position, NotIn = notIn?.Split(";")?.Select(x => new Guid(x))};
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
             return await _cardService.GetAllAsync(req, userId);
         }
