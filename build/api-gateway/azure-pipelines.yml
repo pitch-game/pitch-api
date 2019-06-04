@@ -20,7 +20,7 @@ jobs:
       projectName: ""
       dockerComposeFileArgs: |
         TAG=$(Build.SourceBranchName)
-        DOCKER_REGISTRY="jcbcn/"
+        DOCKER_REGISTRY='jcbcn'
   - task: DockerCompose@0
     displayName: Compose push api-gateway
     inputs:
@@ -32,4 +32,4 @@ jobs:
       projectName: ""
       dockerComposeFileArgs: |
         TAG=$(Build.SourceBranchName)
-        DOCKER_REGISTRY="jcbcn/"
+        DOCKER_REGISTRY='jcbcn'
