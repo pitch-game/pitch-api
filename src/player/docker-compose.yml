@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   pitch.player.api:
-    image: ${DOCKER_REGISTRY-}pitchplayerapi
+    image: ${DOCKER_REGISTRY-}player.api
     build:
       context: .
       dockerfile: Pitch.Player.Api/Dockerfile

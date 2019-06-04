@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   pitch.squad.api:
-    image: ${DOCKER_REGISTRY-}pitchsquadapi
+    image: ${DOCKER_REGISTRY-}squad.api
     build:
       context: .
       dockerfile: Pitch.Squad.Api/Dockerfile

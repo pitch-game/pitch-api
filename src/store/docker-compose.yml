@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   pitch.store.api:
-    image: ${DOCKER_REGISTRY-}pitchstoreapi
+    image: ${DOCKER_REGISTRY-}store.api
     build:
       context: .
       dockerfile: Pitch.Store.Api/Dockerfile

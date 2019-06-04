@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   pitch.card.api:
-    image: ${DOCKER_REGISTRY-}pitchcardapi
+    image: ${DOCKER_REGISTRY-}card.api
     build:
       context: .
       dockerfile: Pitch.Card.Api/Dockerfile

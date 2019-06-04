@@ -1,5 +1,6 @@
 variables:
     registryEndpoint: pitch-registry
+    dockerRegistry: pitchgame/
 trigger:
   paths:
     include:
@@ -20,3 +21,16 @@ jobs:
       projectName: ""
       dockerComposeFileArgs: |
         TAG=$(Build.SourceBranchName)
+        DOCKER_REGISTRY=$(dockerRegistry)
+  - task: DockerCompose@0
+    displayName: Compose push identity
+    inputs:
+      dockerComposeCommand: 'push pitch.identity.api'
+      containerregistrytype: Container Registry
+      dockerRegistryEndpoint: $(registryEndpoint)
+      dockerComposeFile: src/identity/docker-compose.yml
+      qualifyImageNames: true
+      projectName: ""
+      dockerComposeFileArgs: |
+        TAG=$(Build.SourceBranchName)
+        DOCKER_REGISTRY=$(dockerRegistry)
