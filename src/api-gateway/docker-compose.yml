@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   pitch.gateway.api:
-    image: ${DOCKER_REGISTRY-}pitchgatewayapi
+    image: ${DOCKER_REGISTRY:-jcbcn/}pitchgatewayapi
     build:
       context: .
       dockerfile: Pitch.Gateway.Api/Dockerfile
