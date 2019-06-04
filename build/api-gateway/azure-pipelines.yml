@@ -18,18 +18,18 @@ jobs:
       dockerComposeFile: src/api-gateway/docker-compose.yml
       qualifyImageNames: true
       projectName: "pitch.gateway.api"
-      additionalImageTags: $(Build.BuildId)
+      additionalImageTags: "jcbcn/pitch.gateway.api"
       dockerComposeFileArgs: |
         TAG=$(Build.SourceBranchName)
   - task: DockerCompose@0
     displayName: Compose push api-gateway
     inputs:
-      dockerComposeCommand: 'push pitch.gateway.api'
+      dockerComposeCommand: 'push jcbcn/pitch.gateway.api'
       containerregistrytype: Container Registry
       dockerRegistryEndpoint: $(registryEndpoint)
       dockerComposeFile: src/api-gateway/docker-compose.yml
       qualifyImageNames: true
       projectName: "pitch.gateway.api"
-      additionalImageTags: $(Build.BuildId)
+      additionalImageTags: "jcbcn/pitch.gateway.api"
       dockerComposeFileArgs: |
         TAG=$(Build.SourceBranchName)
