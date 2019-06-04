@@ -17,7 +17,7 @@ jobs:
       dockerRegistryEndpoint: $(registryEndpoint)
       dockerComposeFile: src/api-gateway/docker-compose.yml
       qualifyImageNames: true
-      projectName: "pitch.gateway.api"
+      projectName: "jcbcn/pitch.gateway.api"
       additionalImageTags: "jcbcn/pitch.gateway.api"
       dockerComposeFileArgs: |
         TAG=$(Build.SourceBranchName)
@@ -29,7 +29,7 @@ jobs:
       dockerRegistryEndpoint: $(registryEndpoint)
       dockerComposeFile: src/api-gateway/docker-compose.yml
       qualifyImageNames: true
-      projectName: "pitch.gateway.api"
+      projectName: "jcbcn/pitch.gateway.api"
       additionalImageTags: "jcbcn/pitch.gateway.api"
       dockerComposeFileArgs: |
         TAG=$(Build.SourceBranchName)
