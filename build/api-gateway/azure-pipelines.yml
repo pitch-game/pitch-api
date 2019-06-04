@@ -1,6 +1,6 @@
 variables:
     registryEndpoint: pitch-registry
-    dockerRegistry: jcbcn/
+    dockerRegistry: pitchgame/
 trigger:
   paths:
     include:
