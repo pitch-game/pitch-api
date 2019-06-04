@@ -1,0 +1,22 @@
+variables:
+    registryEndpoint: pitch-registry
+trigger:
+  paths:
+    include:
+    - src/squad/*
+jobs:
+- job: BuildLinux
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - task: DockerCompose@0
+    displayName: Compose build squad
+    inputs:
+      dockerComposeCommand: 'build pitch.squad.api'
+      containerregistrytype: Container Registry
+      dockerRegistryEndpoint: $(registryEndpoint)
+      dockerComposeFile: src/squad/docker-compose.yml
+      qualifyImageNames: true
+      projectName: ""
+      dockerComposeFileArgs: |
+        TAG=$(Build.SourceBranchName)

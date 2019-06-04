@@ -1,0 +1,22 @@
+variables:
+    registryEndpoint: pitch-registry
+trigger:
+  paths:
+    include:
+    - src/identity/*
+jobs:
+- job: BuildLinux
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - task: DockerCompose@0
+    displayName: Compose build identity
+    inputs:
+      dockerComposeCommand: 'build pitch.identity.api'
+      containerregistrytype: Container Registry
+      dockerRegistryEndpoint: $(registryEndpoint)
+      dockerComposeFile: src/identity/docker-compose.yml
+      qualifyImageNames: true
+      projectName: ""
+      dockerComposeFileArgs: |
+        TAG=$(Build.SourceBranchName)

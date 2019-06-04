@@ -1,0 +1,22 @@
+variables:
+    registryEndpoint: pitch-registry
+trigger:
+  paths:
+    include:
+    - src/card/*
+jobs:
+- job: BuildLinux
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - task: DockerCompose@0
+    displayName: Compose build card
+    inputs:
+      dockerComposeCommand: 'build pitch.card.api'
+      containerregistrytype: Container Registry
+      dockerRegistryEndpoint: $(registryEndpoint)
+      dockerComposeFile: src/card/docker-compose.yml
+      qualifyImageNames: true
+      projectName: ""
+      dockerComposeFileArgs: |
+        TAG=$(Build.SourceBranchName)
