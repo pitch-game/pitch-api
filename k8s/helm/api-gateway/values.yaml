@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  tag: stable
+  repository: pitchgame/gateway.api
+  tag: latest
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
