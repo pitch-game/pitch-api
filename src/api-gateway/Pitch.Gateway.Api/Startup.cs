@@ -55,9 +55,9 @@ namespace Pitch.Gateway.Api
                 app.UseHsts();
             }
 
-            app.UseOcelot().Wait();
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseOcelot().Wait();
         }
     }
 }
