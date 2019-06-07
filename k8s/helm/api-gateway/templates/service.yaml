@@ -14,9 +14,3 @@ spec:
   selector:
     app.kubernetes.io/name: {{ include "api-gateway.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-  livenessProbe:
-      httpGet:
-        path: /health
-        port: 80
-      initialDelaySeconds: 3
-      periodSeconds: 3
