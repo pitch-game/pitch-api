@@ -18,3 +18,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "Pitch.Gateway.Api.dll"]
+
+HEALTHCHECK CMD curl --fail http://localhost:5000/health || exit
