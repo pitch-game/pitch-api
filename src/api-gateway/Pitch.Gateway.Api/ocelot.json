@@ -10,7 +10,7 @@
         }
       ],
       "UpstreamHeaderTransform": {
-        "X-Forwarded-Host": "localhost.pitch-game.io",
+        "X-Forwarded-Host": "api.pitch-game.io", //todo localhost.pitch-game.io for local
         "X-Forwarded-Proto": "http"
       },
       "UpstreamPathTemplate": "/identity/{everything}",
