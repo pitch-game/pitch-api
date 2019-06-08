@@ -95,7 +95,7 @@ namespace PitchApi
                 options.IgnoreEndpointPermissions();
                 options.IgnoreGrantTypePermissions();
                 options.IgnoreScopePermissions();
-                options.SetIssuer(new Uri("http://localhost.pitch-game.io/identity"));
+                options.SetIssuer(new Uri(Configuration.GetValue<string>("Issuer")));
             });
         }
 
