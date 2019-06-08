@@ -36,17 +36,17 @@ spec:
             httpGet:
               path: /health
               port: http
-           env:          
-          - name: "Authentication__Google__ClientId"
-            valueFrom:
-              secretKeyRef:
-                key:  "ClientId"
-                name: {{ include "identity.fullname" . }}
-          - name: "Authentication__Google__ClientSecret"
-            valueFrom:
-              secretKeyRef:
-                key:  "ClientSecret"
-                name: {{ include "identity.fullname" . }}
+          env:          
+            - name: "Authentication__Google__ClientId"
+              valueFrom:
+                secretKeyRef:
+                  key:  "ClientId"
+                  name: {{ include "identity.fullname" . }}
+            - name: "Authentication__Google__ClientSecret"
+              valueFrom:
+                secretKeyRef:
+                  key:  "ClientSecret"
+                  name: {{ include "identity.fullname" . }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
