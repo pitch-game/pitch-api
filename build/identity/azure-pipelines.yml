@@ -2,6 +2,9 @@ variables:
     registryEndpoint: pitch-registry
     dockerRegistry: pitchgame/
 trigger:
+  branches:
+    include:
+    - master
   paths:
     include:
     - src/identity/*
