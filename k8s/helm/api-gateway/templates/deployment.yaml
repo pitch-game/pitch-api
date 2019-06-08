@@ -30,7 +30,7 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /liveness
               port: http
               periodSeconds: 15
           readinessProbe:

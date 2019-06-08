@@ -103,6 +103,7 @@ namespace PitchApi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseHealthChecks("/health");
+            app.UseHealthChecks("/liveness");
 
             var forwardingOptions = new ForwardedHeadersOptions()
             {

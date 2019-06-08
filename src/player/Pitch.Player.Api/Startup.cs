@@ -17,6 +17,7 @@ using Pitch.Player.Api.Application.Requests;
 using Pitch.Player.Api.Application.Responses;
 using Pitch.Player.Api.Supporting;
 using RabbitMQ.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace Pitch.Player.Api
 {
@@ -81,6 +82,11 @@ namespace Pitch.Player.Api
             }
 
             app.UseHealthChecks("/health");
+            app.UseHealthChecks("/liveness", new HealthCheckOptions
+            {
+                Predicate = r => r.Name.Contains("self")
+            });
+
             app.UseEasyNetQ();
             app.UseHttpsRedirection();
             app.UseMvc();
