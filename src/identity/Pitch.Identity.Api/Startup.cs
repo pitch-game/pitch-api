@@ -57,8 +57,8 @@ namespace PitchApi
                 .AddCookie()
                 .AddGoogle(options =>
                 {
-                    options.ClientId = Configuration["Authentication:Google:ClientId"];
-                    options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                    options.ClientId = Configuration.GetValue<string>("Authentication:Google:ClientId");
+                    options.ClientSecret = Configuration.GetValue<string>("Authentication:Google:ClientSecret");
                 })
                 .AddJwtBearer(options =>
                 {
