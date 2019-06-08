@@ -34,3 +34,26 @@ jobs:
       dockerComposeFileArgs: |
         TAG=$(Build.SourceBranchName)
         DOCKER_REGISTRY=$(dockerRegistry)
+  - task: HelmDeploy@0
+    inputs:
+      connectionType: 'Azure Resource Manager'
+      azureSubscription: 'Pay-As-You-Go(c1640d06-3596-4f30-a322-42d2ef2d3992)'
+      azureResourceGroup: 'pitch-resource-group'
+      kubernetesCluster: 'pitch-aks'
+      command: 'init'
+      arguments: '--client-only'
+  - task: HelmDeploy@0
+    inputs:
+      connectionType: 'Azure Resource Manager'
+      azureSubscription: 'Pay-As-You-Go(c1640d06-3596-4f30-a322-42d2ef2d3992)'
+      azureResourceGroup: 'pitch-resource-group'
+      kubernetesCluster: 'pitch-aks'
+      command: 'package'
+      chartPath: './k8s/helm/card'
+      destination: '$(Build.ArtifactStagingDirectory)'
+      updateDependency: true
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'helm'
+      publishLocation: 'Container'
