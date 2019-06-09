@@ -23,6 +23,7 @@ jobs:
       dockerComposeFile: src/squad/docker-compose.yml
       qualifyImageNames: true
       projectName: ""
+      additionalImageTags: $(Build.BuildId)
       dockerComposeFileArgs: |
         TAG=$(Build.SourceBranchName)
         DOCKER_REGISTRY=$(dockerRegistry)
@@ -35,6 +36,7 @@ jobs:
       dockerComposeFile: src/squad/docker-compose.yml
       qualifyImageNames: true
       projectName: ""
+      additionalImageTags: $(Build.BuildId)
       dockerComposeFileArgs: |
         TAG=$(Build.SourceBranchName)
         DOCKER_REGISTRY=$(dockerRegistry)
