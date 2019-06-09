@@ -8,6 +8,7 @@ trigger:
   paths:
     include:
     - src/api-gateway/*
+    - k8s/helm/api-gateway/*
 jobs:
 - job: BuildLinux
   pool:

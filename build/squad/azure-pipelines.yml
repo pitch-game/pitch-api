@@ -8,6 +8,7 @@ trigger:
   paths:
     include:
     - src/squad/*
+    - k8s/helm/squad/*
 jobs:
 - job: BuildLinux
   pool:
