@@ -54,7 +54,7 @@ namespace Pitch.Card.Api
 
             }).AddJwtBearer(options =>
             {
-                options.Authority = "http://localhost.pitch-game.io/identity";
+                options.Authority = Configuration.GetValue<string>("IdentityUrl");
                 options.Audience = "cbf24cc4a1bb79e441a5b5937be6dd84";
                 options.RequireHttpsMetadata = false;
             });
