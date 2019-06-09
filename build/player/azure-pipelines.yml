@@ -9,6 +9,7 @@ trigger:
     include:
     - src/player/*
     - k8s/helm/player/*
+    - build/player/*
 jobs:
 - job: BuildLinux
   pool:

@@ -9,6 +9,7 @@ trigger:
     include:
     - src/squad/*
     - k8s/helm/squad/*
+    - build/squad/*
 jobs:
 - job: BuildLinux
   pool:

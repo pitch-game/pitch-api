@@ -9,6 +9,7 @@ trigger:
     include:
     - src/card/*
     - k8s/helm/card/*
+    - build/card/*
 jobs:
 - job: BuildLinux
   pool:
