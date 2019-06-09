@@ -48,7 +48,7 @@ spec:
                   key:  "ClientSecret"
                   name: {{ include "identity.fullname" . }}
             - name: CI_BUILD_NUMBER
-              value: {{ .Values.buildNumber }}
+              value: "{{ .Values.buildNumber }}"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
