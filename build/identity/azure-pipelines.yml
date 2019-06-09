@@ -24,8 +24,8 @@ jobs:
       dockerComposeFile: src/identity/docker-compose.yml
       qualifyImageNames: true
       projectName: ""
+      additionalImageTags: $(Build.BuildNumber)
       dockerComposeFileArgs: |
-        TAG=$(Build.SourceBranchName)
         DOCKER_REGISTRY=$(dockerRegistry)
   - task: DockerCompose@0
     displayName: Compose push identity
@@ -36,8 +36,8 @@ jobs:
       dockerComposeFile: src/identity/docker-compose.yml
       qualifyImageNames: true
       projectName: ""
+      additionalImageTags: $(Build.BuildNumber)
       dockerComposeFileArgs: |
-        TAG=$(Build.SourceBranchName)
         DOCKER_REGISTRY=$(dockerRegistry)
   - task: HelmDeploy@0
     inputs:
@@ -57,6 +57,7 @@ jobs:
       chartPath: './k8s/helm/identity'
       destination: '$(Build.ArtifactStagingDirectory)'
       updateDependency: true
+      arguments: '--set image.tag=$(Build.BuildNumber)'
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
