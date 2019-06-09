@@ -39,6 +39,9 @@ spec:
               port: http
               initialDelaySeconds: 90
               periodSeconds: 60
+          env:
+            - name: CI_BUILD_NUMBER
+              value: "{{ .Values.buildNumber }}"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
