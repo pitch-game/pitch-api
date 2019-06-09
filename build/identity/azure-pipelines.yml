@@ -57,7 +57,6 @@ jobs:
       chartPath: './k8s/helm/identity'
       destination: '$(Build.ArtifactStagingDirectory)'
       updateDependency: true
-      arguments: '--set image.tag=$(Build.BuildNumber)'
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
