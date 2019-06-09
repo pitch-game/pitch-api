@@ -59,11 +59,10 @@ namespace Pitch.Card.Api
                 options.RequireHttpsMetadata = false;
             });
 
-            //TODO Scoped
-            services.AddSingleton<ICardRepository, CardRepository>();
-            services.AddSingleton<ICreateCardResponder, CreateCardResponder>();
-            services.AddSingleton<IResponder, CreateCardResponder>();
-            services.AddSingleton<ICardService, CardService>();
+            services.AddScoped<ICardRepository, CardRepository>();
+            services.AddScoped<ICreateCardResponder, CreateCardResponder>();
+            services.AddScoped<IResponder, CreateCardResponder>();
+            services.AddScoped<ICardService, CardService>();
 
             services.AddSingleton(s =>
             {
@@ -71,7 +70,7 @@ namespace Pitch.Card.Api
                     serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer()));
             });
 
-            services.AddDbContext<CardDbContext>(options => options.UseInMemoryDatabase(databaseName: "Cards"), ServiceLifetime.Singleton); //todo for now
+            services.AddDbContext<CardDbContext>(options => options.UseInMemoryDatabase(databaseName: "Cards"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EasyNetQ;
+using Microsoft.Extensions.DependencyInjection;
 using Pitch.Card.Api.Application.Responders;
 using Pitch.Card.Api.Application.Responses;
 using Pitch.Card.Api.Infrastructure.Requests;
@@ -11,15 +12,15 @@ namespace Pitch.Card.Api.Infrastructure.Handlers
 {
     public class CreateCardResponder : ICreateCardResponder, IResponder
     {
-        private readonly ICardService _cardService;
         private readonly IMapper _mapper;
         private readonly IBus _bus;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public CreateCardResponder(ICardService cardService, IMapper mapper, IBus bus)
+        public CreateCardResponder(IMapper mapper, IBus bus, IServiceScopeFactory serviceScopeFactory)
         {
-            _cardService = cardService;
             _mapper = mapper;
             _bus = bus;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         public void Register()
@@ -29,9 +30,12 @@ namespace Pitch.Card.Api.Infrastructure.Handlers
 
         public async Task<CreateCardResponse> Response(CreateCardRequest @request)
         {
-            var reqModel = _mapper.Map<CreateCardModel>(@request);
-            var card = await _cardService.CreateCardAsync(reqModel);
-            return _mapper.Map<CreateCardResponse>(card);
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                var reqModel = _mapper.Map<CreateCardModel>(@request);
+                var card = await scope.ServiceProvider.GetRequiredService<ICardService>().CreateCardAsync(reqModel);
+                return _mapper.Map<CreateCardResponse>(card);
+            }
         }
     }
 }

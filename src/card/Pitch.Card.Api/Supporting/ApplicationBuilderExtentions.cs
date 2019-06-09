@@ -12,7 +12,10 @@ namespace Pitch.Player.Api.Supporting
 
         public static IApplicationBuilder UseEasyNetQ(this IApplicationBuilder app)
         {
-            _responders = app.ApplicationServices.GetServices<IResponder>();
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                _responders = scope.ServiceProvider.GetServices<IResponder>();
+            }
 
             var lifetime = app.ApplicationServices.GetService<IApplicationLifetime>();
 
