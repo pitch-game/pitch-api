@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyNetQ;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.Options;
 using Pitch.Squad.Api.Infrastructure;
 using Pitch.Squad.Api.Infrastructure.Repositories;
 using Pitch.Squad.Api.Services;
+using Pitch.Squad.Api.Supporting;
 
 namespace Pitch.Squad.Api
 {
@@ -47,8 +49,13 @@ namespace Pitch.Squad.Api
 
             services.AddScoped<ISquadService, SquadService>();
             services.AddScoped<ISquadRepository, SquadRepository>();
+            services.AddScoped<ISquadValidationService, SquadValidationService>();
 
-            services.AddDbContext<SquadDbContext>(options => options.UseInMemoryDatabase(databaseName: "Squads"), ServiceLifetime.Singleton); //todo lifestyle when sharing with rabbitmq
+            services.AddSingleton(s =>
+            {
+                return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
+                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer()));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
