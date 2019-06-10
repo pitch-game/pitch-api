@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Card.Api.Infrastructure.Requests
+namespace Pitch.Card.Api.Application.Requests
 {
     public class CreateCardRequest
     {

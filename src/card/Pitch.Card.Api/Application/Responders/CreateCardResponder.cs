@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using EasyNetQ;
 using Microsoft.Extensions.DependencyInjection;
-using Pitch.Card.Api.Application.Responders;
+using Pitch.Card.Api.Application.Requests;
 using Pitch.Card.Api.Application.Responses;
-using Pitch.Card.Api.Infrastructure.Requests;
 using Pitch.Card.Api.Infrastructure.Services;
 using Pitch.Card.Api.Models;
 using System.Threading.Tasks;
 
-namespace Pitch.Card.Api.Infrastructure.Handlers
+namespace Pitch.Card.Api.Application.Responders
 {
     public class CreateCardResponder : ICreateCardResponder, IResponder
     {

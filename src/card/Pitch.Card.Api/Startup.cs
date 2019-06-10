@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Pitch.Card.Api.Application.Responders;
 using Pitch.Card.Api.Infrastructure;
-using Pitch.Card.Api.Infrastructure.Handlers;
 using Pitch.Card.Api.Infrastructure.Repositories;
 using Pitch.Card.Api.Infrastructure.Services;
 using Pitch.Card.Api.Supporting;

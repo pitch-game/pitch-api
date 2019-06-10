@@ -38,7 +38,8 @@ namespace Pitch.Squad.Api.Services
         private async Task<bool> CardCheck(Models.Squad squad, string userId)
         {
             var cardIds = AllCardIds(squad);
-            var response = await _bus.RequestAsync<GetCardsRequest, GetCardsResponse>(new GetCardsRequest(cardIds));
+            var request = new GetCardsRequest(cardIds);
+            var response = await _bus.RequestAsync<GetCardsRequest, GetCardsResponse>(request);
 
             foreach (var cardId in cardIds)
             {
@@ -57,9 +58,9 @@ namespace Pitch.Squad.Api.Services
             return !inLineup.Any() && !inAllowed.Any();
         }
 
-        private static IEnumerable<Guid> AllCardIds(Models.Squad squad)
+        private static IList<Guid> AllCardIds(Models.Squad squad)
         {
-            return squad.Lineup.Select(x => x.Value).Concat(squad.Subs).Where(x => x.HasValue).Select(x => x.Value);
+            return squad.Lineup.Select(x => x.Value).Concat(squad.Subs).Where(x => x.HasValue).Select(x => x.Value).ToList();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Pitch.Card.Api.Application.Requests;
+using Pitch.Card.Api.Application.Responders;
 using Pitch.Card.Api.Application.Responses;
-using Pitch.Card.Api.Infrastructure.Requests;
 using Pitch.Card.Api.Models;
 
 namespace Pitch.Card.Api.Infrastructure
