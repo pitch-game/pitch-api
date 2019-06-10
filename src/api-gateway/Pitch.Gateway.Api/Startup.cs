@@ -20,6 +20,7 @@ namespace Pitch.Gateway.Api
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
             .AddJsonFile("ocelot.json")
+            .AddJsonFile($"ocelot.{env.EnvironmentName}.json", optional: true)
             .AddEnvironmentVariables();
 
             Configuration = builder.Build();
