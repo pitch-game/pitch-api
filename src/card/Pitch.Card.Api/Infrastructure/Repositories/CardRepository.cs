@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using Pitch.Card.Api.Models;
 using System;
 using System.Collections.Generic;
@@ -12,38 +13,40 @@ namespace Pitch.Card.Api.Infrastructure.Repositories
     {
         Task<IEnumerable<Models.Card>> GetAllAsync(CardRequestModel req, string userId);
         Task<IEnumerable<Models.Card>> GetAsync(IEnumerable<Guid> ids);
-        Task<EntityEntry<Models.Card>> AddAsync(Models.Card card);
+        Task<Models.Card> AddAsync(Models.Card card);
     }
 
     public class CardRepository : ICardRepository
     {
-        private readonly CardDbContext _cardDbContext;
+        private readonly IMongoCollection<Models.Card> _cards;
 
-        public CardRepository(CardDbContext cardDbContext)
+        public CardRepository(IConfiguration config)
         {
-            _cardDbContext = cardDbContext;
+            var client = new MongoClient(config.GetConnectionString("MongoDb"));
+            var database = client.GetDatabase("card");
+            _cards = database.GetCollection<Models.Card>("cards");
         }
 
         public async Task<IEnumerable<Models.Card>> GetAsync(IEnumerable<Guid> ids)
         {
-            return await _cardDbContext.Cards.Where(x => ids.Contains(x.Id)).ToListAsync();
+            return await _cards.Find(x => ids.Contains(x.Id)).ToListAsync();
         }
 
-        public async Task<EntityEntry<Models.Card>> AddAsync(Models.Card card)
+        public async Task<Models.Card> AddAsync(Models.Card card)
         {
-            var entry = await _cardDbContext.Cards.AddAsync(card);
-            await _cardDbContext.SaveChangesAsync();
-            return entry;
+            await _cards.InsertOneAsync(card);
+            return card;
         }
 
         public async Task<IEnumerable<Models.Card>> GetAllAsync(CardRequestModel req, string userId)
         {
-            var query = _cardDbContext.Cards.Where(x => x.UserId == userId);
+            var query = _cards.AsQueryable().Where(x => x.UserId == userId);
             if (req.NotIn != null && req.NotIn.Any())
             {
                 query = query.Where(x => !req.NotIn.Contains(x.Id));
             }
-            return await query.OrderByDescending(x => x.Position == req.PositionPriority).ThenByDescending(x => x.Rating).Skip(req.Skip).Take(req.Take).ToListAsync();
+            var results = await query.ToListAsync();
+            return results.OrderByDescending(x => x.Position == req.PositionPriority).ThenByDescending(x => x.Rating).Skip(req.Skip).Take(req.Take);
         }
     }
 }

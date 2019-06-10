@@ -60,8 +60,13 @@ namespace Pitch.Card.Api
             });
 
             services.AddScoped<ICardRepository, CardRepository>();
+
             services.AddScoped<ICreateCardResponder, CreateCardResponder>();
+            services.AddScoped<IGetCardsResponder, GetCardsResponder>();
+
             services.AddScoped<IResponder, CreateCardResponder>();
+            services.AddScoped<IResponder, GetCardsResponder>();
+
             services.AddScoped<ICardService, CardService>();
 
             services.AddSingleton(s =>
@@ -69,8 +74,6 @@ namespace Pitch.Card.Api
                 return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
                     serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer()));
             });
-
-            services.AddDbContext<CardDbContext>(options => options.UseInMemoryDatabase(databaseName: "Cards"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
