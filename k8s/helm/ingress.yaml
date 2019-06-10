@@ -11,6 +11,11 @@ spec:
   - hosts:
     - api.pitch-game.io
     secretName: tls-secret
-  backend:
-    serviceName: gateway-api-gateway
-    servicePort: 80
+  rules:
+  - host: api.pitch-game.io
+    http:
+      paths:
+      - backend:
+          serviceName: gateway-api-gateway
+          servicePort: 80
+        path: /(.*)
