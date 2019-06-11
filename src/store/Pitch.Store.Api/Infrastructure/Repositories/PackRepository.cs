@@ -1,12 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Pitch.Store.Api.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Pitch.Store.Api.Infrastructure.Repositories
 {
     public interface IPackRepository
     {
+        Task<IList<Pack>> GetAllAsync(string userId);
         Task<Pack> GetAsync(Guid id);
         Task<EntityEntry<Pack>> AddAsync(Pack pack);
         Task<int> SaveChangesAsync();
@@ -18,6 +22,11 @@ namespace Pitch.Store.Api.Infrastructure.Repositories
         public PackRepository(PackDBContext context)
         {
             _context = context;
+        }
+
+        public async Task<IList<Pack>> GetAllAsync(string userId)
+        {
+            return await _context.Packs.Where(x => x.UserId == userId).ToListAsync();
         }
 
         public async Task<Pack> GetAsync(Guid id)

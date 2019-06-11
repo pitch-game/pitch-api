@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyNetQ;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +12,7 @@ namespace Pitch.Store.Api.Infrastructure.Services
 {
     public interface IPackService
     {
+        Task<IList<Pack>> GetAll(string userId);
         Task<CreateCardResponse> Open(Guid id, string userId);
         Task<Guid> Buy();
     }
@@ -25,6 +27,11 @@ namespace Pitch.Store.Api.Infrastructure.Services
             _packRepository = packRepository;
             _bus = bus;
             _httpContextAccessor = httpContextAccessor;
+        }
+
+        public async Task<IList<Pack>> GetAll(string userId)
+        {
+            return await _packRepository.GetAllAsync(userId);
         }
 
         public async Task<CreateCardResponse> Open(Guid id, string userId)
