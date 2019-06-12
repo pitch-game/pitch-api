@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  pitch.user.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "53302:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+    networks:
+      - pitchnetwork
+    container_name: card
+networks:
+  pitchnetwork:
+    external: true
