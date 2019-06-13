@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   pitch.user.api:
-    image: ${DOCKER_REGISTRY-}pitchuserapi
+    image: ${DOCKER_REGISTRY-}user.api
     build:
       context: .
       dockerfile: Pitch.User.Api/Dockerfile
