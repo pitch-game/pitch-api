@@ -33,7 +33,10 @@ namespace Pitch.User.Api.Application.Responders
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 var user = await scope.ServiceProvider.GetRequiredService<IUserService>().GetOrCreateAsync(@request.Email);
-                return new GetOrCreateUserResponse();
+                return new GetOrCreateUserResponse()
+                {
+                    Id = user.Id
+                };
             }
         }
     }

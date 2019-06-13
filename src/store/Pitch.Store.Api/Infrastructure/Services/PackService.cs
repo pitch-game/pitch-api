@@ -14,7 +14,8 @@ namespace Pitch.Store.Api.Infrastructure.Services
     {
         Task<IList<Pack>> GetAll(string userId);
         Task<CreateCardResponse> Open(Guid id, string userId);
-        Task<Guid> Buy();
+        Task<Guid> Buy(Guid userId);
+        Task CreateStartingPacksAsync(Guid userId);
     }
     public class PackService : IPackService
     {
@@ -42,13 +43,22 @@ namespace Pitch.Store.Api.Infrastructure.Services
             return await _bus.RequestAsync<CreateCardRequest, CreateCardResponse>(request);
         }
 
-        public async Task<Guid> Buy()
+        public async Task<Guid> Buy(Guid userId)
         {
-            var pack = new Pack();
-            //pack.UserId = _httpContextAccessor.HttpContext.User.
+            var pack = new Pack() { Id = Guid.NewGuid(), UserId = userId.ToString() };
             var @new = await _packRepository.AddAsync(pack);
             await _packRepository.SaveChangesAsync();
             return @new.Entity.Id; 
+        }
+
+        public async Task CreateStartingPacksAsync(Guid userId)
+        {
+            for (int i = 0; i < 16; i++) //TODO positional packs
+            {
+                var pack = new Pack() { Id = Guid.NewGuid(), UserId = userId.ToString() };
+                await _packRepository.AddAsync(pack);
+            }
+            await _packRepository.SaveChangesAsync();
         }
     }
 }

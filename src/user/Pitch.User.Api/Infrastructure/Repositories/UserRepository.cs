@@ -21,8 +21,8 @@ namespace Pitch.User.Api.Infrastructure.Repositories
         public UserRepository(IConfiguration config)
         {
             var client = new MongoClient(config.GetConnectionString("MongoDb"));
-            var database = client.GetDatabase("card");
-            _users = database.GetCollection<Models.User>("cards");
+            var database = client.GetDatabase("user");
+            _users = database.GetCollection<Models.User>("users");
         }
 
         public async Task<Models.User> GetAsync(Guid id)

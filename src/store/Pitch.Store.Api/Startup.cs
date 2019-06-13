@@ -11,10 +11,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Logging;
+using Pitch.Store.Api.Application.Subscribers;
 using Pitch.Store.Api.Infrastructure;
 using Pitch.Store.Api.Infrastructure.Repositories;
 using Pitch.Store.Api.Infrastructure.Services;
 using Pitch.Store.Api.Supporting;
+using Pitch.User.Api.Supporting;
 using System;
 using System.Reflection;
 
@@ -56,23 +58,15 @@ namespace Pitch.Store.Api
             services.AddScoped<IPackService, PackService>();
             services.AddScoped<IPackRepository, PackRepository>();
 
+            services.AddScoped<ISubscriber, UserCreatedEventSubscriber>();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddSingleton(s =>
             {
-                var bus = RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
+                return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
                     serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer()));
-
-                var subscriber = new AutoSubscriber(bus, "my_applications_subscriptionId_prefix")
-                {
-                    AutoSubscriberMessageDispatcher = new ScopedMessageDispatcher(s)
-                };
-
-                subscriber.SubscribeAsync(Assembly.GetExecutingAssembly());
-                return bus;
             });
-
-
 
             services.AddDbContext<PackDBContext>(options => options.UseInMemoryDatabase(databaseName: "Packs"));
         }
@@ -96,6 +90,7 @@ namespace Pitch.Store.Api
                 Predicate = r => r.Name.Contains("self")
             });
 
+            app.UseEasyNetQ();
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();

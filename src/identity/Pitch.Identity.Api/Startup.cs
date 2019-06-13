@@ -13,6 +13,8 @@ using OpenIddict.Core;
 using OpenIddict.EntityFrameworkCore.Models;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Http;
+using EasyNetQ;
+using Pitch.Identity.Api.Supporting;
 
 namespace PitchApi
 {
@@ -36,22 +38,18 @@ namespace PitchApi
 
             services.AddDbContext<AuthorizationDbContext>(options =>
             {
-                //Store this in memory for now
                 options.UseInMemoryDatabase("pitch-im");
-                //options.UseCosmos(Configuration["CosmosDb:EndpointURI"], Configuration["CosmosDb:PrivateKey"], "pitch");
-
                 options.UseOpenIddict();
             });
 
             services.AddCors();
-
             services.AddMvc();
 
-            //services.Configure<ForwardedHeadersOptions>(options =>
-            //{
-            //    options.ForwardedHeaders = ForwardedHeaders.All;
-            //    options.Known
-            //});
+            services.AddSingleton(s =>
+            {
+                return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
+                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer()));
+            });
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie()
@@ -59,12 +57,6 @@ namespace PitchApi
                 {
                     options.ClientId = Configuration.GetValue<string>("Authentication:Google:ClientId");
                     options.ClientSecret = Configuration.GetValue<string>("Authentication:Google:ClientSecret");
-                })
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = Configuration["AppUri"];
-                    options.Audience = "cbf24cc4a1bb79e441a5b5937be6dd84";
-                    options.RequireHttpsMetadata = false;
                 });
 
             services.AddOpenIddict()
@@ -75,23 +67,11 @@ namespace PitchApi
             })
             .AddServer(options =>
             {
-                // Register the ASP.NET Core MVC binder used by OpenIddict
                 options.UseMvc();
-
-                // Enable the authorization endpoints
                 options.EnableAuthorizationEndpoint("/connect/authorize");
-
-                // Allow client applications to use the implicit flow.
                 options.AllowImplicitFlow();
-
-                // During development, you can disable the HTTPS requirement.
                 options.DisableHttpsRequirement();
-
-                // Register a new ephemeral key, that is discarded when the application
-                // shuts down. Tokens signed using this key are automatically invalidated.
-                // This method should only be used during development.
                 options.AddEphemeralSigningKey();
-
                 options.IgnoreEndpointPermissions();
                 options.IgnoreGrantTypePermissions();
                 options.IgnoreScopePermissions();

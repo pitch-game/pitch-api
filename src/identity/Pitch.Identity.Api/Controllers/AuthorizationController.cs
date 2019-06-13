@@ -5,20 +5,24 @@ using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Extensions;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OpenIdConnect.Server;
+using EasyNetQ;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Pitch.Identity.Api.Application.Requests;
+using Pitch.Identity.Api.Application.Responses;
 
 namespace AuthorizationServer.Controllers
 {
     public class AuthorizationController : Controller
     {
-
-        public AuthorizationController()
+        private readonly IBus _bus;
+        public AuthorizationController(IBus bus)
         {
+            _bus = bus;
         }
 
         [HttpGet("~/connect/authorize")]
-        public IActionResult Authorize(OpenIdConnectRequest request)
+        public async Task<IActionResult> Authorize(OpenIdConnectRequest request)
         {
             if (request == null)
             {
@@ -33,10 +37,13 @@ namespace AuthorizationServer.Controllers
             if (!User.Identity.IsAuthenticated)
                 return Challenge("Google");
 
+            var response = await _bus.RequestAsync<GetOrCreateUserRequest, GetOrCreateUserResponse>(new GetOrCreateUserRequest(User.FindFirstValue(ClaimTypes.Email)));
+            var userId = response.Id;
+
             // Create a new ClaimsPrincipal containing the claims that
             // will be used to create an id_token, a token or a code.
             var identity = new ClaimsIdentity("OpenIddict");
-            identity.AddClaim(OpenIdConnectConstants.Claims.Subject, User.FindFirstValue(ClaimTypes.NameIdentifier),
+            identity.AddClaim(OpenIdConnectConstants.Claims.Subject, userId.ToString(),
                 OpenIdConnectConstants.Destinations.AccessToken, OpenIdConnectConstants.Destinations.IdentityToken);
             identity.AddClaim(OpenIdConnectConstants.Claims.Name, User.FindFirstValue(ClaimTypes.Name),
                 OpenIdConnectConstants.Destinations.IdentityToken);

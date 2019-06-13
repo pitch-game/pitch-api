@@ -43,7 +43,8 @@ namespace Pitch.Store.Api.Controllers
         [HttpPost("buy")]
         public async Task<Guid> Buy()
         {
-            return await _packService.Buy();
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
+            return await _packService.Buy(new Guid(userId));
         }
     }
 }
