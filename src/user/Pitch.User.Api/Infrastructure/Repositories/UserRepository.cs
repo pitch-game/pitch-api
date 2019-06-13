@@ -38,9 +38,10 @@ namespace Pitch.User.Api.Infrastructure.Repositories
         public async Task<Models.User> CreateAsync(string email)
         {
             await _users.InsertOneAsync(new Models.User {
+                Id = Guid.NewGuid(),
                 Email = email
             });
-            return await GetAsync(email);
+            return await GetAsync(email); //TODO race condition?
         }
     }
 }

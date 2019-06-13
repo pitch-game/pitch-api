@@ -1,5 +1,6 @@
-﻿using Pitch.User.Api.Infrastructure.Repositories;
-using Pitch.User.Api.Models;
+﻿using EasyNetQ;
+using Pitch.User.Api.Application.Events;
+using Pitch.User.Api.Infrastructure.Repositories;
 using System;
 using System.Threading.Tasks;
 
@@ -15,10 +16,14 @@ namespace Pitch.User.Api.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        public UserService(IUserRepository userRepository)
+        private readonly IBus _bus;
+
+        public UserService(IUserRepository userRepository, IBus bus)
         {
             _userRepository = userRepository;
+            _bus = bus;
         }
+
         public async Task<Models.User> GetAsync(Guid id)
         {
             return await _userRepository.GetAsync(id);
@@ -35,6 +40,7 @@ namespace Pitch.User.Api.Services
             if(user == null)
             {
                 user = await _userRepository.CreateAsync(email);
+                _bus.Publish(new UserCreatedEvent(user.Id));
             }
             return user;
         }

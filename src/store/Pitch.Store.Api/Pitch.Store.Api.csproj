@@ -9,6 +9,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Application\Commands\**" />
+    <Compile Remove="Application\Handlers\**" />
+    <Compile Remove="ViewModels\**" />
+    <Content Remove="Application\Commands\**" />
+    <Content Remove="Application\Handlers\**" />
+    <Content Remove="ViewModels\**" />
+    <EmbeddedResource Remove="Application\Commands\**" />
+    <EmbeddedResource Remove="Application\Handlers\**" />
+    <EmbeddedResource Remove="ViewModels\**" />
+    <None Remove="Application\Commands\**" />
+    <None Remove="Application\Handlers\**" />
+    <None Remove="ViewModels\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.RabbitMQ" Version="2.2.1" />
     <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="2.2.3" />
     <PackageReference Include="EasyNetQ" Version="3.5.0" />
@@ -17,12 +32,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.4" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.8" />
     <PackageReference Include="RabbitMQ.Client" Version="5.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Application\Commands\" />
-    <Folder Include="Application\Handlers\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>

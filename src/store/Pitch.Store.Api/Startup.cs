@@ -1,4 +1,5 @@
 ﻿using EasyNetQ;
+using EasyNetQ.AutoSubscribe;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -15,6 +16,7 @@ using Pitch.Store.Api.Infrastructure.Repositories;
 using Pitch.Store.Api.Infrastructure.Services;
 using Pitch.Store.Api.Supporting;
 using System;
+using System.Reflection;
 
 namespace Pitch.Store.Api
 {
@@ -58,9 +60,19 @@ namespace Pitch.Store.Api
 
             services.AddSingleton(s =>
             {
-                return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
+                var bus = RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
                     serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer()));
+
+                var subscriber = new AutoSubscriber(bus, "my_applications_subscriptionId_prefix")
+                {
+                    AutoSubscriberMessageDispatcher = new ScopedMessageDispatcher(s)
+                };
+
+                subscriber.SubscribeAsync(Assembly.GetExecutingAssembly());
+                return bus;
             });
+
+
 
             services.AddDbContext<PackDBContext>(options => options.UseInMemoryDatabase(databaseName: "Packs"));
         }
