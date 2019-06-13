@@ -26,8 +26,8 @@ namespace Pitch.User.Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IGetUserResponder, GetUserResponder>();
-            services.AddScoped<IResponder, GetUserResponder>();
+            services.AddScoped<IGetOrCreateUserResponder, GetOrCreateUserResponder>();
+            services.AddScoped<IResponder, GetOrCreateUserResponder>();
             services.AddScoped<IUserService, UserService>();
 
             services.AddSingleton(s =>

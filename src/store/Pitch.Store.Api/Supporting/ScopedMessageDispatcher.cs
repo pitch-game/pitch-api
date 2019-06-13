@@ -1,4 +1,5 @@
 ﻿using EasyNetQ.AutoSubscribe;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
@@ -15,21 +16,20 @@ namespace Pitch.Store.Api.Supporting
 
         void IAutoSubscriberMessageDispatcher.Dispatch<TMessage, TConsumer>(TMessage message)
         {
-            var consumer = (TConsumer)_serviceProvider.GetService(typeof(TConsumer));
-            try
+            using (var scope = _serviceProvider.CreateScope())
             {
+                var consumer = (TConsumer)_serviceProvider.GetService(typeof(TConsumer));
                 consumer.Consume(message);
-            }
-            finally
-            {
-                //_container.Release(consumer);
             }
         }
 
         async Task IAutoSubscriberMessageDispatcher.DispatchAsync<TMessage, TConsumer>(TMessage message)
         {
-            var consumer = (TConsumer)_serviceProvider.GetService(typeof(TConsumer));
-            await consumer.ConsumeAsync(message);//.ContinueWith(t => _container.Release(consumer));
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var consumer = (TConsumer)_serviceProvider.GetService(typeof(TConsumer));
+                await consumer.ConsumeAsync(message);
+            }
         }
     }
 }

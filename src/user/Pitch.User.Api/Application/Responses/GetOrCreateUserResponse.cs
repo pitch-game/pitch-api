@@ -2,7 +2,7 @@
 
 namespace Pitch.User.Api.Application.Responses
 {
-    public class GetUserResponse
+    public class GetOrCreateUserResponse
     {
         public Guid Id { get; set; }
     }

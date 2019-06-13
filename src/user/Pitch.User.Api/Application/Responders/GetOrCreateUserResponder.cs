@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace Pitch.User.Api.Application.Responders
 {
-    public interface IGetUserResponder
+    public interface IGetOrCreateUserResponder
     {
-        Task<GetUserResponse> Response(GetUserRequest request);
+        Task<GetOrCreateUserResponse> Response(GetOrCreateUserRequest request);
     }
 
-    public class GetUserResponder : IGetUserResponder, IResponder
+    public class GetOrCreateUserResponder : IGetOrCreateUserResponder, IResponder
     {
         private readonly IBus _bus;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public GetUserResponder(IBus bus, IServiceScopeFactory serviceScopeFactory)
+        public GetOrCreateUserResponder(IBus bus, IServiceScopeFactory serviceScopeFactory)
         {
             _bus = bus;
             _serviceScopeFactory = serviceScopeFactory;
@@ -25,15 +25,15 @@ namespace Pitch.User.Api.Application.Responders
 
         public void Register()
         {
-            _bus.RespondAsync<GetUserRequest, GetUserResponse>(Response);
+            _bus.RespondAsync<GetOrCreateUserRequest, GetOrCreateUserResponse>(Response);
         }
 
-        public async Task<GetUserResponse> Response(GetUserRequest @request)
+        public async Task<GetOrCreateUserResponse> Response(GetOrCreateUserRequest @request)
         {
             using (var scope = _serviceScopeFactory.CreateScope())
             {
-                var user = await scope.ServiceProvider.GetRequiredService<IUserService>().GetAsync(@request.Email);
-                return new GetUserResponse();
+                var user = await scope.ServiceProvider.GetRequiredService<IUserService>().GetOrCreateAsync(@request.Email);
+                return new GetOrCreateUserResponse();
             }
         }
     }

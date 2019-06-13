@@ -1,6 +1,6 @@
 ﻿namespace Pitch.User.Api.Application.Requests
 {
-    public class GetUserRequest
+    public class GetOrCreateUserRequest
     {
         public string Email { get; set; }
     }
