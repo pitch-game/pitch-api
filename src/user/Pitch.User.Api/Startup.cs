@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EasyNetQ;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Pitch.User.Api.Application.Responders;
+using Pitch.User.Api.Infrastructure.Repositories;
+using Pitch.User.Api.Services;
+using Pitch.User.Api.Supporting;
 
 namespace Pitch.User.Api
 {
@@ -26,6 +24,17 @@ namespace Pitch.User.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IGetUserResponder, GetUserResponder>();
+            services.AddScoped<IResponder, GetUserResponder>();
+            services.AddScoped<IUserService, UserService>();
+
+            services.AddSingleton(s =>
+            {
+                return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
+                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer()));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +50,7 @@ namespace Pitch.User.Api
                 app.UseHsts();
             }
 
+            app.UseEasyNetQ();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

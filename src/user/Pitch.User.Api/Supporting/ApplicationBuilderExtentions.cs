@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Pitch.User.Api.Application.Responders;
 using System.Collections.Generic;
 
 namespace Pitch.User.Api.Supporting
