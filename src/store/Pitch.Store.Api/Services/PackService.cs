@@ -38,9 +38,15 @@ namespace Pitch.Store.Api.Infrastructure.Services
         public async Task<CreateCardResponse> Open(Guid id, string userId)
         {
             var pack = await _packRepository.GetAsync(id);
-            //TODO check logged in userid matches card userid
             var request = new CreateCardRequest(userId);
-            return await _bus.RequestAsync<CreateCardRequest, CreateCardResponse>(request);
+            if (pack.Position != null)
+            {
+                request.Position = pack.Position;
+            }
+            var response = await _bus.RequestAsync<CreateCardRequest, CreateCardResponse>(request);
+            await _packRepository.Delete(id);
+            await _packRepository.SaveChangesAsync();
+            return response;
         }
 
         public async Task<Guid> Buy(Guid userId)
@@ -53,9 +59,17 @@ namespace Pitch.Store.Api.Infrastructure.Services
 
         public async Task CreateStartingPacksAsync(Guid userId)
         {
-            for (int i = 0; i < 16; i++) //TODO positional packs
+            var positions = new[] { "GK", "LB", "CB", "CB", "RB", "LM", "CM", "CM", "RM", "ST", "ST" };
+            //TODO ask squad for positions
+            foreach (var position in positions)
             {
-                var pack = new Pack() { Id = Guid.NewGuid(), UserId = userId.ToString() };
+                var pack = new Pack() { Id = Guid.NewGuid(), UserId = userId.ToString(), Position = position };
+                await _packRepository.AddAsync(pack);
+            }
+            // 6 random
+            for (int i = 0; i < 6; i++)
+            {
+                var pack = new Pack() { Id = Guid.NewGuid(), UserId = userId.ToString()};
                 await _packRepository.AddAsync(pack);
             }
             await _packRepository.SaveChangesAsync();

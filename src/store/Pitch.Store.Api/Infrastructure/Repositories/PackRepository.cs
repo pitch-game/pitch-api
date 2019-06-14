@@ -14,6 +14,7 @@ namespace Pitch.Store.Api.Infrastructure.Repositories
         Task<Pack> GetAsync(Guid id);
         Task<EntityEntry<Pack>> AddAsync(Pack pack);
         Task<int> SaveChangesAsync();
+        Task Delete(Guid id);
     }
 
     public class PackRepository : IPackRepository
@@ -42,6 +43,13 @@ namespace Pitch.Store.Api.Infrastructure.Repositories
         public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
+        }
+
+        public async Task Delete(Guid id)
+        {
+            var entity = await _context.Packs.FindAsync(id);
+            if(entity != null)
+                _context.Remove(entity);
         }
     }
 }
