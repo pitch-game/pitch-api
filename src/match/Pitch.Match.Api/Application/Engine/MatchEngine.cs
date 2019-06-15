@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pitch.Match.Api.Services
+namespace Pitch.Match.Api.Application.Engine
 {
     public class MatchEngine : IMatchEngine
     {
@@ -17,15 +17,16 @@ namespace Pitch.Match.Api.Services
             _actions = actions;
         }
 
-        //Reentrant
         public Models.Match SimulateReentrant(Models.Match match)
         {
             var simulateFrom = match.SimulatedMinute;
             for (int i = simulateFrom; i < MATCH_LENGTH_IN_MINUTES; i++)
             {
                 //which team has possession (midfield * 1 + def * 0.5 + st * 0.5 + gk * 0.1) rating + fitness
+                //record possession stats
+
                 Random rand = new Random();
-                var inPossession = (rand.Next(0, 2) != 0) ? match.Team1 : match.Team2;
+                var inPossession = rand.Next(0, 2) != 0 ? match.Team1 : match.Team2;
 
                 Random random = new Random();
                 int randomNumber = random.Next(0, 100);
@@ -45,6 +46,7 @@ namespace Pitch.Match.Api.Services
 
                 if (action != null)
                 {
+                    //TODO cards should go against possession etc
                     var card = GetCardForEvent(inPossession, action);
                     match.Events.Add(GetEventFromAction(card, action, inPossession.Id, i)); //TODO Map to event
                 }
@@ -85,28 +87,28 @@ namespace Pitch.Match.Api.Services
             switch (action)
             {
                 case Shot shot:
-                    //on target vs goal = gk vs att
+                    //on target vs goal = gk vs st
                     Random rand = new Random();
-                    return (rand.Next(0, 2) != 0) ? (IMatchEvent)new ShotOnTarget()
+                    return rand.Next(0, 2) != 0 ? new ShotOnTarget()
                     {
                         CardId = card.Id,
                         SquadId = squadId,
                         Minute = minute
-                    } : (IMatchEvent)new Application.Engine.Events.Goal()
-                    {
-                        CardId = card.Id,
-                        SquadId = squadId,
-                        Minute = minute
-                    };
-                case Application.Engine.Action.YellowCard yCard:
-                    return new Application.Engine.Events.YellowCard()
+                    } : (IMatchEvent)new Goal()
                     {
                         CardId = card.Id,
                         SquadId = squadId,
                         Minute = minute
                     };
-                case Application.Engine.Action.RedCard rCard:
-                    return new Application.Engine.Events.RedCard()
+                case Action.YellowCard yCard:
+                    return new Events.YellowCard()
+                    {
+                        CardId = card.Id,
+                        SquadId = squadId,
+                        Minute = minute
+                    };
+                case Action.RedCard rCard:
+                    return new Events.RedCard()
                     {
                         CardId = card.Id,
                         SquadId = squadId,

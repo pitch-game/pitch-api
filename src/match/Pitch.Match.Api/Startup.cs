@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pitch.Match.Api.Application.Engine;
 using Pitch.Match.Api.Application.Engine.Action;
 using Pitch.Match.Api.Hubs;
 using Pitch.Match.Api.Models;
