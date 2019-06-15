@@ -1,12 +1,16 @@
 ﻿using System.Threading.Tasks;
+using EasyNetQ;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pitch.Match.Api.Application.Engine.Action;
 using Pitch.Match.Api.Hubs;
+using Pitch.Match.Api.Models;
 using Pitch.Match.Api.Services;
+using Pitch.Match.Api.Supporting;
 
 namespace Pitch.Match.Api
 {
@@ -37,6 +41,17 @@ namespace Pitch.Match.Api
             });
 
             services.AddSingleton<IMatchmakingService, MatchmakingService>();
+            services.AddSingleton<IMatchEngine, MatchEngine>();
+
+            services.AddSingleton<IAction, Application.Engine.Action.YellowCard>();
+            services.AddSingleton<IAction, Application.Engine.Action.RedCard>();
+            services.AddSingleton<IAction, Application.Engine.Action.Shot>();
+
+            services.AddSingleton(s =>
+            {
+                return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
+                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer()));
+            });
 
             services.AddSignalR(o =>
             {

@@ -10,6 +10,7 @@ namespace Pitch.Match.Api.Services
     {
         MatchmakingSession Matchmake(Guid userId);
         void Cancel(Guid userId);
+        MatchmakingSession GetSession(Guid id);
     }
 
     public class MatchmakingService : IMatchmakingService
@@ -32,6 +33,11 @@ namespace Pitch.Match.Api.Services
             {
                 return CreateSession(userId);
             }
+        }
+
+        public MatchmakingSession GetSession(Guid id)
+        {
+            return Sessions.FirstOrDefault(x => x.Id == id);
         }
 
         public MatchmakingSession JoinSession(Guid sessionId, Guid playerId)
