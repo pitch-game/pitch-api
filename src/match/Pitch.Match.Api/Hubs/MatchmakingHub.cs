@@ -9,7 +9,7 @@ namespace Pitch.Match.Api.Hubs
     public interface IMatchmakingClient
     {
         Task ReceiveSessionId(Guid sessionId);
-        Task MatchReady();
+        Task MatchReady(Guid sessionId);
     }
 
     [Authorize]
@@ -34,7 +34,7 @@ namespace Pitch.Match.Api.Hubs
             }
             else
             {
-                await Clients.Group(session.Id.ToString()).MatchReady();
+                await Clients.Group(session.Id.ToString()).MatchReady(session.Id);
             }
         }
 

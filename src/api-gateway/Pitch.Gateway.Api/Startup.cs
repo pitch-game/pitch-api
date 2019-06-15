@@ -36,7 +36,17 @@ namespace Pitch.Gateway.Api
                 .AddUrlGroup(new Uri(Configuration["StoreHealthCheckUrl"]), name: "storeapi-check", tags: new string[] { "storeapi" })
                 .AddUrlGroup(new Uri(Configuration["IdentityHealthCheckUrl"]), name: "identityapi-check", tags: new string[] { "identityapi" });
                 
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200", "http://www.contoso.com")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+                });
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddOcelot(Configuration);
         }
@@ -44,7 +54,7 @@ namespace Pitch.Gateway.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+            app.UseCors("CorsPolicy");
 
             if (env.IsDevelopment())
             {
@@ -64,6 +74,7 @@ namespace Pitch.Gateway.Api
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseWebSockets();
             app.UseOcelot().Wait();
         }
     }

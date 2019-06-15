@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pitch.Match.Api.Hubs;
+using Pitch.Match.Api.Services;
 
 namespace Pitch.Match.Api
 {
@@ -33,31 +34,14 @@ namespace Pitch.Match.Api
                 options.Authority = Configuration.GetValue<string>("IdentityUrl");
                 options.Audience = "cbf24cc4a1bb79e441a5b5937be6dd84";
                 options.RequireHttpsMetadata = false;
-
-                // We have to hook the OnMessageReceived event in order to
-                // allow the JWT authentication handler to read the access
-                // token from the query string when a WebSocket or 
-                // Server-Sent Events request comes in.
-                options.Events = new JwtBearerEvents
-                {
-                    OnMessageReceived = context =>
-                    {
-                        var accessToken = context.Request.Query["access_token"];
-
-                        // If the request is for our hub...
-                        var path = context.HttpContext.Request.Path;
-                        if (!string.IsNullOrEmpty(accessToken) &&
-                            (path.StartsWithSegments("/hubs/matchmaking")))
-                        {
-                            // Read the token out of the query string
-                            context.Token = accessToken;
-                        }
-                        return Task.CompletedTask;
-                    }
-                };
             });
 
-            services.AddSignalR();
+            services.AddSingleton<IMatchmakingService, MatchmakingService>();
+
+            services.AddSignalR(o =>
+            {
+                o.EnableDetailedErrors = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

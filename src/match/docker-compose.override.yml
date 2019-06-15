@@ -5,7 +5,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "55933:80"
+      - "80"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     networks:

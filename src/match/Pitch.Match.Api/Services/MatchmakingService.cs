@@ -1,22 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.SignalR;
+using Pitch.Match.Api.Models.Matchmaking;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Pitch.Match.Api.Services
 {
-    public class MatchmakingSession
-    {
-        private const int SESSION_LENGTH_IN_MINUTES = 10; //TODO move to constants class
-
-        public Guid Id { get; set; }
-        public Guid HostPlayerId { get; set; }
-        public Guid? JoinedPlayerId { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public DateTime CompletedOn { get; set; }
-        public bool Expired => DateTime.Now > CreatedOn.AddMinutes(SESSION_LENGTH_IN_MINUTES);
-        public bool Open => JoinedPlayerId == null;
-    }
-
     public interface IMatchmakingService
     {
         MatchmakingSession Matchmake(Guid userId);
@@ -48,6 +37,9 @@ namespace Pitch.Match.Api.Services
         public MatchmakingSession JoinSession(Guid sessionId, Guid playerId)
         {
             var session = Sessions.FirstOrDefault(x => x.Id == sessionId);
+            if (playerId == session.HostPlayerId) {
+                throw new HubException("Host attempted to join own session");
+            }
             session.JoinedPlayerId = playerId;
             session.CompletedOn = DateTime.Now;
             return session;
