@@ -5,7 +5,7 @@ namespace Pitch.Match.Api.Application.Engine.Action
 {
     public class RedCard : IAction
     {
-        public decimal ChancePerMinute => 0.005m;
+        public decimal ChancePerMinute => 0.004m; //TODO 1% is minimum
         public IDictionary<PositionalArea, decimal> PositionalChance => new Dictionary<PositionalArea, decimal>()
         {
             { PositionalArea.GK, 0.25m },
@@ -13,5 +13,7 @@ namespace Pitch.Match.Api.Application.Engine.Action
             { PositionalArea.MID, 0.25m },
             { PositionalArea.ATT, 0.10m },
         };
+
+        public bool AffectsTeamInPossession => false;
     }
 }

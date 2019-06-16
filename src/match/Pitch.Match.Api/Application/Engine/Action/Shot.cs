@@ -15,5 +15,7 @@ namespace Pitch.Match.Api.Application.Engine.Action
             { PositionalArea.MID, 0.40m },
             { PositionalArea.ATT, 0.50m },
         };
+
+        public bool AffectsTeamInPossession => true;
     }
 }

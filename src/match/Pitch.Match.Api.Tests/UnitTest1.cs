@@ -112,6 +112,103 @@ namespace Pitch.Match.Api.Tests
                     }
                 };
 
+            var lineup2 = new Dictionary<PositionalArea, IEnumerable<Card>>()
+                {
+                    { PositionalArea.GK, new List<Card>()
+                        {
+                            new Card()
+                            {
+                                Id = Guid.NewGuid(),
+                                Name = "GK",
+                                Rating = 40,
+                                Fitness = 100
+                            }
+                        }
+                    },
+                { PositionalArea.DEF, new List<Card>()
+                        {
+                            new Card()
+                            {
+                                Id = Guid.NewGuid(),
+                                Name = "LB",
+                                Rating = 40,
+                                Fitness = 100
+                            },
+                            new Card()
+                            {
+                                Id = Guid.NewGuid(),
+                                Name = "CB",
+                                Rating = 40,
+                                Fitness = 100
+                            },
+                            new Card()
+                            {
+                                Id = Guid.NewGuid(),
+                                Name = "CB",
+                                Rating = 40,
+                                Fitness = 100
+                            },
+                            new Card()
+                            {
+                                Id = Guid.NewGuid(),
+                                Name = "RB",
+                                Rating = 40,
+                                Fitness = 100
+                            }
+                        }
+                    },
+                { PositionalArea.MID, new List<Card>()
+                        {
+                            new Card()
+                            {
+                                Id = Guid.NewGuid(),
+                                Name = "LM",
+                                Rating = 40,
+                                Fitness = 100
+                            },
+                            new Card()
+                            {
+                                Id = Guid.NewGuid(),
+                                Name = "CM",
+                                Rating = 40,
+                                Fitness = 100
+                            },
+                            new Card()
+                            {
+                                Id = Guid.NewGuid(),
+                                Name = "CM",
+                                Rating = 40,
+                                Fitness = 100
+                            },
+                            new Card()
+                            {
+                                Id = Guid.NewGuid(),
+                                Name = "RM",
+                                Rating = 40,
+                                Fitness = 100
+                            }
+                        }
+                    },
+                { PositionalArea.ATT, new List<Card>()
+                        {
+                            new Card()
+                            {
+                                Id = Guid.NewGuid(),
+                                Name = "ST",
+                                Rating = 40,
+                                Fitness = 100
+                            },
+                            new Card()
+                            {
+                                Id = Guid.NewGuid(),
+                                Name = "ST",
+                                Rating = 40,
+                                Fitness = 100
+                            }
+                        }
+                    }
+                };
+
             var squad1 = new Squad()
             {
                 Id = Guid.NewGuid(),
@@ -121,7 +218,7 @@ namespace Pitch.Match.Api.Tests
             var squad2 = new Squad()
             {
                 Id = Guid.NewGuid(),
-                Lineup = lineup
+                Lineup = lineup2
             };
 
             var user1 = Guid.NewGuid();
@@ -131,10 +228,10 @@ namespace Pitch.Match.Api.Tests
             {
                 Id = Guid.NewGuid(),
                 KickOff = DateTime.Now,
-                User1Id = user1,
-                User2Id = user2,
-                Team1 = squad1,
-                Team2 = squad2
+                HomeUserId = user1,
+                AwayUserId = user2,
+                HomeTeam = squad1,
+                AwayTeam = squad2
             };
             var result = engine.SimulateReentrant(match);
             var matchResult = new MatchResult(result);

@@ -31,14 +31,14 @@ namespace Pitch.Match.Api.Controllers
             {
                 Id = session.Id,
                 KickOff = DateTime.Now,
-                User1Id = session.HostPlayerId,
-                User2Id = session.JoinedPlayerId.Value,
-                Team1 = new Squad()
+                HomeUserId = session.HostPlayerId,
+                AwayUserId = session.JoinedPlayerId.Value,
+                HomeTeam = new Squad()
                 {
                     Id = Guid.NewGuid(),
                     Lineup = null //get from service;
                 },
-                Team2 = new Squad()
+                AwayTeam = new Squad()
                 {
                     Id = Guid.NewGuid(),
                     Lineup = null //get from service;

@@ -17,16 +17,13 @@ namespace Pitch.Match.Api.Application.Engine
             _actions = actions;
         }
 
-        public Models.Match SimulateReentrant(Models.Match match)
+        public Models.Match SimulateReentrant(Models.Match match, int simulateFromMinute = 0)
         {
-            var simulateFrom = match.SimulatedMinute;
-            for (int i = simulateFrom; i < MATCH_LENGTH_IN_MINUTES; i++)
+            //remove events after simulateFrom
+            for (int i = simulateFromMinute; i <= MATCH_LENGTH_IN_MINUTES; i++)
             {
-                //which team has possession (midfield * 1 + def * 0.5 + st * 0.5 + gk * 0.1) rating + fitness
-                //record possession stats
-
-                Random rand = new Random();
-                var inPossession = rand.Next(0, 2) != 0 ? match.Team1 : match.Team2;
+                Squad notInPossession = null;
+                Squad inPossession = InPossession(match, out notInPossession);
 
                 Random random = new Random();
                 int randomNumber = random.Next(0, 100);
@@ -46,18 +43,77 @@ namespace Pitch.Match.Api.Application.Engine
 
                 if (action != null)
                 {
-                    //TODO cards should go against possession etc
-                    var card = GetCardForEvent(inPossession, action);
-                    match.Events.Add(GetEventFromAction(card, action, inPossession.Id, i)); //TODO Map to event
+                    var affectedSquad = action.AffectsTeamInPossession ? inPossession : notInPossession;
+                    var card = GetCardForEvent(affectedSquad, action);
+                    match.Events.Add(GetEventFromAction(card, action, affectedSquad.Id, i)); //TODO Map to event
                 }
 
                 //no event occurs
                 //decrease fitness
+                DrainFitness(inPossession, notInPossession);
+                match.Statistics.Add(new MinuteStats(i, inPossession.Id));
             }
 
             //extra time?
 
             return match;
+        }
+
+        private void DrainFitness(Squad inPossession, Squad notInPossession)
+        {
+            //fitness drains slightly faster for the team out of possession
+            //foreach (var item in homeSquad.Lineup)
+            //{
+
+            //}
+        }
+
+        private Squad InPossession(Models.Match match, out Squad notInPossession)
+        {
+            var team1Chance = PossessionChance(match.HomeTeam);
+            var team2Chance = PossessionChance(match.AwayTeam);
+
+            var difference = Math.Abs(team1Chance - team2Chance);
+
+            var team1Percent = (int)Math.Round(100 - (((double)difference / (double)team1Chance) * 100));
+            var team2Percent = (int)Math.Round(100 - (((double)difference / (double)team2Chance) * 100));
+
+            var accumulatedWeight = team1Percent + team2Percent;
+
+            var team1InPossession = false;
+
+            var rand = new Random();
+            var randomNumber = rand.Next(0, accumulatedWeight);
+            if (randomNumber <= team1Percent)
+            {
+                team1InPossession = true;
+            }
+
+            if (team1InPossession)
+            {
+                notInPossession = match.AwayTeam;
+                return match.HomeTeam;
+            }
+            else
+            {
+                notInPossession = match.HomeTeam;
+                return match.AwayTeam;
+            }
+            //record possession stats
+        }
+
+        private int PossessionChance(Squad squad)
+        {
+            return (int)Math.Round((CurrentRating(PositionalArea.GK, squad) * 0.1) +
+                (CurrentRating(PositionalArea.DEF, squad) * 0.5) +
+                (CurrentRating(PositionalArea.MID, squad) * 1) +
+                (CurrentRating(PositionalArea.ATT, squad) * 0.5));
+        }
+
+        private int CurrentRating(PositionalArea positionalArea, Squad squad)
+        {
+            var players = squad.Lineup.Where(x => x.Key == positionalArea).SelectMany(x => x.Value).ToList();
+            return (int)Math.Round((players.Sum(x => x.Rating * 0.7) + players.Sum(x => x.Fitness * 0.3)) / players.Count);
         }
 
         private Card GetCardForEvent(Squad team, IAction action)
@@ -87,7 +143,8 @@ namespace Pitch.Match.Api.Application.Engine
             switch (action)
             {
                 case Shot shot:
-                    //on target vs goal = gk vs st
+                    //on target / off target = st vs def
+                    //on target / goal = st vs gk
                     Random rand = new Random();
                     return rand.Next(0, 2) != 0 ? new ShotOnTarget()
                     {

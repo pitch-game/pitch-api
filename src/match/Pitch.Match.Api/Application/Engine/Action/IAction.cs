@@ -7,5 +7,6 @@ namespace Pitch.Match.Api.Application.Engine.Action
     {
         decimal ChancePerMinute { get; }
         IDictionary<PositionalArea, decimal> PositionalChance { get; }
+        bool AffectsTeamInPossession { get; }
     }
 }
