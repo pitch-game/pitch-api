@@ -7,5 +7,7 @@ namespace Pitch.Match.Api.Application.Engine.Events
     public class ShotOffTarget : EventBase, IEvent
     {
         public ShotOffTarget(int minute, Guid cardId, Guid squadId) : base(minute, cardId, squadId) { }
+
+        public string Name => "Shot Off Target";
     }
 }

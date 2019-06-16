@@ -22,6 +22,8 @@ namespace Pitch.Match.Api.Models
 
             HomePossessionPercent = (int)Math.Round(((double)match.Statistics.Count(x => x.SquadIdInPossession == match.HomeTeam.Id) / (double)match.Statistics.Count()) * 100);
             AwayPossessionPercent = (int)Math.Round(((double)match.Statistics.Count(x => x.SquadIdInPossession == match.AwayTeam.Id) / (double)match.Statistics.Count()) * 100);
+
+            Events = match.Events;
         }
 
         public int Minute { get; set; }
@@ -31,6 +33,8 @@ namespace Pitch.Match.Api.Models
 
         public int HomePossessionPercent { get; set; }
         public int AwayPossessionPercent { get; set; }
+
+        public IList<IEvent> Events { get; set; }
 
     }
 
