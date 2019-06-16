@@ -3,6 +3,7 @@ using Pitch.Match.Api.Application.Engine;
 using Pitch.Match.Api.Models;
 using Pitch.Match.Api.Services;
 using System;
+using System.Linq;
 
 namespace Pitch.Match.Api.Controllers
 {
@@ -20,7 +21,7 @@ namespace Pitch.Match.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Models.Match> Get(Guid id)
+        public ActionResult<Models.MatchResult> Get(Guid id)
         {
             var session = _matchmakingService.GetSession(id);
 
@@ -45,7 +46,14 @@ namespace Pitch.Match.Api.Controllers
                 }
             };
 
-            return _matchService.SimulateReentrant(match);
+            //result will be simulated once per sub/tactical change
+            var result = _matchService.SimulateReentrant(match);
+            var CURRENT_MINUTE = 45;
+
+            //stream events by minute
+            result.Events = result.Events.Where(x => x.Minute < CURRENT_MINUTE).ToList();
+
+            return new MatchResult(result);
         }
     }
 }
