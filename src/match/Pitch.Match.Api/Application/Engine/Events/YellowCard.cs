@@ -1,12 +1,9 @@
-﻿using Pitch.Match.Api.Models;
-using System;
+﻿using System;
 
 namespace Pitch.Match.Api.Application.Engine.Events
 {
-    public class YellowCard : IMatchEvent
+    public class YellowCard : EventBase, IEvent
     {
-        public Guid CardId { get; set; }
-        public Guid SquadId { get; set; }
-        public int Minute { get; set; }
+        public YellowCard(int minute, Guid cardId, Guid squadId) : base(minute, cardId, squadId) { }
     }
 }

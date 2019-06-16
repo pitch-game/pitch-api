@@ -12,7 +12,7 @@ namespace Pitch.Match.Api.Tests
         [Fact]
         public void Test1()
         {
-            var actions = new IAction[] { new Application.Engine.Action.RedCard(), new Shot(), new Application.Engine.Action.YellowCard() };
+            var actions = new IAction[] { new Foul(), new Shot() };
             var engine = new MatchEngine(actions);
 
             var lineup = new Dictionary<PositionalArea, IEnumerable<Card>>()

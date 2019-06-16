@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pitch.Match.Api.Application.Engine.Events;
+using System;
 using System.Collections.Generic;
 
 namespace Pitch.Match.Api.Models
@@ -7,7 +8,7 @@ namespace Pitch.Match.Api.Models
     {
         public Match()
         {
-            Events = new List<IMatchEvent>();
+            Events = new List<IEvent>();
             Statistics = new List<MinuteStats>();
         }
         public Guid Id { get; set; }
@@ -19,7 +20,7 @@ namespace Pitch.Match.Api.Models
 
         public DateTime KickOff { get; set; }
 
-        public IList<IMatchEvent> Events { get; set; }
+        public IList<IEvent> Events { get; set; }
         public IList<MinuteStats> Statistics { get; set; }
     }
 

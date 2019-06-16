@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Pitch.Match.Api.Models
+namespace Pitch.Match.Api.Application.Engine.Events
 {
-    public interface IMatchEvent
+    public interface IEvent
     {
         Guid CardId { get; set; }
         Guid SquadId { get; set; }

@@ -44,8 +44,7 @@ namespace Pitch.Match.Api
             services.AddSingleton<IMatchmakingService, MatchmakingService>();
             services.AddSingleton<IMatchEngine, MatchEngine>();
 
-            services.AddSingleton<IAction, Application.Engine.Action.YellowCard>();
-            services.AddSingleton<IAction, Application.Engine.Action.RedCard>();
+            services.AddSingleton<IAction, Application.Engine.Action.Foul>();
             services.AddSingleton<IAction, Application.Engine.Action.Shot>();
 
             services.AddSingleton(s =>
