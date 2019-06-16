@@ -1,4 +1,5 @@
-﻿using Pitch.Match.Api.Application.Engine.Events;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using Pitch.Match.Api.Application.Engine.Events;
 using Pitch.Match.Api.Models;
 using System;
 using System.Collections.Generic;
@@ -7,8 +8,10 @@ namespace Pitch.Match.Api.Application.Engine.Action
 {
     public class Foul : IAction
     {
+        [BsonIgnore]
         public decimal ChancePerMinute => 0.02m;
 
+        [BsonIgnore]
         public IDictionary<PositionalArea, decimal> PositionalChance => new Dictionary<PositionalArea, decimal>()
         {
             { PositionalArea.GK, 0.05m },
@@ -17,6 +20,7 @@ namespace Pitch.Match.Api.Application.Engine.Action
             { PositionalArea.ATT, 0.15m },
         };
 
+        [BsonIgnore]
         public bool AffectsTeamInPossession => false;
 
         public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match)

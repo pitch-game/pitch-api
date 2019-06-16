@@ -45,7 +45,7 @@ namespace Pitch.Match.Api.Application.Engine.Helpers
                 }
             }
 
-            var cards = team.Lineup[positionalArea].ToList();
+            var cards = team.Lineup[positionalArea.ToString()].ToList();
             var rnd = new Random();
             int r = rnd.Next(cards.Count);
             return cards[r];

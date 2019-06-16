@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson.Serialization;
 using Pitch.Match.Api.Application.Engine;
 using Pitch.Match.Api.Application.Engine.Action;
+using Pitch.Match.Api.Application.Engine.Events;
 using Pitch.Match.Api.Hubs;
+using Pitch.Match.Api.Infrastructure.Repositories;
 using Pitch.Match.Api.Models;
 using Pitch.Match.Api.Services;
 using Pitch.Match.Api.Supporting;
@@ -41,11 +44,15 @@ namespace Pitch.Match.Api
                 options.RequireHttpsMetadata = false;
             });
 
+            services.AddScoped<IMatchService, MatchService>();
             services.AddSingleton<IMatchmakingService, MatchmakingService>();
+
             services.AddSingleton<IMatchEngine, MatchEngine>();
 
-            services.AddSingleton<IAction, Application.Engine.Action.Foul>();
-            services.AddSingleton<IAction, Application.Engine.Action.Shot>();
+            services.AddScoped<IMatchRepository, MatchRepository>();
+
+            services.AddSingleton<IAction, Foul>();
+            services.AddSingleton<IAction, Shot>();
 
             services.AddSingleton(s =>
             {
@@ -71,6 +78,12 @@ namespace Pitch.Match.Api
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            BsonClassMap.RegisterClassMap<RedCard>();
+            BsonClassMap.RegisterClassMap<YellowCard>();
+            BsonClassMap.RegisterClassMap<Goal>();
+            BsonClassMap.RegisterClassMap<ShotOnTarget>();
+            BsonClassMap.RegisterClassMap<ShotOffTarget>();
 
             app.UseAuthentication();
 

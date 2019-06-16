@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Pitch.Match.Api.Application.Engine;
 using Pitch.Match.Api.Models;
 using Pitch.Match.Api.Services;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Pitch.Match.Api.Controllers
 {
@@ -11,49 +11,28 @@ namespace Pitch.Match.Api.Controllers
     [ApiController]
     public class MatchController : ControllerBase
     {
-        private readonly IMatchEngine _matchService;
-        private readonly IMatchmakingService _matchmakingService;
+        private readonly IMatchService _matchService;
 
-        public MatchController(IMatchEngine matchService, IMatchmakingService matchmakingService)
+        public MatchController(IMatchService matchService)
         {
             _matchService = matchService;
-            _matchmakingService = matchmakingService;
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Models.MatchResult> Get(Guid id)
+        public async Task<ActionResult<MatchResult>> Get(Guid id)
         {
-            var session = _matchmakingService.GetSession(id);
+            var match = await _matchService.GetAsync(id);
 
-            var squad1 = session.HostPlayerId;
-            var squad2 = session.JoinedPlayerId.Value;
-
-            var match = new Models.Match()
-            {
-                Id = session.Id,
-                KickOff = DateTime.Now,
-                HomeUserId = session.HostPlayerId,
-                AwayUserId = session.JoinedPlayerId.Value,
-                HomeTeam = new Squad()
-                {
-                    Id = Guid.NewGuid(),
-                    Lineup = null //get from service;
-                },
-                AwayTeam = new Squad()
-                {
-                    Id = Guid.NewGuid(),
-                    Lineup = null //get from service;
-                }
-            };
-
-            //result will be simulated once per sub/tactical change
-            var result = _matchService.SimulateReentrant(match);
-            var CURRENT_MINUTE = 45;
+            var matchDuration = DateTime.Now.Subtract(match.KickOff).TotalMinutes;
 
             //stream events by minute
-            result.Events = result.Events.Where(x => x.Minute < CURRENT_MINUTE).ToList();
+            match.Events = match.Events.Where(x => x.Minute < matchDuration).ToList();
+            match.Statistics = match.Statistics.Where(x => x.Minute < matchDuration).ToList();
 
-            return new MatchResult(result);
+            var result = new MatchResult(match);
+            result.Minute = (int)matchDuration;
+
+            return result;
         }
     }
 }

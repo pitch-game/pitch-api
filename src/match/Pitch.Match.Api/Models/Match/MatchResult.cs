@@ -24,6 +24,8 @@ namespace Pitch.Match.Api.Models
             AwayPossessionPercent = (int)Math.Round(((double)match.Statistics.Count(x => x.SquadIdInPossession == match.AwayTeam.Id) / (double)match.Statistics.Count()) * 100);
         }
 
+        public int Minute { get; set; }
+
         public Result HomeResult { get; set; }
         public Result AwayResult { get; set; }
 

@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Pitch.Squad.Api.Application.Responders;
 using Pitch.Squad.Api.Infrastructure;
 using Pitch.Squad.Api.Infrastructure.Repositories;
 using Pitch.Squad.Api.Services;
@@ -51,6 +52,10 @@ namespace Pitch.Squad.Api
             services.AddScoped<ISquadRepository, SquadRepository>();
             services.AddScoped<ISquadValidationService, SquadValidationService>();
 
+            services.AddScoped<IGetSquadResponder, GetSquadResponder>();
+
+            services.AddScoped<IResponder, GetSquadResponder>();
+
             services.AddSingleton(s =>
             {
                 return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
@@ -73,6 +78,8 @@ namespace Pitch.Squad.Api
 
             app.UseHealthChecks("/health");
             app.UseHealthChecks("/liveness");
+
+            app.UseEasyNetQ();
 
             app.UseAuthentication();
             app.UseHttpsRedirection();

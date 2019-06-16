@@ -16,9 +16,11 @@ namespace Pitch.Match.Api.Hubs
     public class MatchmakingHub : Hub<IMatchmakingClient>
     {
         private readonly IMatchmakingService _matchmakingService;
-        public MatchmakingHub(IMatchmakingService matchmakingService)
+        private readonly IMatchService _matchService;
+        public MatchmakingHub(IMatchmakingService matchmakingService, IMatchService matchService)
         {
             _matchmakingService = matchmakingService;
+            _matchService = matchService;
         }
 
         public async Task Matchmake()
@@ -34,6 +36,7 @@ namespace Pitch.Match.Api.Hubs
             }
             else
             {
+                await _matchService.KickOff(session.Id);
                 await Clients.Group(session.Id.ToString()).MatchReady(session.Id);
             }
         }

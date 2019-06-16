@@ -6,7 +6,9 @@ namespace Pitch.Match.Api.Models
     public class Squad
     {
         public Guid Id { get; set; }
-        public IDictionary<PositionalArea, IEnumerable<Card>> Lineup { get; set; }
+        public IDictionary<string, IEnumerable<Card>> Lineup { get; set; }
+
+        //TODO SUBS
     }
 
     public class Card
@@ -15,5 +17,6 @@ namespace Pitch.Match.Api.Models
         public string Name { get; set; }
         public int Rating { get; set; }
         public int Fitness { get; set; }
+        public string Position { get; set; }
     }
 }
