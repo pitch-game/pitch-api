@@ -18,13 +18,13 @@ namespace Pitch.Match.Api.Models
             HomeResult = new Result
             {
                 Score = homeTeamEvents.Count(x => x.GetType() == typeof(Goal)),
-                Scorers = match.HomeTeam.Lineup.SelectMany(x => x.Value).Where(x => match.Events.Where(m => m.SquadId == match.HomeTeam.Id && m.GetType() == typeof(Goal)).Select(c => c.CardId).Contains(x.Id)).Select(x => $"{x.Name}").ToList()
+                Scorers = GetScorers(match, homeTeamEvents, match.HomeTeam)
             };
 
             AwayResult = new Result
             {
                 Score = awayTeamEvents.Count(x => x.GetType() == typeof(Goal)),
-                Scorers = match.AwayTeam.Lineup.SelectMany(x => x.Value).Where(x => match.Events.Where(m => m.SquadId == match.AwayTeam.Id && m.GetType() == typeof(Goal)).Select(c => c.CardId).Contains(x.Id)).Select(x => $"{x.Name}").ToList()
+                Scorers = GetScorers(match, awayTeamEvents, match.AwayTeam)
             };
 
             Events = match.Events;
@@ -41,6 +41,19 @@ namespace Pitch.Match.Api.Models
                 YellowCards = homeTeamEvents.Count(x => x.GetType() == typeof(YellowCard)),
                 RedCards = homeTeamEvents.Count(x => x.GetType() == typeof(RedCard))
             };
+        }
+
+        private static IEnumerable<string> GetScorers(Match match, IEnumerable<IEvent> events, Squad team)
+        {
+            var scorers = new List<string>();
+            var goals = events.Where(x => x.GetType() == typeof(Goal)).Cast<Goal>();
+            var playerCards = team.Lineup.SelectMany(x => x.Value);
+            foreach (var goal in goals)
+            {
+                var player = playerCards.FirstOrDefault(x => x.Id == goal.CardId);
+                scorers.Add($"{player.Name} {goal.Minute}'");
+            }
+            return scorers;
         }
 
         public int Minute { get; set; }
