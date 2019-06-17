@@ -9,21 +9,38 @@ namespace Pitch.Match.Api.Models
     {
         public MatchResult(Models.Match match)
         {
+            var homeTeamEvents = match.Events.Where(x => x.SquadId == match.HomeTeam.Id);
+            var awayTeamEvents = match.Events.Where(x => x.SquadId == match.AwayTeam.Id);
+
+            HomeStats = GetStats(match, homeTeamEvents, match.HomeTeam.Id);
+            AwayStats = GetStats(match, awayTeamEvents, match.AwayTeam.Id);
+
             HomeResult = new Result
             {
-                Score = match.Events.Where(x => x.SquadId == match.HomeTeam.Id && x.GetType() == typeof(Goal)).Count(),
+                Score = homeTeamEvents.Count(x => x.GetType() == typeof(Goal)),
                 Scorers = match.HomeTeam.Lineup.SelectMany(x => x.Value).Where(x => match.Events.Where(m => m.SquadId == match.HomeTeam.Id && m.GetType() == typeof(Goal)).Select(c => c.CardId).Contains(x.Id)).Select(x => $"{x.Name}").ToList()
             };
+
             AwayResult = new Result
             {
-                Score = match.Events.Where(x => x.SquadId == match.AwayTeam.Id && x.GetType() == typeof(Goal)).Count(),
+                Score = awayTeamEvents.Count(x => x.GetType() == typeof(Goal)),
                 Scorers = match.AwayTeam.Lineup.SelectMany(x => x.Value).Where(x => match.Events.Where(m => m.SquadId == match.AwayTeam.Id && m.GetType() == typeof(Goal)).Select(c => c.CardId).Contains(x.Id)).Select(x => $"{x.Name}").ToList()
             };
 
-            HomePossessionPercent = (int)Math.Round(((double)match.Statistics.Count(x => x.SquadIdInPossession == match.HomeTeam.Id) / (double)match.Statistics.Count()) * 100);
-            AwayPossessionPercent = (int)Math.Round(((double)match.Statistics.Count(x => x.SquadIdInPossession == match.AwayTeam.Id) / (double)match.Statistics.Count()) * 100);
-
             Events = match.Events;
+        }
+
+        private static Stats GetStats(Match match, IEnumerable<IEvent> homeTeamEvents, Guid teamId)
+        {
+            return new Stats()
+            {
+                Shots = homeTeamEvents.Count(x => (new Type[] { typeof(Goal), typeof(ShotOnTarget), typeof(ShotOffTarget) }).Contains(x.GetType())),
+                ShotsOnTarget = homeTeamEvents.Count(x => (new Type[] { typeof(Goal), typeof(ShotOnTarget) }).Contains(x.GetType())),
+                Possession = (int)Math.Round(((double)match.Statistics.Count(x => x.SquadIdInPossession == teamId) / (double)match.Statistics.Count()) * 100),
+                Fouls = homeTeamEvents.Count(x => (new Type[] { typeof(YellowCard), typeof(RedCard) }).Contains(x.GetType())), //TODO Foul event
+                YellowCards = homeTeamEvents.Count(x => x.GetType() == typeof(YellowCard)),
+                RedCards = homeTeamEvents.Count(x => x.GetType() == typeof(RedCard))
+            };
         }
 
         public int Minute { get; set; }
@@ -31,11 +48,21 @@ namespace Pitch.Match.Api.Models
         public Result HomeResult { get; set; }
         public Result AwayResult { get; set; }
 
-        public int HomePossessionPercent { get; set; }
-        public int AwayPossessionPercent { get; set; }
+        public Stats HomeStats { get; set; }
+        public Stats AwayStats { get; set; }
 
         public IList<IEvent> Events { get; set; }
 
+    }
+
+    public class Stats
+    {
+        public int Shots { get; set; }
+        public int ShotsOnTarget { get; set; }
+        public int Possession { get; set; }
+        public int Fouls { get; set; }
+        public int YellowCards { get; set; }
+        public int RedCards { get; set; }
     }
 
     public class Result
