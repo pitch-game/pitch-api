@@ -23,15 +23,14 @@ namespace Pitch.Match.Api.Controllers
         {
             var match = await _matchService.GetAsync(id);
 
-            var matchDuration = DateTime.Now.Subtract(match.KickOff).TotalMinutes;
-
-            //stream events by minute
-            match.Events = match.Events.Where(x => x.Minute < matchDuration).ToList();
-            match.Statistics = match.Statistics.Where(x => x.Minute < matchDuration).ToList();
+            //TODO move to model
+            match.Events = match.Events.Where(x => x.Minute < match.Duration).ToList();
+            match.Statistics = match.Statistics.Where(x => x.Minute < match.Duration).ToList();
 
             var result = new MatchResult(match);
-            result.Minute = (int)matchDuration;
-
+            result.Minute = match.Duration;
+            result.Expired = match.IsExpired;
+            result.ExpiredOn = match.IsExpired ? match.KickOff.AddMinutes(90 + match.ExtraTime) : (DateTime?)null;
             return result;
         }
     }

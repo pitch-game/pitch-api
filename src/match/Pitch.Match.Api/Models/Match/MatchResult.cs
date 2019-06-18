@@ -66,6 +66,9 @@ namespace Pitch.Match.Api.Models
 
         public IList<IEvent> Events { get; set; }
 
+        public bool Expired { get; set; }
+
+        public DateTime? ExpiredOn { get; set; }
     }
 
     public class Stats

@@ -15,9 +15,9 @@ namespace Pitch.Match.Api.Tests
             var actions = new IAction[] { new Foul(), new Shot() };
             var engine = new MatchEngine(actions);
 
-            var lineup = new Dictionary<PositionalArea, IEnumerable<Card>>()
+            var lineup = new Dictionary<string, IEnumerable<Card>>()
                 {
-                    { PositionalArea.GK, new List<Card>()
+                    { "GK", new List<Card>()
                         {
                             new Card()
                             {
@@ -28,7 +28,7 @@ namespace Pitch.Match.Api.Tests
                             }
                         }
                     },
-                { PositionalArea.DEF, new List<Card>()
+                { "DEF", new List<Card>()
                         {
                             new Card()
                             {
@@ -60,7 +60,7 @@ namespace Pitch.Match.Api.Tests
                             }
                         }
                     },
-                { PositionalArea.MID, new List<Card>()
+                { "MID", new List<Card>()
                         {
                             new Card()
                             {
@@ -92,7 +92,7 @@ namespace Pitch.Match.Api.Tests
                             }
                         }
                     },
-                { PositionalArea.ATT, new List<Card>()
+                { "ATT", new List<Card>()
                         {
                             new Card()
                             {
@@ -112,9 +112,9 @@ namespace Pitch.Match.Api.Tests
                     }
                 };
 
-            var lineup2 = new Dictionary<PositionalArea, IEnumerable<Card>>()
+            var lineup2 = new Dictionary<string, IEnumerable<Card>>()
                 {
-                    { PositionalArea.GK, new List<Card>()
+                    { "GK", new List<Card>()
                         {
                             new Card()
                             {
@@ -125,7 +125,7 @@ namespace Pitch.Match.Api.Tests
                             }
                         }
                     },
-                { PositionalArea.DEF, new List<Card>()
+                { "DEF", new List<Card>()
                         {
                             new Card()
                             {
@@ -157,7 +157,7 @@ namespace Pitch.Match.Api.Tests
                             }
                         }
                     },
-                { PositionalArea.MID, new List<Card>()
+                { "MID", new List<Card>()
                         {
                             new Card()
                             {
@@ -189,7 +189,7 @@ namespace Pitch.Match.Api.Tests
                             }
                         }
                     },
-                { PositionalArea.ATT, new List<Card>()
+                { "ATT", new List<Card>()
                         {
                             new Card()
                             {

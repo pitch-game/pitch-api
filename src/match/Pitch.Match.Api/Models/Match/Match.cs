@@ -22,6 +22,12 @@ namespace Pitch.Match.Api.Models
 
         public IList<IEvent> Events { get; set; }
         public IList<MinuteStats> Statistics { get; set; }
+
+        public int ExtraTime { get; set; }
+
+        public int Duration => (int)DateTime.Now.Subtract(KickOff).TotalMinutes;
+
+        public bool IsExpired => DateTime.Now > KickOff.AddMinutes(90 + ExtraTime);
     }
 
     public class MinuteStats
