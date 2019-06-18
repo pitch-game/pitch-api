@@ -1,4 +1,5 @@
 ﻿using EasyNetQ;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,19 @@ namespace Pitch.User.Api
             services.AddScoped<IResponder, GetOrCreateUserResponder>();
             services.AddScoped<IUserService, UserService>();
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = Configuration.GetValue<string>("IdentityUrl");
+                options.Audience = "cbf24cc4a1bb79e441a5b5937be6dd84";
+                options.RequireHttpsMetadata = false;
+            });
+
+
             services.AddSingleton(s =>
             {
                 return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
@@ -50,6 +64,7 @@ namespace Pitch.User.Api
                 app.UseHsts();
             }
 
+            app.UseAuthentication();
             app.UseEasyNetQ();
             app.UseHttpsRedirection();
             app.UseMvc();
