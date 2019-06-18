@@ -88,6 +88,30 @@
       ],
       "UpstreamPathTemplate": "/match/{catchAll}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ]
+    },
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "user",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/user/{everything}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "user",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/user",
+      "UpstreamHttpMethod": [ "Get" ]
     }
   ],
   "GlobalConfiguration": {}
