@@ -2,10 +2,12 @@
 using EasyNetQ;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MongoDB.Bson.Serialization;
 using Pitch.Match.Api.Application.Engine;
 using Pitch.Match.Api.Application.Engine.Action;
@@ -54,6 +56,10 @@ namespace Pitch.Match.Api
             services.AddSingleton<IAction, Foul>();
             services.AddSingleton<IAction, Shot>();
 
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy())
+                .AddRabbitMQ(Configuration.GetConnectionString("RabbitMQHealthCheck"), name: "rabbitmq-check", tags: new string[] { "rabbitmq" });
+
             services.AddSingleton(s =>
             {
                 return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
@@ -84,6 +90,12 @@ namespace Pitch.Match.Api
             BsonClassMap.RegisterClassMap<Goal>();
             BsonClassMap.RegisterClassMap<ShotOnTarget>();
             BsonClassMap.RegisterClassMap<ShotOffTarget>();
+
+            app.UseHealthChecks("/health");
+            app.UseHealthChecks("/liveness", new HealthCheckOptions
+            {
+                Predicate = r => r.Name.Contains("self")
+            });
 
             app.UseAuthentication();
 
