@@ -228,10 +228,16 @@ namespace Pitch.Match.Api.Tests
             {
                 Id = Guid.NewGuid(),
                 KickOff = DateTime.Now,
-                HomeUserId = user1,
-                AwayUserId = user2,
-                HomeTeam = squad1,
-                AwayTeam = squad2
+                HomeTeam = new TeamDetails()
+                {
+                    UserId = user1,
+                    Squad = squad1
+                },
+                AwayTeam = new TeamDetails()
+                {
+                    UserId = user2,
+                    Squad = squad2
+                }
             };
             var result = engine.SimulateReentrant(match);
             var matchResult = new MatchResult(result);

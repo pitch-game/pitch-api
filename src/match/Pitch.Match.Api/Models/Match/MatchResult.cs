@@ -9,22 +9,22 @@ namespace Pitch.Match.Api.Models
     {
         public MatchResult(Models.Match match)
         {
-            var homeTeamEvents = match.Events.Where(x => x.SquadId == match.HomeTeam.Id);
-            var awayTeamEvents = match.Events.Where(x => x.SquadId == match.AwayTeam.Id);
+            var homeTeamEvents = match.Events.Where(x => x.SquadId == match.HomeTeam.Squad.Id);
+            var awayTeamEvents = match.Events.Where(x => x.SquadId == match.AwayTeam.Squad.Id);
 
-            HomeStats = GetStats(match, homeTeamEvents, match.HomeTeam.Id);
-            AwayStats = GetStats(match, awayTeamEvents, match.AwayTeam.Id);
+            HomeStats = GetStats(match, homeTeamEvents, match.HomeTeam.Squad.Id);
+            AwayStats = GetStats(match, awayTeamEvents, match.AwayTeam.Squad.Id);
 
             HomeResult = new Result
             {
                 Score = homeTeamEvents.Count(x => x.GetType() == typeof(Goal)),
-                Scorers = GetScorers(match, homeTeamEvents, match.HomeTeam)
+                Scorers = GetScorers(match, homeTeamEvents, match.HomeTeam.Squad)
             };
 
             AwayResult = new Result
             {
                 Score = awayTeamEvents.Count(x => x.GetType() == typeof(Goal)),
-                Scorers = GetScorers(match, awayTeamEvents, match.AwayTeam)
+                Scorers = GetScorers(match, awayTeamEvents, match.AwayTeam.Squad)
             };
 
             Events = match.Events;

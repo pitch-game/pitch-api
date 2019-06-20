@@ -1,5 +1,6 @@
 ﻿using EasyNetQ;
 using Pitch.Match.Api.Application.Engine;
+using Pitch.Match.Api.Application.MessageBus.Events;
 using Pitch.Match.Api.Application.MessageBus.Requests;
 using Pitch.Match.Api.Application.MessageBus.Responses;
 using Pitch.Match.Api.Infrastructure.Repositories;
@@ -14,6 +15,8 @@ namespace Pitch.Match.Api.Services
     public interface IMatchService {
         Task KickOff(Guid sessionId);
         Task<Models.Match> GetAsync(Guid id);
+        Task<IEnumerable<Guid>> GetUnclaimed(Guid userId);
+        Task ClaimAsync(Guid userId);
     }
 
     public class MatchService : IMatchService
@@ -31,23 +34,50 @@ namespace Pitch.Match.Api.Services
             _bus = bus;
         }
 
+        public async Task ClaimAsync(Guid userId)
+        {
+            var unclaimed = await _matchRepository.GetUnclaimedAsync(userId);
+            foreach (var item in unclaimed)
+            {
+                await _bus.PublishAsync(new MatchCompletedEvent());
+            }
+        }
+
         public async Task<Models.Match> GetAsync(Guid id)
         {
             return await _matchRepository.GetAsync(id);
+        }
+
+        public async Task<IEnumerable<Guid>> GetUnclaimed(Guid userId)
+        {
+            return await _matchRepository.GetUnclaimedAsync(userId);
+        }
+
+        public async Task<bool> HasMatchInProgress(Guid userId)
+        {
+            return await _matchRepository.GetInProgressAsync(userId);
         }
 
         public async Task KickOff(Guid sessionId)
         {
             var session = _matchmakingService.GetSession(sessionId);
 
-            var match = new Models.Match();
-            match.Id = sessionId;
+            var match = new Models.Match
+            {
+                Id = sessionId
+            };
 
-            match.HomeUserId = session.HostPlayerId;
-            match.HomeTeam = BuildSquad(await _bus.RequestAsync<GetSquadRequest, GetSquadResponse>(new GetSquadRequest(match.HomeUserId)));
+            match.HomeTeam = new TeamDetails
+            {
+                UserId = session.HostPlayerId
+            };
+            match.HomeTeam.Squad = BuildSquad(await _bus.RequestAsync<GetSquadRequest, GetSquadResponse>(new GetSquadRequest(match.HomeTeam.UserId)));
 
-            match.AwayUserId = session.JoinedPlayerId.Value;
-            match.AwayTeam = BuildSquad(await _bus.RequestAsync<GetSquadRequest, GetSquadResponse>(new GetSquadRequest(match.AwayUserId)));
+            match.AwayTeam = new TeamDetails
+            {
+                UserId = session.JoinedPlayerId.Value
+            };
+            match.AwayTeam.Squad = BuildSquad(await _bus.RequestAsync<GetSquadRequest, GetSquadResponse>(new GetSquadRequest(match.AwayTeam.UserId)));
 
             match.KickOff = DateTime.Now;
 

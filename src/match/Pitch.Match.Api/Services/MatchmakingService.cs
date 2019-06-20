@@ -24,7 +24,7 @@ namespace Pitch.Match.Api.Services
 
         public MatchmakingSession Matchmake(Guid userId)
         {
-            var existing = Sessions.FirstOrDefault(x => x.Open && !x.Expired);
+            var existing = Sessions.FirstOrDefault(x => x.Open && !x.Expired && x.HostPlayerId != userId); //TODO handle multiple sessions by host
             if (existing != null)
             {
                 return JoinSession(existing.Id, userId);

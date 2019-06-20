@@ -12,11 +12,9 @@ namespace Pitch.Match.Api.Models
             Statistics = new List<MinuteStats>();
         }
         public Guid Id { get; set; }
-        public Guid HomeUserId { get; set; }
-        public Guid AwayUserId { get; set; }
 
-        public Squad HomeTeam { get; set; }
-        public Squad AwayTeam { get; set; }
+        public TeamDetails HomeTeam { get; set; }
+        public TeamDetails AwayTeam { get; set; }
 
         public DateTime KickOff { get; set; }
 
@@ -27,7 +25,14 @@ namespace Pitch.Match.Api.Models
 
         public int Duration => (int)DateTime.Now.Subtract(KickOff).TotalMinutes;
 
-        public bool IsExpired => DateTime.Now > KickOff.AddMinutes(90 + ExtraTime);
+        public bool IsOver => DateTime.Now > KickOff.AddMinutes(90 + ExtraTime);
+    }
+
+    public class TeamDetails
+    {
+        public Guid UserId { get; set; }
+        public Squad Squad { get; set; }
+        public bool HasClaimedRewards { get; set; }
     }
 
     public class MinuteStats

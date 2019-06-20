@@ -5,10 +5,11 @@ namespace Pitch.Match.Api.Application.Engine.Helpers
 {
     public static class PossessionHelper
     {
+        //TODO team1 and team2 are now home and away
         public static Squad InPossession(Models.Match match, out Squad notInPossession)
         {
-            var team1Chance = PossessionChance(match.HomeTeam);
-            var team2Chance = PossessionChance(match.AwayTeam);
+            var team1Chance = PossessionChance(match.HomeTeam.Squad);
+            var team2Chance = PossessionChance(match.AwayTeam.Squad);
 
             var difference = Math.Abs(team1Chance - team2Chance);
 
@@ -28,13 +29,13 @@ namespace Pitch.Match.Api.Application.Engine.Helpers
 
             if (team1InPossession)
             {
-                notInPossession = match.AwayTeam;
-                return match.HomeTeam;
+                notInPossession = match.AwayTeam.Squad;
+                return match.HomeTeam.Squad;
             }
             else
             {
-                notInPossession = match.HomeTeam;
-                return match.AwayTeam;
+                notInPossession = match.HomeTeam.Squad;
+                return match.AwayTeam.Squad;
             }
             //record possession stats
         }

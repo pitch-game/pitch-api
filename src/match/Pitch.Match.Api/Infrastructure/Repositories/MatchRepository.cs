@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Pitch.Match.Api.Infrastructure.Repositories
@@ -11,6 +12,8 @@ namespace Pitch.Match.Api.Infrastructure.Repositories
         Task<Models.Match> CreateAsync(Models.Match match);
         Task<Models.Match> GetAsync(Guid id);
         Task<Models.Match> UpdateAsync(Models.Match match);
+        Task<IEnumerable<Guid>> GetUnclaimedAsync(Guid userId);
+        Task<bool> GetInProgressAsync(Guid userId);
     }
 
     public class MatchRepository : IMatchRepository
@@ -29,6 +32,13 @@ namespace Pitch.Match.Api.Infrastructure.Repositories
             return await _matches.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
 
+        public async Task<bool> GetInProgressAsync(Guid userId)
+        {
+            //TODO get rid of extra time?
+            var minStartDate = DateTime.Now.AddMinutes(-90);
+            return await _matches.AsQueryable().AnyAsync(x => x.KickOff > minStartDate && x.HomeTeam.UserId == userId || x.AwayTeam.UserId == userId);
+        }
+
         public async Task<Models.Match> CreateAsync(Models.Match match)
         {
             await _matches.InsertOneAsync(match);
@@ -39,6 +49,14 @@ namespace Pitch.Match.Api.Infrastructure.Repositories
         {
             await _matches.ReplaceOneAsync(x => x.Id == match.Id, match);
             return match;
+        }
+
+        public async Task<IEnumerable<Guid>> GetUnclaimedAsync(Guid userId)
+        {
+            //TODO get rid of extra time?
+            var minStartDate = DateTime.Now.AddMinutes(-90);
+            return await _matches.AsQueryable().Where(x => x.KickOff <= DateTime.Now && (x.HomeTeam.UserId == userId && !x.HomeTeam.HasClaimedRewards)
+            || (x.AwayTeam.UserId == userId && !x.AwayTeam.HasClaimedRewards)).Select(x => x.Id).ToListAsync();
         }
     }
 }
