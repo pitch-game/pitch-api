@@ -12,10 +12,11 @@ using System.Threading.Tasks;
 
 namespace Pitch.Match.Api.Services
 {
-    public interface IMatchService {
+    public interface IMatchService
+    {
         Task KickOff(Guid sessionId);
         Task<Models.Match> GetAsync(Guid id);
-        Task<IEnumerable<Guid>> GetUnclaimed(Guid userId);
+        Task<bool> HasUnclaimed(Guid userId);
         Task ClaimAsync(Guid userId);
     }
 
@@ -37,9 +38,24 @@ namespace Pitch.Match.Api.Services
         public async Task ClaimAsync(Guid userId)
         {
             var unclaimed = await _matchRepository.GetUnclaimedAsync(userId);
-            foreach (var item in unclaimed)
+            foreach (var match in unclaimed)
             {
-                await _bus.PublishAsync(new MatchCompletedEvent());
+                var victorious = false;
+                if (match.AwayTeam.UserId == userId)
+                {
+                    match.AwayTeam.HasClaimedRewards = true;
+                    var matchResult = new MatchResult(match);
+                    victorious = matchResult.AwayResult.Score > matchResult.HomeResult.Score;
+                }
+                else if (match.HomeTeam.UserId == userId)
+                {
+                    match.HomeTeam.HasClaimedRewards = true;
+                    var matchResult = new MatchResult(match);
+                    victorious = matchResult.HomeResult.Score > matchResult.AwayResult.Score;
+                }
+
+                await _bus.PublishAsync(new MatchCompletedEvent(match.Id, userId, victorious));
+                await _matchRepository.UpdateAsync(match);
             }
         }
 
@@ -48,9 +64,9 @@ namespace Pitch.Match.Api.Services
             return await _matchRepository.GetAsync(id);
         }
 
-        public async Task<IEnumerable<Guid>> GetUnclaimed(Guid userId)
+        public async Task<bool> HasUnclaimed(Guid userId)
         {
-            return await _matchRepository.GetUnclaimedAsync(userId);
+            return await _matchRepository.HasUnclaimedAsync(userId);
         }
 
         public async Task<bool> HasMatchInProgress(Guid userId)

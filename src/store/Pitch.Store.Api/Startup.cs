@@ -59,6 +59,7 @@ namespace Pitch.Store.Api
             services.AddScoped<IPackRepository, PackRepository>();
 
             services.AddScoped<ISubscriber, UserCreatedEventSubscriber>();
+            services.AddScoped<ISubscriber, MatchCompletedEventSubscriber>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Pitch.User.Api.Application.Responders;
+using Pitch.User.Api.Application.Subscribers;
 using Pitch.User.Api.Infrastructure.Repositories;
 using Pitch.User.Api.Services;
 using Pitch.User.Api.Supporting;
@@ -29,8 +30,12 @@ namespace Pitch.User.Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped<IUserRepository, UserRepository>();
+
             services.AddScoped<IGetOrCreateUserResponder, GetOrCreateUserResponder>();
             services.AddScoped<IResponder, GetOrCreateUserResponder>();
+
+            services.AddScoped<ISubscriber, MatchCompletedEventSubscriber>();
+
             services.AddScoped<IUserService, UserService>();
 
             services.AddAuthentication(options =>

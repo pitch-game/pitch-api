@@ -38,10 +38,10 @@ namespace Pitch.Match.Api.Controllers
 
         //TODO move to seasons service and model
         [HttpGet("unclaimed")]
-        public async Task<IEnumerable<Guid>> Unclaimed()
+        public async Task<dynamic> Unclaimed()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
-            return await _matchService.GetUnclaimed(new Guid(userId));
+            return new { hasUnclaimed = await _matchService.HasUnclaimed(new Guid(userId)) };
         }
 
         [HttpGet("claim")]

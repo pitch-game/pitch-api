@@ -11,6 +11,6 @@ namespace Pitch.User.Api.Models
         public int Money { get; set; }
 
         [BsonIgnore]
-        public int Level => 1;
+        public int Level => XP > 1000 ? XP/1000 : 1; //TODO not linear
     }
 }

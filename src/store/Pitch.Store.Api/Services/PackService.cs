@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyNetQ;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Pitch.Store.Api.Application.Requests;
 using Pitch.Store.Api.Application.Responses;
 using Pitch.Store.Api.Infrastructure.Repositories;
@@ -16,6 +17,7 @@ namespace Pitch.Store.Api.Infrastructure.Services
         Task<CreateCardResponse> Open(Guid id, string userId);
         Task<Guid> Buy(Guid userId);
         Task CreateStartingPacksAsync(Guid userId);
+        Task RedeemMatchRewards(Guid userId, bool victorious);
     }
     public class PackService : IPackService
     {
@@ -55,6 +57,25 @@ namespace Pitch.Store.Api.Infrastructure.Services
             var @new = await _packRepository.AddAsync(pack);
             await _packRepository.SaveChangesAsync();
             return @new.Entity.Id; 
+        }
+
+        public async Task RedeemMatchRewards(Guid userId, bool victorious)
+        {
+            if (victorious)
+            {
+                await AddPack(userId);
+                await AddPack(userId);
+            }
+            //TODO Reward 1 pack for a draw and none for a loss
+            await AddPack(userId);
+
+            await _packRepository.SaveChangesAsync();
+        }
+
+        private async Task<EntityEntry<Pack>> AddPack(Guid userId)
+        {
+            var pack = new Pack() { Id = Guid.NewGuid(), UserId = userId.ToString() };
+            return await _packRepository.AddAsync(pack);
         }
 
         public async Task CreateStartingPacksAsync(Guid userId)

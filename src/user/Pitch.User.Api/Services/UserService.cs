@@ -11,6 +11,7 @@ namespace Pitch.User.Api.Services
         Task<Models.User> GetAsync(Guid id);
         Task<Models.User> GetAsync(string email);
         Task<Models.User> GetOrCreateAsync(string email);
+        Task RedeemMatchRewards(Guid id, bool victorious);
     }
 
     public class UserService : IUserService
@@ -43,6 +44,15 @@ namespace Pitch.User.Api.Services
                 _bus.Publish(new UserCreatedEvent(user.Id));
             }
             return user;
+        }
+
+        public async Task RedeemMatchRewards(Guid id, bool victorious)
+        {
+            var user = await _userRepository.GetAsync(id);
+            //TODO race condition?
+            user.XP += 1000;
+            user.Money += victorious ? 15000 : 10000;
+            await _userRepository.UpdateAsync(user);
         }
     }
 }

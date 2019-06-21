@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Match.Api.Application.MessageBus.Events
+namespace Pitch.Store.Api.Application.Events
 {
     public class MatchCompletedEvent
     {
@@ -14,6 +14,5 @@ namespace Pitch.Match.Api.Application.MessageBus.Events
         public Guid MatchId { get; set; }
         public Guid UserId { get; set; }
         public bool Victorious { get; set; }
-        public int Scorers { get; set; }
     }
 }

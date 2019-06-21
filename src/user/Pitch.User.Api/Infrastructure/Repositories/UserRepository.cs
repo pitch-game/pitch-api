@@ -12,6 +12,7 @@ namespace Pitch.User.Api.Infrastructure.Repositories
         Task<Models.User> GetAsync(Guid id);
         Task<Models.User> GetAsync(string email);
         Task<Models.User> CreateAsync(string email);
+        Task UpdateAsync(Models.User user);
     }
 
     public class UserRepository : IUserRepository
@@ -42,6 +43,11 @@ namespace Pitch.User.Api.Infrastructure.Repositories
                 Email = email
             });
             return await GetAsync(email); //TODO race condition?
+        }
+
+        public async Task UpdateAsync(Models.User user)
+        {
+            await _users.ReplaceOneAsync(x => x.Id == user.Id, user);
         }
     }
 }
