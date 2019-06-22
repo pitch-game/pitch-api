@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Pitch.Card.Api.Application.Responders;
+using Pitch.Card.Api.Application.Subscribers;
 using Pitch.Card.Api.Infrastructure;
 using Pitch.Card.Api.Infrastructure.Repositories;
 using Pitch.Card.Api.Infrastructure.Services;
@@ -65,6 +66,8 @@ namespace Pitch.Card.Api
 
             services.AddScoped<IResponder, CreateCardResponder>();
             services.AddScoped<IResponder, GetCardsResponder>();
+
+            services.AddScoped<ISubscriber, MatchCompletedEventSubscriber>();
 
             services.AddScoped<ICardService, CardService>();
 

@@ -11,9 +11,11 @@ namespace Pitch.Card.Api.Infrastructure.Repositories
 {
     public interface ICardRepository
     {
+        Task<Models.Card> GetAsync(Guid id);
         Task<IEnumerable<Models.Card>> GetAllAsync(CardRequestModel req, string userId);
         Task<IEnumerable<Models.Card>> GetAsync(IEnumerable<Guid> ids);
         Task<Models.Card> AddAsync(Models.Card card);
+        Task UpdateAsync(Models.Card card);
     }
 
     public class CardRepository : ICardRepository
@@ -32,6 +34,11 @@ namespace Pitch.Card.Api.Infrastructure.Repositories
             return await _cards.Find(x => ids.Contains(x.Id)).ToListAsync();
         }
 
+        public async Task<Models.Card> GetAsync(Guid id)
+        {
+            return await _cards.Find(x => x.Id == id).FirstOrDefaultAsync();
+        }
+
         public async Task<Models.Card> AddAsync(Models.Card card)
         {
             await _cards.InsertOneAsync(card);
@@ -47,6 +54,11 @@ namespace Pitch.Card.Api.Infrastructure.Repositories
             }
             var results = await query.ToListAsync();
             return results.OrderByDescending(x => x.Position == req.PositionPriority).ThenByDescending(x => x.Rating).Skip(req.Skip).Take(req.Take);
+        }
+
+        public async Task UpdateAsync(Models.Card card)
+        {
+            await _cards.ReplaceOneAsync(x => x.Id == card.Id, card);
         }
     }
 }

@@ -1,10 +1,14 @@
 ﻿using EasyNetQ;
 using Microsoft.Extensions.DependencyInjection;
-using Pitch.Store.Api.Application.Events;
-using Pitch.Store.Api.Infrastructure.Services;
+using Pitch.Card.Api.Application.Events;
+using Pitch.Card.Api.Infrastructure.Services;
 
-namespace Pitch.Store.Api.Application.Subscribers
+namespace Pitch.Card.Api.Application.Subscribers
 {
+    public interface ISubscriber
+    {
+        void Subscribe();
+    }
     public class MatchCompletedEventSubscriber : ISubscriber
     {
         private readonly IBus _bus;
@@ -17,12 +21,14 @@ namespace Pitch.Store.Api.Application.Subscribers
 
         public void Subscribe()
         {
-            _bus.SubscribeAsync<MatchCompletedEvent>("store", async (@event) => {
+            _bus.SubscribeAsync<MatchCompletedEvent>("card", async (@event) =>
+            {
                 using (var scope = _serviceScopeFactory.CreateScope())
                 {
-                    await scope.ServiceProvider.GetRequiredService<IPackService>().RedeemMatchRewards(@event.UserId, @event.Victorious);
+                    await scope.ServiceProvider.GetRequiredService<ICardService>().SetGoals(@event.Scorers);
                 }
             });
         }
     }
+
 }

@@ -21,10 +21,15 @@ namespace Pitch.Card.Api.Infrastructure.Services
             _cardRepository = cardRepository;
             _mapper = mapper;
         }
+        public async Task<Models.Card> GetAsync(Guid id)
+        {
+            return await _cardRepository.GetAsync(id);
+        }
         public async Task<IEnumerable<Models.Card>> GetAsync(IEnumerable<Guid> ids)
         {
             return await _cardRepository.GetAsync(ids);
         }
+
         public async Task<Models.Card> CreateCardAsync(CreateCardModel createCardReq)
         {
             var request = _mapper.Map<PlayerRequest>(createCardReq);
@@ -52,6 +57,16 @@ namespace Pitch.Card.Api.Infrastructure.Services
         {
             req.PositionPriority = PositionMap(req.PositionPriority);
             return await _cardRepository.GetAllAsync(req, userId);
+        }
+
+        public async Task SetGoals(IDictionary<Guid, int> scorers)
+        {
+            foreach (var scorer in scorers)
+            {
+                var card = await _cardRepository.GetAsync(scorer.Key);
+                card.GoalsScored += scorer.Value;
+                await _cardRepository.UpdateAsync(card);
+            }
         }
 
         private string CardRarity(int rating)

@@ -1,5 +1,6 @@
 ﻿using EasyNetQ;
 using Pitch.Match.Api.Application.Engine;
+using Pitch.Match.Api.Application.Engine.Events;
 using Pitch.Match.Api.Application.MessageBus.Events;
 using Pitch.Match.Api.Application.MessageBus.Requests;
 using Pitch.Match.Api.Application.MessageBus.Responses;
@@ -38,6 +39,7 @@ namespace Pitch.Match.Api.Services
         public async Task ClaimAsync(Guid userId)
         {
             var unclaimed = await _matchRepository.GetUnclaimedAsync(userId);
+            var scorers = new Dictionary<Guid, int>();
             foreach (var match in unclaimed)
             {
                 var victorious = false;
@@ -46,15 +48,17 @@ namespace Pitch.Match.Api.Services
                     match.AwayTeam.HasClaimedRewards = true;
                     var matchResult = new MatchResult(match);
                     victorious = matchResult.AwayResult.Score > matchResult.HomeResult.Score;
+                    scorers = matchResult.Events.Where(x => x.SquadId == match.AwayTeam.Squad.Id && x.GetType() == typeof(Goal)).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
                 }
                 else if (match.HomeTeam.UserId == userId)
                 {
                     match.HomeTeam.HasClaimedRewards = true;
                     var matchResult = new MatchResult(match);
                     victorious = matchResult.HomeResult.Score > matchResult.AwayResult.Score;
+                    scorers = matchResult.Events.Where(x => x.SquadId == match.HomeTeam.Squad.Id && x.GetType() == typeof(Goal)).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
                 }
 
-                await _bus.PublishAsync(new MatchCompletedEvent(match.Id, userId, victorious));
+                await _bus.PublishAsync(new MatchCompletedEvent(match.Id, userId, victorious, scorers));
                 await _matchRepository.UpdateAsync(match);
             }
         }

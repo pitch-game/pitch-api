@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Pitch.Store.Api.Application.Events
 {
     public class MatchCompletedEvent
     {
+        public MatchCompletedEvent()
+        {
+                
+        }
         public MatchCompletedEvent(Guid matchId, Guid userId, bool victorious)
         {
             MatchId = matchId;
