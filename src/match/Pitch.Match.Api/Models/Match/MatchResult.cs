@@ -29,7 +29,15 @@ namespace Pitch.Match.Api.Models
                 Name = match.AwayTeam.Squad.Name
             };
 
-            Events = match.Events.OrderByDescending(x => x.Minute).ToList();
+            var cards = match.HomeTeam.Squad.Lineup.SelectMany(x => x.Value).Concat(match.AwayTeam.Squad.Lineup.SelectMany(x => x.Value));
+            Events = match.Events.OrderByDescending(x => x.Minute).Select(x => new Event()
+            {
+                Minute = x.Minute,
+                Name = x.Name,
+                Card = cards.FirstOrDefault(c => c.Id == x.CardId),
+                SquadId = x.SquadId,
+                CardId = x.CardId
+            }).ToList();
         }
 
         private static Stats GetStats(Match match, IEnumerable<IEvent> homeTeamEvents, Guid teamId)
@@ -66,7 +74,7 @@ namespace Pitch.Match.Api.Models
         public Stats HomeStats { get; set; }
         public Stats AwayStats { get; set; }
 
-        public IList<IEvent> Events { get; set; }
+        public IList<Event> Events { get; set; }
 
         public bool Expired { get; set; }
 
@@ -88,5 +96,14 @@ namespace Pitch.Match.Api.Models
         public string Name { get; set; }
         public int Score { get; set; }
         public IEnumerable<string> Scorers { get; set; }
+    }
+
+    public class Event
+    {
+        public int Minute { get; set; }
+        public string Name { get; set; }
+        public Card Card { get; set; }
+        public Guid SquadId { get; set; }
+        public Guid CardId { get; set; }
     }
 }

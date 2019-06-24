@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pitch.Match.Api.Models;
 using Pitch.Match.Api.Services;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Pitch.Match.Api.Controllers
 {
+    [Authorize]
     [Route("")]
     [ApiController]
     public class MatchController : ControllerBase
@@ -32,7 +34,7 @@ namespace Pitch.Match.Api.Controllers
         {
             var match = await _matchService.GetAsync(id);
 
-            //TODO move to model
+            //TODO move to model & service
             match.Events = match.Events.Where(x => x.Minute < match.Duration).ToList();
             match.Statistics = match.Statistics.Where(x => x.Minute < match.Duration).ToList();
 
@@ -41,21 +43,6 @@ namespace Pitch.Match.Api.Controllers
             result.Expired = match.IsOver;
             result.ExpiredOn = match.IsOver ? match.KickOff.AddMinutes(90 + match.ExtraTime) : (DateTime?)null;
             return result;
-        }
-
-        [HttpGet("inProgress")]
-        public async Task<dynamic> InProgress()
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
-            return new { inProgress = await _matchService.InProgressAsync(new Guid(userId)) };
-        }
-
-        //TODO move to seasons service and model
-        [HttpGet("unclaimed")]
-        public async Task<dynamic> Unclaimed()
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
-            return new { hasUnclaimed = await _matchService.HasUnclaimed(new Guid(userId)) };
         }
 
         [HttpGet("claim")]

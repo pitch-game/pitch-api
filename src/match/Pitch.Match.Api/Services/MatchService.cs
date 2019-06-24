@@ -17,10 +17,9 @@ namespace Pitch.Match.Api.Services
     {
         Task KickOff(Guid sessionId);
         Task<Models.Match> GetAsync(Guid id);
-        Task<bool> HasUnclaimed(Guid userId);
         Task ClaimAsync(Guid userId);
         Task<IEnumerable<Models.MatchListResult>> GetAllAsync(int skip, int? take, Guid userId);
-        Task<bool> InProgressAsync(Guid userId);
+        Task<Models.MatchStatusResult> GetMatchStatus(Guid userId);
     }
 
     public class MatchService : IMatchService
@@ -68,16 +67,6 @@ namespace Pitch.Match.Api.Services
         public async Task<Models.Match> GetAsync(Guid id)
         {
             return await _matchRepository.GetAsync(id);
-        }
-
-        public async Task<bool> HasUnclaimed(Guid userId)
-        {
-            return await _matchRepository.HasUnclaimedAsync(userId);
-        }
-
-        public async Task<bool> HasMatchInProgress(Guid userId)
-        {
-            return await _matchRepository.GetInProgressAsync(userId);
         }
 
         public async Task KickOff(Guid sessionId)
@@ -153,9 +142,15 @@ namespace Pitch.Match.Api.Services
              });
         }
 
-        public async Task<bool> InProgressAsync(Guid userId)
+        public async Task<MatchStatusResult> GetMatchStatus(Guid userId)
         {
-            return await _matchRepository.GetInProgressAsync(userId);
+            var hasUnclaimedRewards = await _matchRepository.HasUnclaimedAsync(userId);
+            var inProgressMatchId = await _matchRepository.GetInProgressAsync(userId);
+            return new MatchStatusResult
+            {
+                HasUnclaimedRewards = hasUnclaimedRewards,
+                InProgressMatchId = inProgressMatchId
+            };
         }
     }
 }

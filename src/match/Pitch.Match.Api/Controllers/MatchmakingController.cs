@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Pitch.Match.Api.Services;
 using System;
 
 namespace Pitch.Match.Api.Controllers
 {
+    [Authorize]
     [Route("matchmaking")]
     [ApiController]
     public class MatchMakingController : ControllerBase
@@ -14,7 +16,6 @@ namespace Pitch.Match.Api.Controllers
         {
             _matchmakingService = matchmakingService;
         }
-
 
         [HttpGet("validate/{id}")]
         public ActionResult<dynamic> Validate(Guid id)
