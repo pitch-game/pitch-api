@@ -6,6 +6,7 @@ using Pitch.Card.Api.Infrastructure.Repositories;
 using Pitch.Card.Api.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Pitch.Card.Api.Infrastructure.Services
@@ -34,6 +35,11 @@ namespace Pitch.Card.Api.Infrastructure.Services
         {
             var request = _mapper.Map<PlayerRequest>(createCardReq);
             var player = await _bus.RequestAsync<PlayerRequest, PlayerResponse>(request);
+
+            var random = new Random();
+            int index = random.Next(player.Positions.Length);
+            var position = createCardReq.Position != null ? player.Positions.First(x => x == createCardReq.Position) : player.Positions[index];
+
             var card = new Models.Card()
             {
                 Id = Guid.NewGuid(),
@@ -41,7 +47,7 @@ namespace Pitch.Card.Api.Infrastructure.Services
                 UserId = createCardReq.UserId,
                 Name = player.Name,
                 ShortName = player.ShortName,
-                Position = player.Positions[0], //todo use createCardReq position or randomise,
+                Position = position,
                 Rating = player.Rating,
                 Rarity = CardRarity(player.Rating),
                 Form = player.Form,
