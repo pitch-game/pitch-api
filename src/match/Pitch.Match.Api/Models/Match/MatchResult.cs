@@ -18,13 +18,15 @@ namespace Pitch.Match.Api.Models
             HomeResult = new Result
             {
                 Score = homeTeamEvents.Count(x => x.GetType() == typeof(Goal)),
-                Scorers = GetScorers(match, homeTeamEvents, match.HomeTeam.Squad)
+                Scorers = GetScorers(match, homeTeamEvents, match.HomeTeam.Squad),
+                Name = match.HomeTeam.Squad.Name
             };
 
             AwayResult = new Result
             {
                 Score = awayTeamEvents.Count(x => x.GetType() == typeof(Goal)),
-                Scorers = GetScorers(match, awayTeamEvents, match.AwayTeam.Squad)
+                Scorers = GetScorers(match, awayTeamEvents, match.AwayTeam.Squad),
+                Name = match.AwayTeam.Squad.Name
             };
 
             Events = match.Events;
@@ -83,6 +85,7 @@ namespace Pitch.Match.Api.Models
 
     public class Result
     {
+        public string Name { get; set; }
         public int Score { get; set; }
         public IEnumerable<string> Scorers { get; set; }
     }

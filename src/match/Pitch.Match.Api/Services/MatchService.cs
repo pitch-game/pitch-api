@@ -19,6 +19,7 @@ namespace Pitch.Match.Api.Services
         Task<Models.Match> GetAsync(Guid id);
         Task<bool> HasUnclaimed(Guid userId);
         Task ClaimAsync(Guid userId);
+        Task<IEnumerable<Models.MatchListResult>> GetAllAsync(int skip, int? take, Guid userId);
     }
 
     public class MatchService : IMatchService
@@ -115,7 +116,8 @@ namespace Pitch.Match.Api.Services
 
             return new Squad()
             {
-                Id = Guid.NewGuid(), //TODO use real squad id
+                Id = squadResp.Id,
+                Name = squadResp.Name,
                 Lineup = new Dictionary<string, IEnumerable<Card>>()
                 {
                     { "GK", gk },
@@ -124,6 +126,30 @@ namespace Pitch.Match.Api.Services
                     { "ATT", att }
                 }
             };
+        }
+
+        public async Task<IEnumerable<Models.MatchListResult>> GetAllAsync(int skip, int? take, Guid userId)
+        {
+            var matches = await _matchRepository.GetAllAsync(skip, take ?? 25, userId);
+            matches = matches.Where(x => x.IsOver);
+            return matches.Select(x =>
+            {
+                var matchResult = new MatchResult(x);
+                var isHomeTeam = x.HomeTeam.UserId == userId;
+                var claimed = isHomeTeam  ? x.HomeTeam.HasClaimedRewards : x.AwayTeam.HasClaimedRewards;
+                var result = matchResult.HomeResult.Score == matchResult.AwayResult.Score ? "D" : isHomeTeam ? matchResult.HomeResult.Score > matchResult.AwayResult.Score ? "W" : "L" : matchResult.AwayResult.Score > matchResult.HomeResult.Score ? "W" : "L";
+                return new Models.MatchListResult
+                {
+                    Id = x.Id,
+                    HomeTeam = x.HomeTeam.Squad.Name,
+                    AwayTeam = x.AwayTeam.Squad.Name,
+                    HomeScore = matchResult.HomeResult.Score,
+                    AwayScore = matchResult.AwayResult.Score,
+                    KickOff = x.KickOff,
+                    Result = result,
+                    Claimed = claimed
+                };
+             });
         }
     }
 }

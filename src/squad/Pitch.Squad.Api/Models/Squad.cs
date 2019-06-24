@@ -17,6 +17,7 @@ namespace Pitch.Squad.Api.Models
         }
 
         public Guid Id { get; set; }
+        public string Name { get; set; }
         public string UserId { get; set; }
         public SquadFormation Formation;
         public IDictionary<string, Guid?> Lineup { get; set; }

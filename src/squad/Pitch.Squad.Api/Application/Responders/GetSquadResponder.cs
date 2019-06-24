@@ -44,6 +44,8 @@ namespace Pitch.Squad.Api.Application.Responders
 
                 return new GetSquadResponse()
                 {
+                    Id = squad.Id,
+                    Name = squad.Name,
                     Cards = cardsResponse.Cards.ToList()
                 };
             }

@@ -20,6 +20,13 @@ namespace Pitch.Match.Api.Controllers
             _matchService = matchService;
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<Models.MatchListResult>> Get([FromQuery] int skip, [FromQuery] int? take)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
+            return await _matchService.GetAllAsync(skip, take, new Guid(userId));
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<MatchResult>> Get(Guid id)
         {
