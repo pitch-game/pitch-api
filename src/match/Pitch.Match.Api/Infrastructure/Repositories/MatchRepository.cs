@@ -58,16 +58,16 @@ namespace Pitch.Match.Api.Infrastructure.Repositories
         {
             //TODO get rid of extra time?
             var minStartDate = DateTime.Now.AddMinutes(-90);
-            return await _matches.AsQueryable().Where(x => x.KickOff <= minStartDate && (x.HomeTeam.UserId == userId && !x.HomeTeam.HasClaimedRewards)
-            || (x.AwayTeam.UserId == userId && !x.AwayTeam.HasClaimedRewards)).ToListAsync();
+            return await _matches.AsQueryable().Where(x => x.KickOff <= minStartDate && ((x.HomeTeam.UserId == userId && !x.HomeTeam.HasClaimedRewards)
+            || (x.AwayTeam.UserId == userId && !x.AwayTeam.HasClaimedRewards))).ToListAsync();
         }
 
         public async Task<bool> HasUnclaimedAsync(Guid userId)
         {
             //TODO get rid of extra time?
             var minStartDate = DateTime.Now.AddMinutes(-90);
-            return await _matches.AsQueryable().AnyAsync(x => x.KickOff <= minStartDate && (x.HomeTeam.UserId == userId && !x.HomeTeam.HasClaimedRewards)
-            || (x.AwayTeam.UserId == userId && !x.AwayTeam.HasClaimedRewards));
+            return await _matches.AsQueryable().AnyAsync(x => x.KickOff <= minStartDate && ((x.HomeTeam.UserId == userId && !x.HomeTeam.HasClaimedRewards)
+            || (x.AwayTeam.UserId == userId && !x.AwayTeam.HasClaimedRewards)));
         }
 
         public async Task<IEnumerable<Models.Match>> GetAllAsync(int skip, int take, Guid userId)
