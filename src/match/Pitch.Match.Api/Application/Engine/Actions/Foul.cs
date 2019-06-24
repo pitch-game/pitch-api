@@ -33,7 +33,10 @@ namespace Pitch.Match.Api.Application.Engine.Action
             if (randomNumber == 1)
                 return new YellowCard(minute, card.Id, squadId);
             if (randomNumber == 2)
+            {
+                card.Rating = 0; //Reference?
                 return new RedCard(minute, card.Id, squadId);
+            }
             if (randomNumber == 3)
                 return null; //No card
             return null;
