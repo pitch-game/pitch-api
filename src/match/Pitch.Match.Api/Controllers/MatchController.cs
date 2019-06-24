@@ -43,6 +43,13 @@ namespace Pitch.Match.Api.Controllers
             return result;
         }
 
+        [HttpGet("inProgress")]
+        public async Task<dynamic> InProgress()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
+            return new { inProgress = await _matchService.InProgressAsync(new Guid(userId)) };
+        }
+
         //TODO move to seasons service and model
         [HttpGet("unclaimed")]
         public async Task<dynamic> Unclaimed()

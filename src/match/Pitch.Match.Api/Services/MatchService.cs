@@ -20,6 +20,7 @@ namespace Pitch.Match.Api.Services
         Task<bool> HasUnclaimed(Guid userId);
         Task ClaimAsync(Guid userId);
         Task<IEnumerable<Models.MatchListResult>> GetAllAsync(int skip, int? take, Guid userId);
+        Task<bool> InProgressAsync(Guid userId);
     }
 
     public class MatchService : IMatchService
@@ -150,6 +151,11 @@ namespace Pitch.Match.Api.Services
                     Claimed = claimed
                 };
              });
+        }
+
+        public async Task<bool> InProgressAsync(Guid userId)
+        {
+            return await _matchRepository.GetInProgressAsync(userId);
         }
     }
 }

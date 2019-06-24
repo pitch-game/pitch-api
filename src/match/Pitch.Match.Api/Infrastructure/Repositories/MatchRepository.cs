@@ -39,7 +39,7 @@ namespace Pitch.Match.Api.Infrastructure.Repositories
         {
             //TODO get rid of extra time?
             var minStartDate = DateTime.Now.AddMinutes(-90);
-            return await _matches.AsQueryable().AnyAsync(x => x.KickOff > minStartDate && x.HomeTeam.UserId == userId || x.AwayTeam.UserId == userId);
+            return await _matches.AsQueryable().AnyAsync(x => x.KickOff > minStartDate && (x.HomeTeam.UserId == userId || x.AwayTeam.UserId == userId));
         }
 
         public async Task<Models.Match> CreateAsync(Models.Match match)
