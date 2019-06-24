@@ -29,7 +29,7 @@ namespace Pitch.Match.Api.Models
                 Name = match.AwayTeam.Squad.Name
             };
 
-            Events = match.Events;
+            Events = match.Events.OrderByDescending(x => x.Minute).ToList();
         }
 
         private static Stats GetStats(Match match, IEnumerable<IEvent> homeTeamEvents, Guid teamId)
