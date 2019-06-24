@@ -15,7 +15,7 @@ namespace Pitch.Match.Api.Infrastructure.Repositories
         Task<Models.Match> UpdateAsync(Models.Match match);
         Task<IEnumerable<Models.Match>> GetUnclaimedAsync(Guid userId);
         Task<bool> HasUnclaimedAsync(Guid userId);
-        Task<Guid> GetInProgressAsync(Guid userId);
+        Task<Guid?> GetInProgressAsync(Guid userId);
         Task<IEnumerable<Models.Match>> GetAllAsync(int skip, int take, Guid userId);
     }
 
@@ -35,11 +35,11 @@ namespace Pitch.Match.Api.Infrastructure.Repositories
             return await _matches.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<Guid> GetInProgressAsync(Guid userId)
+        public async Task<Guid?> GetInProgressAsync(Guid userId)
         {
             //TODO get rid of extra time?
             var minStartDate = DateTime.Now.AddMinutes(-90);
-            return await _matches.AsQueryable().Where(x => x.KickOff > minStartDate && (x.HomeTeam.UserId == userId || x.AwayTeam.UserId == userId)).Select(x => x.Id).FirstOrDefaultAsync();
+            return await _matches.AsQueryable().Where(x => x.KickOff > minStartDate && (x.HomeTeam.UserId == userId || x.AwayTeam.UserId == userId)).Select(x => (Guid?)x.Id).FirstOrDefaultAsync();
         }
 
         public async Task<Models.Match> CreateAsync(Models.Match match)
