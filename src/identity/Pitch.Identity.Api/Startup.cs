@@ -130,7 +130,8 @@ namespace PitchApi
                         ClientId = "cbf24cc4a1bb79e441a5b5937be6dd84",
                         DisplayName = "Angular Application",
                         PostLogoutRedirectUris = { new Uri("http://localhost:4200"), new Uri("http://pitch-game.io") },
-                        RedirectUris = { new Uri("http://localhost:4200/auth-callback"), new Uri("http://pitch-game.io/auth-callback") }
+                        RedirectUris = { new Uri("http://localhost:4200/auth-callback"), new Uri("http://pitch-game.io/auth-callback") },
+                        C
                     };
 
                     await manager.CreateAsync(descriptor, cancellationToken);
