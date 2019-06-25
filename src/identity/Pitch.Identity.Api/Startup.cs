@@ -42,7 +42,6 @@ namespace PitchApi
                 options.UseOpenIddict();
             });
 
-            services.AddCors();
             services.AddMvc();
 
             services.AddSingleton(s =>
@@ -103,8 +102,6 @@ namespace PitchApi
                 context.Request.PathBase = new PathString("/identity");
                 return next();
             });
-
-            app.UseCors(builder => builder.WithOrigins(new string[] {"http://localhost:4200", "http://pitch-game.io"}).AllowAnyHeader().AllowCredentials());
 
             app.UseAuthentication();
 
