@@ -42,6 +42,7 @@ namespace PitchApi
                 options.UseOpenIddict();
             });
 
+            services.AddCors();
             services.AddMvc();
 
             services.AddSingleton(s =>
@@ -76,8 +77,6 @@ namespace PitchApi
                 options.IgnoreScopePermissions();
                 options.SetIssuer(new Uri(Configuration.GetValue<string>("Issuer")));
             });
-
-            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
