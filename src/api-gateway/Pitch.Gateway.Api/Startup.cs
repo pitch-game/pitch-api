@@ -41,7 +41,7 @@ namespace Pitch.Gateway.Api
                 options.AddPolicy("CorsPolicy",
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200", "https://pitch-game.io")
+                    builder.WithOrigins("http://localhost:4200", "http://pitch-game.io")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();

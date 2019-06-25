@@ -104,7 +104,7 @@ namespace PitchApi
                 return next();
             });
 
-            app.UseCors(builder => builder.WithOrigins(new string[] {"http://localhost:4200", "https://pitch-game.io"}).AllowAnyHeader().AllowCredentials());
+            app.UseCors(builder => builder.WithOrigins(new string[] {"http://localhost:4200", "http://pitch-game.io"}).AllowAnyHeader().AllowCredentials());
 
             app.UseAuthentication();
 
@@ -128,8 +128,8 @@ namespace PitchApi
                     {
                         ClientId = "cbf24cc4a1bb79e441a5b5937be6dd84",
                         DisplayName = "Angular Application",
-                        PostLogoutRedirectUris = { new Uri("http://localhost:4200"), new Uri("https://pitch-game.io") },
-                        RedirectUris = { new Uri("http://localhost:4200/auth-callback"), new Uri("https://pitch-game.io/auth-callback") }
+                        PostLogoutRedirectUris = { new Uri("http://localhost:4200"), new Uri("http://pitch-game.io") },
+                        RedirectUris = { new Uri("http://localhost:4200/auth-callback"), new Uri("http://pitch-game.io/auth-callback") }
                     };
 
                     await manager.CreateAsync(descriptor, cancellationToken);
