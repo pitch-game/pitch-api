@@ -1,0 +1,17 @@
+[
+    {
+      'repeat(0, 100)': {
+      "id": "{{guid()}}",
+      "shortName": "{{surname()}}",
+      name() { return `${firstName(["male"])} ${this.shortName}`; },
+      "nationality": "{{country()}}",
+      "positions": [
+          {
+            'repeat(2)': '{{random("GK", "LB", "CB", "RB")}}'
+          }
+      ],
+      "rating": '{{integer(0, 100)}}',
+      "form": '{{floating(0, 1)}}'
+      }
+    }
+  ]
