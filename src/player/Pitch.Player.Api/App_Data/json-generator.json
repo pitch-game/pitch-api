@@ -7,11 +7,11 @@
       "nationality": "{{country()}}",
       "positions": [
           {
-            'repeat(2)': '{{random("GK", "LB", "CB", "RB")}}'
+            'repeat(2)': '{{random("GK", "LB", "CB", "RB", "LM", "CM", "RM", "ST")}}'
           }
       ],
-      "rating": '{{integer(0, 100)}}',
-      "form": '{{floating(0, 1)}}'
+      "rating": '{{integer(50, 99)}}',
+      "form": '{{floating(0, 1, 2)}}'
       }
     }
   ]
