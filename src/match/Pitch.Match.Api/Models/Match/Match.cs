@@ -37,12 +37,18 @@ namespace Pitch.Match.Api.Models
 
     public class MinuteStats
     {
-        public MinuteStats(int minute, Guid squadIdInPossession)
+        public MinuteStats(int minute, Guid squadIdInPossession, int homePossChance, int awayPossChance)
         {
             Minute = minute;
             SquadIdInPossession = squadIdInPossession;
+            HomePossessionChance = homePossChance;
+            AwayPossessionChance = awayPossChance;
         }
         public int Minute { get; set; }
         public Guid SquadIdInPossession { get; set; }
+
+        public int HomePossessionChance { get; set; }
+        public int AwayPossessionChance { get; set; }
+
     }
 }

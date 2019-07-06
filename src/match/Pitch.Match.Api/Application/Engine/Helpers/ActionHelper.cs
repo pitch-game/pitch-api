@@ -45,10 +45,10 @@ namespace Pitch.Match.Api.Application.Engine.Helpers
                 }
             }
 
-            var cards = team.Lineup[positionalArea.ToString()].ToList();
+            var cards = team.Lineup[positionalArea.ToString()].Where(x => !x.SentOff).ToList(); //Can't roll a sent off player TODO make this global
             var rnd = new Random();
             int r = rnd.Next(cards.Count);
-            return cards[r];
+            return cards.ElementAtOrDefault(r); //returns null TODO fix rolling position with 0 cards due to sending off
         }
     }
 }

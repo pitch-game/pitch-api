@@ -18,26 +18,44 @@ namespace Pitch.Match.Api.Application.Engine
 
         public Models.Match SimulateReentrant(Models.Match match, int simulateFromMinute = 0)
         {
-            //remove events after simulateFrom
-            for (int minute = simulateFromMinute; minute < MATCH_LENGTH_IN_MINUTES; minute++)
-            {
-                Squad notInPossession;
-                Squad inPossession = PossessionHelper.InPossession(match, out notInPossession);
+            //remove events after simulateFrom, but does that work with sending offs etc
+            //bool forceReRoll = true;
+            //while (forceReRoll) {
+            //    forceReRoll = false;
 
-                IAction action = ActionHelper.RollAction(_actions);
-                if (action != null)
+                for (int minute = simulateFromMinute; minute < MATCH_LENGTH_IN_MINUTES; minute++)
                 {
-                    var affectedSquad = action.AffectsTeamInPossession ? inPossession : notInPossession;
-                    var card = ActionHelper.RollCard(affectedSquad, action);
+                    int homePossChance;
+                    int awayPossChance;
 
-                    var @event = action.SpawnEvent(card, affectedSquad.Id, minute, match);
-                    match.Events.Add(@event);
+                    Squad notInPossession;
+                    Squad inPossession = PossessionHelper.InPossession(match, out notInPossession, out homePossChance, out awayPossChance);
+
+                    IAction action = ActionHelper.RollAction(_actions);
+                    if (action != null)
+                    {
+                        var affectedSquad = action.AffectsTeamInPossession ? inPossession : notInPossession;
+                        var card = ActionHelper.RollCard(affectedSquad, action);
+                        if (card == null) //TODO cancel if couldnt get a card
+                            continue;
+
+                        bool forceReRoll;
+                        var @event = action.SpawnEvent(card, affectedSquad.Id, minute, match, out forceReRoll);
+                        if(@event != null)
+                            match.Events.Add(@event);
+
+                        //if (forceReRoll)
+                        //{
+                        //    simulateFromMinute = minute + 1; //TODO simulate the same minute again?
+                        //    break;
+                        //}
+                    }
+
+                    FitnessHelper.Drain(inPossession, notInPossession);
+
+                    match.Statistics.Add(new MinuteStats(minute, inPossession.Id, homePossChance, awayPossChance));
                 }
-
-                FitnessHelper.Drain(inPossession, notInPossession);
-
-                match.Statistics.Add(new MinuteStats(minute, inPossession.Id));
-            }
+            //}
 
             //extra time?
             return match;

@@ -3,13 +3,14 @@ using Pitch.Match.Api.Application.Engine.Events;
 using Pitch.Match.Api.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Pitch.Match.Api.Application.Engine.Action
 {
     public class Foul : IAction
     {
         [BsonIgnore]
-        public decimal ChancePerMinute => 0.02m;
+        public decimal ChancePerMinute => 0.04m;
 
         [BsonIgnore]
         public IDictionary<PositionalArea, decimal> PositionalChance => new Dictionary<PositionalArea, decimal>()
@@ -23,22 +24,25 @@ namespace Pitch.Match.Api.Application.Engine.Action
         [BsonIgnore]
         public bool AffectsTeamInPossession => false;
 
-        public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match)
+        public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match, out bool forceReRoll)
         {
+            forceReRoll = false;
             //TODO chance of no card/yellow/red
 
             Random rnd = new Random();
-            int randomNumber = rnd.Next(1, 3);
+            int randomNumber = rnd.Next(1, 4);
 
             if (randomNumber == 1)
+                //todo check for two yellows
                 return new YellowCard(minute, card.Id, squadId);
             if (randomNumber == 2)
             {
-                card.Rating = 0; //Reference?
+                forceReRoll = true;
+                card.SentOff = true;
                 return new RedCard(minute, card.Id, squadId);
             }
             if (randomNumber == 3)
-                return null; //No card
+                return null; //Just a foul
             return null;
         }
     }

@@ -5,29 +5,30 @@ namespace Pitch.Match.Api.Application.Engine.Helpers
 {
     public static class PossessionHelper
     {
-        //TODO team1 and team2 are now home and away
-        public static Squad InPossession(Models.Match match, out Squad notInPossession)
+        public static Squad InPossession(Models.Match match, out Squad notInPossession, out int homePercent, out int awayPercent)
         {
-            var team1Chance = PossessionChance(match.HomeTeam.Squad);
-            var team2Chance = PossessionChance(match.AwayTeam.Squad);
+            var homeChance = PossessionChance(match.HomeTeam.Squad);
+            var awayChance = PossessionChance(match.AwayTeam.Squad);
 
-            var difference = Math.Abs(team1Chance - team2Chance);
+            var difference = Math.Abs(homeChance - awayChance);
 
-            var team1Percent = (int)Math.Round(100 - (((double)difference / (double)team1Chance) * 100));
-            var team2Percent = (int)Math.Round(100 - (((double)difference / (double)team2Chance) * 100));
+            //TODO this is a bit dramatic
 
-            var accumulatedWeight = team1Percent + team2Percent;
+            homePercent = (int)Math.Round(100 - (((double)difference / (double)homeChance) * 100));
+            awayPercent = (int)Math.Round(100 - (((double)difference / (double)awayChance) * 100));
 
-            var team1InPossession = false;
+            var accumulatedWeight = homePercent + awayPercent;
+
+            var homePossession = false;
 
             var rand = new Random();
             var randomNumber = rand.Next(0, accumulatedWeight);
-            if (randomNumber <= team1Percent)
+            if (randomNumber <= homePercent)
             {
-                team1InPossession = true;
+                homePossession = true;
             }
 
-            if (team1InPossession)
+            if (homePossession)
             {
                 notInPossession = match.AwayTeam.Squad;
                 return match.HomeTeam.Squad;
@@ -37,7 +38,6 @@ namespace Pitch.Match.Api.Application.Engine.Helpers
                 notInPossession = match.HomeTeam.Squad;
                 return match.AwayTeam.Squad;
             }
-            //record possession stats
         }
 
         private static int PossessionChance(Squad squad)

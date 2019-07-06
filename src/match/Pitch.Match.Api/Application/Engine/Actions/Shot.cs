@@ -10,7 +10,7 @@ namespace Pitch.Match.Api.Application.Engine.Action
     public class Shot : IAction
     {
         [BsonIgnore]
-        public decimal ChancePerMinute => 0.07m;
+        public decimal ChancePerMinute => 0.2m;
 
         [BsonIgnore]
         public IDictionary<PositionalArea, decimal> PositionalChance => new Dictionary<PositionalArea, decimal>()
@@ -24,11 +24,14 @@ namespace Pitch.Match.Api.Application.Engine.Action
         [BsonIgnore]
         public bool AffectsTeamInPossession => true;
 
-        public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match)
+        public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match, out bool forceReRoll)
         {
+            forceReRoll = false;
+
             //TODO OnTarget/OffTarget based on card/oppDEF & Goal based on card/oppGK 
+
             Random rnd = new Random();
-            int randomNumber = rnd.Next(1, 3);
+            int randomNumber = rnd.Next(1, 4);
 
             if (randomNumber == 1)
                 return new Goal(minute, card.Id, squadId);

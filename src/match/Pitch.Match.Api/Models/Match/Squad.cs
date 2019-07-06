@@ -19,5 +19,8 @@ namespace Pitch.Match.Api.Models
         public int Rating { get; set; }
         public int Fitness { get; set; }
         public string Position { get; set; }
+
+        //TODO move?
+        public bool SentOff { get; set; }
     }
 }
