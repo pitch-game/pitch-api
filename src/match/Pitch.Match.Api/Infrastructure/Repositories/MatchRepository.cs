@@ -23,10 +23,9 @@ namespace Pitch.Match.Api.Infrastructure.Repositories
     {
         private readonly IMongoCollection<Models.Match> _matches;
 
-        public MatchRepository(IConfiguration config)
+        public MatchRepository(IConfiguration config, IMongoClient mongoClient)
         {
-            var client = new MongoClient(config.GetConnectionString("MongoDb"));
-            var database = client.GetDatabase("match");
+            var database = mongoClient.GetDatabase("match");
             _matches = database.GetCollection<Models.Match>("matches");
         }
 
