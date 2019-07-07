@@ -212,13 +212,15 @@ namespace Pitch.Match.Api.Tests
             var squad1 = new Squad()
             {
                 Id = Guid.NewGuid(),
-                Lineup = lineup
+                Lineup = lineup,
+                Name = "Good FC"
             };
 
             var squad2 = new Squad()
             {
                 Id = Guid.NewGuid(),
-                Lineup = lineup2
+                Lineup = lineup2,
+                Name = "Shitty FC"
             };
 
             var user1 = Guid.NewGuid();
@@ -231,7 +233,7 @@ namespace Pitch.Match.Api.Tests
                 HomeTeam = new TeamDetails()
                 {
                     UserId = user1,
-                    Squad = squad1
+                    Squad = squad1,
                 },
                 AwayTeam = new TeamDetails()
                 {

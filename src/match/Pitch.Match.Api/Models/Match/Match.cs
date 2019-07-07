@@ -1,4 +1,5 @@
-﻿using Pitch.Match.Api.Application.Engine.Events;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using Pitch.Match.Api.Application.Engine.Events;
 using System;
 using System.Collections.Generic;
 
@@ -15,6 +16,16 @@ namespace Pitch.Match.Api.Models
 
         public TeamDetails HomeTeam { get; set; }
         public TeamDetails AwayTeam { get; set; }
+
+        public Squad GetSquad(Guid id)
+        {
+            return HomeTeam.Squad.Id == id ? HomeTeam.Squad : AwayTeam.Squad.Id == id ? AwayTeam.Squad : throw new Exception();
+        }
+
+        public Squad GetOppositionSquad(Guid id)
+        {
+            return HomeTeam.Squad.Id == id ? AwayTeam.Squad : AwayTeam.Squad.Id == id ? HomeTeam.Squad : throw new Exception();
+        }
 
         public DateTime KickOff { get; set; }
 

@@ -22,7 +22,7 @@ namespace Pitch.Match.Api.Models
         public int Fitness { get; set; }
         public string Position { get; set; }
 
-        //TODO move?
+        //TODO this wont work during reentrancy
         public bool SentOff { get; set; }
     }
 }

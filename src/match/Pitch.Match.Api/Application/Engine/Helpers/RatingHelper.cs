@@ -14,5 +14,11 @@ namespace Pitch.Match.Api.Application.Engine.Helpers
                 return 0;
             return (int)Math.Round((onTheField.Sum(x => x.Rating * 0.7) + onTheField.Sum(x => x.Fitness * 0.3)) / players.Count);
         }
+
+        public static int CurrentRating(Guid cardId, Squad squad)
+        {
+            var card = squad.Lineup.SelectMany(x => x.Value).FirstOrDefault(x => x.Id == cardId);
+            return (int)Math.Round((card.Rating * 0.7) + (card.Fitness * 0.3));
+        }
     }
 }

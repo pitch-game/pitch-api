@@ -5,25 +5,23 @@ namespace Pitch.Match.Api.Application.Engine.Helpers
 {
     public static class PossessionHelper
     {
-        public static Squad InPossession(Models.Match match, out Squad notInPossession, out int homePercent, out int awayPercent)
+        public static Squad InPossession(Models.Match match, out Squad notInPossession, out int homeChance, out int awayChance)
         {
-            var homeChance = PossessionChance(match.HomeTeam.Squad);
-            var awayChance = PossessionChance(match.AwayTeam.Squad);
+            homeChance = PossessionChance(match.HomeTeam.Squad);
+            awayChance = PossessionChance(match.AwayTeam.Squad);
 
-            var difference = Math.Abs(homeChance - awayChance);
+            //var difference = Math.Abs(homeChance - awayChance);
 
-            //TODO this is a bit dramatic
+            //homePercent = (int)Math.Round((1 - ((double)difference / (double)homeChance)) * 100);
+            //awayPercent = (int)Math.Round((1 - ((double)difference / (double)awayChance)) * 100);
 
-            homePercent = (int)Math.Round(100 - (((double)difference / (double)homeChance) * 100));
-            awayPercent = (int)Math.Round(100 - (((double)difference / (double)awayChance) * 100));
-
-            var accumulatedWeight = homePercent + awayPercent;
+            var accumulatedWeight = homeChance + awayChance;
 
             var homePossession = false;
 
             var rand = new Random();
             var randomNumber = rand.Next(0, accumulatedWeight);
-            if (randomNumber <= homePercent)
+            if (randomNumber <= homeChance)
             {
                 homePossession = true;
             }
