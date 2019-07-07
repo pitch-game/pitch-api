@@ -49,14 +49,14 @@ namespace Pitch.Match.Api.Services
                     match.AwayTeam.HasClaimedRewards = true;
                     var matchResult = new MatchResult(match);
                     victorious = matchResult.AwayResult.Score > matchResult.HomeResult.Score;
-                    scorers = matchResult.Events.Where(x => x.SquadId == match.AwayTeam.Squad.Id && x.GetType() == typeof(Goal)).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
+                    scorers = match.Events.Where(x => x.SquadId == match.AwayTeam.Squad.Id && x.GetType() == typeof(Goal)).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
                 }
                 else if (match.HomeTeam.UserId == userId)
                 {
                     match.HomeTeam.HasClaimedRewards = true;
                     var matchResult = new MatchResult(match);
                     victorious = matchResult.HomeResult.Score > matchResult.AwayResult.Score;
-                    scorers = matchResult.Events.Where(x => x.SquadId == match.HomeTeam.Squad.Id && x.GetType() == typeof(Goal)).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
+                    scorers = match.Events.Where(x => x.SquadId == match.HomeTeam.Squad.Id && x.GetType() == typeof(Goal)).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
                 }
 
                 await _bus.PublishAsync(new MatchCompletedEvent(match.Id, userId, victorious, scorers));
