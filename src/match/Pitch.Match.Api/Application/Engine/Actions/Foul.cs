@@ -24,24 +24,23 @@ namespace Pitch.Match.Api.Application.Engine.Action
         [BsonIgnore]
         public bool AffectsTeamInPossession => false;
 
-        public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match, out bool forceReRoll)
+        public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match)
         {
-            forceReRoll = false;
-            //TODO chance of no card/yellow/red
-
+            //TODO base on fitness and ratings
             Random rnd = new Random();
-            int randomNumber = rnd.Next(1, 4);
+            int randomNumber = rnd.Next(1, 21);
 
             if (randomNumber == 1)
-                //todo check for two yellows
-                return new YellowCard(minute, card.Id, squadId);
-            if (randomNumber == 2)
             {
-                forceReRoll = true;
-                card.SentOff = true;
+                card.SentOff = true; //TODO doesn't support reetrancy
                 return new RedCard(minute, card.Id, squadId);
             }
-            if (randomNumber == 3)
+            if (randomNumber >= 2 && randomNumber < 7)
+            {
+                //todo check for two yellows
+                return new YellowCard(minute, card.Id, squadId);
+            }
+            if (randomNumber >= 7)
                 return null; //Just a foul
             return null;
         }

@@ -14,7 +14,7 @@ namespace Pitch.Match.Api.Application.Engine.Action
         private const double SHOOTER_AGAINST_GK_MODIFIER = 0.8;
 
         [BsonIgnore]
-        public decimal ChancePerMinute => 0.2m;
+        public decimal ChancePerMinute => 0.15m;
 
         [BsonIgnore]
         public IDictionary<PositionalArea, decimal> PositionalChance => new Dictionary<PositionalArea, decimal>()
@@ -28,10 +28,8 @@ namespace Pitch.Match.Api.Application.Engine.Action
         [BsonIgnore]
         public bool AffectsTeamInPossession => true;
 
-        public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match, out bool forceReRoll)
+        public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match)
         {
-            forceReRoll = false;
-
             var oppositionsDefenceRating = RatingHelper.CurrentRating(PositionalArea.DEF, match.GetOppositionSquad(squadId));
             var shootersRating = RatingHelper.CurrentRating(card.Id, match.GetSquad(squadId));
 

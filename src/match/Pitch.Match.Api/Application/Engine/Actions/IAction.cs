@@ -20,6 +20,6 @@ namespace Pitch.Match.Api.Application.Engine.Action
         /// <param name="match"></param>
         /// <param name="forceReRoll"></param>
         /// <returns></returns>
-        IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match, out bool forceReRoll);
+        IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match);
     }
 }
