@@ -10,10 +10,9 @@ namespace Pitch.Squad.Api.Infrastructure.Repositories
     {
         private readonly IMongoCollection<Models.Squad> _squads;
 
-        public SquadRepository(IConfiguration config)
+        public SquadRepository(IConfiguration config, IMongoClient mongoClient)
         {
-            var client = new MongoClient(config.GetConnectionString("MongoDb"));
-            var database = client.GetDatabase("squad");
+            var database = mongoClient.GetDatabase("squad");
             _squads = database.GetCollection<Models.Squad>("squads");
         }
 

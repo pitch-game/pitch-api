@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using Pitch.Squad.Api.Application.Responders;
 using Pitch.Squad.Api.Infrastructure;
 using Pitch.Squad.Api.Infrastructure.Repositories;
@@ -55,6 +56,11 @@ namespace Pitch.Squad.Api
             services.AddScoped<IGetSquadResponder, GetSquadResponder>();
 
             services.AddScoped<IResponder, GetSquadResponder>();
+
+            services.AddSingleton<IMongoClient>(s =>
+            {
+                return new MongoClient(Configuration.GetConnectionString("MongoDb"));
+            });
 
             services.AddSingleton(s =>
             {
