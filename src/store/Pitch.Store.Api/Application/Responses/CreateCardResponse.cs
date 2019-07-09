@@ -7,6 +7,7 @@ namespace Pitch.Store.Api.Application.Responses
         public Guid Id { get; set; }
         public Guid PlayerId { get; set; }
         public string Name { get; set; }
+        public string ShortName { get; set; }
         public string Position { get; set; }
         public int Rating { get; set; }
         public string Rarity { get; set; }
