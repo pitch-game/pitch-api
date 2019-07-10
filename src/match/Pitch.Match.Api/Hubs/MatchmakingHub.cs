@@ -10,6 +10,7 @@ namespace Pitch.Match.Api.Hubs
     {
         Task ReceiveSessionId(Guid sessionId);
         Task MatchReady(Guid sessionId);
+        Task Cancelled();
     }
 
     [Authorize]
@@ -41,9 +42,25 @@ namespace Pitch.Match.Api.Hubs
             }
         }
 
-        public void Cancel(Guid sessionId)
+        public async Task ValidateAndSubscribe(string sessionId)
         {
-            _matchmakingService.Cancel(sessionId);
+            var user = Context.UserIdentifier; //todo check user is session host
+            var session = _matchmakingService.GetSession(new Guid(sessionId));
+            if(session != null && !session.Expired && session.Open)
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, session.Id.ToString());
+                await Clients.User(user).ReceiveSessionId(session.Id);
+            } else
+            {
+                await Clients.User(user).Cancelled();
+            }
+        }
+
+        public async Task Cancel(string sessionId)
+        {
+            var user = Context.UserIdentifier;
+            _matchmakingService.Cancel(new Guid(sessionId));
+            await Clients.User(user).Cancelled();
         }
     }
 }
