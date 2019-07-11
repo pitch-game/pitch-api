@@ -9,5 +9,7 @@ namespace Pitch.Match.Api.Application.Engine.Events
         public ShotOffTarget(int minute, Guid cardId, Guid squadId) : base(minute, cardId, squadId) { }
 
         public string Name => "Shot Off Target";
+
+        public bool ShowInTimeline => true;
     }
 }

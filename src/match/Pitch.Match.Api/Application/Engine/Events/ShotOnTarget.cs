@@ -9,5 +9,7 @@ namespace Pitch.Match.Api.Application.Engine.Events
         public ShotOnTarget(int minute, Guid cardId, Guid squadId) : base(minute, cardId, squadId) { }
 
         public string Name => "Shot Saved";
+
+        public bool ShowInTimeline => true;
     }
 }

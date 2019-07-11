@@ -54,7 +54,7 @@ namespace Pitch.Match.Api
 
             services.AddScoped<IMatchRepository, MatchRepository>();
 
-            services.AddSingleton<IAction, Foul>();
+            services.AddSingleton<IAction, Application.Engine.Action.Foul>();
             services.AddSingleton<IAction, Shot>();
 
             services.AddHealthChecks()

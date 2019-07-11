@@ -9,5 +9,6 @@ namespace Pitch.Match.Api.Application.Engine.Events
         public Goal(int minute, Guid cardId, Guid squadId) : base(minute, cardId, squadId) {}
 
         public string Name => "Goal";
+        public bool ShowInTimeline => true;
     }
 }

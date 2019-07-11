@@ -30,7 +30,7 @@ namespace Pitch.Match.Api.Models
             };
 
             var cards = match.HomeTeam.Squad.Lineup.SelectMany(x => x.Value).Concat(match.AwayTeam.Squad.Lineup.SelectMany(x => x.Value));
-            Events = match.Events.OrderByDescending(x => x.Minute).Select(x => new Event()
+            Events = match.Events.Where(x => x.ShowInTimeline).OrderByDescending(x => x.Minute).Select(x => new Event()
             {
                 Minute = x.Minute,
                 Name = x.Name,
@@ -47,7 +47,7 @@ namespace Pitch.Match.Api.Models
                 Shots = homeTeamEvents.Count(x => (new Type[] { typeof(Goal), typeof(ShotOnTarget), typeof(ShotOffTarget) }).Contains(x.GetType())),
                 ShotsOnTarget = homeTeamEvents.Count(x => (new Type[] { typeof(Goal), typeof(ShotOnTarget) }).Contains(x.GetType())),
                 Possession = (int)Math.Round(((double)match.Statistics.Count(x => x.SquadIdInPossession == teamId) / (double)match.Statistics.Count()) * 100),
-                Fouls = homeTeamEvents.Count(x => (new Type[] { typeof(YellowCard), typeof(RedCard) }).Contains(x.GetType())), //TODO Foul event
+                Fouls = homeTeamEvents.Count(x => (new Type[] { typeof(YellowCard), typeof(RedCard), typeof(Foul) }).Contains(x.GetType())),
                 YellowCards = homeTeamEvents.Count(x => x.GetType() == typeof(YellowCard)),
                 RedCards = homeTeamEvents.Count(x => x.GetType() == typeof(RedCard))
             };
@@ -74,6 +74,7 @@ namespace Pitch.Match.Api.Models
         public Stats HomeStats { get; set; }
         public Stats AwayStats { get; set; }
 
+        //TODO Rename to timeline?
         public IList<Event> Events { get; set; }
 
         public bool Expired { get; set; }
