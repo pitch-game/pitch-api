@@ -33,16 +33,8 @@ namespace Pitch.Match.Api.Controllers
         public async Task<ActionResult<MatchResult>> Get(Guid id)
         {
             var match = await _matchService.GetAsync(id);
-
-            //TODO move to model & service
-            match.Events = match.Events.Where(x => x.Minute < match.Duration).ToList();
-            match.Statistics = match.Statistics.Where(x => x.Minute < match.Duration).ToList();
-
-            var result = new MatchResult(match);
-            result.Minute = match.Duration;
-            result.Expired = match.IsOver;
-            result.ExpiredOn = match.IsOver ? match.KickOff.AddMinutes(90 + match.ExtraTime) : (DateTime?)null;
-            return result;
+            match.AsOfNow();
+            return new MatchResult(match);
         }
 
         [HttpGet("claim")]

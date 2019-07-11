@@ -2,6 +2,7 @@
 using Pitch.Match.Api.Application.Engine.Events;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Pitch.Match.Api.Models
 {
@@ -37,6 +38,12 @@ namespace Pitch.Match.Api.Models
         public int Duration => (int)DateTime.Now.Subtract(KickOff).TotalMinutes;
 
         public bool IsOver => DateTime.Now > KickOff.AddMinutes(90 + ExtraTime);
+
+        public void AsOfNow()
+        {
+            Events = Events.Where(x => x.Minute < Duration).ToList();
+            Statistics = Statistics.Where(x => x.Minute < Duration).ToList();
+        }
     }
 
     public class TeamDetails

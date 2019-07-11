@@ -38,6 +38,10 @@ namespace Pitch.Match.Api.Models
                 SquadName = match.HomeTeam.Squad.Id == x.SquadId ? match.HomeTeam.Squad.Name : match.AwayTeam.Squad.Name, //TODO sending repeated data
                 CardId = x.CardId
             }).ToList();
+
+            Minute = match.Duration;
+            Expired = match.IsOver;
+            ExpiredOn = match.IsOver ? match.KickOff.AddMinutes(90) : (DateTime?)null;
         }
 
         private static Stats GetStats(Match match, IEnumerable<IEvent> homeTeamEvents, Guid teamId)
@@ -46,11 +50,17 @@ namespace Pitch.Match.Api.Models
             {
                 Shots = homeTeamEvents.Count(x => (new Type[] { typeof(Goal), typeof(ShotOnTarget), typeof(ShotOffTarget) }).Contains(x.GetType())),
                 ShotsOnTarget = homeTeamEvents.Count(x => (new Type[] { typeof(Goal), typeof(ShotOnTarget) }).Contains(x.GetType())),
-                Possession = (int)Math.Round(((double)match.Statistics.Count(x => x.SquadIdInPossession == teamId) / (double)match.Statistics.Count()) * 100),
+                Possession = CalculatePossession(match, teamId),
                 Fouls = homeTeamEvents.Count(x => (new Type[] { typeof(YellowCard), typeof(RedCard), typeof(Foul) }).Contains(x.GetType())),
                 YellowCards = homeTeamEvents.Count(x => x.GetType() == typeof(YellowCard)),
                 RedCards = homeTeamEvents.Count(x => x.GetType() == typeof(RedCard))
             };
+        }
+
+        private static int CalculatePossession(Match match, Guid teamId)
+        {
+            if (match.Statistics.Count() == 0) return 0;
+            return (int)Math.Round(((double)match.Statistics.Count(x => x.SquadIdInPossession == teamId) / (double)match.Statistics.Count()) * 100);
         }
 
         private static IEnumerable<string> GetScorers(Match match, IEnumerable<IEvent> events, Squad team)
