@@ -8,8 +8,7 @@ namespace Pitch.Match.Api.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public IDictionary<string, IEnumerable<Card>> Lineup { get; set; }
-
-        //TODO SUBS
+        public Card[] Subs { get; set; }
     }
 
     public class Card

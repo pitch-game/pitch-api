@@ -37,6 +37,13 @@ namespace Pitch.Match.Api.Controllers
             return new MatchResult(match);
         }
 
+        [HttpGet("lineup")]
+        public async Task<ActionResult<dynamic>> Lineup(Guid matchId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
+            return await _matchService.GetLineupAsync(matchId, new Guid(userId));
+        }
+
         [HttpGet("claim")]
         public async Task Claim()
         {

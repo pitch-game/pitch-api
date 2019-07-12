@@ -20,6 +20,7 @@ namespace Pitch.Match.Api.Services
         Task ClaimAsync(Guid userId);
         Task<IEnumerable<Models.MatchListResult>> GetAllAsync(int skip, int? take, Guid userId);
         Task<Models.MatchStatusResult> GetMatchStatus(Guid userId);
+        Task<dynamic> GetLineupAsync(Guid matchId, Guid userId);
     }
 
     public class MatchService : IMatchService
@@ -151,6 +152,13 @@ namespace Pitch.Match.Api.Services
                 HasUnclaimedRewards = hasUnclaimedRewards,
                 InProgressMatchId = inProgressMatchId
             };
+        }
+
+        public async Task<dynamic> GetLineupAsync(Guid matchId, Guid userId)
+        {
+            var match = await GetAsync(matchId);
+            var squad = match.HomeTeam.UserId == userId ? match.HomeTeam.Squad : match.AwayTeam.UserId == userId ? match.AwayTeam.Squad : null;
+            return new { Lineup = squad.Lineup.Values.SelectMany(x => x).ToList(), squad.Subs };
         }
     }
 }
