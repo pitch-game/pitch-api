@@ -44,6 +44,14 @@ namespace Pitch.Match.Api.Controllers
             return await _matchService.GetLineupAsync(matchId, new Guid(userId));
         }
 
+        [HttpPost("substitution")]
+        public async Task<ActionResult> Substitution([FromBody]SubRequest req)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
+            await _matchService.Substitution(req.Off, req.On, req.MatchId, new Guid(userId));
+            return Ok();
+        }
+
         [HttpGet("claim")]
         public async Task Claim()
         {

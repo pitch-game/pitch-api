@@ -8,6 +8,7 @@ namespace Pitch.Squad.Api.Application.Response
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public IList<Card> Cards { get; set; }
+        public Dictionary<string, Card> Lineup { get; set; }
+        public Card[] Subs { get; set; }
     }
 }

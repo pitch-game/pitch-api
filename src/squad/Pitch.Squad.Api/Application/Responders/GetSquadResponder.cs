@@ -33,20 +33,18 @@ namespace Pitch.Squad.Api.Application.Responders
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 var squad = await scope.ServiceProvider.GetRequiredService<ISquadService>().GetOrCreateAsync(@request.UserId.ToString()); //TODO Get only
-                var cardsResponse = await _bus.RequestAsync<GetCardsRequest, GetCardsResponse>(new GetCardsRequest(squad.Lineup.Where(x => x.Value.HasValue).Select(x => x.Value.Value).ToList()));
+                var cardIds = squad.Lineup.Where(x => x.Value.HasValue).Select(x => x.Value).Concat(squad.Subs.Where(x => x.HasValue)).Select(x => x.Value).ToList();
+                var cardsResponse = await _bus.RequestAsync<GetCardsRequest, GetCardsResponse>(new GetCardsRequest(cardIds));
 
-                //set positions TODO refactor
-                foreach (var position in squad.Lineup)
-                {
-                    var card = cardsResponse.Cards.FirstOrDefault(x => x.Id == position.Value);
-                    card.Position = position.Key;
-                }
+                var lineup = squad.Lineup.ToDictionary(x => x.Key, x => cardsResponse.Cards.FirstOrDefault(c => c.Id == x.Value));
+                var subs = squad.Subs.Select(x => cardsResponse.Cards.FirstOrDefault(c => c.Id == x)).ToArray();
 
                 return new GetSquadResponse()
                 {
                     Id = squad.Id,
                     Name = squad.Name,
-                    Cards = cardsResponse.Cards.ToList()
+                    Lineup = lineup,
+                    Subs = subs
                 };
             }
         }

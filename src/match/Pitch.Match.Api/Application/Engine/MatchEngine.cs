@@ -2,6 +2,7 @@
 using Pitch.Match.Api.Application.Engine.Helpers;
 using Pitch.Match.Api.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Pitch.Match.Api.Application.Engine
 {
@@ -18,7 +19,10 @@ namespace Pitch.Match.Api.Application.Engine
 
         public Models.Match SimulateReentrant(Models.Match match, int simulateFromMinute = 0)
         {
-            //remove events after simulateFrom, but does that work with sending offs etc
+            //TODO move to match object?
+            match.Events = match.Events.Where(x => x.Minute < simulateFromMinute).ToList();
+            match.Statistics = match.Statistics.Where(x => x.Minute < simulateFromMinute).ToList();
+
             for (int minute = simulateFromMinute; minute < MATCH_LENGTH_IN_MINUTES; minute++)
             {
                 int homePossChance;

@@ -97,6 +97,7 @@ namespace Pitch.Match.Api
             BsonClassMap.RegisterClassMap<ShotOnTarget>();
             BsonClassMap.RegisterClassMap<ShotOffTarget>();
             BsonClassMap.RegisterClassMap<Application.Engine.Events.Foul>();
+            BsonClassMap.RegisterClassMap<Substitution>();
 
             app.UseHealthChecks("/health");
             app.UseHealthChecks("/liveness", new HealthCheckOptions

@@ -1,4 +1,5 @@
 ﻿using EasyNetQ;
+using Microsoft.AspNetCore.Mvc;
 using Pitch.Match.Api.Application.Engine;
 using Pitch.Match.Api.Application.Engine.Events;
 using Pitch.Match.Api.Application.MessageBus.Events;
@@ -21,6 +22,7 @@ namespace Pitch.Match.Api.Services
         Task<IEnumerable<Models.MatchListResult>> GetAllAsync(int skip, int? take, Guid userId);
         Task<Models.MatchStatusResult> GetMatchStatus(Guid userId);
         Task<dynamic> GetLineupAsync(Guid matchId, Guid userId);
+        Task Substitution(Guid off, Guid on, Guid matchId, Guid userId);
     }
 
     public class MatchService : IMatchService
@@ -100,10 +102,10 @@ namespace Pitch.Match.Api.Services
 
         private Squad BuildSquad(GetSquadResponse squadResp)
         {
-            var gk = squadResp.Cards.Where(x => x.Position == "GK").ToList();
-            var def = squadResp.Cards.Where(x => (new string[] { "LB", "LCB", "RCB", "RB" }).Contains(x.Position)).ToList();
-            var mid = squadResp.Cards.Where(x => (new string[] { "LM", "LCM", "RCM", "RM" }).Contains(x.Position)).ToList();
-            var att = squadResp.Cards.Where(x => (new string[] { "LST", "RST" }).Contains(x.Position)).ToList();
+            var gk = squadResp.Lineup.Where(x => x.Key == "GK").Select(x => x.Value).ToList();
+            var def = squadResp.Lineup.Where(x => (new string[] { "LB", "LCB", "RCB", "RB" }).Contains(x.Key)).Select(x => x.Value).ToList();
+            var mid = squadResp.Lineup.Where(x => (new string[] { "LM", "LCM", "RCM", "RM" }).Contains(x.Key)).Select(x => x.Value).ToList();
+            var att = squadResp.Lineup.Where(x => (new string[] { "LST", "RST" }).Contains(x.Key)).Select(x => x.Value).ToList();
 
             return new Squad()
             {
@@ -113,9 +115,10 @@ namespace Pitch.Match.Api.Services
                 {
                     { "GK", gk },
                     { "DEF", def },
-                    { "MID" , mid },
+                    { "MID", mid },
                     { "ATT", att }
-                }
+                },
+                Subs = squadResp.Subs
             };
         }
 
@@ -159,6 +162,24 @@ namespace Pitch.Match.Api.Services
             var match = await GetAsync(matchId);
             var squad = match.HomeTeam.UserId == userId ? match.HomeTeam.Squad : match.AwayTeam.UserId == userId ? match.AwayTeam.Squad : null;
             return new { Lineup = squad.Lineup.Values.SelectMany(x => x).ToList(), squad.Subs };
+        }
+
+        public async Task Substitution(Guid off, Guid on, Guid matchId, Guid userId)
+        {
+            //TODO validate
+            var match = await GetAsync(matchId);
+            var team = match.GetTeam(userId);
+
+            if (team.UsedSubs >= 3) return;
+
+            //TODO move to match?
+            team.Squad.Substitute(off, on);
+
+            var newMatch = _matchEngine.SimulateReentrant(match, match.Duration);
+            newMatch.Events.Add(new Substitution(match.Duration, on, team.Squad.Id));
+            newMatch.GetTeam(userId).UsedSubs++;
+
+            await _matchRepository.UpdateAsync(newMatch);
         }
     }
 }

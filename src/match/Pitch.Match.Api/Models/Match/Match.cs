@@ -28,6 +28,11 @@ namespace Pitch.Match.Api.Models
             return HomeTeam.Squad.Id == id ? AwayTeam.Squad : AwayTeam.Squad.Id == id ? HomeTeam.Squad : throw new Exception();
         }
 
+        public TeamDetails GetTeam(Guid userId)
+        {
+            return HomeTeam.UserId == userId ? HomeTeam : AwayTeam.UserId == userId ? AwayTeam : throw new Exception();
+        }
+
         public DateTime KickOff { get; set; }
 
         public IList<IEvent> Events { get; set; }
@@ -51,6 +56,7 @@ namespace Pitch.Match.Api.Models
         public Guid UserId { get; set; }
         public Squad Squad { get; set; }
         public bool HasClaimedRewards { get; set; }
+        public int UsedSubs { get; set; }
     }
 
     public class MinuteStats
