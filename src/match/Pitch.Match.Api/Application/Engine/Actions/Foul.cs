@@ -3,6 +3,7 @@ using Pitch.Match.Api.Application.Engine.Events;
 using Pitch.Match.Api.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Pitch.Match.Api.Application.Engine.Action
 {
@@ -35,7 +36,11 @@ namespace Pitch.Match.Api.Application.Engine.Action
             }
             if (randomNumber >= 2 && randomNumber < 5)
             {
-                //todo check for two yellows
+                var yellowCards = match.Events.Where(x => x.GetType() == typeof(YellowCard)).Select(x => x.CardId);
+                if (yellowCards.Contains(card.Id))
+                {
+                    return new RedCard(minute, card.Id, squadId); //TODO return yellow and red event
+                }
                 return new YellowCard(minute, card.Id, squadId);
             }
             if (randomNumber >= 5)
