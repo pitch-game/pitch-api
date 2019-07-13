@@ -29,7 +29,9 @@ namespace Pitch.Match.Api.Models
                 Name = match.AwayTeam.Squad.Name
             };
 
-            var cards = match.HomeTeam.Squad.Lineup.SelectMany(x => x.Value).Concat(match.AwayTeam.Squad.Lineup.SelectMany(x => x.Value)); //TODO concat subs
+            var cards = match.HomeTeam.Squad.Lineup.SelectMany(x => x.Value).Concat(match.AwayTeam.Squad.Lineup.SelectMany(x => x.Value));
+            cards = cards.Concat(match.HomeTeam.Squad.Subs).Concat(match.AwayTeam.Squad.Subs);
+
             Events = match.Events.Where(x => x.ShowInTimeline).OrderByDescending(x => x.Minute).Select(x => new Event()
             {
                 Minute = x.Minute,

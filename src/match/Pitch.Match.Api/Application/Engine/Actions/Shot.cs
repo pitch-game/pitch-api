@@ -30,7 +30,7 @@ namespace Pitch.Match.Api.Application.Engine.Action
 
         public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match)
         {
-            var oppositionsDefenceRating = RatingHelper.CurrentRating(PositionalArea.DEF, match.GetOppositionSquad(squadId));
+            var oppositionsDefenceRating = RatingHelper.CurrentRating(PositionalArea.DEF, match.GetOppositionSquad(squadId), match.Events);
             var shootersRating = RatingHelper.CurrentRating(card.Id, match.GetSquad(squadId));
 
             //var difference = Math.Abs(oppositionsDefenceRating - shootersRating);
@@ -44,7 +44,7 @@ namespace Pitch.Match.Api.Application.Engine.Action
             var randomNumber = rand.Next(0, shotOnTargetChance);
             if (randomNumber <= shootersRating * SHOOTER_AGAINST_DEFENDERS_MODIFIER)
             {
-                var gkRating = RatingHelper.CurrentRating(PositionalArea.GK, match.GetOppositionSquad(squadId));
+                var gkRating = RatingHelper.CurrentRating(PositionalArea.GK, match.GetOppositionSquad(squadId), match.Events);
                 //var shotDifference = Math.Abs(gkRating - shootersRating);
 
                 //var goalChance = (int)Math.Round((1 - ((double)shotDifference / (double)shootersRating)) * 100);

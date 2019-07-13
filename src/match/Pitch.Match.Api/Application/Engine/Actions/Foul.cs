@@ -31,7 +31,6 @@ namespace Pitch.Match.Api.Application.Engine.Action
 
             if (randomNumber == 1)
             {
-                card.SentOff = true; //TODO doesn't support reetrancy
                 return new RedCard(minute, card.Id, squadId);
             }
             if (randomNumber >= 2 && randomNumber < 5)

@@ -1,4 +1,5 @@
 ﻿using Pitch.Match.Api.Application.Engine.Action;
+using Pitch.Match.Api.Application.Engine.Events;
 using Pitch.Match.Api.Models;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace Pitch.Match.Api.Application.Engine.Helpers
             return action;
         }
 
-        public static Card RollCard(Squad team, IAction action)
+        public static Card RollCard(Squad team, IAction action, IEnumerable<IEvent> events)
         {
             Random random = new Random();
             int randomNumber = random.Next(0, 100);
@@ -45,7 +46,9 @@ namespace Pitch.Match.Api.Application.Engine.Helpers
                 }
             }
 
-            var cards = team.Lineup[positionalArea.ToString()].Where(x => !x.SentOff).ToList(); //Can't roll a sent off player TODO make this global
+            var sentOffCardIds = events.Where(x => x.GetType() == typeof(RedCard)).Select(x => x.CardId);
+            var cards = team.Lineup[positionalArea.ToString()].Where(x => !sentOffCardIds.Contains(x.Id)).ToList();
+
             var rnd = new Random();
             int r = rnd.Next(cards.Count);
             return cards.ElementAtOrDefault(r); //returns null TODO fix rolling position with 0 cards due to sending off

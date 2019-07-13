@@ -35,7 +35,7 @@ namespace Pitch.Match.Api.Application.Engine
                 if (action != null)
                 {
                     var affectedSquad = action.AffectsTeamInPossession ? inPossession : notInPossession;
-                    var card = ActionHelper.RollCard(affectedSquad, action);
+                    var card = ActionHelper.RollCard(affectedSquad, action, match.Events);
                     if (card == null) //TODO cancel if couldnt get a card
                         continue;
 

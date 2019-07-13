@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,6 +34,7 @@ namespace Pitch.Match.Api.Models
         }
     }
 
+    [BsonIgnoreExtraElements]
     public class Card
     {
         public Card()
@@ -58,8 +60,5 @@ namespace Pitch.Match.Api.Models
         public string Rarity { get; set; }
         public int Fitness { get; set; }
         public string Position { get; set; }
-
-        //TODO this wont work during reentrancy
-        public bool SentOff { get; set; }
     }
 }

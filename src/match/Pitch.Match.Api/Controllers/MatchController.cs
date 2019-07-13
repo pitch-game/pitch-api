@@ -30,11 +30,13 @@ namespace Pitch.Match.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<MatchResult>> Get(Guid id)
+        public async Task<ActionResult<dynamic>> Get(Guid id)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
             var match = await _matchService.GetAsync(id);
             match.AsOfNow();
-            return new MatchResult(match);
+            //return new MatchResult(match);
+            return new { Match = new MatchResult(match), SubsRemaining = MatchService.SUB_COUNT - match.GetTeam(new Guid(userId)).UsedSubs };
         }
 
         [HttpGet("lineup")]

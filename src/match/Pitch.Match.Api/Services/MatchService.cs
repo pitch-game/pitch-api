@@ -32,6 +32,8 @@ namespace Pitch.Match.Api.Services
         private readonly IMatchRepository _matchRepository;
         private readonly IBus _bus;
 
+        public const int SUB_COUNT = 3;
+
         public MatchService(IMatchmakingService matchmakingService, IMatchEngine matchEngine, IMatchRepository matchRepository, IBus bus)
         {
             _matchmakingService = matchmakingService;
@@ -170,7 +172,7 @@ namespace Pitch.Match.Api.Services
             var match = await GetAsync(matchId);
             var team = match.GetTeam(userId);
 
-            if (team.UsedSubs >= 3) return;
+            if (team.UsedSubs >= SUB_COUNT) return;
 
             //TODO move to match?
             team.Squad.Substitute(off, on);

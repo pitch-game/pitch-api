@@ -1,5 +1,7 @@
-﻿using Pitch.Match.Api.Models;
+﻿using Pitch.Match.Api.Application.Engine.Events;
+using Pitch.Match.Api.Models;
 using System;
+using System.Collections.Generic;
 
 namespace Pitch.Match.Api.Application.Engine.Helpers
 {
@@ -7,8 +9,8 @@ namespace Pitch.Match.Api.Application.Engine.Helpers
     {
         public static Squad InPossession(Models.Match match, out Squad notInPossession, out int homeChance, out int awayChance)
         {
-            homeChance = PossessionChance(match.HomeTeam.Squad);
-            awayChance = PossessionChance(match.AwayTeam.Squad);
+            homeChance = PossessionChance(match.HomeTeam.Squad, match.Events);
+            awayChance = PossessionChance(match.AwayTeam.Squad, match.Events);
 
             //var difference = Math.Abs(homeChance - awayChance);
 
@@ -38,12 +40,12 @@ namespace Pitch.Match.Api.Application.Engine.Helpers
             }
         }
 
-        private static int PossessionChance(Squad squad)
+        private static int PossessionChance(Squad squad, IEnumerable<IEvent> events)
         {
-            return (int)Math.Round((RatingHelper.CurrentRating(PositionalArea.GK, squad) * 0.1) +
-                (RatingHelper.CurrentRating(PositionalArea.DEF, squad) * 0.5) +
-                (RatingHelper.CurrentRating(PositionalArea.MID, squad) * 1) +
-                (RatingHelper.CurrentRating(PositionalArea.ATT, squad) * 0.5));
+            return (int)Math.Round((RatingHelper.CurrentRating(PositionalArea.GK, squad, events) * 0.1) +
+                (RatingHelper.CurrentRating(PositionalArea.DEF, squad, events) * 0.5) +
+                (RatingHelper.CurrentRating(PositionalArea.MID, squad, events) * 1) +
+                (RatingHelper.CurrentRating(PositionalArea.ATT, squad, events) * 0.5));
         }
     }
 }
