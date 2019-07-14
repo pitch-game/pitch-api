@@ -39,7 +39,28 @@ namespace Pitch.Match.Api.Tests
         [Fact]
         public void WhenTwoSubstitutionsOccurOnSameMinute()
         {
-            //Ensure they both occur
+            var match = UnitTest1.SetUpMatch();
+            match.KickOff = DateTime.Now.AddMinutes(-58); //Skip to 58th minute
+
+            var player = match.HomeTeam.Squad.Lineup.SelectMany(x => x.Value).First();
+            var sub = match.HomeTeam.Squad.Subs[0];
+
+            match.Substitute(player.Id, sub.Id, match.HomeTeam.UserId); //Substitute on 58th minute
+
+            var actions = new IAction[] { new Application.Engine.Action.Foul(), new Shot() };
+            var engine = new MatchEngine(actions);
+
+            engine.SimulateReentrant(match);
+
+            var awayPlayer = match.AwayTeam.Squad.Lineup.SelectMany(x => x.Value).First();
+            var awaySub = match.AwayTeam.Squad.Subs[0];
+
+            match.Substitute(awayPlayer.Id, awaySub.Id, match.AwayTeam.UserId); //Substitute on 58th minute
+
+            var result = engine.SimulateReentrant(match);
+
+            Assert.Contains(result.Events, x => x.Minute == 58 && x.SquadId == match.HomeTeam.Squad.Id && x.CardId == sub.Id &&  x.GetType() == typeof(Substitution));
+            Assert.Contains(result.Events, x => x.Minute == 58 && x.SquadId == match.AwayTeam.Squad.Id && x.CardId == awaySub.Id && x.GetType() == typeof(Substitution));
         }
 
         [Fact]
