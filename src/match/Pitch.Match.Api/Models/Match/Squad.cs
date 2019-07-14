@@ -7,6 +7,12 @@ namespace Pitch.Match.Api.Models
 {
     public class Squad
     {
+        public Squad()
+        {
+            Lineup = new Dictionary<string, IEnumerable<Card>>();
+            Subs = new Card[6];
+        }
+
         public Guid Id { get; set; }
         public string Name { get; set; }
         public IDictionary<string, IEnumerable<Card>> Lineup { get; set; }

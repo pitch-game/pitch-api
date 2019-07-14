@@ -30,7 +30,7 @@ namespace Pitch.Match.Api.Models
             };
 
             var cards = match.HomeTeam.Squad.Lineup.SelectMany(x => x.Value).Concat(match.AwayTeam.Squad.Lineup.SelectMany(x => x.Value));
-            cards = cards.Concat(match.HomeTeam.Squad.Subs).Concat(match.AwayTeam.Squad.Subs);
+            cards = cards.Concat(match.HomeTeam.Squad.Subs ?? new Card[0]).Concat(match.AwayTeam.Squad.Subs ?? new Card[0]);
 
             Events = match.Events.Where(x => x.ShowInTimeline).OrderByDescending(x => x.Minute).Select(x => new Event()
             {
