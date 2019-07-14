@@ -9,8 +9,7 @@ namespace Pitch.Match.Api.Tests
 {
     public class UnitTest1
     {
-        [Fact]
-        public void Test1()
+        public static Models.Match SetUpMatch()
         {
             var actions = new IAction[] { new Foul(), new Shot() };
             var engine = new MatchEngine(actions);
@@ -213,6 +212,15 @@ namespace Pitch.Match.Api.Tests
             {
                 Id = Guid.NewGuid(),
                 Lineup = lineup,
+                Subs = new Card[] {
+                    new Card()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "ST",
+                        Rating = 40,
+                        Fitness = 100
+                    }
+                },
                 Name = "Good FC"
             };
 
@@ -220,6 +228,15 @@ namespace Pitch.Match.Api.Tests
             {
                 Id = Guid.NewGuid(),
                 Lineup = lineup2,
+                Subs = new Card[] {
+                    new Card()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "ST",
+                        Rating = 40,
+                        Fitness = 100
+                    }
+                },
                 Name = "Shitty FC"
             };
 
@@ -242,6 +259,13 @@ namespace Pitch.Match.Api.Tests
                 }
             };
             var result = engine.SimulateReentrant(match);
+            return result;
+        }
+
+        [Fact]
+        public void Test1()
+        {
+            var result = SetUpMatch();
             var matchResult = new MatchResult(result);
         }
     }

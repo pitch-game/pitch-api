@@ -176,11 +176,9 @@ namespace Pitch.Match.Api.Services
 
             if (team.UsedSubs >= SUB_COUNT) return;
 
-            //TODO move to match?
-            team.Squad.Substitute(off, on);
-
+            match.Substitute(off, on, userId);
             var newMatch = _matchEngine.SimulateReentrant(match);
-            newMatch.Events.Add(new Substitution(match.Duration, on, team.Squad.Id));
+
             newMatch.GetTeam(userId).UsedSubs++;
 
             await _matchRepository.UpdateAsync(newMatch);

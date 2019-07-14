@@ -22,7 +22,7 @@ namespace Pitch.Match.Api.Application.Engine
             match.Events = match.Events.Where(x => x.Minute <= match.Duration).ToList();
             match.Statistics = match.Statistics.Where(x => x.Minute <= match.Duration).ToList();
 
-            for (int minute = match.Duration; minute < MATCH_LENGTH_IN_MINUTES; minute++)
+            for (int minute = match.Duration; minute < MATCH_LENGTH_IN_MINUTES; minute++) //TODO atm its simulating the same minute again on reentrancy, is this right?
             {
                 int homePossChance;
                 int awayPossChance;

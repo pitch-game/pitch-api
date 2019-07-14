@@ -49,6 +49,15 @@ namespace Pitch.Match.Api.Models
             Events = Events.Where(x => x.Minute < Duration).ToList();
             Statistics = Statistics.Where(x => x.Minute < Duration).ToList();
         }
+
+        public void Substitute(Guid off, Guid on, Guid userId)
+        {
+            var team = GetTeam(userId);
+            team.Squad.Substitute(off, on);
+
+            //Add event to old match for ordering of events concerning substituted player in same minute
+            Events.Add(new Substitution(Duration, on, team.Squad.Id));
+        }
     }
 
     public class TeamDetails
