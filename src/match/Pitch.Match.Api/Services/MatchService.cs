@@ -163,7 +163,9 @@ namespace Pitch.Match.Api.Services
         {
             var match = await GetAsync(matchId);
             var squad = match.HomeTeam.UserId == userId ? match.HomeTeam.Squad : match.AwayTeam.UserId == userId ? match.AwayTeam.Squad : null;
-            return new { Lineup = squad.Lineup.Values.SelectMany(x => x).ToList(), squad.Subs };
+            var sendingOffs = match.Events.Where(x => x.GetType() == typeof(RedCard)).Select(x => x.CardId);
+            var lineup = squad.Lineup.Values.SelectMany(x => x).Where(x => !sendingOffs.Contains(x.Id)).ToList();
+            return new { Lineup = lineup, squad.Subs };
         }
 
         public async Task Substitution(Guid off, Guid on, Guid matchId, Guid userId)
@@ -177,7 +179,7 @@ namespace Pitch.Match.Api.Services
             //TODO move to match?
             team.Squad.Substitute(off, on);
 
-            var newMatch = _matchEngine.SimulateReentrant(match, match.Duration);
+            var newMatch = _matchEngine.SimulateReentrant(match);
             newMatch.Events.Add(new Substitution(match.Duration, on, team.Squad.Id));
             newMatch.GetTeam(userId).UsedSubs++;
 

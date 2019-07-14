@@ -17,13 +17,12 @@ namespace Pitch.Match.Api.Application.Engine
             _actions = actions;
         }
 
-        public Models.Match SimulateReentrant(Models.Match match, int simulateFromMinute = 0)
+        public Models.Match SimulateReentrant(Models.Match match)
         {
-            //TODO move to match object?
-            match.Events = match.Events.Where(x => x.Minute < simulateFromMinute).ToList();
-            match.Statistics = match.Statistics.Where(x => x.Minute < simulateFromMinute).ToList();
+            match.Events = match.Events.Where(x => x.Minute <= match.Duration).ToList();
+            match.Statistics = match.Statistics.Where(x => x.Minute <= match.Duration).ToList();
 
-            for (int minute = simulateFromMinute; minute < MATCH_LENGTH_IN_MINUTES; minute++)
+            for (int minute = match.Duration; minute < MATCH_LENGTH_IN_MINUTES; minute++)
             {
                 int homePossChance;
                 int awayPossChance;
