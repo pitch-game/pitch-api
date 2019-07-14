@@ -5,20 +5,20 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 WORKDIR /src
-COPY *.sln .
 COPY ["Pitch.Match.Api/Pitch.Match.Api.csproj", "Pitch.Match.Api/"]
 COPY ["Pitch.Match.Api.Tests/Pitch.Match.Api.Tests.csproj", "Pitch.Match.Api.Tests/"]
-RUN dotnet restore
+RUN dotnet restore "Pitch.Match.Api/Pitch.Match.Api.csproj"
+RUN dotnet restore "Pitch.Match.Api.Tests/Pitch.Match.Api.Tests.csproj"
 COPY . .
 WORKDIR "/src/Pitch.Match.Api"
 RUN dotnet build "Pitch.Match.Api.csproj" -c Release -o /app
 
 FROM build AS testrunner
-WORKDIR /app/Pitch.Match.Api.Tests
+WORKDIR /src/Pitch.Match.Api.Tests
 ENTRYPOINT ["dotnet", "test", "--logger:trx"]
 
 FROM build AS test
-WORKDIR /app/Pitch.Match.Api.Tests
+WORKDIR /src/Pitch.Match.Api.Tests
 RUN dotnet test
 
 FROM build AS publish
