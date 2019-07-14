@@ -5,6 +5,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 WORKDIR /src
+COPY *.sln .
 COPY ["Pitch.Match.Api/Pitch.Match.Api.csproj", "Pitch.Match.Api/"]
 COPY ["Pitch.Match.Api.Tests/Pitch.Match.Api.Tests.csproj", "Pitch.Match.Api.Tests/"]
 RUN dotnet restore
