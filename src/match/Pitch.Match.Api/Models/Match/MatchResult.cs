@@ -69,7 +69,7 @@ namespace Pitch.Match.Api.Models
         {
             var scorers = new List<string>();
             var goals = events.Where(x => x.GetType() == typeof(Goal)).Cast<Goal>();
-            var playerCards = team.Lineup.SelectMany(x => x.Value);
+            var playerCards = team.Lineup.SelectMany(x => x.Value).Concat(team.Subs);
             foreach (var goal in goals)
             {
                 var player = playerCards.FirstOrDefault(x => x.Id == goal.CardId);
