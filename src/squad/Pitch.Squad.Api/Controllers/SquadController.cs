@@ -12,9 +12,12 @@ namespace Pitch.Squad.Api.Controllers
     public class SquadController : ControllerBase
     {
         private readonly ISquadService _squadService;
-        public SquadController(ISquadService activeSquadService)
+        private readonly IChemistryService _chemistryService;
+
+        public SquadController(ISquadService activeSquadService, IChemistryService chemistryService)
         {
             _squadService = activeSquadService;
+            _chemistryService = chemistryService;
         }
 
         // GET /
@@ -22,7 +25,9 @@ namespace Pitch.Squad.Api.Controllers
         public async Task<Models.Squad> Get()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
-            return await _squadService.GetOrCreateAsync(userId);
+            var squad = await _squadService.GetOrCreateAsync(userId);
+            _chemistryService.SetChemistry(squad);
+            return squad;
         }
 
         [HttpPut]

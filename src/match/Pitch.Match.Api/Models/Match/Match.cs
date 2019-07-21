@@ -55,7 +55,6 @@ namespace Pitch.Match.Api.Models
             var team = GetTeam(userId);
             team.Squad.Substitute(off, on);
 
-            //Add event to old match for ordering of events concerning substituted player in same minute
             Events.Add(new Substitution(Duration, on, team.Squad.Id));
         }
     }

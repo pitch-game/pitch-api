@@ -1,8 +1,11 @@
-﻿using EasyNetQ;
+﻿using AutoMapper;
+using EasyNetQ;
 using Microsoft.Extensions.DependencyInjection;
 using Pitch.Squad.Api.Application.Requests;
 using Pitch.Squad.Api.Application.Response;
+using Pitch.Squad.Api.Models;
 using Pitch.Squad.Api.Services;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,11 +19,13 @@ namespace Pitch.Squad.Api.Application.Responders
     {
         private readonly IBus _bus;
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IMapper _mapper;
 
-        public GetSquadResponder(IBus bus, IServiceScopeFactory serviceScopeFactory)
+        public GetSquadResponder(IBus bus, IServiceScopeFactory serviceScopeFactory, IMapper mapper)
         {
             _bus = bus;
             _serviceScopeFactory = serviceScopeFactory;
+            _mapper = mapper;
         }
 
         public void Register()
@@ -43,8 +48,8 @@ namespace Pitch.Squad.Api.Application.Responders
                 {
                     Id = squad.Id,
                     Name = squad.Name,
-                    Lineup = lineup,
-                    Subs = subs
+                    Lineup = lineup.ToDictionary(x => x.Key, x => _mapper.Map<Card>(x.Value)),
+                    Subs = _mapper.Map<IEnumerable<Card>>(subs).ToArray()
                 };
             }
         }

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Pitch.Squad.Api.Application.Models
+namespace Pitch.Squad.Api.Models
 {
-    public class CardDTO
+    public class Card
     {
         public Guid Id { get; set; }
         public string UserId { get; set; }
@@ -11,5 +11,6 @@ namespace Pitch.Squad.Api.Application.Models
         public int Rating { get; set; }
         public string Rarity { get; set; }
         public int Fitness { get; set; }
+        public int Chemistry { get; set; }
     }
 }

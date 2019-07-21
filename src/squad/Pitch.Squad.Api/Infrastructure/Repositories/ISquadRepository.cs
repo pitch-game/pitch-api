@@ -3,7 +3,7 @@ using Pitch.Squad.Api.Models;
 
 namespace Pitch.Squad.Api.Infrastructure.Repositories
 {
-    internal interface ISquadRepository
+    public interface ISquadRepository
     {
         Task<Models.Squad> GetAsync(string userId);
         Task<Models.Squad> CreateAsync(string userId);

@@ -5,6 +5,6 @@ namespace Pitch.Squad.Api.Application.Response
 {
     public class GetCardsResponse
     {
-        public IEnumerable<Card> Cards { get; set; }
+        public IEnumerable<CardDTO> Cards { get; set; }
     }
 }
