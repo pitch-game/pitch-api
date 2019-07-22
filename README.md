@@ -1,10 +1,10 @@
 # Pitch API
 
-![GitHub last commit](https://img.shields.io/github/last-commit/jcbcn/pitch-api.svg)
-![GitHub issues](https://img.shields.io/github/issues/jcbcn/pitch-api.svg)
+![GitHub last commit](https://img.shields.io/github/last-commit/pitch-game/pitch-api.svg)
+![GitHub issues](https://img.shields.io/github/issues/pitch-game/pitch-api.svg)
 ![Mozilla HTTP Observatory Grade](https://img.shields.io/mozilla-observatory/grade/api.pitch-game.io.svg)
-![GitHub repo size](https://img.shields.io/github/repo-size/jcbcn/pitch-api.svg)
-![GitHub](https://img.shields.io/github/license/jcbcn/pitch-api.svg)
+![GitHub repo size](https://img.shields.io/github/repo-size/pitch-game/pitch-api.svg)
+![GitHub](https://img.shields.io/github/license/pitch-game/pitch-api.svg)
 
 API for the online multiplayer football trading card game.
 
