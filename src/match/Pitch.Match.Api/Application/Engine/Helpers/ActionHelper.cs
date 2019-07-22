@@ -47,7 +47,7 @@ namespace Pitch.Match.Api.Application.Engine.Helpers
             }
 
             var sentOffCardIds = events.Where(x => x.GetType() == typeof(RedCard)).Select(x => x.CardId);
-            var cards = team.Lineup[positionalArea.ToString()].Where(x => !sentOffCardIds.Contains(x.Id)).ToList();
+            var cards = team.Lineup[positionalArea.ToString()].Where(x => x != null && !sentOffCardIds.Contains(x.Id)).ToList();
 
             var rnd = new Random();
             int r = rnd.Next(cards.Count);

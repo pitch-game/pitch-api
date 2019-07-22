@@ -48,7 +48,8 @@ namespace Pitch.Match.Api
             });
 
             services.AddScoped<IMatchService, MatchService>();
-            services.AddSingleton<IMatchmakingService, MatchmakingService>();
+            services.AddScoped<IMatchmakingService, MatchmakingService>();
+            services.AddSingleton<IMatchSessionService, MatchSessionService>();
 
             services.AddSingleton<IMatchEngine, MatchEngine>();
 

@@ -10,10 +10,10 @@ namespace Pitch.Match.Api.Application.Engine.Helpers
     {
         public static int CurrentRating(PositionalArea positionalArea, Squad squad, IEnumerable<IEvent> events)
         {
-            var players = squad.Lineup.Where(x => x.Key == positionalArea.ToString()).SelectMany(x => x.Value).ToList();
+            var players = squad.Lineup.Where(x => x.Value != null && x.Key == positionalArea.ToString()).SelectMany(x => x.Value).ToList();
 
             var sentOffCardIds = events.Where(x => x.GetType() == typeof(RedCard)).Select(x => x.CardId);
-            var onTheField = players.Where(x => !sentOffCardIds.Contains(x.Id)).ToList();
+            var onTheField = players.Where(x => x != null && !sentOffCardIds.Contains(x.Id)).ToList();
 
             if (onTheField.Count == 0 || players.Count == 0)
                 return 0;
