@@ -28,7 +28,7 @@ namespace Pitch.Match.Api.Hubs
         {
             var user = Context.UserIdentifier;
 
-            var session = _matchmakingService.Matchmake(new Guid(user));
+            var session = await _matchmakingService.Matchmake(new Guid(user));
             await Groups.AddToGroupAsync(Context.ConnectionId, session.Id.ToString());
 
             if (session.Open)
