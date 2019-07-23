@@ -59,6 +59,8 @@ namespace Pitch.Squad.Api
             });
 
             services.AddScoped<ISquadService, SquadService>();
+            services.AddScoped<IChemistryService, ChemistryService>();
+
             services.AddScoped<ISquadRepository, SquadRepository>();
             services.AddScoped<ISquadValidationService, SquadValidationService>();
 

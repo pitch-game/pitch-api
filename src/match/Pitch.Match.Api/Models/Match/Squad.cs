@@ -57,6 +57,7 @@ namespace Pitch.Match.Api.Models
             Rarity = card.Rarity;
             Fitness = card.Fitness;
             Position = card.Position;
+            Chemistry = card.Chemistry;
         }
 
         public Guid Id { get; set; }
@@ -66,5 +67,6 @@ namespace Pitch.Match.Api.Models
         public string Rarity { get; set; }
         public int Fitness { get; set; }
         public string Position { get; set; }
+        public int Chemistry { get; set; }
     }
 }

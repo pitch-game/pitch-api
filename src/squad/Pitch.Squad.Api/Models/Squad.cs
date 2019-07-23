@@ -24,7 +24,6 @@ namespace Pitch.Squad.Api.Models
         public Guid?[] Subs { get; set; }
         public SquadInstructions Instructions { get; set; }
         public DateTime LastUpdated { get; set; }
-        public IList<Card> Cards { get; set; }
     }
 
     public class SquadInstructions

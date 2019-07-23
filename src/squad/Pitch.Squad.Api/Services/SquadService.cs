@@ -35,15 +35,15 @@ namespace Pitch.Squad.Api.Services
         public async Task<Models.Squad> GetOrCreateAsync(string userId)
         {
             var activeSquad = await _squadRepository.GetAsync(userId);
-            if(activeSquad != null)
-            {
-                var cardIds = activeSquad.Lineup.Where(x => x.Value.HasValue).Select(x => x.Value).Cast<Guid>()
-                    .Concat(activeSquad.Subs.Where(x => x != null).Select(x => x.Value)).ToList(); //TODO move out
-                var request = new GetCardsRequest(cardIds);
-                var response = await _bus.RequestAsync<GetCardsRequest, GetCardsResponse>(request);
+            //if(activeSquad != null)
+            //{
+            //    var cardIds = activeSquad.Lineup.Where(x => x.Value.HasValue).Select(x => x.Value).Cast<Guid>()
+            //        .Concat(activeSquad.Subs.Where(x => x != null).Select(x => x.Value)).ToList(); //TODO move out
+            //    var request = new GetCardsRequest(cardIds);
+            //    var response = await _bus.RequestAsync<GetCardsRequest, GetCardsResponse>(request);
 
-                activeSquad.Cards = _mapper.Map<IList<Card>>(response.Cards);
-            }
+            //    activeSquad.Cards = _mapper.Map<IList<Card>>(response.Cards);
+            //}
             return activeSquad ?? await _squadRepository.CreateAsync(userId);
         }
 

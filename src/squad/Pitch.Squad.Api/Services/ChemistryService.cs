@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Pitch.Squad.Api.Services
 {
     public interface IChemistryService
     {
-        void SetChemistry(Models.Squad squad);
+        void SetChemistry(IDictionary<string, Card> lineup);
     }
 
     public class ChemistryService : IChemistryService
@@ -81,21 +80,17 @@ namespace Pitch.Squad.Api.Services
             }
         };
 
-        public void SetChemistry(Models.Squad squad)
+        public void SetChemistry(IDictionary<string, Card> lineup)
         {
-            var lineup = squad.Lineup;
-            var cards = squad.Cards;
-
             foreach (var position in lineup)
             {
-                var realPosition = _groupPositions[position.Key];
+                var realPosition = _groupPositions.ContainsKey(position.Key) ? _groupPositions[position.Key] : position.Key;
                 var chemistryLookup = _chemistryMap[realPosition];
-                var cardId = position.Value.GetValueOrDefault();
-                if (cardId != null)
+                if (position.Value != null)
                 {
-                    var card = cards.FirstOrDefault(x => x.Id == position.Value);
+                    var card = position.Value;
                     var chemistry = chemistryLookup.FirstOrDefault(x => x.position == card.Position).chemistry; //TODO handle nulls
-                    cards[cards.IndexOf(card)].Chemistry = chemistry;
+                    card.Chemistry = chemistry;
                 }
             }
         }

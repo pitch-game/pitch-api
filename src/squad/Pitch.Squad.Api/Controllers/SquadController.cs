@@ -26,7 +26,6 @@ namespace Pitch.Squad.Api.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
             var squad = await _squadService.GetOrCreateAsync(userId);
-            _chemistryService.SetChemistry(squad);
             return squad;
         }
 

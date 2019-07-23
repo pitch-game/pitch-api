@@ -11,6 +11,7 @@ namespace Pitch.Squad.Api.Models
         public int Rating { get; set; }
         public string Rarity { get; set; }
         public int Fitness { get; set; }
-        public int Chemistry { get; set; }
+        public string Position { get; set; }
+        public int Chemistry { get; set; } //TODO move out?
     }
 }

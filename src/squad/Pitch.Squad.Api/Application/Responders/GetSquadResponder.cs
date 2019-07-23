@@ -44,11 +44,15 @@ namespace Pitch.Squad.Api.Application.Responders
                 var lineup = squad.Lineup.ToDictionary(x => x.Key, x => cardsResponse.Cards.FirstOrDefault(c => c.Id == x.Value));
                 var subs = squad.Subs.Select(x => cardsResponse.Cards.FirstOrDefault(c => c.Id == x)).ToArray();
 
+                var finalLineup = lineup.ToDictionary(x => x.Key, x => _mapper.Map<Card>(x.Value));
+
+                scope.ServiceProvider.GetRequiredService<IChemistryService>().SetChemistry(finalLineup);
+
                 return new GetSquadResponse()
                 {
                     Id = squad.Id,
                     Name = squad.Name,
-                    Lineup = lineup.ToDictionary(x => x.Key, x => _mapper.Map<Card>(x.Value)),
+                    Lineup = finalLineup,
                     Subs = _mapper.Map<IEnumerable<Card>>(subs).ToArray()
                 };
             }

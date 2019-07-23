@@ -11,5 +11,6 @@ namespace Pitch.Squad.Api.Application.Models
         public int Rating { get; set; }
         public string Rarity { get; set; }
         public int Fitness { get; set; }
+        public string Position { get; set; }
     }
 }
