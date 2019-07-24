@@ -39,14 +39,18 @@ namespace Pitch.Squad.Api.Services
                 "LB", new List<(string position, int chemistry)>() {
                     ("LB", 100),
                     ("RB", 90),
-                    ("CB", 75)
+                    ("CB", 75),
+                    ("LM", 50),
+                    ("RM", 50),
                 }
             },
             {
                 "RB", new List<(string position, int chemistry)>() {
                     ("RB", 100),
                     ("LB", 90),
-                    ("CB", 75)
+                    ("CB", 75),
+                    ("LM", 50),
+                    ("RM", 50),
                 }
             },
             {
@@ -60,14 +64,18 @@ namespace Pitch.Squad.Api.Services
                 "LM", new List<(string position, int chemistry)>() {
                     ("LM", 100),
                     ("RM", 90),
-                    ("CM", 75)
+                    ("CM", 75),
+                    ("LB", 50),
+                    ("RB", 50),
                 }
             },
             {
                 "RM", new List<(string position, int chemistry)>() {
                     ("RM", 100),
                     ("LM", 90),
-                    ("CM", 75)
+                    ("CM", 75),
+                    ("LB", 50),
+                    ("RB", 50),
                 }
             },
             {
