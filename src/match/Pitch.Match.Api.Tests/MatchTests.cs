@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Pitch.Match.Api.Tests
+﻿namespace Pitch.Match.Api.Tests
 {
-    public class MatchTests
+    public class MatchTests : MatchTestBase
     {
-        //Reentrancy?
+        //Test reentrancy?
 
     }
 }

@@ -72,8 +72,8 @@ namespace Pitch.Gateway.Api
                 Predicate = r => r.Name.Contains("self")
             });
 
-            app.UseHttpsRedirection();
             app.UseMvc();
+
             app.UseWebSockets();
             app.UseOcelot().Wait();
         }

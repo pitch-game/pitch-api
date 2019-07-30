@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using EasyNetQ;
+﻿using EasyNetQ;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -15,9 +14,10 @@ using Pitch.Match.Api.Application.Engine.Action;
 using Pitch.Match.Api.Application.Engine.Events;
 using Pitch.Match.Api.Hubs;
 using Pitch.Match.Api.Infrastructure.Repositories;
-using Pitch.Match.Api.Models;
 using Pitch.Match.Api.Services;
 using Pitch.Match.Api.Supporting;
+using System;
+using System.Linq;
 
 namespace Pitch.Match.Api
 {
@@ -60,7 +60,9 @@ namespace Pitch.Match.Api
 
             services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy())
-                .AddRabbitMQ(Configuration.GetConnectionString("RabbitMQHealthCheck"), name: "rabbitmq-check", tags: new string[] { "rabbitmq" });
+                .AddRabbitMQ(Configuration.GetConnectionString("RabbitMQHealthCheck"), name: "rabbitmq-check", tags: new string[] { "rabbitmq" })
+                .AddMongoDb(Configuration.GetConnectionString("MongoDb"), name: "mongodb-check", tags: new string[] { "mongodb" })
+                .AddSignalRHub("/hubs/matchmaking", name: "signalr-check", tags: new string[] { "signalr" });
 
             services.AddSingleton<IMongoClient>(s =>
             {
@@ -69,8 +71,9 @@ namespace Pitch.Match.Api
 
             services.AddSingleton(s =>
             {
+                var typesInAssembly = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).ToArray();
                 return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
-                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer()));
+                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer(typesInAssembly)));
             });
 
             services.AddSignalR(o =>
@@ -85,11 +88,6 @@ namespace Pitch.Match.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
             }
 
             BsonClassMap.RegisterClassMap<RedCard>();
@@ -110,10 +108,11 @@ namespace Pitch.Match.Api
 
             app.UseSignalR(route =>
             {
-                route.MapHub<MatchmakingHub>("/hubs/matchmaking");
+                route.MapHub<MatchmakingHub>("/hubs/matchmaking", (options) => {
+                    options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransports.All;
+                });
             });
 
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

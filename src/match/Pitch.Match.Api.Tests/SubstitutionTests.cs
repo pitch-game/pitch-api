@@ -7,12 +7,12 @@ using Xunit;
 
 namespace Pitch.Match.Api.Tests
 {
-    public class SubstitutionTests
+    public class SubstitutionTests : MatchTestBase
     {
         [Fact]
         public void WhenPlayerIsSubstitutedOnSameMinuteAnEventOccursRelatedToHim()
         {
-            var match = UnitTest1.SetUpMatch();
+            var match = SetUpMatch();
             match.KickOff = DateTime.Now.AddMinutes(-58); //Skip to 58th minute
 
             var player = match.HomeTeam.Squad.Lineup.SelectMany(x => x.Value).First();
@@ -39,7 +39,7 @@ namespace Pitch.Match.Api.Tests
         [Fact]
         public void WhenTwoSubstitutionsOccurOnSameMinute()
         {
-            var match = UnitTest1.SetUpMatch();
+            var match = SetUpMatch();
             match.KickOff = DateTime.Now.AddMinutes(-58); //Skip to 58th minute
 
             var player = match.HomeTeam.Squad.Lineup.SelectMany(x => x.Value).First();

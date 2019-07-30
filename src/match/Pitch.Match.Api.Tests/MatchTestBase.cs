@@ -7,7 +7,7 @@ using Pitch.Match.Api.Application.Engine;
 
 namespace Pitch.Match.Api.Tests
 {
-    public class UnitTest1
+    public class MatchTestBase
     {
         public static Models.Match SetUpMatch()
         {
@@ -260,13 +260,6 @@ namespace Pitch.Match.Api.Tests
             };
             var result = engine.SimulateReentrant(match);
             return result;
-        }
-
-        [Fact]
-        public void Test1()
-        {
-            var result = SetUpMatch();
-            var matchResult = new MatchResult(result);
         }
     }
 }
