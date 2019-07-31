@@ -1,6 +1,4 @@
-﻿using Pitch.Match.Api.Application.Engine;
-using Pitch.Match.Api.Application.Engine.Action;
-using Pitch.Match.Api.Application.Engine.Events;
+﻿using Pitch.Match.Api.Application.Engine.Events;
 using System;
 using System.Linq;
 using Xunit;
@@ -9,65 +7,68 @@ namespace Pitch.Match.Api.Tests
 {
     public class SubstitutionTests : MatchTestBase
     {
-        [Fact]
-        public void WhenPlayerIsSubstitutedOnSameMinuteAnEventOccursRelatedToHim()
+        //Fact or theory? That is the question...
+        [Theory]
+        [InlineData(0)]
+        [InlineData(67)]
+        [InlineData(90)]
+        public void Substitution_OnSameMinuteAsAnotherEvent_SubstitutionComesLast(int minute)
         {
-            var match = SetUpMatch();
-            match.KickOff = DateTime.Now.AddMinutes(-58); //Skip to 58th minute
+            //Arrange
+            _stubMatch.KickOff = DateTime.Now.AddMinutes(-minute);
+            _stubMatch.Events.Add(new ShotOnTarget(minute, _stubHomePlayer.Id, _stubMatch.HomeTeam.Squad.Id));
 
-            var player = match.HomeTeam.Squad.Lineup.SelectMany(x => x.Value).First();
-            var sub = match.HomeTeam.Squad.Subs[0];
-            match.Events.Add(new ShotOnTarget(58, player.Id, match.HomeTeam.Squad.Id)); //Manually add event on 58th minute
+            //Act
+            _stubMatch.Substitute(_stubHomePlayer.Id, _stubHomeSub.Id, _stubMatch.HomeTeam.UserId);
+            SimulateStubMatch();
 
-            match.Substitute(player.Id, sub.Id, match.HomeTeam.UserId); //Substitute on 58th minute
-
-            var actions = new IAction[] { new Application.Engine.Action.Foul(), new Shot() };
-            var engine = new MatchEngine(actions);
-
-            var result = engine.SimulateReentrant(match);
-
-            var shotEvent = result.Events.FirstOrDefault(x => x.Minute == 58 && x.CardId == player.Id && x.GetType() == typeof(ShotOnTarget));
-            var subEvent = result.Events.FirstOrDefault(x => x.Minute == 58 && x.CardId == sub.Id && x.GetType() == typeof(Substitution));
-
-            var shotEventIndex = result.Events.IndexOf(shotEvent);
-            var subEventIndex = result.Events.IndexOf(subEvent);
-
-            //Always show the substitution last
+            //Assert
+            var shotEvent = _stubMatch.Events.FirstOrDefault(x => x.Minute == minute && x.CardId == _stubHomePlayer.Id && x.GetType() == typeof(ShotOnTarget));
+            var subEvent = _stubMatch.Events.FirstOrDefault(x => x.Minute == minute && x.CardId == _stubHomeSub.Id && x.GetType() == typeof(Substitution));
+            var shotEventIndex = _stubMatch.Events.IndexOf(shotEvent);
+            var subEventIndex = _stubMatch.Events.IndexOf(subEvent);
             Assert.True(subEventIndex > shotEventIndex);
         }
 
-        [Fact]
-        public void WhenTwoSubstitutionsOccurOnSameMinute()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(67)]
+        [InlineData(90)]
+        public void Substitutions_OnSameMinute_AllOccur(int minute)
         {
-            var match = SetUpMatch();
-            match.KickOff = DateTime.Now.AddMinutes(-58); //Skip to 58th minute
+            //Arrange
+            _stubMatch.KickOff = DateTime.Now.AddMinutes(-minute);
 
-            var player = match.HomeTeam.Squad.Lineup.SelectMany(x => x.Value).First();
-            var sub = match.HomeTeam.Squad.Subs[0];
+            //Act
+            _stubMatch.Substitute(_stubHomePlayer.Id, _stubHomeSub.Id, _stubMatch.HomeTeam.UserId);
+            SimulateStubMatch();
 
-            match.Substitute(player.Id, sub.Id, match.HomeTeam.UserId); //Substitute on 58th minute
+            _stubMatch.Substitute(_stubAwayPlayer.Id, _stubAwaySub.Id, _stubMatch.AwayTeam.UserId);
+            SimulateStubMatch();
 
-            var actions = new IAction[] { new Application.Engine.Action.Foul(), new Shot() };
-            var engine = new MatchEngine(actions);
-
-            engine.SimulateReentrant(match);
-
-            var awayPlayer = match.AwayTeam.Squad.Lineup.SelectMany(x => x.Value).First();
-            var awaySub = match.AwayTeam.Squad.Subs[0];
-
-            match.Substitute(awayPlayer.Id, awaySub.Id, match.AwayTeam.UserId); //Substitute on 58th minute
-
-            var result = engine.SimulateReentrant(match);
-
-            Assert.Contains(result.Events, x => x.Minute == 58 && x.SquadId == match.HomeTeam.Squad.Id && x.CardId == sub.Id &&  x.GetType() == typeof(Substitution));
-            Assert.Contains(result.Events, x => x.Minute == 58 && x.SquadId == match.AwayTeam.Squad.Id && x.CardId == awaySub.Id && x.GetType() == typeof(Substitution));
+            //Assert
+            Assert.Contains(_stubMatch.Events, x => x.Minute == minute && x.SquadId == _stubMatch.HomeTeam.Squad.Id && x.CardId == _stubHomeSub.Id &&  x.GetType() == typeof(Substitution));
+            Assert.Contains(_stubMatch.Events, x => x.Minute == minute && x.SquadId == _stubMatch.AwayTeam.Squad.Id && x.CardId == _stubAwaySub.Id && x.GetType() == typeof(Substitution));
         }
 
-        [Fact]
-        public void WhenASubstitutionIsMade()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(29)]
+        [InlineData(30)]
+        public void Substitution_PlayersAreSwapped(int minute)
         {
-            //Ensure players swap
-            //Assert.False(true);
+            //Arrange
+            _stubMatch.KickOff = DateTime.Now.AddMinutes(-minute); //Skip to minute
+
+            //Act
+            _stubMatch.Substitute(_stubHomePlayer.Id, _stubHomeSub.Id, _stubMatch.HomeTeam.UserId);
+            SimulateStubMatch();
+
+            //Assert
+            Assert.DoesNotContain(_stubHomeSquad.Lineup.SelectMany(x => x.Value), x => x.Id == _stubHomePlayer.Id);
+            Assert.DoesNotContain(_stubHomeSquad.Subs, x => x.Id == _stubHomeSub.Id);
+            Assert.Contains(_stubHomeSquad.Lineup.SelectMany(x => x.Value), x => x.Id == _stubHomeSub.Id);
+            Assert.Contains(_stubHomeSquad.Subs, x => x.Id == _stubHomePlayer.Id);
         }
     }
 }
