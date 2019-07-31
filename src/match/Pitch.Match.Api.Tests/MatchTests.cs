@@ -9,7 +9,7 @@ namespace Pitch.Match.Api.Tests
         //TODO Test reentrancy
 
         [Fact]
-        public void AsOfNow_RemovesEventsAndStatisticsOnOrAfterThatMinute()
+        public void AsOfNow_OnOrAfterCurrentMinute_ExcludesEventsAndStatistics()
         {
             //Arrange
             _stubMatch.KickOff = DateTime.Now.AddMinutes(-10);
@@ -27,7 +27,7 @@ namespace Pitch.Match.Api.Tests
         }
 
         [Fact]
-        public void AsOfNow_MaintainsEventsAndStatisticsBeforeThatMinute()
+        public void AsOfNow_UpUntilCurrentMinute_IncludesEventsAndStatistics()
         {
             //Arrange
             _stubMatch.KickOff = DateTime.Now.AddMinutes(-15);
