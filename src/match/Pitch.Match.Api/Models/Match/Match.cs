@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using Pitch.Match.Api.Application.Engine.Events;
+﻿using Pitch.Match.Api.Application.Engine.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;

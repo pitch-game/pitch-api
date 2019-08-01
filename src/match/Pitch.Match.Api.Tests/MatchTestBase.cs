@@ -1,9 +1,8 @@
-using System;
-using Xunit;
+using Pitch.Match.Api.Application.Engine;
 using Pitch.Match.Api.Application.Engine.Action;
 using Pitch.Match.Api.Models;
+using System;
 using System.Collections.Generic;
-using Pitch.Match.Api.Application.Engine;
 
 namespace Pitch.Match.Api.Tests
 {

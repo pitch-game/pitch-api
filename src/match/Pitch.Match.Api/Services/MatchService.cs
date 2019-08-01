@@ -1,5 +1,4 @@
 ﻿using EasyNetQ;
-using Microsoft.AspNetCore.Mvc;
 using Pitch.Match.Api.Application.Engine;
 using Pitch.Match.Api.Application.Engine.Events;
 using Pitch.Match.Api.Application.MessageBus.Events;
@@ -132,7 +131,7 @@ namespace Pitch.Match.Api.Services
             {
                 var matchResult = new MatchResult(x);
                 var isHomeTeam = x.HomeTeam.UserId == userId;
-                var claimed = isHomeTeam  ? x.HomeTeam.HasClaimedRewards : x.AwayTeam.HasClaimedRewards;
+                var claimed = isHomeTeam ? x.HomeTeam.HasClaimedRewards : x.AwayTeam.HasClaimedRewards;
                 var result = matchResult.HomeResult.Score == matchResult.AwayResult.Score ? "D" : isHomeTeam ? matchResult.HomeResult.Score > matchResult.AwayResult.Score ? "W" : "L" : matchResult.AwayResult.Score > matchResult.HomeResult.Score ? "W" : "L";
                 return new Models.MatchListResult
                 {
@@ -145,7 +144,7 @@ namespace Pitch.Match.Api.Services
                     Result = result,
                     Claimed = claimed
                 };
-             });
+            });
         }
 
         public async Task<MatchStatusResult> GetMatchStatus(Guid userId)

@@ -1,7 +1,5 @@
 ﻿using EasyNetQ;
 using Microsoft.AspNetCore.SignalR;
-using Pitch.Match.Api.Application.MessageBus.Requests;
-using Pitch.Match.Api.Application.MessageBus.Responses;
 using Pitch.Match.Api.Infrastructure.Repositories;
 using Pitch.Match.Api.Models.Matchmaking;
 using System;
@@ -58,7 +56,8 @@ namespace Pitch.Match.Api.Services
         public MatchmakingSession JoinSession(Guid sessionId, Guid playerId)
         {
             var session = _matchSessionService.Sessions.FirstOrDefault(x => x.Id == sessionId);
-            if (playerId == session.HostPlayerId) {
+            if (playerId == session.HostPlayerId)
+            {
                 throw new HubException("Host attempted to join own session");
             }
             session.JoinedPlayerId = playerId;

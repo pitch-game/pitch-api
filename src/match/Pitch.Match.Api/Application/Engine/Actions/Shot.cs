@@ -58,7 +58,8 @@ namespace Pitch.Match.Api.Application.Engine.Action
                     return new Goal(minute, card.Id, squadId);
                 }
                 return new ShotOnTarget(minute, card.Id, squadId);
-            } else
+            }
+            else
             {
                 return new ShotOffTarget(minute, card.Id, squadId);
             }

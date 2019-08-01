@@ -46,11 +46,12 @@ namespace Pitch.Match.Api.Hubs
         {
             var user = Context.UserIdentifier; //todo check user is session host
             var session = _matchmakingService.GetSession(new Guid(sessionId));
-            if(session != null && !session.Expired && session.Open)
+            if (session != null && !session.Expired && session.Open)
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, session.Id.ToString());
                 await Clients.User(user).ReceiveSessionId(session.Id);
-            } else
+            }
+            else
             {
                 await Clients.User(user).Cancelled();
             }

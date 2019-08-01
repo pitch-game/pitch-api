@@ -1,6 +1,4 @@
-﻿using Pitch.Match.Api.Models;
-
-namespace Pitch.Match.Api.Application.Engine
+﻿namespace Pitch.Match.Api.Application.Engine
 {
     public interface IMatchEngine
     {
