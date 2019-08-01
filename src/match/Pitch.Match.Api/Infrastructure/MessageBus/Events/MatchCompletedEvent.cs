@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Pitch.Match.Api.Application.MessageBus.Events
+namespace Pitch.Match.Api.Infrastructure.MessageBus.Events
 {
     public class MatchCompletedEvent
     {

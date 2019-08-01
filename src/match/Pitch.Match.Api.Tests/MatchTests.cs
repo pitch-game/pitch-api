@@ -1,4 +1,5 @@
-﻿using Pitch.Match.Api.Application.Engine.Events;
+﻿using Pitch.Match.Api.ApplicationCore.Engine.Events;
+using Pitch.Match.Api.ApplicationCore.Models.Match;
 using System;
 using Xunit;
 
@@ -15,7 +16,7 @@ namespace Pitch.Match.Api.Tests
             _stubMatch.KickOff = DateTime.Now.AddMinutes(-10);
             var stubEvent = new ShotOnTarget(11, _stubHomePlayer.Id, _stubMatch.HomeTeam.Squad.Id);
             _stubMatch.Events.Add(stubEvent);
-            var stubStatistic = new Models.MinuteStats(11, _stubHomeSquad.Id, 0, 0);
+            var stubStatistic = new MinuteStats(11, _stubHomeSquad.Id, 0, 0);
             _stubMatch.Statistics.Add(stubStatistic);
 
             //Act
@@ -33,7 +34,7 @@ namespace Pitch.Match.Api.Tests
             _stubMatch.KickOff = DateTime.Now.AddMinutes(-15);
             var stubEvent = new ShotOnTarget(11, _stubHomePlayer.Id, _stubMatch.HomeTeam.Squad.Id);
             _stubMatch.Events.Add(stubEvent);
-            var stubStatistic = new Models.MinuteStats(11, _stubHomeSquad.Id, 0, 0);
+            var stubStatistic = new MinuteStats(11, _stubHomeSquad.Id, 0, 0);
             _stubMatch.Statistics.Add(stubStatistic);
 
             //Act

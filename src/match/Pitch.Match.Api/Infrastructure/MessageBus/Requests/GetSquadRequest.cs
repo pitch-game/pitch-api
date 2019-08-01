@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Match.Api.Application.MessageBus.Requests
+namespace Pitch.Match.Api.Infrastructure.MessageBus.Requests
 {
     public class GetSquadRequest
     {

@@ -1,4 +1,4 @@
-﻿using Pitch.Match.Api.Application.Engine.Events;
+﻿using Pitch.Match.Api.ApplicationCore.Engine.Events;
 using System;
 using System.Linq;
 using Xunit;

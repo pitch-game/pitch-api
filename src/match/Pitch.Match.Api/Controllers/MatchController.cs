@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Pitch.Match.Api.ApplicationCore.Models.Match;
 using Pitch.Match.Api.Models;
 using Pitch.Match.Api.Services;
 using System;
@@ -15,34 +17,37 @@ namespace Pitch.Match.Api.Controllers
     public class MatchController : ControllerBase
     {
         private readonly IMatchService _matchService;
+        private readonly IMapper _mapper;
 
-        public MatchController(IMatchService matchService)
+        public MatchController(IMatchService matchService, IMapper mapper)
         {
             _matchService = matchService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Models.MatchListResult>> Get([FromQuery] int skip, [FromQuery] int? take)
+        public async Task<IEnumerable<MatchListResultModel>> Get([FromQuery] int skip, [FromQuery] int? take)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
-            return await _matchService.GetAllAsync(skip, take, new Guid(userId));
+            var matchListResults = await _matchService.GetAllAsync(skip, take, new Guid(userId));
+            return _mapper.Map<IEnumerable<MatchListResultModel>>(matchListResults);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<dynamic>> Get(Guid id)
+        public async Task<ActionResult<MatchModel>> Get(Guid id)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
             var match = await _matchService.GetAsync(id);
             match.AsOfNow();
-            //return new MatchResult(match);
-            return new { Match = new MatchResult(match), SubsRemaining = MatchService.SUB_COUNT - match.GetTeam(new Guid(userId)).UsedSubs };
+            return new MatchModel { MatchResult = new MatchResult(match), SubsRemaining = MatchService.SUB_COUNT - match.GetTeam(new Guid(userId)).UsedSubs };
         }
 
         [HttpGet("{matchId}/lineup")]
-        public async Task<ActionResult<dynamic>> Lineup([FromRoute]Guid matchId)
+        public async Task<ActionResult<LineupModel>> Lineup([FromRoute]Guid matchId) //TODO model
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
-            return await _matchService.GetLineupAsync(matchId, new Guid(userId));
+            var lineup = await _matchService.GetLineupAsync(matchId, new Guid(userId));
+            return _mapper.Map<LineupModel>(lineup);
         }
 
         [HttpPost("{matchId}/substitution")]

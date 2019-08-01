@@ -20,10 +20,11 @@ namespace Pitch.Match.Api.Controllers
         }
 
         [HttpPost]
-        public async Task Claim()
+        public async Task<ActionResult> Claim()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
             await _matchService.ClaimAsync(new Guid(userId));
+            return Ok();
         }
     }
 }

@@ -9,15 +9,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using Pitch.Match.Api.Application.Engine;
-using Pitch.Match.Api.Application.Engine.Action;
-using Pitch.Match.Api.Application.Engine.Events;
 using Pitch.Match.Api.Hubs;
 using Pitch.Match.Api.Infrastructure.Repositories;
 using Pitch.Match.Api.Services;
-using Pitch.Match.Api.Supporting;
 using System;
 using System.Linq;
+using Pitch.Match.Api.ApplicationCore.Engine.Actions;
+using Pitch.Match.Api.ApplicationCore.Engine.Events;
+using Pitch.Match.Api.ApplicationCore.Engine;
+using Pitch.Match.Api.Infrastructure.MessageBus.Supporting;
+using AutoMapper;
 
 namespace Pitch.Match.Api
 {
@@ -33,6 +34,8 @@ namespace Pitch.Match.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddAuthentication(options =>
@@ -55,7 +58,7 @@ namespace Pitch.Match.Api
 
             services.AddScoped<IMatchRepository, MatchRepository>();
 
-            services.AddSingleton<IAction, Application.Engine.Action.Foul>();
+            services.AddSingleton<IAction, ApplicationCore.Engine.Actions.Foul>();
             services.AddSingleton<IAction, Shot>();
 
             services.AddHealthChecks()
@@ -95,7 +98,7 @@ namespace Pitch.Match.Api
             BsonClassMap.RegisterClassMap<Goal>();
             BsonClassMap.RegisterClassMap<ShotOnTarget>();
             BsonClassMap.RegisterClassMap<ShotOffTarget>();
-            BsonClassMap.RegisterClassMap<Application.Engine.Events.Foul>();
+            BsonClassMap.RegisterClassMap<ApplicationCore.Engine.Events.Foul>();
             BsonClassMap.RegisterClassMap<Substitution>();
 
             app.UseHealthChecks("/health");
