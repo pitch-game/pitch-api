@@ -5,7 +5,7 @@ namespace Pitch.Match.Api.Models
     public class MatchModel
     {
         //TODO MatchResultModel
-        public MatchResult MatchResult { get; set; }
+        public MatchResult Match { get; set; }
         public int SubsRemaining { get; set; }
     }
 }
