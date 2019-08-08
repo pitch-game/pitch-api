@@ -11,40 +11,12 @@ namespace Pitch.Match.Api.ApplicationCore.Engine.Helpers
     {
         public static IAction RollAction(IEnumerable<IAction> _actions)
         {
-            Random random = new Random();
-            int randomNumber = random.Next(0, 100);
-
-            decimal accumulatedProbability = 0;
-            var actions = _actions.ToList();
-            IAction action = null;
-            for (int p = 0; p < actions.Count; p++)
-            {
-                accumulatedProbability += actions[p].ChancePerMinute;
-                if (randomNumber <= accumulatedProbability * 100)
-                {
-                    action = actions[p];
-                    break;
-                }
-            }
-
-            return action;
+            return ChanceHelper.PercentBase100Chance(_actions, x => x.ChancePerMinute);
         }
 
         public static Card RollCard(Squad team, IAction action, IEnumerable<IEvent> events)
         {
-            Random random = new Random();
-            int randomNumber = random.Next(0, 100);
-            var accumulatedProbability = 0m;
-            PositionalArea positionalArea = 0;
-            foreach (var position in action.PositionalChance)
-            {
-                accumulatedProbability += position.Value;
-                if (randomNumber <= accumulatedProbability * 100)
-                {
-                    positionalArea = position.Key;
-                    break;
-                }
-            }
+            PositionalArea positionalArea = ChanceHelper.PercentBase100Chance(action.PositionalChance, x => x.Value).Key;
 
             var sentOffCardIds = events.Where(x => x.GetType() == typeof(RedCard)).Select(x => x.CardId);
             var cards = team.Lineup[positionalArea.ToString()].Where(x => x != null && !sentOffCardIds.Contains(x.Id)).ToList();

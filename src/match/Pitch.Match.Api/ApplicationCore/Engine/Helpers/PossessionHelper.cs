@@ -12,22 +12,7 @@ namespace Pitch.Match.Api.ApplicationCore.Engine.Helpers
             homeChance = PossessionChance(match.HomeTeam.Squad, match.Events);
             awayChance = PossessionChance(match.AwayTeam.Squad, match.Events);
 
-            //var difference = Math.Abs(homeChance - awayChance);
-
-            //homePercent = (int)Math.Round((1 - ((double)difference / (double)homeChance)) * 100);
-            //awayPercent = (int)Math.Round((1 - ((double)difference / (double)awayChance)) * 100);
-
-            var accumulatedWeight = homeChance + awayChance;
-
-            var homePossession = false;
-
-            var rand = new Random();
-            var randomNumber = rand.Next(0, accumulatedWeight);
-            if (randomNumber <= homeChance)
-            {
-                homePossession = true;
-            }
-
+            var homePossession = ChanceHelper.CumulativeTrueOrFalse(homeChance, awayChance);
             if (homePossession)
             {
                 notInPossession = match.AwayTeam.Squad;

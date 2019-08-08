@@ -8,8 +8,6 @@ namespace Pitch.Match.Api.ApplicationCore.Engine
 {
     public class MatchEngine : IMatchEngine
     {
-        private const int MATCH_LENGTH_IN_MINUTES = 90;
-
         private readonly IEnumerable<IAction> _actions;
 
         public MatchEngine(IEnumerable<IAction> actions)
@@ -22,7 +20,7 @@ namespace Pitch.Match.Api.ApplicationCore.Engine
             match.Events = match.Events.Where(x => x.Minute <= match.Duration).ToList();
             match.Statistics = match.Statistics.Where(x => x.Minute <= match.Duration).ToList();
 
-            for (int minute = match.Duration; minute < MATCH_LENGTH_IN_MINUTES; minute++) //TODO atm its simulating the same minute again on reentrancy, is this right?
+            for (int minute = match.Duration; minute < Constants.MATCH_LENGTH_IN_MINUTES; minute++) //TODO atm its simulating the same minute again on reentrancy, is this right?
             {
                 int homePossChance;
                 int awayPossChance;
