@@ -47,6 +47,21 @@ spec:
                 secretKeyRef:
                   key:  "ClientSecret"
                   name: {{ include "identity.fullname" . }}
+            - name: "ConnectionStrings__ServiceBus"
+              valueFrom:
+                secretKeyRef:
+                  key:  "ServiceBus"
+                  name: "connection-strings"
+            - name: "ConnectionStrings__MongoDb"
+              valueFrom:
+                secretKeyRef:
+                  key:  "MongoDb"
+                  name: "connection-strings"
+            - name: "ConnectionStrings__RabbitMQHealthCheck"
+              valueFrom:
+                secretKeyRef:
+                  key:  "RabbitMQHealthCheck"
+                  name: "connection-strings"
             - name: CI_BUILD_NUMBER
               value: "{{ .Values.buildNumber }}"
           resources:
