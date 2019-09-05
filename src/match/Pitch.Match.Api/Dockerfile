@@ -16,8 +16,7 @@ RUN dotnet build "Pitch.Match.Api.csproj" -c Release -o /app
 FROM build AS testrunner
 WORKDIR /src/Pitch.Match.Api.Tests
 COPY Pitch.Match.Api.Tests/. .
-RUN dotnet tool install dotnet-reportgenerator-globaltool --version 4.0.6 --tool-path /tools
-ENTRYPOINT ["dotnet", "test", "--results-directory /testresults --logger:trx;LogFileName=test_results.trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/testresults/coverage/"]
+ENTRYPOINT ["dotnet", "test", "--logger:trx"]
 
 FROM build AS publish
 RUN dotnet publish "Pitch.Match.Api.csproj" -c Release -o /app
