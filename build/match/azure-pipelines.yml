@@ -27,10 +27,6 @@ jobs:
       dockerComposeFileArgs: |
         TAG=$(Build.SourceBranchName)
         DOCKER_REGISTRY=$(dockerRegistry)
-  - script: |
-      docker-compose run pitch.match.api:testrunner
-      docker cp src/match/Pitch.Match.Api.Tests/TestResults $(System.DefaultWorkingDirectory)
-      docker stop pitch.match.api:testrunner
   - task: DockerCompose@0
     displayName: Compose push match
     inputs:
