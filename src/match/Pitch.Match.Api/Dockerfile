@@ -15,11 +15,11 @@ RUN dotnet build "Pitch.Match.Api.csproj" -c Release -o /app
 
 FROM build AS testrunner
 WORKDIR /src/Pitch.Match.Api.Tests
+COPY Pitch.Match.Api.Tests/. .
 ENTRYPOINT ["dotnet", "test", "--logger:trx"]
 
 FROM build AS test
 WORKDIR /src/Pitch.Match.Api.Tests
-COPY Pitch.Match.Api.Tests/. .
 RUN dotnet test
 
 FROM build AS publish
