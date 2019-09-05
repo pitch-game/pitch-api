@@ -16,9 +16,9 @@ jobs:
     vmImage: 'ubuntu-latest'
   steps:
   - script: |
-      docker build --target testrunner -t pitch.match.api .
-      docker run --rm pitch.match.api
-      docker cp pitch.match.api/Pitch.Match.Api.Tests/TestResults $(System.DefaultWorkingDirectory)
+      docker build --target testrunner -t src/match/pitch.match.api .
+      docker run --rm src/match/pitch.match.api
+      docker cp src/match/pitch.match.api/Pitch.Match.Api.Tests/TestResults $(System.DefaultWorkingDirectory)
       docker stop pitch.match.api
   - task: PublishTestResults@2
     inputs:
