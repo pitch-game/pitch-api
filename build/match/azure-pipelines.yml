@@ -15,6 +15,16 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
+  - script: |
+      docker build --pull --target testrunner -t pitch.match.api:test .
+      docker run --rm pitch.match.api:test
+      docker cp pitch.match.api:test/Pitch.Match.Api.Tests/TestResults $(System.DefaultWorkingDirectory)
+      docker stop pitch.match.api:test
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: '**/*.trx'
+      failTaskOnFailedTests: true
   - task: DockerCompose@0
     displayName: Compose build match
     inputs:
