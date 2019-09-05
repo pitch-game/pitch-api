@@ -16,7 +16,7 @@ RUN dotnet build "Pitch.Match.Api.csproj" -c Release -o /app
 FROM build AS testrunner
 WORKDIR /src/Pitch.Match.Api.Tests
 COPY Pitch.Match.Api.Tests/. .
-ENTRYPOINT ["dotnet", "test", "--logger:trx"]
+ENTRYPOINT ["dotnet", "test", "--logger:trx --collect:\"Code Coverage\""]
 
 FROM build AS test
 WORKDIR /src/Pitch.Match.Api.Tests
