@@ -19,7 +19,7 @@ jobs:
       cd src/match
       docker build --file Pitch.Match.Api/Dockerfile --target testrunner -t pitch.match.api:testrunner .
       docker run -d pitch.match.api:testrunner
-      docker cp Pitch.Match.Api.Tests/TestResults $(System.DefaultWorkingDirectory)
+      docker cp pitch.match.api:testrunner/Pitch.Match.Api.Tests/TestResults $(System.DefaultWorkingDirectory)
   - task: DockerCompose@0
     displayName: Compose build match
     inputs:
