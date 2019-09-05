@@ -15,6 +15,11 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
+  - script: |
+      docker-compose build --target testrunner -f src/match/docker-compose.yml pitch.match.api
+      docker-compose run pitch.match.api
+      docker cp src/match/Pitch.Match.Api.Tests/TestResults $(System.DefaultWorkingDirectory)
+      docker stop pitch.match.api
   - task: DockerCompose@0
     displayName: Compose build match
     inputs:
