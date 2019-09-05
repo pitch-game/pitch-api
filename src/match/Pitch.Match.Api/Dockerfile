@@ -16,7 +16,7 @@ RUN dotnet build "Pitch.Match.Api.csproj" -c Release -o /app
 FROM build AS testrunner
 WORKDIR /src/Pitch.Match.Api.Tests
 COPY Pitch.Match.Api.Tests/. .
-ENTRYPOINT ["dotnet", "test", "--logger:trx;LogFileName=./TestResults/results.trx"]
+ENTRYPOINT ["dotnet", "test", "--logger:xunit;LogFileName=./TestResults/results.xml"]
 
 FROM build AS test
 WORKDIR /src/Pitch.Match.Api.Tests
