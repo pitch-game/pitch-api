@@ -25,6 +25,11 @@ jobs:
       testRunner: VSTest
       testResultsFiles: '**/*.trx'
       failTaskOnFailedTests: true
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish coverage reports'
+    inputs:
+      codeCoverageTool: 'cobertura'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/TestResults/coverage/reports'
   - task: DockerCompose@0
     displayName: Compose build match
     inputs:
