@@ -15,8 +15,9 @@ RUN dotnet build "Pitch.Match.Api.csproj" -c Release -o /app
 
 FROM build AS testrunner
 WORKDIR /src/Pitch.Match.Api.Tests
-COPY test.sh .
-ENTRYPOINT ["test.sh"]
+COPY Pitch.Match.Api.Tests/. .
+ENTRYPOINT ["dotnet", "test"]
+CMD ["--logger:trx", "/p:CollectCoverage=true", "/p:CoverletOutputFormat=cobertura", "/p:CoverletOutput='./TestResults/'"]
 
 FROM build AS publish
 RUN dotnet publish "Pitch.Match.Api.csproj" -c Release -o /app
