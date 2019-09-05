@@ -22,8 +22,8 @@ jobs:
       docker cp matchapitest:/src/Pitch.Match.Api.Tests $(System.DefaultWorkingDirectory)
   - task: PublishTestResults@2
     inputs:
-      testRunner: VSTest
-      testResultsFiles: '**/*.trx'
+      testRunner: XUnit
+      testResultsFiles: '**/*.xml'
       failTaskOnFailedTests: true
   - task: DockerCompose@0
     displayName: Compose build match
