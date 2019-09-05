@@ -19,6 +19,7 @@ ENTRYPOINT ["dotnet", "test", "--logger:trx"]
 
 FROM build AS test
 WORKDIR /src/Pitch.Match.Api.Tests
+COPY Pitch.Match.Api.Tests/. .
 RUN dotnet test
 
 FROM build AS publish
