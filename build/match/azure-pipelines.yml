@@ -15,21 +15,6 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-  - script: |
-      cd src/match
-      docker build --pull --file Pitch.Match.Api/Dockerfile --target testrunner -t pitch.match.api:testrunner .
-      docker run --name matchapitest pitch.match.api:testrunner
-      docker cp matchapitest:/src/Pitch.Match.Api.Tests/TestResults $(System.DefaultWorkingDirectory)
-  - task: PublishTestResults@2
-    inputs:
-      testRunner: VSTest
-      testResultsFiles: '**/*.trx'
-      failTaskOnFailedTests: true
-  - task: PublishCodeCoverageResults@1
-    displayName: 'Publish coverage reports'
-    inputs:
-      codeCoverageTool: 'cobertura'
-      summaryFileLocation: '$(System.DefaultWorkingDirectory)/TestResults/coverage.cobertura.xml'
   - task: Docker@2
     displayName: Build and Push
     inputs:
@@ -47,14 +32,13 @@ jobs:
       arguments: '--client-only'
   - task: HelmDeploy@0
     inputs:
-      connectionType: 'Azure Resource Manager'
       azureSubscription: 'Pay-As-You-Go(c1640d06-3596-4f30-a322-42d2ef2d3992)'
       azureResourceGroup: 'pitch-resource-group'
       kubernetesCluster: 'pitch-aks'
       command: 'package'
       chartPath: './k8s/helm/match'
-      destination: '$(Build.ArtifactStagingDirectory)'
       updateDependency: true
+      arguments: '--set image.tag=$(Build.BuildId)'
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
