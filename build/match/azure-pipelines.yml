@@ -30,30 +30,13 @@ jobs:
     inputs:
       codeCoverageTool: 'cobertura'
       summaryFileLocation: '$(System.DefaultWorkingDirectory)/TestResults/coverage.cobertura.xml'
-  - task: DockerCompose@0
-    displayName: Compose build match
+  - task: Docker@2
+    displayName: Build and Push
     inputs:
-      dockerComposeCommand: 'build pitch.match.api'
-      containerregistrytype: Container Registry
-      dockerRegistryEndpoint: $(registryEndpoint)
-      dockerComposeFile: src/match/docker-compose.yml
-      qualifyImageNames: true
-      projectName: ""
-      dockerComposeFileArgs: |
-        TAG=$(Build.SourceBranchName)
-        DOCKER_REGISTRY=$(dockerRegistry)
-  - task: DockerCompose@0
-    displayName: Compose push match
-    inputs:
-      dockerComposeCommand: 'push pitch.match.api'
-      containerregistrytype: Container Registry
-      dockerRegistryEndpoint: $(registryEndpoint)
-      dockerComposeFile: src/match/docker-compose.yml
-      qualifyImageNames: true
-      projectName: ""
-      dockerComposeFileArgs: |
-        TAG=$(Build.SourceBranchName)
-        DOCKER_REGISTRY=$(dockerRegistry)
+      command: buildAndPush
+      containerRegistry: pitch-registry
+      Dockerfile: src/match/Dockerfile
+      repository: pitchgame/match.api
   - task: HelmDeploy@0
     inputs:
       connectionType: 'Azure Resource Manager'
