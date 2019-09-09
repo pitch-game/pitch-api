@@ -17,7 +17,7 @@ jobs:
   steps:
   - script: |
       cd src/match
-      docker build --pull --file Pitch.Match.Api/Dockerfile --target testrunner -t pitch.match.api:testrunner .
+      docker build --pull --target testrunner -t pitch.match.api:testrunner .
       docker run --name matchapitest pitch.match.api:testrunner
       docker cp matchapitest:/src/Pitch.Match.Api.Tests/TestResults $(System.DefaultWorkingDirectory)
   - task: PublishTestResults@2
