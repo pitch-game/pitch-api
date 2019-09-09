@@ -52,7 +52,7 @@ namespace Pitch.Match.Api.Tests
         public void ShotOnTargetEventHasCorrectName()
         {
             var sot = new ShotOnTarget(0, new Guid(), new Guid());
-            Assert.Equal("Shot On Target", sot.Name);
+            Assert.Equal("Shot Saved", sot.Name);
         }
 
         [Fact]
