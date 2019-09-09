@@ -1,71 +1,25 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ include "match.fullname" . }}
+  name: {{ template "fullname" . }}
   labels:
-{{ include "match.labels" . | indent 4 }}
+    draft: {{ default "draft-app" .Values.draft }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
 spec:
   replicas: {{ .Values.replicaCount }}
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: {{ include "match.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
+      annotations:
+        buildID: {{ .Values.buildID }}
       labels:
-        app.kubernetes.io/name: {{ include "match.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        draft: {{ default "draft-app" .Values.draft }}
+        app: {{ template "fullname" . }}
     spec:
-    {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /liveness
-              port: http
-              initialDelaySeconds: 15
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: http
-          env:
-            - name: "ConnectionStrings__ServiceBus"
-              valueFrom:
-                secretKeyRef:
-                  key:  "ServiceBus"
-                  name: "connection-strings"
-            - name: "ConnectionStrings__MongoDb"
-              valueFrom:
-                secretKeyRef:
-                  key:  "MongoDb"
-                  name: "connection-strings"
-            - name: "ConnectionStrings__RabbitMQHealthCheck"
-              valueFrom:
-                secretKeyRef:
-                  key:  "RabbitMQHealthCheck"
-                  name: "connection-strings"
-            - name: CI_BUILD_NUMBER
-              value: "{{ .Values.buildNumber }}"
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.internalPort }}
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
