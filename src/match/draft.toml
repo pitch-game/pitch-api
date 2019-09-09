@@ -1,0 +1,10 @@
+[environments]
+  [environments.development]
+    name = "pitch-match-api"
+    namespace = "default"
+    wait = true
+    watch = true
+    watch-delay = 2
+    auto-connect = true
+    dockerfile = "Dockerfile"
+    chart = "../../k8s/helm/match"
