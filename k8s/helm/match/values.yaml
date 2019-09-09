@@ -6,6 +6,7 @@ fullnameOverride: "pitch-match-api"
 
 replicaCount: 1
 image:
+  repository: pitchgame/match.api
   pullPolicy: IfNotPresent
 service:
   type: ClusterIP
