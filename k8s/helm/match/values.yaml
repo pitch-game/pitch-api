@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-fullnameOverride: "pitch-match-api"
+fullnameOverride: "match"
 
 replicaCount: 1
 image:
