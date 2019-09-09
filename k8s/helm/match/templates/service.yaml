@@ -13,3 +13,5 @@ spec:
     name: {{ .Values.service.name }}
   selector:
     app: {{ template "fullname" . }}
+    app.kubernetes.io/name: {{ template "fullname" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
