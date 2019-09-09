@@ -1,4 +1,5 @@
-﻿using EasyNetQ;
+﻿using AutoMapper;
+using EasyNetQ;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -9,16 +10,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using Pitch.Match.Api.ApplicationCore.Engine;
+using Pitch.Match.Api.ApplicationCore.Engine.Actions;
+using Pitch.Match.Api.ApplicationCore.Engine.Events;
 using Pitch.Match.Api.Hubs;
+using Pitch.Match.Api.Infrastructure.MessageBus.Supporting;
 using Pitch.Match.Api.Infrastructure.Repositories;
 using Pitch.Match.Api.Services;
 using System;
 using System.Linq;
-using Pitch.Match.Api.ApplicationCore.Engine.Actions;
-using Pitch.Match.Api.ApplicationCore.Engine.Events;
-using Pitch.Match.Api.ApplicationCore.Engine;
-using Pitch.Match.Api.Infrastructure.MessageBus.Supporting;
-using AutoMapper;
 
 namespace Pitch.Match.Api
 {
