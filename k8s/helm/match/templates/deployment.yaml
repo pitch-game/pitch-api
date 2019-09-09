@@ -33,5 +33,20 @@ spec:
             path: /health
             port: http
         env:
+          - name: "ConnectionStrings__ServiceBus"
+            valueFrom:
+              secretKeyRef:
+                key:  "ServiceBus"
+                name: "connection-strings"
+          - name: "ConnectionStrings__MongoDb"
+            valueFrom:
+              secretKeyRef:
+                key:  "MongoDb"
+                name: "connection-strings"
+          - name: "ConnectionStrings__RabbitMQHealthCheck"
+            valueFrom:
+              secretKeyRef:
+                key:  "RabbitMQHealthCheck"
+                name: "connection-strings"
         resources:
 {{ toYaml .Values.resources | indent 12 }}
