@@ -38,7 +38,7 @@ jobs:
       command: 'package'
       chartPath: './k8s/helm/match'
       updateDependency: true
-      arguments: '--set image.tag=$(Build.BuildId)'
+      overrideValues: image.tag=$(Build.BuildId)
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
