@@ -13,6 +13,7 @@ using MongoDB.Driver;
 using Pitch.Match.Api.ApplicationCore.Engine;
 using Pitch.Match.Api.ApplicationCore.Engine.Actions;
 using Pitch.Match.Api.ApplicationCore.Engine.Events;
+using Pitch.Match.Api.ApplicationCore.Engine.Providers;
 using Pitch.Match.Api.Hubs;
 using Pitch.Match.Api.Infrastructure.MessageBus.Supporting;
 using Pitch.Match.Api.Infrastructure.Repositories;
@@ -58,6 +59,7 @@ namespace Pitch.Match.Api
 
             services.AddScoped<IMatchRepository, MatchRepository>();
 
+            services.AddTransient<IRandomnessProvider, RandomnessProvider>();
             services.AddSingleton<IAction, ApplicationCore.Engine.Actions.Foul>();
             services.AddSingleton<IAction, Shot>();
 

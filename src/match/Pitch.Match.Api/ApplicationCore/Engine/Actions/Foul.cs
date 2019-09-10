@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using Pitch.Match.Api.ApplicationCore.Engine.Events;
+using Pitch.Match.Api.ApplicationCore.Engine.Providers;
 using Pitch.Match.Api.ApplicationCore.Models.Match;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,13 @@ namespace Pitch.Match.Api.ApplicationCore.Engine.Actions
 {
     public class Foul : IAction
     {
+        private readonly IRandomnessProvider randomnessProvider;
+
+        public Foul(IRandomnessProvider randomnessProvider)
+        {
+            this.randomnessProvider = randomnessProvider;
+        }
+
         [BsonIgnore]
         public decimal ChancePerMinute => 0.30m;
 
@@ -26,9 +34,7 @@ namespace Pitch.Match.Api.ApplicationCore.Engine.Actions
 
         public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match.Match match)
         {
-            //TODO base on fitness and ratings
-            Random rnd = new Random();
-            int randomNumber = rnd.Next(1, 40);
+            int randomNumber = randomnessProvider.Next(1, 40);
 
             if (randomNumber == 1)
             {

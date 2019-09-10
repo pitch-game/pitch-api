@@ -1,8 +1,10 @@
 using Pitch.Match.Api.ApplicationCore.Engine;
 using Pitch.Match.Api.ApplicationCore.Engine.Actions;
+using Pitch.Match.Api.ApplicationCore.Engine.Providers;
 using Pitch.Match.Api.ApplicationCore.Models.Match;
 using System;
 using System.Collections.Generic;
+using static Pitch.Match.Api.Tests.ActionTests;
 
 namespace Pitch.Match.Api.Tests
 {
@@ -21,7 +23,8 @@ namespace Pitch.Match.Api.Tests
 
         protected MatchTestBase()
         {
-            var actions = new IAction[] { new Foul(), new Shot() };
+            var randomnessProvider = new RandomnessProvider();
+            var actions = new IAction[] { new Foul(randomnessProvider), new Shot() };
             _stubMatchEngine = new MatchEngine(actions);
 
             _stubHomePlayer = new Card()
