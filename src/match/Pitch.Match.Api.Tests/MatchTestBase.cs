@@ -4,7 +4,6 @@ using Pitch.Match.Api.ApplicationCore.Engine.Providers;
 using Pitch.Match.Api.ApplicationCore.Models.Match;
 using System;
 using System.Collections.Generic;
-using static Pitch.Match.Api.Tests.ActionTests;
 
 namespace Pitch.Match.Api.Tests
 {

@@ -44,13 +44,5 @@ namespace Pitch.Match.Api.Tests
             Assert.Contains(_stubMatch.Events, x => x == stubEvent);
             Assert.Contains(_stubMatch.Statistics, x => x == stubStatistic);
         }
-
-        //TODO can't currently test this due to implementation
-        [Fact]
-        public void TwoYellowCards_ForSamePlayer_SendsThemOff() { }
-
-        //TODO can't currently test this due to implementation
-        [Fact]
-        public void RedCard_ForPlayer_SendsThemOff() { }
     }
 }
