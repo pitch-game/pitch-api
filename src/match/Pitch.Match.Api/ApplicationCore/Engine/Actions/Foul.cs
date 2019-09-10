@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using Pitch.Match.Api.ApplicationCore.Engine.Events;
 using Pitch.Match.Api.ApplicationCore.Engine.Providers;
-using Pitch.Match.Api.ApplicationCore.Models.Match;
+using Pitch.Match.Api.ApplicationCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +32,7 @@ namespace Pitch.Match.Api.ApplicationCore.Engine.Actions
         [BsonIgnore]
         public bool AffectsTeamInPossession => false;
 
-        public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match.Match match)
+        public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match)
         {
             int randomNumber = randomnessProvider.Next(1, 40);
 

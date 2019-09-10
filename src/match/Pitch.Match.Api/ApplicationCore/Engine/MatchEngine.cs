@@ -1,6 +1,6 @@
 ﻿using Pitch.Match.Api.ApplicationCore.Engine.Actions;
 using Pitch.Match.Api.ApplicationCore.Engine.Helpers;
-using Pitch.Match.Api.ApplicationCore.Models.Match;
+using Pitch.Match.Api.ApplicationCore.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +15,7 @@ namespace Pitch.Match.Api.ApplicationCore.Engine
             _actions = actions;
         }
 
-        public Models.Match.Match SimulateReentrant(Models.Match.Match match)
+        public Models.Match SimulateReentrant(Models.Match match)
         {
             match.Events = match.Events.Where(x => x.Minute <= match.Duration).ToList();
             match.Statistics = match.Statistics.Where(x => x.Minute <= match.Duration).ToList();

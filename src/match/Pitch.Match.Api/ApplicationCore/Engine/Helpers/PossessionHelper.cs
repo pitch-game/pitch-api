@@ -1,5 +1,5 @@
 ﻿using Pitch.Match.Api.ApplicationCore.Engine.Events;
-using Pitch.Match.Api.ApplicationCore.Models.Match;
+using Pitch.Match.Api.ApplicationCore.Models;
 using System;
 using System.Collections.Generic;
 
@@ -7,7 +7,7 @@ namespace Pitch.Match.Api.ApplicationCore.Engine.Helpers
 {
     public static class PossessionHelper
     {
-        public static Squad InPossession(Models.Match.Match match, out Squad notInPossession, out int homeChance, out int awayChance)
+        public static Squad InPossession(Models.Match match, out Squad notInPossession, out int homeChance, out int awayChance)
         {
             homeChance = PossessionChance(match.HomeTeam.Squad, match.Events);
             awayChance = PossessionChance(match.AwayTeam.Squad, match.Events);

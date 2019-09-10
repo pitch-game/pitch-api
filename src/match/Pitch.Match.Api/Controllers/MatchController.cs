@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Pitch.Match.Api.ApplicationCore.Models.Match;
+using Pitch.Match.Api.ApplicationCore.Models;
 using Pitch.Match.Api.Models;
 using Pitch.Match.Api.Services;
 using System;

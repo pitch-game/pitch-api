@@ -1,7 +1,7 @@
 using Pitch.Match.Api.ApplicationCore.Engine;
 using Pitch.Match.Api.ApplicationCore.Engine.Actions;
 using Pitch.Match.Api.ApplicationCore.Engine.Providers;
-using Pitch.Match.Api.ApplicationCore.Models.Match;
+using Pitch.Match.Api.ApplicationCore.Models;
 using System;
 using System.Collections.Generic;
 
@@ -9,7 +9,7 @@ namespace Pitch.Match.Api.Tests
 {
     public abstract class MatchTestBase
     {
-        protected ApplicationCore.Models.Match.Match _stubMatch;
+        protected ApplicationCore.Models.Match _stubMatch;
         protected MatchEngine _stubMatchEngine;
 
         protected Card _stubHomePlayer;
@@ -263,7 +263,7 @@ namespace Pitch.Match.Api.Tests
             var stubHomeUserId = Guid.NewGuid();
             var stubAwayUserId = Guid.NewGuid();
 
-            _stubMatch = new ApplicationCore.Models.Match.Match()
+            _stubMatch = new ApplicationCore.Models.Match()
             {
                 Id = Guid.NewGuid(),
                 KickOff = DateTime.Now,

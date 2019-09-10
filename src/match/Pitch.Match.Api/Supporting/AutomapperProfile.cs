@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Pitch.Match.Api.ApplicationCore.Models.Match;
+using Pitch.Match.Api.ApplicationCore.Models;
 using Pitch.Match.Api.Models;
 
 namespace Pitch.Match.Api.Supporting

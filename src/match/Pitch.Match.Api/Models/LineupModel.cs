@@ -1,4 +1,4 @@
-﻿using Pitch.Match.Api.ApplicationCore.Models.Match;
+﻿using Pitch.Match.Api.ApplicationCore.Models;
 using System.Collections.Generic;
 
 namespace Pitch.Match.Api.Models

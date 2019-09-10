@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Match.Api.ApplicationCore.Models.Matchmaking
+namespace Pitch.Match.Api.ApplicationCore.Modelsmaking
 {
     public class MatchmakingSession
     {

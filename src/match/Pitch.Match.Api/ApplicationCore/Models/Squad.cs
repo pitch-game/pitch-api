@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pitch.Match.Api.ApplicationCore.Models.Match
+namespace Pitch.Match.Api.ApplicationCore.Models
 {
     public class Squad
     {

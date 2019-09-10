@@ -1,6 +1,6 @@
 ﻿using EasyNetQ;
 using Microsoft.AspNetCore.SignalR;
-using Pitch.Match.Api.ApplicationCore.Models.Matchmaking;
+using Pitch.Match.Api.ApplicationCore.Modelsmaking;
 using Pitch.Match.Api.Infrastructure.Repositories;
 using System;
 using System.Linq;

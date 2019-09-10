@@ -1,5 +1,5 @@
 ﻿using Pitch.Match.Api.ApplicationCore.Engine.Events;
-using Pitch.Match.Api.ApplicationCore.Models.Match;
+using Pitch.Match.Api.ApplicationCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using Pitch.Match.Api.ApplicationCore.Models.Matchmaking;
+﻿using Pitch.Match.Api.ApplicationCore.Modelsmaking;
 using System.Collections.Generic;
 
 namespace Pitch.Match.Api.Services

@@ -1,7 +1,7 @@
 ﻿using EasyNetQ;
 using Pitch.Match.Api.ApplicationCore.Engine;
 using Pitch.Match.Api.ApplicationCore.Engine.Events;
-using Pitch.Match.Api.ApplicationCore.Models.Match;
+using Pitch.Match.Api.ApplicationCore.Models;
 using Pitch.Match.Api.Infrastructure.MessageBus.Events;
 using Pitch.Match.Api.Infrastructure.MessageBus.Requests;
 using Pitch.Match.Api.Infrastructure.MessageBus.Responses;
@@ -16,7 +16,7 @@ namespace Pitch.Match.Api.Services
     public interface IMatchService
     {
         Task KickOff(Guid sessionId);
-        Task<ApplicationCore.Models.Match.Match> GetAsync(Guid id);
+        Task<ApplicationCore.Models.Match> GetAsync(Guid id);
         Task ClaimAsync(Guid userId);
         Task<IEnumerable<MatchListResult>> GetAllAsync(int skip, int? take, Guid userId);
         Task<MatchStatusResult> GetMatchStatus(Guid userId);
@@ -68,7 +68,7 @@ namespace Pitch.Match.Api.Services
             }
         }
 
-        public async Task<ApplicationCore.Models.Match.Match> GetAsync(Guid id)
+        public async Task<ApplicationCore.Models.Match> GetAsync(Guid id)
         {
             return await _matchRepository.GetAsync(id);
         }
@@ -77,7 +77,7 @@ namespace Pitch.Match.Api.Services
         {
             var session = _matchmakingService.GetSession(sessionId);
 
-            var match = new ApplicationCore.Models.Match.Match
+            var match = new ApplicationCore.Models.Match
             {
                 Id = sessionId
             };

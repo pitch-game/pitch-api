@@ -2,6 +2,6 @@
 {
     public interface IMatchEngine
     {
-        Models.Match.Match SimulateReentrant(Models.Match.Match match);
+        Models.Match SimulateReentrant(Models.Match match);
     }
 }
