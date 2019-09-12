@@ -51,4 +51,4 @@ This project is licensed under the GPL 3.0 License - see the [LICENSE](LICENSE) 
 
 ## Acknowledgments
 
-* [Jetbrains](https://www.jetbrains.com/) for providing an 'All Products Pack' license as part of their open source initiative.
+* [Jetbrains](https://www.jetbrains.com/) for providing an 'All Products Pack' license as part of their [open source initiative](https://www.jetbrains.com/opensource/).
