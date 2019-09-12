@@ -1,7 +1,7 @@
-﻿using Pitch.Match.Api.ApplicationCore.Modelsmaking;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Pitch.Match.Api.ApplicationCore.Models.Matchmaking;
 
-namespace Pitch.Match.Api.Services
+namespace Pitch.Match.Api.ApplicationCore.Services
 {
     public interface IMatchSessionService
     {

@@ -17,9 +17,9 @@ using Pitch.Match.Api.ApplicationCore.Engine.Providers;
 using Pitch.Match.Api.Hubs;
 using Pitch.Match.Api.Infrastructure.MessageBus.Supporting;
 using Pitch.Match.Api.Infrastructure.Repositories;
-using Pitch.Match.Api.Services;
 using System;
 using System.Linq;
+using Pitch.Match.Api.ApplicationCore.Services;
 
 namespace Pitch.Match.Api
 {

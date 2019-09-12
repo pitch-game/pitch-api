@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Pitch.Match.Api.Services;
 using System;
 using System.Threading.Tasks;
+using Pitch.Match.Api.ApplicationCore.Services;
 
 namespace Pitch.Match.Api.Hubs
 {

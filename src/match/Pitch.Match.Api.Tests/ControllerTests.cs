@@ -1,5 +1,4 @@
 ﻿using Moq;
-using Pitch.Match.Api.Services;
 using System;
 using Xunit;
 using System.Threading.Tasks;
@@ -10,6 +9,7 @@ using Pitch.Match.Api.Models;
 using System.Security.Claims;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
+using Pitch.Match.Api.ApplicationCore.Services;
 
 namespace Pitch.Match.Api.Tests
 {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Pitch.Match.Api.Services;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Pitch.Match.Api.ApplicationCore.Services;
 
 namespace Pitch.Match.Api.Controllers
 {

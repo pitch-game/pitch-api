@@ -1,15 +1,15 @@
 ﻿using EasyNetQ;
 using Moq;
 using Pitch.Match.Api.ApplicationCore.Engine;
-using Pitch.Match.Api.ApplicationCore.Modelsmaking;
 using Pitch.Match.Api.Infrastructure.MessageBus.Events;
 using Pitch.Match.Api.Infrastructure.MessageBus.Requests;
 using Pitch.Match.Api.Infrastructure.MessageBus.Responses;
 using Pitch.Match.Api.Infrastructure.Repositories;
-using Pitch.Match.Api.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Pitch.Match.Api.ApplicationCore.Models.Matchmaking;
+using Pitch.Match.Api.ApplicationCore.Services;
 using Xunit;
 
 namespace Pitch.Match.Api.Tests
