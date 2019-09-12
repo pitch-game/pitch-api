@@ -47,8 +47,8 @@ See also the list of [contributors](/contributors) who participated in this proj
 
 ## License
 
-This project is licensed under the GPL 3.0 License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the GPL 3.0 License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-* Coming soon
+* [Jetbrains](https://www.jetbrains.com/) for providing an 'All Products Pack' license as part of their open source initiative.
