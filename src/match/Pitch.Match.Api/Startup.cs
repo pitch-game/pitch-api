@@ -20,6 +20,7 @@ using Pitch.Match.Api.Infrastructure.Repositories;
 using System;
 using System.Linq;
 using Pitch.Match.Api.ApplicationCore.Services;
+using Pitch.Match.Api.Infrastructure.Repositories.Contexts;
 
 namespace Pitch.Match.Api
 {
@@ -58,6 +59,7 @@ namespace Pitch.Match.Api
             services.AddSingleton<IMatchEngine, MatchEngine>();
 
             services.AddScoped<IMatchRepository, MatchRepository>();
+            services.AddScoped(typeof(IDataContext<>), typeof(MongoDbDataContext<>));
 
             services.AddTransient<IRandomnessProvider, RandomnessProvider>();
             services.AddSingleton<IAction, ApplicationCore.Engine.Actions.Foul>();

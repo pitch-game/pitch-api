@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pitch.Match.Api.Infrastructure.Repositories;
+using Pitch.Match.Api.Infrastructure.Repositories.Contexts;
 
 namespace Pitch.Match.Api.ApplicationCore.Models
 {
-    public class Match
+    public class Match : IEntity
     {
         public Match()
         {
