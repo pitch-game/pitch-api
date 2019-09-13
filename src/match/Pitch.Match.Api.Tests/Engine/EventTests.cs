@@ -1,8 +1,8 @@
-﻿using Pitch.Match.Api.ApplicationCore.Engine.Events;
-using System;
+﻿using System;
+using Pitch.Match.Api.ApplicationCore.Engine.Events;
 using Xunit;
 
-namespace Pitch.Match.Api.Tests
+namespace Pitch.Match.Api.Tests.Engine
 {
     public class EventTests
     {
@@ -21,18 +21,19 @@ namespace Pitch.Match.Api.Tests
         }
 
         [Fact]
-        public void YellowCardEventHasCorrectName()
+        public void GoalEventAppearsInTimeline()
         {
-            var yellowCard = new YellowCard(0, new Guid(), new Guid());
-            Assert.Equal("Yellow Card", yellowCard.Name);
+            var goal = new Goal(0, new Guid(), new Guid());
+            Assert.True(goal.ShowInTimeline);
         }
 
         [Fact]
-        public void YellowCardEventsAppearInTimeline()
+        public void GoalEventHasCorrectName()
         {
-            var yellowCard = new YellowCard(0, new Guid(), new Guid());
-            Assert.True(yellowCard.ShowInTimeline);
+            var goal = new Goal(0, new Guid(), new Guid());
+            Assert.Equal("Goal", goal.Name);
         }
+
         [Fact]
         public void RedCardEventHasCorrectName()
         {
@@ -45,34 +46,6 @@ namespace Pitch.Match.Api.Tests
         {
             var redCard = new RedCard(0, new Guid(), new Guid());
             Assert.True(redCard.ShowInTimeline);
-        }
-
-        [Fact]
-        public void SubstitutionEventHasCorrectName()
-        {
-            var sub = new Substitution(0, new Guid(), new Guid());
-            Assert.Equal("Substitution", sub.Name);
-        }
-
-        [Fact]
-        public void SubstitutionEventsAppearInTimeline()
-        {
-            var sub = new Substitution(0, new Guid(), new Guid());
-            Assert.True(sub.ShowInTimeline);
-        }
-
-        [Fact]
-        public void ShotOnTargetEventHasCorrectName()
-        {
-            var sot = new ShotOnTarget(0, new Guid(), new Guid());
-            Assert.Equal("Shot Saved", sot.Name);
-        }
-
-        [Fact]
-        public void ShotOnTargetEventsAppearInTimeline()
-        {
-            var sot = new ShotOnTarget(0, new Guid(), new Guid());
-            Assert.True(sot.ShowInTimeline);
         }
 
         [Fact]
@@ -90,17 +63,45 @@ namespace Pitch.Match.Api.Tests
         }
 
         [Fact]
-        public void GoalEventHasCorrectName()
+        public void ShotOnTargetEventHasCorrectName()
         {
-            var goal = new Goal(0, new Guid(), new Guid());
-            Assert.Equal("Goal", goal.Name);
+            var sot = new ShotOnTarget(0, new Guid(), new Guid());
+            Assert.Equal("Shot Saved", sot.Name);
         }
 
         [Fact]
-        public void GoalEventAppearsInTimeline()
+        public void ShotOnTargetEventsAppearInTimeline()
         {
-            var goal = new Goal(0, new Guid(), new Guid());
-            Assert.True(goal.ShowInTimeline);
+            var sot = new ShotOnTarget(0, new Guid(), new Guid());
+            Assert.True(sot.ShowInTimeline);
+        }
+
+        [Fact]
+        public void SubstitutionEventHasCorrectName()
+        {
+            var sub = new Substitution(0, new Guid(), new Guid());
+            Assert.Equal("Substitution", sub.Name);
+        }
+
+        [Fact]
+        public void SubstitutionEventsAppearInTimeline()
+        {
+            var sub = new Substitution(0, new Guid(), new Guid());
+            Assert.True(sub.ShowInTimeline);
+        }
+
+        [Fact]
+        public void YellowCardEventHasCorrectName()
+        {
+            var yellowCard = new YellowCard(0, new Guid(), new Guid());
+            Assert.Equal("Yellow Card", yellowCard.Name);
+        }
+
+        [Fact]
+        public void YellowCardEventsAppearInTimeline()
+        {
+            var yellowCard = new YellowCard(0, new Guid(), new Guid());
+            Assert.True(yellowCard.ShowInTimeline);
         }
     }
 }

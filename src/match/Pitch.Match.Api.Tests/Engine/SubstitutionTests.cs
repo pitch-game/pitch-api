@@ -1,9 +1,9 @@
-﻿using Pitch.Match.Api.ApplicationCore.Engine.Events;
-using System;
+﻿using System;
 using System.Linq;
+using Pitch.Match.Api.ApplicationCore.Engine.Events;
 using Xunit;
 
-namespace Pitch.Match.Api.Tests
+namespace Pitch.Match.Api.Tests.Engine
 {
     public class SubstitutionTests : MatchTestBase
     {
@@ -23,8 +23,10 @@ namespace Pitch.Match.Api.Tests
             SimulateStubMatch();
 
             //Assert
-            var shotEvent = _stubMatch.Events.FirstOrDefault(x => x.Minute == minute && x.CardId == _stubHomePlayer.Id && x.GetType() == typeof(ShotOnTarget));
-            var subEvent = _stubMatch.Events.FirstOrDefault(x => x.Minute == minute && x.CardId == _stubHomeSub.Id && x.GetType() == typeof(Substitution));
+            var shotEvent = _stubMatch.Events.FirstOrDefault(x =>
+                x.Minute == minute && x.CardId == _stubHomePlayer.Id && x.GetType() == typeof(ShotOnTarget));
+            var subEvent = _stubMatch.Events.FirstOrDefault(x =>
+                x.Minute == minute && x.CardId == _stubHomeSub.Id && x.GetType() == typeof(Substitution));
             var shotEventIndex = _stubMatch.Events.IndexOf(shotEvent);
             var subEventIndex = _stubMatch.Events.IndexOf(subEvent);
             Assert.True(subEventIndex > shotEventIndex);
@@ -47,8 +49,12 @@ namespace Pitch.Match.Api.Tests
             SimulateStubMatch();
 
             //Assert
-            Assert.Contains(_stubMatch.Events, x => x.Minute == minute && x.SquadId == _stubMatch.HomeTeam.Squad.Id && x.CardId == _stubHomeSub.Id && x.GetType() == typeof(Substitution));
-            Assert.Contains(_stubMatch.Events, x => x.Minute == minute && x.SquadId == _stubMatch.AwayTeam.Squad.Id && x.CardId == _stubAwaySub.Id && x.GetType() == typeof(Substitution));
+            Assert.Contains(_stubMatch.Events,
+                x => x.Minute == minute && x.SquadId == _stubMatch.HomeTeam.Squad.Id && x.CardId == _stubHomeSub.Id &&
+                     x.GetType() == typeof(Substitution));
+            Assert.Contains(_stubMatch.Events,
+                x => x.Minute == minute && x.SquadId == _stubMatch.AwayTeam.Squad.Id && x.CardId == _stubAwaySub.Id &&
+                     x.GetType() == typeof(Substitution));
         }
 
         [Theory]

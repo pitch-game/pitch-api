@@ -1,9 +1,9 @@
-﻿using Pitch.Match.Api.ApplicationCore.Engine.Events;
+﻿using System;
+using Pitch.Match.Api.ApplicationCore.Engine.Events;
 using Pitch.Match.Api.ApplicationCore.Models;
-using System;
 using Xunit;
 
-namespace Pitch.Match.Api.Tests
+namespace Pitch.Match.Api.Tests.Engine
 {
     public class MatchTests : MatchTestBase
     {
