@@ -1,5 +1,5 @@
 # Pitch API
-API for Pitch in a microservices architecture on containers
+RESTful Web API for Pitch in a microservices architecture on containers
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/pitch-game/pitch-api.svg)
 ![GitHub issues](https://img.shields.io/github/issues/pitch-game/pitch-api.svg)
@@ -51,4 +51,4 @@ This project is licensed under the GPL 3.0 License - see the [LICENSE](LICENSE) 
 
 ## Acknowledgments
 
-* [Jetbrains](https://www.jetbrains.com/) for providing an 'All Products Pack' license as part of their [open source initiative](https://www.jetbrains.com/opensource/).
+* [JetBrains](https://www.jetbrains.com/) for providing an 'All Products Pack' license as part of their [open source initiative](https://www.jetbrains.com/opensource/).
