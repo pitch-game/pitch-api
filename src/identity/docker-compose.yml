@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  pitch.identity.api:
-    image: ${DOCKER_REGISTRY-}identity.api
-    build:
-      context: .
-      dockerfile: Pitch.Identity.API/Dockerfile
