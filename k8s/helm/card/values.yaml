@@ -6,8 +6,7 @@ replicaCount: 1
 
 image:
   repository: pitchgame/card.api
-  tag: latest
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""
