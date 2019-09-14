@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace Pitch.Player.Tests
+namespace Pitch.Player.API.Tests
 {
     public class UnitTest1
     {
