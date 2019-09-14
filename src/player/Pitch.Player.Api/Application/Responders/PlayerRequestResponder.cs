@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using EasyNetQ;
-using Pitch.Player.Api.Application.Requests;
-using Pitch.Player.Api.Application.Responses;
-using Pitch.Player.Api.Models;
-using Pitch.Player.Api.Services;
+using Pitch.Player.API.Application.Requests;
+using Pitch.Player.API.Application.Responses;
+using Pitch.Player.API.Models;
+using Pitch.Player.API.Services;
 
-namespace Pitch.Player.Api.Application.Responders
+namespace Pitch.Player.API.Application.Responders
 {
     public interface IPlayerRequestResponder : IResponder
     {

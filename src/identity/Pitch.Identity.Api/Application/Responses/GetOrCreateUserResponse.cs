@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Identity.Api.Application.Responses
+namespace Pitch.Identity.API.Application.Responses
 {
     public class GetOrCreateUserResponse
     {

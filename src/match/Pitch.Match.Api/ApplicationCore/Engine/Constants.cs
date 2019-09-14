@@ -1,4 +1,4 @@
-﻿namespace Pitch.Match.Api.ApplicationCore.Engine
+﻿namespace Pitch.Match.API.ApplicationCore.Engine
 {
     public static class Constants
     {

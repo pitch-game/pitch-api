@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Pitch.Card.Api.Models
+namespace Pitch.Card.API.Models
 {
     public class CardRequestModel
     {

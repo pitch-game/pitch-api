@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Pitch.Squad.Api.Services;
+using Pitch.Squad.API.Services;
 
-namespace Pitch.Squad.Api.Controllers
+namespace Pitch.Squad.API.Controllers
 {
     [Authorize]
     [Route("")]

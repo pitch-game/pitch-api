@@ -4,12 +4,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Moq;
-using Pitch.Match.Api.ApplicationCore.Models;
-using Pitch.Match.Api.Infrastructure.Repositories;
-using Pitch.Match.Api.Infrastructure.Repositories.Contexts;
+using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.API.Infrastructure.Repositories;
+using Pitch.Match.API.Infrastructure.Repositories.Contexts;
 using Xunit;
 
-namespace Pitch.Match.Api.Tests.Repositories
+namespace Pitch.Match.API.Tests.Repositories
 {
     public class MatchRepositoryTests
     {

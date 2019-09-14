@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
-using Pitch.Card.Api.Models;
+using Pitch.Card.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Pitch.Card.Api.Infrastructure.Repositories
+namespace Pitch.Card.API.Infrastructure.Repositories
 {
     public interface ICardRepository
     {

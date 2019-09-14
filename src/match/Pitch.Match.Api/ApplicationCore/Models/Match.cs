@@ -1,11 +1,11 @@
-﻿using Pitch.Match.Api.ApplicationCore.Engine.Events;
+﻿using Pitch.Match.API.ApplicationCore.Engine.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pitch.Match.Api.Infrastructure.Repositories;
-using Pitch.Match.Api.Infrastructure.Repositories.Contexts;
+using Pitch.Match.API.Infrastructure.Repositories;
+using Pitch.Match.API.Infrastructure.Repositories.Contexts;
 
-namespace Pitch.Match.Api.ApplicationCore.Models
+namespace Pitch.Match.API.ApplicationCore.Models
 {
     public class Match : IEntity
     {

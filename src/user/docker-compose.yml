@@ -5,4 +5,4 @@ services:
     image: ${DOCKER_REGISTRY-}user.api
     build:
       context: .
-      dockerfile: Pitch.User.Api/Dockerfile
+      dockerfile: Pitch.User.API/Dockerfile

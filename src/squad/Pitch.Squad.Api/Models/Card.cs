@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Squad.Api.Models
+namespace Pitch.Squad.API.Models
 {
     public class Card
     {

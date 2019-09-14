@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Pitch.Card.Api.Application.Responses
+namespace Pitch.Card.API.Application.Responses
 {
     public class GetCardsResponse
     {

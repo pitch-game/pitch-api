@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
-namespace Pitch.Store.Api.Supporting
+namespace Pitch.Store.API.Supporting
 {
     public class ScopedMessageDispatcher : IAutoSubscriberMessageDispatcher
     {

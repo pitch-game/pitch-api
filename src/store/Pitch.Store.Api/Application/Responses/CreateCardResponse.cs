@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Store.Api.Application.Responses
+namespace Pitch.Store.API.Application.Responses
 {
     public class CreateCardResponse
     {

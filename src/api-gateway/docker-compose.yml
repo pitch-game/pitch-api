@@ -5,4 +5,4 @@ services:
     image: ${DOCKER_REGISTRY-}gateway.api
     build:
       context: .
-      dockerfile: Pitch.Gateway.Api/Dockerfile
+      dockerfile: Pitch.Gateway.API/Dockerfile

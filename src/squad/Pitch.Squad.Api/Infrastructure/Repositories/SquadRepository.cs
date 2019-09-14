@@ -4,7 +4,7 @@ using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
 
-namespace Pitch.Squad.Api.Infrastructure.Repositories
+namespace Pitch.Squad.API.Infrastructure.Repositories
 {
     public class SquadRepository : ISquadRepository
     {

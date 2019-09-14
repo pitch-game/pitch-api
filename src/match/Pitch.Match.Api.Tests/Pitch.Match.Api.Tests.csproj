@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Pitch.Match.Api\Pitch.Match.Api.csproj" />
+    <ProjectReference Include="..\Pitch.Match.API\Pitch.Match.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

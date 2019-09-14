@@ -10,19 +10,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using Pitch.Match.Api.ApplicationCore.Engine;
-using Pitch.Match.Api.ApplicationCore.Engine.Actions;
-using Pitch.Match.Api.ApplicationCore.Engine.Events;
-using Pitch.Match.Api.ApplicationCore.Engine.Providers;
-using Pitch.Match.Api.Hubs;
-using Pitch.Match.Api.Infrastructure.MessageBus.Supporting;
-using Pitch.Match.Api.Infrastructure.Repositories;
+using Pitch.Match.API.ApplicationCore.Engine;
+using Pitch.Match.API.ApplicationCore.Engine.Actions;
+using Pitch.Match.API.ApplicationCore.Engine.Events;
+using Pitch.Match.API.ApplicationCore.Engine.Providers;
+using Pitch.Match.API.Hubs;
+using Pitch.Match.API.Infrastructure.MessageBus.Supporting;
+using Pitch.Match.API.Infrastructure.Repositories;
 using System;
 using System.Linq;
-using Pitch.Match.Api.ApplicationCore.Services;
-using Pitch.Match.Api.Infrastructure.Repositories.Contexts;
+using Pitch.Match.API.ApplicationCore.Services;
+using Pitch.Match.API.Infrastructure.Repositories.Contexts;
 
-namespace Pitch.Match.Api
+namespace Pitch.Match.API
 {
     public class Startup
     {

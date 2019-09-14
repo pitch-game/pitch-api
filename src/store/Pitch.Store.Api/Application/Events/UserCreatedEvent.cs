@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Store.Api.Application.Events
+namespace Pitch.Store.API.Application.Events
 {
     public class UserCreatedEvent
     {

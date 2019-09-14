@@ -11,16 +11,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Logging;
-using Pitch.Store.Api.Application.Subscribers;
-using Pitch.Store.Api.Infrastructure;
-using Pitch.Store.Api.Infrastructure.Repositories;
-using Pitch.Store.Api.Infrastructure.Services;
-using Pitch.Store.Api.Supporting;
-using Pitch.User.Api.Supporting;
+using Pitch.Store.API.Application.Subscribers;
+using Pitch.Store.API.Infrastructure;
+using Pitch.Store.API.Infrastructure.Repositories;
+using Pitch.Store.API.Infrastructure.Services;
+using Pitch.Store.API.Supporting;
+using Pitch.User.API.Supporting;
 using System;
 using System.Reflection;
 
-namespace Pitch.Store.Api
+namespace Pitch.Store.API
 {
     public class Startup
     {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28902.138
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Player.Api", "Pitch.Player.Api\Pitch.Player.Api.csproj", "{1D0644FF-88D6-4E75-8FD3-1D8537CC1704}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Player.API", "Pitch.Player.API\Pitch.Player.API.csproj", "{1D0644FF-88D6-4E75-8FD3-1D8537CC1704}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Player.Tests", "Pitch.Player.Tests\Pitch.Player.Tests.csproj", "{9FAEC7E1-B68C-459D-9C3B-8178BF15EB68}"
 EndProject

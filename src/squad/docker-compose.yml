@@ -5,4 +5,4 @@ services:
     image: ${DOCKER_REGISTRY-}squad.api
     build:
       context: .
-      dockerfile: Pitch.Squad.Api/Dockerfile
+      dockerfile: Pitch.Squad.API/Dockerfile

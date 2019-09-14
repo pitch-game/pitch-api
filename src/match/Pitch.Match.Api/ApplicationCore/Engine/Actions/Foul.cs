@@ -1,12 +1,12 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using Pitch.Match.Api.ApplicationCore.Engine.Events;
-using Pitch.Match.Api.ApplicationCore.Engine.Providers;
-using Pitch.Match.Api.ApplicationCore.Models;
+using Pitch.Match.API.ApplicationCore.Engine.Events;
+using Pitch.Match.API.ApplicationCore.Engine.Providers;
+using Pitch.Match.API.ApplicationCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pitch.Match.Api.ApplicationCore.Engine.Actions
+namespace Pitch.Match.API.ApplicationCore.Engine.Actions
 {
     public class Foul : IAction
     {

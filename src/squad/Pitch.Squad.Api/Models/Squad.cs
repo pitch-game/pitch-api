@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace Pitch.Squad.Api.Models
+namespace Pitch.Squad.API.Models
 {
     public class Squad
     {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Pitch.User.Api.Services;
+using Pitch.User.API.Services;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Pitch.User.Api.Controllers
+namespace Pitch.User.API.Controllers
 {
     [Route("")]
     [Authorize]

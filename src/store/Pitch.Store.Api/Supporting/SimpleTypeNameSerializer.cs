@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace Pitch.Store.Api.Supporting
+namespace Pitch.Store.API.Supporting
 {
     public class SimpleTypeNameSerializer : ITypeNameSerializer
     {

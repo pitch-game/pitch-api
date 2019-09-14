@@ -1,6 +1,6 @@
-﻿using Pitch.Match.Api.ApplicationCore.Models;
+﻿using Pitch.Match.API.ApplicationCore.Models;
 
-namespace Pitch.Match.Api.ApplicationCore.Engine.Helpers
+namespace Pitch.Match.API.ApplicationCore.Engine.Helpers
 {
     public static class FitnessHelper
     {

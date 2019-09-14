@@ -1,10 +1,10 @@
-﻿using Pitch.Match.Api.ApplicationCore.Engine.Actions;
-using Pitch.Match.Api.ApplicationCore.Engine.Helpers;
-using Pitch.Match.Api.ApplicationCore.Models;
+﻿using Pitch.Match.API.ApplicationCore.Engine.Actions;
+using Pitch.Match.API.ApplicationCore.Engine.Helpers;
+using Pitch.Match.API.ApplicationCore.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pitch.Match.Api.ApplicationCore.Engine
+namespace Pitch.Match.API.ApplicationCore.Engine
 {
     public class MatchEngine : IMatchEngine
     {

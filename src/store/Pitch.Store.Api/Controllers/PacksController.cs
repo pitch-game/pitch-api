@@ -4,11 +4,11 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Pitch.Store.Api.Application.Responses;
-using Pitch.Store.Api.Infrastructure.Services;
-using Pitch.Store.Api.Models;
+using Pitch.Store.API.Application.Responses;
+using Pitch.Store.API.Infrastructure.Services;
+using Pitch.Store.API.Models;
 
-namespace Pitch.Store.Api.Controllers
+namespace Pitch.Store.API.Controllers
 {
     [Authorize]
     [Route("[controller]")]

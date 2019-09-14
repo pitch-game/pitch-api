@@ -5,4 +5,4 @@ services:
     image: ${DOCKER_REGISTRY-}store.api
     build:
       context: .
-      dockerfile: Pitch.Store.Api/Dockerfile
+      dockerfile: Pitch.Store.API/Dockerfile

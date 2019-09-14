@@ -1,4 +1,4 @@
-﻿namespace Pitch.Card.Api.Application.Responses
+﻿namespace Pitch.Card.API.Application.Responses
 {
     public class CreateCardResponse : Models.Card
     {

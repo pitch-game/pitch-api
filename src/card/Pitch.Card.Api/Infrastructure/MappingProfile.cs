@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Pitch.Card.Api.Application.Requests;
-using Pitch.Card.Api.Application.Responders;
-using Pitch.Card.Api.Application.Responses;
-using Pitch.Card.Api.Models;
+using Pitch.Card.API.Application.Requests;
+using Pitch.Card.API.Application.Responders;
+using Pitch.Card.API.Application.Responses;
+using Pitch.Card.API.Models;
 
-namespace Pitch.Card.Api.Infrastructure
+namespace Pitch.Card.API.Infrastructure
 {
     public class MappingProfile : Profile
     {

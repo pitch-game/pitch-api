@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Pitch.Card.Api.Infrastructure.Services;
+using Pitch.Card.API.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Pitch.Card.Api.Models;
+using Pitch.Card.API.Models;
 using System.Linq;
 
-namespace Pitch.Card.Api.Controllers
+namespace Pitch.Card.API.Controllers
 {
     [Authorize]
     [Route("")]

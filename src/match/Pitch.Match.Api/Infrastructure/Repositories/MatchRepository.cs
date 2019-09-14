@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using MongoDB.Driver;
-using Pitch.Match.Api.Infrastructure.Repositories.Contexts;
+using Pitch.Match.API.Infrastructure.Repositories.Contexts;
 
-namespace Pitch.Match.Api.Infrastructure.Repositories
+namespace Pitch.Match.API.Infrastructure.Repositories
 {
     public interface IMatchRepository
     {

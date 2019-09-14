@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Pitch.Match.Api.ApplicationCore.Engine;
-using Pitch.Match.Api.ApplicationCore.Engine.Actions;
-using Pitch.Match.Api.ApplicationCore.Engine.Providers;
-using Pitch.Match.Api.ApplicationCore.Models;
+using Pitch.Match.API.ApplicationCore.Engine;
+using Pitch.Match.API.ApplicationCore.Engine.Actions;
+using Pitch.Match.API.ApplicationCore.Engine.Providers;
+using Pitch.Match.API.ApplicationCore.Models;
 
-namespace Pitch.Match.Api.Tests.Engine
+namespace Pitch.Match.API.Tests.Engine
 {
     public abstract class MatchTestBase
     {

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Pitch.Match.Api.ApplicationCore.Models;
-using Pitch.Match.Api.Models;
+using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.API.Models;
 
-namespace Pitch.Match.Api.Supporting
+namespace Pitch.Match.API.Supporting
 {
     public class AutomapperProfile : Profile
     {

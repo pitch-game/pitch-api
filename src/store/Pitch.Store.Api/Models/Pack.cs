@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Store.Api.Models
+namespace Pitch.Store.API.Models
 {
     public class Pack
     {

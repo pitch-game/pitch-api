@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Pitch.User.Api.Application.Responders;
-using Pitch.User.Api.Application.Subscribers;
-using Pitch.User.Api.Infrastructure.Repositories;
-using Pitch.User.Api.Services;
-using Pitch.User.Api.Supporting;
+using Pitch.User.API.Application.Responders;
+using Pitch.User.API.Application.Subscribers;
+using Pitch.User.API.Infrastructure.Repositories;
+using Pitch.User.API.Services;
+using Pitch.User.API.Supporting;
 
-namespace Pitch.User.Api
+namespace Pitch.User.API
 {
     public class Startup
     {

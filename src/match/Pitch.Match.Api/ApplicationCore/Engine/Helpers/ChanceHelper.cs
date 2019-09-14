@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Pitch.Match.Api.ApplicationCore.Engine.Helpers
+namespace Pitch.Match.API.ApplicationCore.Engine.Helpers
 {
     public static class ChanceHelper
     {

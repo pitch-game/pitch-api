@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyNetQ;
-using Pitch.Match.Api.ApplicationCore.Engine;
-using Pitch.Match.Api.ApplicationCore.Engine.Events;
-using Pitch.Match.Api.ApplicationCore.Models;
-using Pitch.Match.Api.Infrastructure.MessageBus.Events;
-using Pitch.Match.Api.Infrastructure.MessageBus.Requests;
-using Pitch.Match.Api.Infrastructure.MessageBus.Responses;
-using Pitch.Match.Api.Infrastructure.Repositories;
+using Pitch.Match.API.ApplicationCore.Engine;
+using Pitch.Match.API.ApplicationCore.Engine.Events;
+using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.API.Infrastructure.MessageBus.Events;
+using Pitch.Match.API.Infrastructure.MessageBus.Requests;
+using Pitch.Match.API.Infrastructure.MessageBus.Responses;
+using Pitch.Match.API.Infrastructure.Repositories;
 
-namespace Pitch.Match.Api.ApplicationCore.Services
+namespace Pitch.Match.API.ApplicationCore.Services
 {
     public interface IMatchService
     {

@@ -1,4 +1,4 @@
-﻿namespace Pitch.Identity.Api.Application.Requests
+﻿namespace Pitch.Identity.API.Application.Requests
 {
     public class GetOrCreateUserRequest
     {

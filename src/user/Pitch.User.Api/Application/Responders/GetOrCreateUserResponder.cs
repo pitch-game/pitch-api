@@ -1,11 +1,11 @@
 ﻿using EasyNetQ;
 using Microsoft.Extensions.DependencyInjection;
-using Pitch.User.Api.Application.Requests;
-using Pitch.User.Api.Application.Responses;
-using Pitch.User.Api.Services;
+using Pitch.User.API.Application.Requests;
+using Pitch.User.API.Application.Responses;
+using Pitch.User.API.Services;
 using System.Threading.Tasks;
 
-namespace Pitch.User.Api.Application.Responders
+namespace Pitch.User.API.Application.Responders
 {
     public interface IGetOrCreateUserResponder
     {

@@ -9,16 +9,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Pitch.Card.Api.Application.Responders;
-using Pitch.Card.Api.Application.Subscribers;
-using Pitch.Card.Api.Infrastructure;
-using Pitch.Card.Api.Infrastructure.Repositories;
-using Pitch.Card.Api.Infrastructure.Services;
-using Pitch.Card.Api.Supporting;
-using Pitch.Player.Api.Supporting;
+using Pitch.Card.API.Application.Responders;
+using Pitch.Card.API.Application.Subscribers;
+using Pitch.Card.API.Infrastructure;
+using Pitch.Card.API.Infrastructure.Repositories;
+using Pitch.Card.API.Infrastructure.Services;
+using Pitch.Card.API.Supporting;
+using Pitch.Player.API.Supporting;
 using System;
 
-namespace Pitch.Card.Api
+namespace Pitch.Card.API
 {
     public class Startup
     {

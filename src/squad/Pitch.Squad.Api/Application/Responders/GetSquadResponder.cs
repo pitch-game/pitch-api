@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using EasyNetQ;
 using Microsoft.Extensions.DependencyInjection;
-using Pitch.Squad.Api.Application.Requests;
-using Pitch.Squad.Api.Application.Response;
-using Pitch.Squad.Api.Models;
-using Pitch.Squad.Api.Services;
+using Pitch.Squad.API.Application.Requests;
+using Pitch.Squad.API.Application.Response;
+using Pitch.Squad.API.Models;
+using Pitch.Squad.API.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Pitch.Squad.Api.Application.Responders
+namespace Pitch.Squad.API.Application.Responders
 {
     public interface IGetSquadResponder
     {

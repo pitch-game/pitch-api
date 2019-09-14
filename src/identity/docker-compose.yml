@@ -5,4 +5,4 @@ services:
     image: ${DOCKER_REGISTRY-}identity.api
     build:
       context: .
-      dockerfile: Pitch.Identity.Api/Dockerfile
+      dockerfile: Pitch.Identity.API/Dockerfile

@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
 
-namespace Pitch.User.Api.Models
+namespace Pitch.User.API.Models
 {
     public class User
     {

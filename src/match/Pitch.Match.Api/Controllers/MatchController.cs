@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Pitch.Match.Api.ApplicationCore.Models;
-using Pitch.Match.Api.Models;
+using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Pitch.Match.Api.ApplicationCore.Services;
+using Pitch.Match.API.ApplicationCore.Services;
 
-namespace Pitch.Match.Api.Controllers
+namespace Pitch.Match.API.Controllers
 {
     [Authorize]
     [Route("")]

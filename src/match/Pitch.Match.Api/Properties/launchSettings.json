@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Pitch.Match.Api": {
+    "Pitch.Match.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",

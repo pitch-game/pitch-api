@@ -7,19 +7,19 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
-using Pitch.Player.Api.Services;
-using Pitch.Player.Api.Infrastructure;
+using Pitch.Player.API.Services;
+using Pitch.Player.API.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Pitch.Player.Api.Application.Responders;
-using Pitch.Player.Api.Application.Requests;
-using Pitch.Player.Api.Application.Responses;
-using Pitch.Player.Api.Supporting;
+using Pitch.Player.API.Application.Responders;
+using Pitch.Player.API.Application.Requests;
+using Pitch.Player.API.Application.Responses;
+using Pitch.Player.API.Supporting;
 using RabbitMQ.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
-namespace Pitch.Player.Api
+namespace Pitch.Player.API
 {
     public class Startup
     {

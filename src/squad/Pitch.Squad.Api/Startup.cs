@@ -16,13 +16,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using Pitch.Squad.Api.Application.Responders;
-using Pitch.Squad.Api.Infrastructure;
-using Pitch.Squad.Api.Infrastructure.Repositories;
-using Pitch.Squad.Api.Services;
-using Pitch.Squad.Api.Supporting;
+using Pitch.Squad.API.Application.Responders;
+using Pitch.Squad.API.Infrastructure;
+using Pitch.Squad.API.Infrastructure.Repositories;
+using Pitch.Squad.API.Services;
+using Pitch.Squad.API.Supporting;
 
-namespace Pitch.Squad.Api
+namespace Pitch.Squad.API
 {
     public class Startup
     {

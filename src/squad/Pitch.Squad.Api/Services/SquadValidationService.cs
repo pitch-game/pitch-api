@@ -1,12 +1,12 @@
-﻿using Pitch.Squad.Api.Application.Requests;
-using Pitch.Squad.Api.Application.Response;
+﻿using Pitch.Squad.API.Application.Requests;
+using Pitch.Squad.API.Application.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyNetQ;
 
-namespace Pitch.Squad.Api.Services
+namespace Pitch.Squad.API.Services
 {
     public interface ISquadValidationService
     {

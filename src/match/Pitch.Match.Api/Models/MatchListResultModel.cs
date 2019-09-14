@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Match.Api.Models
+namespace Pitch.Match.API.Models
 {
     public class MatchListResultModel
     {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28902.138
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Identity.Api", "Pitch.Identity.Api\Pitch.Identity.Api.csproj", "{59A2BC5E-BDC1-4208-8BDA-27906C43FC78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Identity.API", "Pitch.Identity.API\Pitch.Identity.API.csproj", "{59A2BC5E-BDC1-4208-8BDA-27906C43FC78}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Identity.Tests", "Pitch.Identity.Tests\Pitch.Identity.Tests.csproj", "{30296379-3802-4EAA-BAFB-82179AAA30B0}"
 EndProject

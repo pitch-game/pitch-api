@@ -1,4 +1,4 @@
-﻿namespace Pitch.Match.Api.ApplicationCore.Models
+﻿namespace Pitch.Match.API.ApplicationCore.Models
 {
     public enum PositionalArea
     {

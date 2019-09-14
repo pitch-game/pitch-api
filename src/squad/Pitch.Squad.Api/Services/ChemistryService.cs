@@ -1,9 +1,9 @@
-﻿using Pitch.Squad.Api.Models;
+﻿using Pitch.Squad.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pitch.Squad.Api.Services
+namespace Pitch.Squad.API.Services
 {
     public interface IChemistryService
     {

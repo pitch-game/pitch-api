@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using EasyNetQ;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Pitch.Store.Api.Application.Requests;
-using Pitch.Store.Api.Application.Responses;
-using Pitch.Store.Api.Infrastructure.Repositories;
-using Pitch.Store.Api.Models;
+using Pitch.Store.API.Application.Requests;
+using Pitch.Store.API.Application.Responses;
+using Pitch.Store.API.Infrastructure.Repositories;
+using Pitch.Store.API.Models;
 
-namespace Pitch.Store.Api.Infrastructure.Services
+namespace Pitch.Store.API.Infrastructure.Services
 {
     public interface IPackService
     {

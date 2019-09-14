@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Pitch.Player.Api.Supporting
+namespace Pitch.Player.API.Supporting
 {
     public class SimpleTypeNameSerializer : ITypeNameSerializer
     {

@@ -3,10 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyNetQ;
 using Microsoft.AspNetCore.SignalR;
-using Pitch.Match.Api.ApplicationCore.Models.Matchmaking;
-using Pitch.Match.Api.Infrastructure.Repositories;
+using Pitch.Match.API.ApplicationCore.Models.Matchmaking;
+using Pitch.Match.API.Infrastructure.Repositories;
 
-namespace Pitch.Match.Api.ApplicationCore.Services
+namespace Pitch.Match.API.ApplicationCore.Services
 {
     public interface IMatchmakingService
     {

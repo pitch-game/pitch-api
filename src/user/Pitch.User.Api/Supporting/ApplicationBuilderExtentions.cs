@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Pitch.User.Api.Application.Responders;
-using Pitch.User.Api.Application.Subscribers;
+using Pitch.User.API.Application.Responders;
+using Pitch.User.API.Application.Subscribers;
 using System.Collections.Generic;
 
-namespace Pitch.User.Api.Supporting
+namespace Pitch.User.API.Supporting
 {
     public static class ApplicationBuilderExtentions
     {

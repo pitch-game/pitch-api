@@ -9,7 +9,7 @@ using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using System;
 
-namespace Pitch.Gateway.Api
+namespace Pitch.Gateway.API
 {
     public class Startup
     {

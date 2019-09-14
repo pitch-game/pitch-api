@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Pitch.Player.Api.Services;
+using Pitch.Player.API.Services;
 
-namespace Pitch.Player.Api.Controllers
+namespace Pitch.Player.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]

@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Threading.Tasks;
-using Pitch.Match.Api.ApplicationCore.Services;
+using Pitch.Match.API.ApplicationCore.Services;
 
-namespace Pitch.Match.Api.Hubs
+namespace Pitch.Match.API.Hubs
 {
     public interface IMatchmakingClient
     {

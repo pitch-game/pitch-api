@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Internal;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using Moq;
-using Pitch.Match.Api.ApplicationCore.Models.Matchmaking;
-using Pitch.Match.Api.ApplicationCore.Services;
-using Pitch.Match.Api.Hubs;
+using Pitch.Match.API.ApplicationCore.Models.Matchmaking;
+using Pitch.Match.API.ApplicationCore.Services;
+using Pitch.Match.API.Hubs;
 using Xunit;
 
-namespace Pitch.Match.Api.Tests.Hubs
+namespace Pitch.Match.API.Tests.Hubs
 {
     public class MatchmakingHubTests
     {

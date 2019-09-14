@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28917.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.User.Api", "Pitch.User.Api\Pitch.User.Api.csproj", "{3DC014A9-12F8-431F-B8C6-C958C13D7B3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.User.API", "Pitch.User.API\Pitch.User.API.csproj", "{3DC014A9-12F8-431F-B8C6-C958C13D7B3C}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{454EB7D7-70A7-409D-B74E-B713273306B8}"
 EndProject

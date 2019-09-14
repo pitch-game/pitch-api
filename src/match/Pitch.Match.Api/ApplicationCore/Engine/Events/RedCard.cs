@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Match.Api.ApplicationCore.Engine.Events
+namespace Pitch.Match.API.ApplicationCore.Engine.Events
 {
     public class RedCard : EventBase, IEvent
     {

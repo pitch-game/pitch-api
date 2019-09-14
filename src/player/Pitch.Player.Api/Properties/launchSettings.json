@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Pitch.Player.Api": {
+    "Pitch.Player.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "players",

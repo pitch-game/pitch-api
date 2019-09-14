@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Pitch.Card.Api.Application.Responses
+namespace Pitch.Card.API.Application.Responses
 {
     public class PlayerResponse
     {

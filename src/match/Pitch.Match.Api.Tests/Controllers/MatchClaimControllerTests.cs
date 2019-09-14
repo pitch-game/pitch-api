@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Pitch.Match.Api.ApplicationCore.Services;
-using Pitch.Match.Api.Controllers;
+using Pitch.Match.API.ApplicationCore.Services;
+using Pitch.Match.API.Controllers;
 using Xunit;
 
-namespace Pitch.Match.Api.Tests.Controllers
+namespace Pitch.Match.API.Tests.Controllers
 {
     public class MatchClaimControllerTests
     {

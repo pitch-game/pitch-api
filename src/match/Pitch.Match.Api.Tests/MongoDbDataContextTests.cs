@@ -3,11 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using Moq;
-using Pitch.Match.Api.Infrastructure.Repositories;
-using Pitch.Match.Api.Infrastructure.Repositories.Contexts;
+using Pitch.Match.API.Infrastructure.Repositories;
+using Pitch.Match.API.Infrastructure.Repositories.Contexts;
 using Xunit;
 
-namespace Pitch.Match.Api.Tests
+namespace Pitch.Match.API.Tests
 {
     public class MongoDbDataContextTests
     {

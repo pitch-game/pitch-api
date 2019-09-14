@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Match.Api.ApplicationCore.Engine.Providers
+namespace Pitch.Match.API.ApplicationCore.Engine.Providers
 {
     public interface IRandomnessProvider
     {

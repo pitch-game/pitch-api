@@ -1,10 +1,10 @@
 ﻿using EasyNetQ;
-using Pitch.User.Api.Application.Events;
-using Pitch.User.Api.Infrastructure.Repositories;
+using Pitch.User.API.Application.Events;
+using Pitch.User.API.Infrastructure.Repositories;
 using System;
 using System.Threading.Tasks;
 
-namespace Pitch.User.Api.Services
+namespace Pitch.User.API.Services
 {
     public interface IUserService
     {

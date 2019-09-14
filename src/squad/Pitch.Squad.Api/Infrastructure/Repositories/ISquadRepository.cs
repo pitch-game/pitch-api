@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Pitch.Squad.Api.Models;
+using Pitch.Squad.API.Models;
 
-namespace Pitch.Squad.Api.Infrastructure.Repositories
+namespace Pitch.Squad.API.Infrastructure.Repositories
 {
     public interface ISquadRepository
     {

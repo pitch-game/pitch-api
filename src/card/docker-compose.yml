@@ -5,4 +5,4 @@ services:
     image: ${DOCKER_REGISTRY-}card.api
     build:
       context: .
-      dockerfile: Pitch.Card.Api/Dockerfile
+      dockerfile: Pitch.Card.API/Dockerfile

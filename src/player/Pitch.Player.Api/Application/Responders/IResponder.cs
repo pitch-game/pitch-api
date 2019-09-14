@@ -1,4 +1,4 @@
-﻿namespace Pitch.Player.Api.Application.Responders
+﻿namespace Pitch.Player.API.Application.Responders
 {
     public interface IResponder
     {

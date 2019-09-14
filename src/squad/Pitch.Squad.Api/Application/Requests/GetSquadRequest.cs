@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Squad.Api.Application.Requests
+namespace Pitch.Squad.API.Application.Requests
 {
     public class GetSquadRequest
     {

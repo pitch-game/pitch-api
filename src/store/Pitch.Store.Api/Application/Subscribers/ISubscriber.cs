@@ -1,4 +1,4 @@
-﻿namespace Pitch.Store.Api.Application.Subscribers
+﻿namespace Pitch.Store.API.Application.Subscribers
 {
     public interface ISubscriber
     {

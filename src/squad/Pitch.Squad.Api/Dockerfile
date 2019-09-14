@@ -5,16 +5,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 WORKDIR /src
-COPY ["Pitch.Squad.Api/Pitch.Squad.Api.csproj", "Pitch.Squad.Api/"]
-RUN dotnet restore "Pitch.Squad.Api/Pitch.Squad.Api.csproj"
+COPY ["Pitch.Squad.API/Pitch.Squad.API.csproj", "Pitch.Squad.API/"]
+RUN dotnet restore "Pitch.Squad.API/Pitch.Squad.API.csproj"
 COPY . .
-WORKDIR "/src/Pitch.Squad.Api"
-RUN dotnet build "Pitch.Squad.Api.csproj" -c Release -o /app
+WORKDIR "/src/Pitch.Squad.API"
+RUN dotnet build "Pitch.Squad.API.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "Pitch.Squad.Api.csproj" -c Release -o /app
+RUN dotnet publish "Pitch.Squad.API.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "Pitch.Squad.Api.dll"]
+ENTRYPOINT ["dotnet", "Pitch.Squad.API.dll"]

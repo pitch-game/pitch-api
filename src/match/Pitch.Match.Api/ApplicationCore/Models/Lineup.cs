@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Pitch.Match.Api.ApplicationCore.Models
+namespace Pitch.Match.API.ApplicationCore.Models
 {
     public class Lineup
     {

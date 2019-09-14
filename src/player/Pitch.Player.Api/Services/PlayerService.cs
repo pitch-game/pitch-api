@@ -1,9 +1,9 @@
-﻿using Pitch.Player.Api.Models;
+﻿using Pitch.Player.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pitch.Player.Api.Services
+namespace Pitch.Player.API.Services
 {
     public interface IPlayerService
     {

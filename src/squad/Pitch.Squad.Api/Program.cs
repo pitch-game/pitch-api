@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Pitch.Squad.Api
+namespace Pitch.Squad.API
 {
     public class Program
     {

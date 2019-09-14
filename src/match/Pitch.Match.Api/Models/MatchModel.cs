@@ -1,6 +1,6 @@
-﻿using Pitch.Match.Api.ApplicationCore.Models;
+﻿using Pitch.Match.API.ApplicationCore.Models;
 
-namespace Pitch.Match.Api.Models
+namespace Pitch.Match.API.Models
 {
     public class MatchModel
     {

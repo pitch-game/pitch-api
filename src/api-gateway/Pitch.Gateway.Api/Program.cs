@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Pitch.Gateway.Api
+namespace Pitch.Gateway.API
 {
     public class Program
     {

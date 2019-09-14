@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Pitch.Store.Api.Models;
+using Pitch.Store.API.Models;
 
-namespace Pitch.Store.Api.Infrastructure
+namespace Pitch.Store.API.Infrastructure
 {
     public class PackDBContext : DbContext
     {

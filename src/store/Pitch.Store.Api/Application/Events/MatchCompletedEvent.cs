@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Pitch.Store.Api.Application.Events
+namespace Pitch.Store.API.Application.Events
 {
     public class MatchCompletedEvent
     {

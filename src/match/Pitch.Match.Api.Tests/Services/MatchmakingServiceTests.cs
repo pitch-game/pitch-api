@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using EasyNetQ;
 using Moq;
-using Pitch.Match.Api.ApplicationCore.Services;
-using Pitch.Match.Api.Infrastructure.Repositories;
+using Pitch.Match.API.ApplicationCore.Services;
+using Pitch.Match.API.Infrastructure.Repositories;
 using Xunit;
 
-namespace Pitch.Match.Api.Tests.Services
+namespace Pitch.Match.API.Tests.Services
 {
     public class MatchmakingServiceTests
     {

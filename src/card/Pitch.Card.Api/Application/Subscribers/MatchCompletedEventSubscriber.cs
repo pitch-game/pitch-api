@@ -1,9 +1,9 @@
 ﻿using EasyNetQ;
 using Microsoft.Extensions.DependencyInjection;
-using Pitch.Card.Api.Application.Events;
-using Pitch.Card.Api.Infrastructure.Services;
+using Pitch.Card.API.Application.Events;
+using Pitch.Card.API.Infrastructure.Services;
 
-namespace Pitch.Card.Api.Application.Subscribers
+namespace Pitch.Card.API.Application.Subscribers
 {
     public interface ISubscriber
     {

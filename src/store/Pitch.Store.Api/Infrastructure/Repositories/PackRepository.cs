@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Pitch.Store.Api.Models;
+using Pitch.Store.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Pitch.Store.Api.Infrastructure.Repositories
+namespace Pitch.Store.API.Infrastructure.Repositories
 {
     public interface IPackRepository
     {

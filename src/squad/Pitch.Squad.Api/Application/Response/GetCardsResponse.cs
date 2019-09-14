@@ -1,7 +1,7 @@
-﻿using Pitch.Squad.Api.Application.Models;
+﻿using Pitch.Squad.API.Application.Models;
 using System.Collections.Generic;
 
-namespace Pitch.Squad.Api.Application.Response
+namespace Pitch.Squad.API.Application.Response
 {
     public class GetCardsResponse
     {

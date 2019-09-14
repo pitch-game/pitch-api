@@ -1,9 +1,9 @@
-﻿using Pitch.Match.Api.ApplicationCore.Engine.Events;
+﻿using Pitch.Match.API.ApplicationCore.Engine.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pitch.Match.Api.ApplicationCore.Models
+namespace Pitch.Match.API.ApplicationCore.Models
 {
     public class MatchResult
     {

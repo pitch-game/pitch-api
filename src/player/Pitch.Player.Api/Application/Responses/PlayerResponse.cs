@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Player.Api.Application.Responses
+namespace Pitch.Player.API.Application.Responses
 {
     public class PlayerResponse
     {

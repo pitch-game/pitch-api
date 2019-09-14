@@ -1,4 +1,4 @@
-﻿namespace Pitch.Player.Api.Models
+﻿namespace Pitch.Player.API.Models
 {
     public class PlayerRequestModel
     {

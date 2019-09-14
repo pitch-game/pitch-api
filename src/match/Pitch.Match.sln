@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29006.145
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Match.Api", "Pitch.Match.Api\Pitch.Match.Api.csproj", "{43567F0A-9F30-4778-98E0-79201FD03119}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Match.API", "Pitch.Match.API\Pitch.Match.API.csproj", "{43567F0A-9F30-4778-98E0-79201FD03119}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Match.Api.Tests", "Pitch.Match.Api.Tests\Pitch.Match.Api.Tests.csproj", "{A0EE2E2D-916D-4C72-B083-464163AEE11A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Match.API.Tests", "Pitch.Match.API.Tests\Pitch.Match.API.Tests.csproj", "{A0EE2E2D-916D-4C72-B083-464163AEE11A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

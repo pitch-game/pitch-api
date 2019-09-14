@@ -5,4 +5,4 @@ services:
     image: ${DOCKER_REGISTRY-}player.api
     build:
       context: .
-      dockerfile: Pitch.Player.Api/Dockerfile
+      dockerfile: Pitch.Player.API/Dockerfile

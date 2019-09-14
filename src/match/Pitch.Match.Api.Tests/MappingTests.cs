@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Pitch.Match.Api.Supporting;
+using Pitch.Match.API.Supporting;
 using Xunit;
 
-namespace Pitch.Match.Api.Tests
+namespace Pitch.Match.API.Tests
 {
     public class MappingTests
     {

@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using EasyNetQ;
-using Pitch.Squad.Api.Application.Requests;
-using Pitch.Squad.Api.Application.Response;
-using Pitch.Squad.Api.Infrastructure.Repositories;
-using Pitch.Squad.Api.Models;
+using Pitch.Squad.API.Application.Requests;
+using Pitch.Squad.API.Application.Response;
+using Pitch.Squad.API.Infrastructure.Repositories;
+using Pitch.Squad.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Pitch.Squad.Api.Services
+namespace Pitch.Squad.API.Services
 {
     public interface ISquadService
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Pitch.Card.Api.Application.Requests
+namespace Pitch.Card.API.Application.Requests
 {
     public class GetCardsRequest
     {

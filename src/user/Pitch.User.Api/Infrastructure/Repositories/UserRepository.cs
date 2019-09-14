@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
-using Pitch.User.Api.Models;
+using Pitch.User.API.Models;
 using System;
 using System.Threading.Tasks;
 
 
-namespace Pitch.User.Api.Infrastructure.Repositories
+namespace Pitch.User.API.Infrastructure.Repositories
 {
     public interface IUserRepository
     {

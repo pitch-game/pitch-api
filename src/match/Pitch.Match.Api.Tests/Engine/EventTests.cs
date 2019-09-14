@@ -1,8 +1,8 @@
 ﻿using System;
-using Pitch.Match.Api.ApplicationCore.Engine.Events;
+using Pitch.Match.API.ApplicationCore.Engine.Events;
 using Xunit;
 
-namespace Pitch.Match.Api.Tests.Engine
+namespace Pitch.Match.API.Tests.Engine
 {
     public class EventTests
     {

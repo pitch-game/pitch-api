@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Pitch.Match.Api.ApplicationCore.Services;
+using Pitch.Match.API.ApplicationCore.Services;
 using Xunit;
 
-namespace Pitch.Match.Api.Tests
+namespace Pitch.Match.API.Tests
 {
     public class StartupTests
     {

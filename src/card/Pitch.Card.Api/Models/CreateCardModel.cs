@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Card.Api.Models
+namespace Pitch.Card.API.Models
 {
     public class CreateCardModel
     {

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Pitch.Squad.Api.Application.Models;
-using Pitch.Squad.Api.Models;
+using Pitch.Squad.API.Application.Models;
+using Pitch.Squad.API.Models;
 
-namespace Pitch.Squad.Api.Infrastructure
+namespace Pitch.Squad.API.Infrastructure
 {
     public class MappingProfile : Profile
     {

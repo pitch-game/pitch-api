@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Squad.Api.Application.Models
+namespace Pitch.Squad.API.Application.Models
 {
     public class CardDTO
     {

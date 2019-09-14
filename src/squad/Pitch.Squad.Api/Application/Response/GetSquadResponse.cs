@@ -1,9 +1,9 @@
-﻿using Pitch.Squad.Api.Application.Models;
-using Pitch.Squad.Api.Models;
+﻿using Pitch.Squad.API.Application.Models;
+using Pitch.Squad.API.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Pitch.Squad.Api.Application.Response
+namespace Pitch.Squad.API.Application.Response
 {
     public class GetSquadResponse
     {

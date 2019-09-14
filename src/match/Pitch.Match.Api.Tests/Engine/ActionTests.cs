@@ -1,11 +1,11 @@
 ﻿using System;
-using Pitch.Match.Api.ApplicationCore.Engine.Events;
-using Pitch.Match.Api.ApplicationCore.Engine.Providers;
-using Pitch.Match.Api.ApplicationCore.Models;
+using Pitch.Match.API.ApplicationCore.Engine.Events;
+using Pitch.Match.API.ApplicationCore.Engine.Providers;
+using Pitch.Match.API.ApplicationCore.Models;
 using Xunit;
-using Foul = Pitch.Match.Api.ApplicationCore.Engine.Actions.Foul;
+using Foul = Pitch.Match.API.ApplicationCore.Engine.Actions.Foul;
 
-namespace Pitch.Match.Api.Tests.Engine
+namespace Pitch.Match.API.Tests.Engine
 {
     public class ActionTests
     {

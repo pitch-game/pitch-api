@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
-namespace Pitch.Match.Api.Infrastructure.Repositories.Contexts
+namespace Pitch.Match.API.Infrastructure.Repositories.Contexts
 {
     public interface IEntity
     {

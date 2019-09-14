@@ -8,8 +8,8 @@ using AspNet.Security.OpenIdConnect.Server;
 using EasyNetQ;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Pitch.Identity.Api.Application.Requests;
-using Pitch.Identity.Api.Application.Responses;
+using Pitch.Identity.API.Application.Requests;
+using Pitch.Identity.API.Application.Responses;
 
 namespace AuthorizationServer.Controllers
 {

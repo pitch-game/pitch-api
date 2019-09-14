@@ -14,7 +14,7 @@ using OpenIddict.EntityFrameworkCore.Models;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Http;
 using EasyNetQ;
-using Pitch.Identity.Api.Supporting;
+using Pitch.Identity.API.Supporting;
 
 namespace PitchApi
 {

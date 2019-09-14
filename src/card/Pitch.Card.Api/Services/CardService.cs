@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using EasyNetQ;
-using Pitch.Card.Api.Application.Requests;
-using Pitch.Card.Api.Application.Responses;
-using Pitch.Card.Api.Infrastructure.Repositories;
-using Pitch.Card.Api.Models;
+using Pitch.Card.API.Application.Requests;
+using Pitch.Card.API.Application.Responses;
+using Pitch.Card.API.Infrastructure.Repositories;
+using Pitch.Card.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Pitch.Card.Api.Infrastructure.Services
+namespace Pitch.Card.API.Infrastructure.Services
 {
     public class CardService : ICardService
     {

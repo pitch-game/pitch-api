@@ -1,9 +1,9 @@
-﻿using Pitch.Card.Api.Models;
+﻿using Pitch.Card.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Pitch.Card.Api.Infrastructure.Services
+namespace Pitch.Card.API.Infrastructure.Services
 {
     public interface ICardService
     {
