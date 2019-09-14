@@ -1,1 +1,5 @@
-# user service
+# User API
+
+| Resource               	| POST                                	| GET                             	| PUT 	| DELETE 	|
+|------------------------	|-------------------------------------	|---------------------------------	|-----	|--------	|
+| /user                 	|                                     	| Retrieve user profile            	|     	|        	|
