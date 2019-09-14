@@ -15,30 +15,28 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-  - task: DockerCompose@0
-    displayName: Compose build player
+  - script: |
+      cd src/player
+      docker build --pull --target testrunner -t pitch.player.api:testrunner .
+      docker run --name playerapitest pitch.player.api:testrunner
+      docker cp playerapitest:/src/Pitch.Player.API.Tests/TestResults $(System.DefaultWorkingDirectory)
+  - task: PublishTestResults@2
     inputs:
-      dockerComposeCommand: 'build pitch.player.api'
-      containerregistrytype: Container Registry
-      dockerRegistryEndpoint: $(registryEndpoint)
-      dockerComposeFile: src/player/docker-compose.yml
-      qualifyImageNames: true
-      projectName: ""
-      dockerComposeFileArgs: |
-        TAG=$(Build.SourceBranchName)
-        DOCKER_REGISTRY=$(dockerRegistry)
-  - task: DockerCompose@0
-    displayName: Compose push player
+      testRunner: VSTest
+      testResultsFiles: '**/*.trx'
+      failTaskOnFailedTests: true
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish coverage reports'
     inputs:
-      dockerComposeCommand: 'push pitch.player.api'
-      containerregistrytype: Container Registry
-      dockerRegistryEndpoint: $(registryEndpoint)
-      dockerComposeFile: src/player/docker-compose.yml
-      qualifyImageNames: true
-      projectName: ""
-      dockerComposeFileArgs: |
-        TAG=$(Build.SourceBranchName)
-        DOCKER_REGISTRY=$(dockerRegistry)
+      codeCoverageTool: 'cobertura'
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/TestResults/coverage.cobertura.xml'
+  - task: Docker@2
+    displayName: Build and Push
+    inputs:
+      command: buildAndPush
+      containerRegistry: pitch-registry
+      Dockerfile: src/player/Dockerfile
+      repository: pitchgame/player.api
   - task: HelmDeploy@0
     inputs:
       connectionType: 'Azure Resource Manager'
@@ -49,14 +47,13 @@ jobs:
       arguments: '--client-only'
   - task: HelmDeploy@0
     inputs:
-      connectionType: 'Azure Resource Manager'
       azureSubscription: 'Pay-As-You-Go(c1640d06-3596-4f30-a322-42d2ef2d3992)'
       azureResourceGroup: 'pitch-resource-group'
       kubernetesCluster: 'pitch-aks'
       command: 'package'
       chartPath: './k8s/helm/player'
-      destination: '$(Build.ArtifactStagingDirectory)'
       updateDependency: true
+      overrideValues: image.tag=$(Build.BuildId)
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
