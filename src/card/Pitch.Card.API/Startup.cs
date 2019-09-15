@@ -17,6 +17,7 @@ using Pitch.Card.API.Infrastructure.Services;
 using Pitch.Card.API.Supporting;
 using Pitch.Player.API.Supporting;
 using System;
+using System.Linq;
 
 namespace Pitch.Card.API
 {
@@ -73,8 +74,9 @@ namespace Pitch.Card.API
 
             services.AddSingleton(s =>
             {
+                var typesInAssembly = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).ToArray();
                 return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
-                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer()));
+                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer(typesInAssembly)));
             });
         }
 
