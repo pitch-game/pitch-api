@@ -12,6 +12,7 @@ using Pitch.Player.API.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Pitch.Player.API.Application.Responders;
 using Pitch.Player.API.Application.Requests;
 using Pitch.Player.API.Application.Responses;
@@ -54,8 +55,9 @@ namespace Pitch.Player.API
 
             services.AddSingleton(s =>
             {
+                var typesInAssembly = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).ToArray();
                 return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
-                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer()));
+                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer(typesInAssembly)));
             });
 
             services.AddSingleton(sp =>
