@@ -18,6 +18,7 @@ using Pitch.Store.API.Infrastructure.Services;
 using Pitch.Store.API.Supporting;
 using Pitch.User.API.Supporting;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Pitch.Store.API
@@ -65,8 +66,9 @@ namespace Pitch.Store.API
 
             services.AddSingleton(s =>
             {
+                var typesInAssembly = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).ToArray();
                 return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
-                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer()));
+                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer(typesInAssembly)));
             });
 
             services.AddDbContext<PackDBContext>(options => options.UseInMemoryDatabase(databaseName: "Packs"));

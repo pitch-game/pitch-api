@@ -23,4 +23,8 @@
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pitch.Store.API\Pitch.Store.API.csproj" />
+  </ItemGroup>
 </Project>
