@@ -196,5 +196,89 @@ namespace Pitch.Match.API.Tests.Repositories
             //Assert
             dbContextMock.Verify(x => x.CreateAsync(stubMatch), Times.Once);
         }
+
+        [Fact]
+        public async Task HasUnclaimedAsync_WhenUserHasUnclaimedMatchRewards_ReturnsTrue()
+        {
+            // Arrange
+            var matchId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
+            var stubMatch = new ApplicationCore.Models.Match
+            {
+                Id = matchId,
+                HomeTeam = new TeamDetails()
+                {
+                    UserId = userId,
+                    HasClaimedRewards = false
+                },
+                AwayTeam = new TeamDetails()
+                {
+                    UserId = Guid.NewGuid()
+                },
+                KickOff = DateTime.Now.AddMinutes(-100)
+            };
+            var stubMatchList = new List<ApplicationCore.Models.Match>() { stubMatch };
+
+            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match>(stubMatchList);
+
+            // Act
+            var repository = new MatchRepository(dbContextStub);
+            var result = await repository.HasUnclaimedAsync(userId);
+
+            //Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task GetUnclaimedAsync_WhenUserHasAnUnclaimedMatch_ReturnsUnclaimedMatch()
+        {
+            var matchId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
+            var stubMatch = new ApplicationCore.Models.Match
+            {
+                Id = matchId,
+                HomeTeam = new TeamDetails()
+                {
+                    UserId = userId,
+                    HasClaimedRewards = false
+                },
+                AwayTeam = new TeamDetails()
+                {
+                    UserId = Guid.NewGuid()
+                },
+                KickOff = DateTime.Now.AddMinutes(-100)
+            };
+            var stubMatchList = new List<ApplicationCore.Models.Match>() { stubMatch };
+
+            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match>(stubMatchList);
+
+            // Act
+            var repository = new MatchRepository(dbContextStub);
+            var result = await repository.GetUnclaimedAsync(userId);
+
+            //Assert
+            Assert.Equal(stubMatch,result.First());
+        }
+
+        [Fact]
+        public async Task UpdateAsync_CallsUpdateAsyncOnce()
+        {
+            // Arrange
+            var matchId = Guid.NewGuid();
+            var stubMatch = new ApplicationCore.Models.Match()
+            {
+                Id = matchId
+            };
+
+            var dbContextMock = new Mock<IDataContext<ApplicationCore.Models.Match>>();
+            dbContextMock.Setup(x => x.CreateAsync(stubMatch));
+
+            // Act
+            var repository = new MatchRepository(dbContextMock.Object);
+            var result = await repository.UpdateAsync(stubMatch);
+
+            //Assert
+            dbContextMock.Verify(x => x.UpdateAsync(stubMatch), Times.Once);
+        }
     }
 }
