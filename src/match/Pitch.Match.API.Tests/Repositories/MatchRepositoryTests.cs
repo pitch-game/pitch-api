@@ -280,5 +280,63 @@ namespace Pitch.Match.API.Tests.Repositories
             //Assert
             dbContextMock.Verify(x => x.UpdateAsync(stubMatch), Times.Once);
         }
+
+        [Fact]
+        public async Task GetAllSync_WithOneMatchPlayed_ReturnsOneMatch()
+        {
+            // Arrange
+            var matchId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
+            var stubMatch = new ApplicationCore.Models.Match
+            {
+                Id = matchId,
+                HomeTeam = new TeamDetails()
+                {
+                    UserId = userId,
+                },
+                AwayTeam = new TeamDetails()
+                {
+                    UserId = Guid.NewGuid()
+                }
+            };
+            var stubMatchList = new List<ApplicationCore.Models.Match>() { stubMatch };
+
+            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match>(stubMatchList);
+
+            // Act
+            var repository = new MatchRepository(dbContextStub);
+            var result = await repository.GetAllAsync(0, 1, userId);
+
+            //Assert
+            Assert.Equal(stubMatch, result.First());
+        }
+
+        [Fact]
+        public async Task GetAllSync_WithMatchNotInvolvingUser_ReturnsEmptyList()
+        {
+            // Arrange
+            var stubMatch = new ApplicationCore.Models.Match
+            {
+                Id = Guid.NewGuid(),
+                HomeTeam = new TeamDetails()
+                {
+                    UserId = Guid.NewGuid()
+                },
+                AwayTeam = new TeamDetails()
+                {
+                    UserId = Guid.NewGuid()
+                }
+            };
+            var stubMatchList = new List<ApplicationCore.Models.Match>() { stubMatch };
+
+            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match>(stubMatchList);
+
+            // Act
+            var repository = new MatchRepository(dbContextStub);
+            var result = await repository.GetAllAsync(0, 1, Guid.NewGuid());
+
+            //Assert
+            Assert.False(result.Any());
+        }
     }
 }
