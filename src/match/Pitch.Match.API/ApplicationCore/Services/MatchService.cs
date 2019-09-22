@@ -160,11 +160,11 @@ namespace Pitch.Match.API.ApplicationCore.Services
 
         public async Task<Lineup> GetLineupAsync(Guid matchId, Guid userId)
         {
-            var match = await GetAsync(matchId);
-            var squad = match.HomeTeam.UserId == userId ? match.HomeTeam.Squad : match.AwayTeam.UserId == userId ? match.AwayTeam.Squad : null;
+            var match = await _matchRepository.GetAsync(matchId);
+            var team = match.GetTeam(userId);
             var sendingOffs = match.Events.Where(x => x.GetType() == typeof(RedCard)).Select(x => x.CardId);
-            var lineup = squad.Lineup.Values.SelectMany(x => x).Where(x => !sendingOffs.Contains(x.Id)).ToList();
-            return new Lineup { Active = lineup, Subs = squad.Subs };
+            var lineup = team.Squad.Lineup.Values.SelectMany(x => x).Where(x => !sendingOffs.Contains(x.Id)).ToList();
+            return new Lineup { Active = lineup, Subs = team.Squad.Subs };
         }
 
         public async Task Substitution(Guid off, Guid on, Guid matchId, Guid userId)

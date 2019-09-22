@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyNetQ;
 using Moq;
@@ -253,6 +254,92 @@ namespace Pitch.Match.API.Tests.Services
                 mockMatchRepository.Object, mockBus.Object);
 
             await Assert.ThrowsAsync<Exception>(() => _matchService.Substitution(Guid.NewGuid(), Guid.NewGuid(), matchId, userId));
+        }
+
+        [Fact]
+        public async Task GetMatchStatus_ReturnsCorrectModel()
+        {
+            //Arrange
+            var userId = Guid.NewGuid();
+            var matchId = Guid.NewGuid();
+
+            var mockMatch = new Mock<ApplicationCore.Models.Match>();
+
+            var mockMatchmakingService = new Mock<IMatchmakingService>();
+
+            var stubMatchEngine = new Mock<IMatchEngine>();
+
+            var mockBus = new Mock<IBus>();
+            var mockMatchRepository = new Mock<IMatchRepository>();
+            mockMatchRepository.Setup(x => x.HasUnclaimedAsync(userId)).ReturnsAsync(true);
+            mockMatchRepository.Setup(x => x.GetInProgressAsync(userId)).ReturnsAsync((Guid?)null);
+
+            _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
+                mockMatchRepository.Object, mockBus.Object);
+
+            //Act
+            var result = await _matchService.GetMatchStatus(userId);
+
+            //Assert
+            Assert.True(result.HasUnclaimedRewards);
+            Assert.Null(result.InProgressMatchId);
+        }
+
+        [Fact]
+        public async Task GetAllAsync_CallsGetAllAsyncOnce()
+        {
+            //Arrange
+            var userId = Guid.NewGuid();
+
+            var mockMatchmakingService = new Mock<IMatchmakingService>();
+
+            var stubMatchEngine = new Mock<IMatchEngine>();
+
+            var mockBus = new Mock<IBus>();
+            var mockMatchRepository = new Mock<IMatchRepository>();
+            mockMatchRepository.Setup(x => x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>(), userId)).ReturnsAsync(new List<ApplicationCore.Models.Match>());
+
+            _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
+                mockMatchRepository.Object, mockBus.Object);
+
+            //Act
+            var result = await _matchService.GetAllAsync(0, 1, userId);
+
+            //Assert
+            mockMatchRepository.Verify(x => x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>(), userId), Times.Once);
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public async Task GetLineupAsync_CallsGetAsyncOnce()
+        {
+            //Arrange
+            var userId = Guid.NewGuid();
+            var matchId = Guid.NewGuid();
+
+            var mockMatch = new Mock<ApplicationCore.Models.Match>();
+            mockMatch.SetupGet(x => x.HomeTeam).Returns(new TeamDetails()
+            {
+                UserId = userId,
+                Squad = new Squad()
+            });
+
+            var mockMatchmakingService = new Mock<IMatchmakingService>();
+
+            var stubMatchEngine = new Mock<IMatchEngine>();
+
+            var mockBus = new Mock<IBus>();
+            var mockMatchRepository = new Mock<IMatchRepository>();
+            mockMatchRepository.Setup(x => x.GetAsync(It.IsAny<Guid>())).ReturnsAsync(mockMatch.Object);
+
+            _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
+                mockMatchRepository.Object, mockBus.Object);
+
+            //Act
+            var result = await _matchService.GetLineupAsync(matchId, userId);
+
+            //Assert
+            mockMatchRepository.Verify(x => x.GetAsync(matchId), Times.Once);
         }
     }
 }
