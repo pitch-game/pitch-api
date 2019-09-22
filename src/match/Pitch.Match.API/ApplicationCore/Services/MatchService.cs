@@ -170,10 +170,10 @@ namespace Pitch.Match.API.ApplicationCore.Services
         public async Task Substitution(Guid off, Guid on, Guid matchId, Guid userId)
         {
             //TODO validate
-            var match = await GetAsync(matchId);
+            var match = await _matchRepository.GetAsync(matchId);
             var team = match.GetTeam(userId);
 
-            if (team.UsedSubs >= SUB_COUNT) return;
+            if (team.UsedSubs >= SUB_COUNT) throw new Exception("No subs remaining");
 
             match.Substitute(off, on, userId);
             var newMatch = _matchEngine.SimulateReentrant(match);

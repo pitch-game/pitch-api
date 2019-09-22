@@ -15,7 +15,13 @@ namespace Pitch.Match.API.Tests.Engine
         protected Card _stubHomePlayer;
 
         protected Squad _stubHomeSquad;
+        protected Squad _stubAwaySquad;
         protected Card _stubHomeSub;
+
+        protected Guid _stubHomeUserId;
+
+        protected TeamDetails _stubHomeTeamDetails;
+
         protected ApplicationCore.Models.Match _stubMatch;
         protected MatchEngine _stubMatchEngine;
 
@@ -258,7 +264,7 @@ namespace Pitch.Match.API.Tests.Engine
                 Name = "Good FC"
             };
 
-            var stubAwaySquad = new Squad
+            _stubAwaySquad = new Squad
             {
                 Id = Guid.NewGuid(),
                 Lineup = stubAwayTeamLineup,
@@ -269,22 +275,24 @@ namespace Pitch.Match.API.Tests.Engine
                 Name = "Shitty FC"
             };
 
-            var stubHomeUserId = Guid.NewGuid();
+            _stubHomeUserId = Guid.NewGuid();
             var stubAwayUserId = Guid.NewGuid();
+
+            _stubHomeTeamDetails = new TeamDetails
+            {
+                UserId = _stubHomeUserId,
+                Squad = _stubHomeSquad
+            };
 
             _stubMatch = new ApplicationCore.Models.Match
             {
                 Id = Guid.NewGuid(),
                 KickOff = DateTime.Now,
-                HomeTeam = new TeamDetails
-                {
-                    UserId = stubHomeUserId,
-                    Squad = _stubHomeSquad
-                },
+                HomeTeam = _stubHomeTeamDetails,
                 AwayTeam = new TeamDetails
                 {
                     UserId = stubAwayUserId,
-                    Squad = stubAwaySquad
+                    Squad = _stubAwaySquad
                 }
             };
         }

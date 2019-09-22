@@ -16,8 +16,8 @@ namespace Pitch.Match.API.ApplicationCore.Models
         }
         public Guid Id { get; set; }
 
-        public TeamDetails HomeTeam { get; set; }
-        public TeamDetails AwayTeam { get; set; }
+        public virtual TeamDetails HomeTeam { get; set; }
+        public virtual TeamDetails AwayTeam { get; set; }
 
         public Squad GetSquad(Guid id)
         {
@@ -51,7 +51,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
             Statistics = Statistics.Where(x => x.Minute < Duration).ToList();
         }
 
-        public void Substitute(Guid off, Guid on, Guid userId)
+        public virtual void Substitute(Guid off, Guid on, Guid userId)
         {
             var team = GetTeam(userId);
             team.Squad.Substitute(off, on);
@@ -65,7 +65,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
         public Guid UserId { get; set; }
         public Squad Squad { get; set; }
         public bool HasClaimedRewards { get; set; }
-        public int UsedSubs { get; set; }
+        public virtual int UsedSubs { get; set; }
     }
 
     public class MinuteStats

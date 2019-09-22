@@ -126,7 +126,7 @@ namespace Pitch.Match.API.Tests.Services
         }
 
         [Fact]
-        public async Task TestGet()
+        public async Task Get_ReturnsMatch()
         {
             var mockMatchmakingService = new Mock<IMatchmakingService>();
             var mockMatchRepository = new Mock<IMatchRepository>();
@@ -151,7 +151,7 @@ namespace Pitch.Match.API.Tests.Services
         }
 
         [Fact]
-        public async Task TestKickOff()
+        public async Task KickOff_ReturnsMatch()
         {
             var mockMatchmakingService = new Mock<IMatchmakingService>();
             var sessionId = Guid.NewGuid();
@@ -189,6 +189,70 @@ namespace Pitch.Match.API.Tests.Services
 
             //Assert
             Assert.NotNull(simulatedMatch);
+        }
+
+        [Fact]
+        public async Task Substitution_CallsMatchSubstituteMethodOnce_AndIncrementsSubCount()
+        {
+            var userId = Guid.NewGuid();
+            var matchId = Guid.NewGuid();
+
+            var teamDetails = new TeamDetails()
+            {
+                UserId = userId,
+                UsedSubs = 0
+            };
+
+            var mockMatch = new Mock<ApplicationCore.Models.Match>();
+            mockMatch.SetupGet(x => x.HomeTeam).Returns(teamDetails);
+            mockMatch.SetupSet(x => x.HomeTeam).Callback(r => teamDetails = r);
+
+            var mockMatchmakingService = new Mock<IMatchmakingService>();
+
+            var stubMatchEngine = new Mock<IMatchEngine>();
+            stubMatchEngine.Setup(x => x.SimulateReentrant(It.IsAny<ApplicationCore.Models.Match>()))
+                .Returns(mockMatch.Object);
+
+            var mockBus = new Mock<IBus>();
+            var mockMatchRepository = new Mock<IMatchRepository>();
+            mockMatchRepository.Setup(x => x.GetAsync(matchId)).ReturnsAsync(mockMatch.Object);
+
+            _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
+                mockMatchRepository.Object, mockBus.Object);
+
+            await _matchService.Substitution(Guid.NewGuid(), Guid.NewGuid(), matchId, userId);
+
+            mockMatch.Verify(x => x.Substitute(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Once);
+            Assert.Equal(1, teamDetails.UsedSubs);
+        }
+
+        [Fact]
+        public async Task Substitution_WhenAllSubsUsed_ThrowsException()
+        {
+            var userId = Guid.NewGuid();
+            var matchId = Guid.NewGuid();
+
+            var mockMatch = new Mock<ApplicationCore.Models.Match>();
+            mockMatch.SetupGet(x => x.HomeTeam).Returns(new TeamDetails()
+            {
+                UserId = userId,
+                UsedSubs = MatchService.SUB_COUNT
+            });
+
+            var mockMatchmakingService = new Mock<IMatchmakingService>();
+
+            var stubMatchEngine = new Mock<IMatchEngine>();
+            stubMatchEngine.Setup(x => x.SimulateReentrant(It.IsAny<ApplicationCore.Models.Match>()))
+                .Returns(mockMatch.Object);
+
+            var mockBus = new Mock<IBus>();
+            var mockMatchRepository = new Mock<IMatchRepository>();
+            mockMatchRepository.Setup(x => x.GetAsync(matchId)).ReturnsAsync(mockMatch.Object);
+
+            _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
+                mockMatchRepository.Object, mockBus.Object);
+
+            await Assert.ThrowsAsync<Exception>(() => _matchService.Substitution(Guid.NewGuid(), Guid.NewGuid(), matchId, userId));
         }
     }
 }

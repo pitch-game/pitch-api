@@ -7,8 +7,6 @@ namespace Pitch.Match.API.Tests.Engine
 {
     public class MatchTests : MatchTestBase
     {
-        //TODO Test reentrancy
-
         [Fact]
         public void AsOfNow_OnOrAfterCurrentMinute_ExcludesEventsAndStatistics()
         {
@@ -43,6 +41,27 @@ namespace Pitch.Match.API.Tests.Engine
             //Assert
             Assert.Contains(_stubMatch.Events, x => x == stubEvent);
             Assert.Contains(_stubMatch.Statistics, x => x == stubStatistic);
+        }
+
+        [Fact]
+        public void GetSquad_ReturnsCorrectSquad()
+        {
+            var homeSquad = _stubMatch.GetSquad(_stubHomeSquad.Id);
+            Assert.Equal(_stubHomeSquad, homeSquad);
+        }
+
+        [Fact]
+        public void GetOppositionSquad_ReturnsCorrectSquad()
+        {
+            var awaySquad = _stubMatch.GetOppositionSquad(_stubHomeSquad.Id);
+            Assert.Equal(_stubAwaySquad, awaySquad);
+        }
+
+        [Fact]
+        public void GetTeam_ReturnsCorrectTeam()
+        {
+            var teamDetails = _stubMatch.GetTeam(_stubHomeUserId);
+            Assert.Equal(_stubHomeTeamDetails, teamDetails);
         }
     }
 }
