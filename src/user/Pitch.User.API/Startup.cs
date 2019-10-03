@@ -14,6 +14,7 @@ using Pitch.User.API.Application.Subscribers;
 using Pitch.User.API.Infrastructure.Repositories;
 using Pitch.User.API.Services;
 using Pitch.User.API.Supporting;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Pitch.User.API
 {
@@ -62,6 +63,11 @@ namespace Pitch.User.API
                 return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
                     serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer(typesInAssembly)));
             });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "User API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,6 +82,8 @@ namespace Pitch.User.API
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSwagger();
 
             app.UseHealthChecks("/health");
             app.UseHealthChecks("/liveness", new HealthCheckOptions

@@ -21,6 +21,7 @@ using System;
 using System.Linq;
 using Pitch.Match.API.ApplicationCore.Services;
 using Pitch.Match.API.Infrastructure.Repositories.Contexts;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Pitch.Match.API
 {
@@ -87,6 +88,11 @@ namespace Pitch.Match.API
             {
                 o.EnableDetailedErrors = true;
             });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Match API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,6 +110,8 @@ namespace Pitch.Match.API
             BsonClassMap.RegisterClassMap<ShotOffTarget>();
             BsonClassMap.RegisterClassMap<ApplicationCore.Engine.Events.Foul>();
             BsonClassMap.RegisterClassMap<Substitution>();
+
+            app.UseSwagger();
 
             app.UseHealthChecks("/health");
             app.UseHealthChecks("/liveness", new HealthCheckOptions
