@@ -53,6 +53,18 @@
       "UpstreamHttpMethod": [ "Get" ]
     },
     {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "card",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/squad/{everything}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
       "DownstreamPathTemplate": "/",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
