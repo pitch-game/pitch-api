@@ -57,7 +57,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "card",
+          "Host": "squad",
           "Port": 80
         }
       ],
