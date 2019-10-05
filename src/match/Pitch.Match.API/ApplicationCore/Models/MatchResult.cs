@@ -36,7 +36,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
             {
                 Minute = x.Minute,
                 Name = x.Name,
-                Card = cards.FirstOrDefault(c => c.Id == x.CardId),
+                Card = cards.FirstOrDefault(c => c != null && c.Id == x.CardId),
                 SquadName = match.HomeTeam.Squad.Id == x.SquadId ? match.HomeTeam.Squad.Name : match.AwayTeam.Squad.Name, //TODO sending repeated data
                 CardId = x.CardId
             }).ToList();
