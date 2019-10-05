@@ -18,6 +18,7 @@ using Pitch.Match.API.Hubs;
 using Pitch.Match.API.Infrastructure.MessageBus.Supporting;
 using Pitch.Match.API.Infrastructure.Repositories;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Pitch.Match.API.ApplicationCore.Services;
 using Pitch.Match.API.Infrastructure.Repositories.Contexts;
@@ -25,6 +26,7 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace Pitch.Match.API
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         public Startup(IConfiguration configuration)

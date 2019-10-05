@@ -4,9 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Pitch.User.API.Application.Responders;
 using Pitch.User.API.Application.Subscribers;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Pitch.User.API.Supporting
 {
+    [ExcludeFromCodeCoverage]
     public static class ApplicationBuilderExtentions
     {
         private static IEnumerable<IResponder> _responders { get; set; }
