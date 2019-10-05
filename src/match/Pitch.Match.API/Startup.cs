@@ -18,6 +18,7 @@ using Pitch.Match.API.Hubs;
 using Pitch.Match.API.Infrastructure.MessageBus.Supporting;
 using Pitch.Match.API.Infrastructure.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Pitch.Match.API.ApplicationCore.Services;
@@ -113,7 +114,20 @@ namespace Pitch.Match.API
             BsonClassMap.RegisterClassMap<ApplicationCore.Engine.Events.Foul>();
             BsonClassMap.RegisterClassMap<Substitution>();
 
-            app.UseSwagger();
+            app.UseSwagger(c =>
+            {
+                var basePath = "/match";
+                c.PreSerializeFilters.Add((swaggerDoc, httpReq) => swaggerDoc.BasePath = basePath);
+
+                c.PreSerializeFilters.Add((swaggerDoc, httpReq) => {
+                    IDictionary<string, PathItem> paths = new Dictionary<string, PathItem>();
+                    foreach (var path in swaggerDoc.Paths)
+                    {
+                        paths.Add(path.Key.Replace(basePath, "/"), path.Value);
+                    }
+                    swaggerDoc.Paths = paths;
+                });
+            });
 
             app.UseHealthChecks("/health");
             app.UseHealthChecks("/liveness", new HealthCheckOptions
