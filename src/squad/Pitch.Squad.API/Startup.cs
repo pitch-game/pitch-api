@@ -21,6 +21,7 @@ using Pitch.Squad.API.Infrastructure;
 using Pitch.Squad.API.Infrastructure.Repositories;
 using Pitch.Squad.API.Services;
 using Pitch.Squad.API.Supporting;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Pitch.Squad.API
 {
@@ -79,6 +80,11 @@ namespace Pitch.Squad.API
                 return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
                     serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer(typesInAssembly)));
             });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Squad API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,6 +94,8 @@ namespace Pitch.Squad.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
 
             app.UseHealthChecks("/health");
             app.UseHealthChecks("/liveness");

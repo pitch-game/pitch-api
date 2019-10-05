@@ -20,6 +20,7 @@ using Pitch.User.API.Supporting;
 using System;
 using System.Linq;
 using System.Reflection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Pitch.Store.API
 {
@@ -71,6 +72,11 @@ namespace Pitch.Store.API
                     serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer(typesInAssembly)));
             });
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Store API", Version = "v1" });
+            });
+
             services.AddDbContext<PackDBContext>(options => options.UseInMemoryDatabase(databaseName: "Packs"));
         }
 
@@ -86,6 +92,8 @@ namespace Pitch.Store.API
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSwagger();
 
             app.UseHealthChecks("/health");
             app.UseHealthChecks("/liveness", new HealthCheckOptions
