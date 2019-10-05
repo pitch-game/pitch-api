@@ -33,8 +33,8 @@ namespace Pitch.Match.API.ApplicationCore.Engine
                 {
                     var affectedSquad = action.AffectsTeamInPossession ? inPossession : notInPossession;
                     var card = ActionHelper.RollCard(affectedSquad, action, match.Events);
-                    if (card == null) //TODO cancel if couldnt get a card
-                        continue;
+                    if (card == null)
+                        continue; //TODO currently skips fitness and stats
 
                     var @event = action.SpawnEvent(card, affectedSquad.Id, minute, match);
                     if (@event != null)

@@ -1,9 +1,10 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
+using Pitch.User.API.Infrastructure.Repositories.Contexts;
 
 namespace Pitch.User.API.Models
 {
-    public class User
+    public class User : IEntity
     {
         public Guid Id { get; set; }
         public string Email { get; set; }

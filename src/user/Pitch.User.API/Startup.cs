@@ -12,6 +12,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Pitch.User.API.Application.Responders;
 using Pitch.User.API.Application.Subscribers;
 using Pitch.User.API.Infrastructure.Repositories;
+using Pitch.User.API.Infrastructure.Repositories.Contexts;
 using Pitch.User.API.Services;
 using Pitch.User.API.Supporting;
 using Swashbuckle.AspNetCore.Swagger;
@@ -33,6 +34,7 @@ namespace Pitch.User.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped(typeof(IDataContext<>), typeof(MongoDbDataContext<>));
 
             services.AddScoped<IGetOrCreateUserResponder, GetOrCreateUserResponder>();
             services.AddScoped<IResponder, GetOrCreateUserResponder>();

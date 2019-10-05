@@ -1,8 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
-using Pitch.User.API.Models;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Pitch.User.API.Infrastructure.Repositories.Contexts;
 
 
 namespace Pitch.User.API.Infrastructure.Repositories
@@ -17,28 +15,26 @@ namespace Pitch.User.API.Infrastructure.Repositories
 
     public class UserRepository : IUserRepository
     {
-        private readonly IMongoCollection<Models.User> _users;
+        private readonly IDataContext<Models.User> _dataContext;
 
-        public UserRepository(IConfiguration config)
+        public UserRepository(IDataContext<Models.User> dataContext)
         {
-            var client = new MongoClient(config.GetConnectionString("MongoDb"));
-            var database = client.GetDatabase("user");
-            _users = database.GetCollection<Models.User>("users");
+            _dataContext = dataContext;
         }
 
         public async Task<Models.User> GetAsync(Guid id)
         {
-            return await _users.Find(x => x.Id == id).FirstOrDefaultAsync();
+            return await _dataContext.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Models.User> GetAsync(string email)
         {
-            return await _users.Find(x => x.Email == email).FirstOrDefaultAsync();
+            return await _dataContext.FirstOrDefaultAsync(x => x.Email == email);
         }
 
         public async Task<Models.User> CreateAsync(string email)
         {
-            await _users.InsertOneAsync(new Models.User {
+            await _dataContext.CreateAsync(new Models.User {
                 Id = Guid.NewGuid(),
                 Email = email
             });
@@ -47,7 +43,7 @@ namespace Pitch.User.API.Infrastructure.Repositories
 
         public async Task UpdateAsync(Models.User user)
         {
-            await _users.ReplaceOneAsync(x => x.Id == user.Id, user);
+            await _dataContext.UpdateAsync(user);
         }
     }
 }
