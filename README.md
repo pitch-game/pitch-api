@@ -3,8 +3,6 @@ RESTful Web API for Pitch in a microservices architecture on containers
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/pitch-game/pitch-api.svg)
 ![GitHub issues](https://img.shields.io/github/issues/pitch-game/pitch-api.svg)
-![Mozilla HTTP Observatory Grade](https://img.shields.io/mozilla-observatory/grade/api.pitch-game.io.svg)
-![GitHub repo size](https://img.shields.io/github/repo-size/pitch-game/pitch-api.svg)
 ![GitHub](https://img.shields.io/github/license/pitch-game/pitch-api.svg)
 
 |    Service   |  Build Status  |    Deloyment Status   |   Tests   |   Code Coverage
