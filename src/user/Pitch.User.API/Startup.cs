@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using MongoDB.Driver;
 using Pitch.User.API.Application.Responders;
 using Pitch.User.API.Application.Subscribers;
 using Pitch.User.API.Infrastructure.Repositories;
@@ -66,6 +67,11 @@ namespace Pitch.User.API
                 var typesInAssembly = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).ToArray();
                 return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
                     serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer(typesInAssembly)));
+            });
+
+            services.AddSingleton<IMongoClient>(s =>
+            {
+                return new MongoClient(Configuration.GetConnectionString("MongoDb"));
             });
 
             services.AddSwaggerGen(c =>
