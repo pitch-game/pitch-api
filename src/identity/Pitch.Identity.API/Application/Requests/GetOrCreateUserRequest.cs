@@ -6,6 +6,12 @@
         {
             Email = email;
         }
+
+        public GetOrCreateUserRequest()
+        {
+                
+        }
+
         public string Email { get; set; }
     }
 }
