@@ -23,13 +23,11 @@ namespace Pitch.Store.API.Infrastructure.Services
     {
         private readonly IPackRepository _packRepository;
         private readonly IBus _bus;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PackService(IPackRepository packRepository, IBus bus, IHttpContextAccessor httpContextAccessor)
+        public PackService(IPackRepository packRepository, IBus bus)
         {
             _packRepository = packRepository;
             _bus = bus;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IList<Pack>> GetAll(string userId)

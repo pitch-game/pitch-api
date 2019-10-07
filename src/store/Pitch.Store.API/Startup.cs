@@ -16,14 +16,15 @@ using Pitch.Store.API.Infrastructure;
 using Pitch.Store.API.Infrastructure.Repositories;
 using Pitch.Store.API.Infrastructure.Services;
 using Pitch.Store.API.Supporting;
-using Pitch.User.API.Supporting;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Pitch.Store.API
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -60,7 +61,9 @@ namespace Pitch.Store.API
             services.AddScoped<IPackService, PackService>();
             services.AddScoped<IPackRepository, PackRepository>();
 
+            services.AddScoped<IUserCreatedEventSubscriber, UserCreatedEventSubscriber>();
             services.AddScoped<ISubscriber, UserCreatedEventSubscriber>();
+            services.AddScoped<IMatchCompletedEventSubscriber, MatchCompletedEventSubscriber>();
             services.AddScoped<ISubscriber, MatchCompletedEventSubscriber>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

@@ -19,7 +19,7 @@ namespace Pitch.Store.API.Infrastructure.Repositories
 
     public class PackRepository : IPackRepository
     {
-        PackDBContext _context;
+        private readonly PackDBContext _context;
         public PackRepository(PackDBContext context)
         {
             _context = context;

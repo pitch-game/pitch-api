@@ -1,11 +1,17 @@
-﻿using EasyNetQ;
+﻿using System.Threading.Tasks;
+using EasyNetQ;
 using Microsoft.Extensions.DependencyInjection;
 using Pitch.Store.API.Application.Events;
 using Pitch.Store.API.Infrastructure.Services;
 
 namespace Pitch.Store.API.Application.Subscribers
 {
-    public class UserCreatedEventSubscriber : ISubscriber
+    public interface IUserCreatedEventSubscriber
+    {
+        Task CreateStartingPacksAsync(UserCreatedEvent @event);
+    }
+
+    public class UserCreatedEventSubscriber : ISubscriber, IUserCreatedEventSubscriber
     {
         private readonly IBus _bus;
         private readonly IServiceScopeFactory _serviceScopeFactory;
@@ -17,12 +23,15 @@ namespace Pitch.Store.API.Application.Subscribers
 
         public void Subscribe()
         {
-            _bus.SubscribeAsync<UserCreatedEvent>("store", async (@event) => {
-                using (var scope = _serviceScopeFactory.CreateScope())
-                {
-                    await scope.ServiceProvider.GetRequiredService<IPackService>().CreateStartingPacksAsync(@event.Id);
-                }
-            });
+            _bus.SubscribeAsync<UserCreatedEvent>("store", CreateStartingPacksAsync);
+        }
+
+        public async Task CreateStartingPacksAsync(UserCreatedEvent @event)
+        {
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                await scope.ServiceProvider.GetRequiredService<IPackService>().CreateStartingPacksAsync(@event.Id);
+            }
         }
     }
 }
