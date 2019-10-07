@@ -42,6 +42,7 @@ namespace Pitch.User.API
             services.AddScoped<IGetOrCreateUserResponder, GetOrCreateUserResponder>();
             services.AddScoped<IResponder, GetOrCreateUserResponder>();
 
+            services.AddScoped<IMatchCompletedEventSubscriber, MatchCompletedEventSubscriber>();
             services.AddScoped<ISubscriber, MatchCompletedEventSubscriber>();
 
             services.AddScoped<IUserService, UserService>();

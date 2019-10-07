@@ -1,4 +1,5 @@
-﻿using EasyNetQ;
+﻿using System.Threading.Tasks;
+using EasyNetQ;
 using Microsoft.Extensions.DependencyInjection;
 using Pitch.User.API.Application.Events;
 using Pitch.User.API.Services;
@@ -9,7 +10,13 @@ namespace Pitch.User.API.Application.Subscribers
     {
         void Subscribe();
     }
-    public class MatchCompletedEventSubscriber : ISubscriber
+
+    public interface IMatchCompletedEventSubscriber
+    {
+        Task RedeemMatchRewards(MatchCompletedEvent @event);
+    }
+
+    public class MatchCompletedEventSubscriber : IMatchCompletedEventSubscriber, ISubscriber
     {
         private readonly IBus _bus;
         private readonly IServiceScopeFactory _serviceScopeFactory;
@@ -21,13 +28,15 @@ namespace Pitch.User.API.Application.Subscribers
 
         public void Subscribe()
         {
-            _bus.SubscribeAsync<MatchCompletedEvent>("user", async (@event) =>
+            _bus.SubscribeAsync<MatchCompletedEvent>("user", RedeemMatchRewards);
+        }
+
+        public async Task RedeemMatchRewards(MatchCompletedEvent @event)
+        {
+            using (var scope = _serviceScopeFactory.CreateScope())
             {
-                using (var scope = _serviceScopeFactory.CreateScope())
-                {
-                    await scope.ServiceProvider.GetRequiredService<IUserService>().RedeemMatchRewards(@event.UserId, @event.Victorious);
-                }
-            });
+                await scope.ServiceProvider.GetRequiredService<IUserService>().RedeemMatchRewards(@event.UserId, @event.Victorious);
+            }
         }
     }
 

@@ -41,7 +41,7 @@ namespace Pitch.User.API.Services
             if(user == null)
             {
                 user = await _userRepository.CreateAsync(email);
-                _bus.Publish(new UserCreatedEvent(user.Id));
+                await _bus.PublishAsync(new UserCreatedEvent(user.Id));
             }
             return user;
         }

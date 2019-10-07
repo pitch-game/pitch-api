@@ -90,16 +90,21 @@ namespace Pitch.User.API.Tests.Services
         {
             // Arrange
             var userEmail = "test@test.com";
+            var userId = Guid.NewGuid();
             var user = new Models.User
             {
-                Id = Guid.NewGuid(),
+                Id = userId,
                 Email = userEmail
             };
 
             var mockUserRepository = new Mock<IUserRepository>();
             mockUserRepository.Setup(x => x.CreateAsync(userEmail)).ReturnsAsync(user);
 
+            UserCreatedEvent userCreatedEvent = null;
+
             var mockBus = new Mock<IBus>();
+            mockBus.Setup(x => x.PublishAsync(It.IsAny<UserCreatedEvent>()))
+                .Callback<UserCreatedEvent>(r => userCreatedEvent = r);
             var service = new UserService(mockUserRepository.Object, mockBus.Object);
 
             // Act
@@ -107,7 +112,8 @@ namespace Pitch.User.API.Tests.Services
 
             // Assert
             Assert.Equal(user, actualUser);
-            mockBus.Verify(x => x.Publish(It.IsAny<UserCreatedEvent>()), Times.Once);
+            mockBus.Verify(x => x.PublishAsync(It.IsAny<UserCreatedEvent>()), Times.Once);
+            Assert.Equal(userId, userCreatedEvent.Id);
         }
 
 
