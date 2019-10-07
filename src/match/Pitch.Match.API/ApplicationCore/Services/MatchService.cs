@@ -16,7 +16,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
     public interface IMatchService
     {
         Task KickOff(Guid sessionId);
-        Task<ApplicationCore.Models.Match> GetAsync(Guid id);
+        Task<Models.Match> GetAsync(Guid id);
         Task ClaimAsync(Guid userId);
         Task<IEnumerable<MatchListResult>> GetAllAsync(int skip, int? take, Guid userId);
         Task<MatchStatusResult> GetMatchStatus(Guid userId);
@@ -31,7 +31,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
         private readonly IMatchRepository _matchRepository;
         private readonly IBus _bus;
 
-        public const int SUB_COUNT = 3;
+        public const int SubCount = 3;
 
         public MatchService(IMatchmakingService matchmakingService, IMatchEngine matchEngine, IMatchRepository matchRepository, IBus bus)
         {
@@ -68,7 +68,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
             }
         }
 
-        public async Task<ApplicationCore.Models.Match> GetAsync(Guid id)
+        public async Task<Models.Match> GetAsync(Guid id)
         {
             return await _matchRepository.GetAsync(id);
         }
@@ -77,15 +77,11 @@ namespace Pitch.Match.API.ApplicationCore.Services
         {
             var session = _matchmakingService.GetSession(sessionId);
 
-            var match = new ApplicationCore.Models.Match
+            var match = new Models.Match
             {
-                Id = sessionId
+                Id = sessionId, HomeTeam = new TeamDetails { UserId = session.HostPlayerId }
             };
 
-            match.HomeTeam = new TeamDetails
-            {
-                UserId = session.HostPlayerId
-            };
             match.HomeTeam.Squad = BuildSquad(await _bus.RequestAsync<GetSquadRequest, GetSquadResponse>(new GetSquadRequest(match.HomeTeam.UserId)));
 
             match.AwayTeam = new TeamDetails
@@ -104,9 +100,9 @@ namespace Pitch.Match.API.ApplicationCore.Services
         private Squad BuildSquad(GetSquadResponse squadResp)
         {
             var gk = squadResp.Lineup.Where(x => x.Key == "GK").Select(x => x.Value).ToList();
-            var def = squadResp.Lineup.Where(x => (new string[] { "LB", "LCB", "RCB", "RB" }).Contains(x.Key)).Select(x => x.Value).ToList();
-            var mid = squadResp.Lineup.Where(x => (new string[] { "LM", "LCM", "RCM", "RM" }).Contains(x.Key)).Select(x => x.Value).ToList();
-            var att = squadResp.Lineup.Where(x => (new string[] { "LST", "RST" }).Contains(x.Key)).Select(x => x.Value).ToList();
+            var def = squadResp.Lineup.Where(x => (new [] { "LB", "LCB", "RCB", "RB" }).Contains(x.Key)).Select(x => x.Value).ToList();
+            var mid = squadResp.Lineup.Where(x => (new [] { "LM", "LCM", "RCM", "RM" }).Contains(x.Key)).Select(x => x.Value).ToList();
+            var att = squadResp.Lineup.Where(x => (new [] { "LST", "RST" }).Contains(x.Key)).Select(x => x.Value).ToList();
 
             return new Squad()
             {
@@ -173,7 +169,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
             var match = await _matchRepository.GetAsync(matchId);
             var team = match.GetTeam(userId);
 
-            if (team.UsedSubs >= SUB_COUNT) throw new Exception("No subs remaining");
+            if (team.UsedSubs >= SubCount) throw new Exception("No subs remaining");
 
             match.Substitute(off, on, userId);
             var newMatch = _matchEngine.SimulateReentrant(match);

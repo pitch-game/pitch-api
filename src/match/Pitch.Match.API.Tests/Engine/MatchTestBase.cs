@@ -28,7 +28,7 @@ namespace Pitch.Match.API.Tests.Engine
         protected MatchTestBase()
         {
             var randomnessProvider = new RandomnessProvider();
-            var actions = new IAction[] {new Foul(randomnessProvider), new Shot()};
+            var actions = new IAction[] {new Foul(randomnessProvider), new Shot(randomnessProvider) };
             _stubMatchEngine = new MatchEngine(actions);
 
             _stubHomePlayer = new Card

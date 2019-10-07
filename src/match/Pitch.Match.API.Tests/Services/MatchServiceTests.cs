@@ -237,7 +237,7 @@ namespace Pitch.Match.API.Tests.Services
             mockMatch.SetupGet(x => x.HomeTeam).Returns(new TeamDetails()
             {
                 UserId = userId,
-                UsedSubs = MatchService.SUB_COUNT
+                UsedSubs = MatchService.SubCount
             });
 
             var mockMatchmakingService = new Mock<IMatchmakingService>();

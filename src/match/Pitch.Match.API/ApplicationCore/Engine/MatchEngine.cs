@@ -17,28 +17,23 @@ namespace Pitch.Match.API.ApplicationCore.Engine
 
         public Models.Match SimulateReentrant(Models.Match match)
         {
-            match.Events = match.Events.Where(x => x.Minute <= match.Duration).ToList();
-            match.Statistics = match.Statistics.Where(x => x.Minute <= match.Duration).ToList();
+            match.AsAtElapsed(true);
 
-            for (int minute = match.Duration; minute < Constants.MATCH_LENGTH_IN_MINUTES; minute++) //TODO atm its simulating the same minute again on reentrancy, is this right?
+            for (int minute = match.Elapsed; minute < Constants.MATCH_LENGTH_IN_MINUTES; minute++) //TODO atm its simulating the same minute again on reentrancy, is this right?
             {
-                int homePossChance;
-                int awayPossChance;
-
-                Squad notInPossession;
-                Squad inPossession = PossessionHelper.InPossession(match, out notInPossession, out homePossChance, out awayPossChance);
+                Squad inPossession = PossessionHelper.InPossession(match, out var notInPossession, out var homePossChance, out var awayPossChance);
 
                 IAction action = ActionHelper.RollAction(_actions);
                 if (action != null)
                 {
                     var affectedSquad = action.AffectsTeamInPossession ? inPossession : notInPossession;
                     var card = ActionHelper.RollCard(affectedSquad, action, match.Events);
-                    if (card == null)
-                        continue; //TODO currently skips fitness and stats
-
-                    var @event = action.SpawnEvent(card, affectedSquad.Id, minute, match);
-                    if (@event != null)
-                        match.Events.Add(@event);
+                    if (card != null)
+                    {
+                        var @event = action.SpawnEvent(card, affectedSquad.Id, minute, match);
+                        if (@event != null)
+                            match.Events.Add(@event);
+                    }
                 }
 
                 FitnessHelper.Drain(inPossession, notInPossession);

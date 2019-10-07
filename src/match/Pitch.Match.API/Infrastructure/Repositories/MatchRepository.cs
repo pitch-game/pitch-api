@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using MongoDB.Driver;
 using Pitch.Match.API.Infrastructure.Repositories.Contexts;
 
 namespace Pitch.Match.API.Infrastructure.Repositories

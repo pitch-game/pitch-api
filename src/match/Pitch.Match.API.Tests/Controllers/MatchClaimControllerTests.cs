@@ -19,7 +19,7 @@ namespace Pitch.Match.API.Tests.Controllers
             var userId = Guid.NewGuid();
             var mockMatchService = new Mock<IMatchService>();
 
-            var controller = new MatchClaimController(mockMatchService.Object);
+            var controller = new ClaimController(mockMatchService.Object);
 
             var claims = new List<Claim>
             {

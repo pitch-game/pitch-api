@@ -9,16 +9,16 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Providers
 
     public class RandomnessProvider : IRandomnessProvider
     {
-        private Random random;
+        private readonly Random _random;
 
         public RandomnessProvider()
         {
-            random = new Random();
+            _random = new Random();
         }
 
         public int Next(int minValue, int maxValue)
         {
-            return random.Next(minValue, maxValue);
+            return _random.Next(minValue, maxValue);
         }
     }
 }

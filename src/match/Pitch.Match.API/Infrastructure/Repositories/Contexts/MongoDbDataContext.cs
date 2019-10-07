@@ -17,7 +17,6 @@ namespace Pitch.Match.API.Infrastructure.Repositories.Contexts
     {
         Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> query);
         Task<IEnumerable<T>> ToListAsync(Expression<Func<T, bool>> query);
-
         Task CreateAsync(T item);
         Task UpdateAsync(T item);
     }

@@ -14,6 +14,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
             Events = new List<IEvent>();
             Statistics = new List<MinuteStats>();
         }
+
         public Guid Id { get; set; }
 
         public virtual TeamDetails HomeTeam { get; set; }
@@ -41,14 +42,15 @@ namespace Pitch.Match.API.ApplicationCore.Models
 
         public int ExtraTime { get; set; }
 
-        public int Duration => (int)DateTime.Now.Subtract(KickOff).TotalMinutes;
+        public int Elapsed => (int)DateTime.Now.Subtract(KickOff).TotalMinutes;
 
         public bool IsOver => DateTime.Now > KickOff.AddMinutes(90 + ExtraTime);
 
-        public void AsOfNow()
+        public void AsAtElapsed(bool includeCurrentMinute = false)
         {
-            Events = Events.Where(x => x.Minute < Duration).ToList();
-            Statistics = Statistics.Where(x => x.Minute < Duration).ToList();
+            var elapsed = includeCurrentMinute ? Elapsed + 1 : Elapsed;
+            Events = Events.Where(x => x.Minute < elapsed).ToList();
+            Statistics = Statistics.Where(x => x.Minute < elapsed).ToList();
         }
 
         public virtual void Substitute(Guid off, Guid on, Guid userId)
@@ -56,7 +58,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
             var team = GetTeam(userId);
             team.Squad.Substitute(off, on);
 
-            Events.Add(new Substitution(Duration, on, team.Squad.Id));
+            Events.Add(new Substitution(Elapsed, on, team.Squad.Id));
         }
     }
 

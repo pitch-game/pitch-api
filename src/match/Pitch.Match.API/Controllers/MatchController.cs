@@ -38,8 +38,8 @@ namespace Pitch.Match.API.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
             var match = await _matchService.GetAsync(id);
-            match.AsOfNow();
-            return new MatchModel { Match = new MatchResult(match), SubsRemaining = MatchService.SUB_COUNT - match.GetTeam(new Guid(userId)).UsedSubs };
+            match.AsAtElapsed();
+            return new MatchModel { Match = new MatchResult(match), SubsRemaining = MatchService.SubCount - match.GetTeam(new Guid(userId)).UsedSubs };
         }
 
         [HttpGet("{matchId}/lineup")]

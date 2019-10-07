@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Pitch.Match.API.ApplicationCore.Models;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -8,23 +9,22 @@ using Pitch.Match.API.ApplicationCore.Services;
 namespace Pitch.Match.API.Controllers
 {
     [Authorize]
-    [Route("claim")]
+    [Route("status")]
     [ApiController]
-    public class MatchClaimController : ControllerBase
+    public class StatusController : ControllerBase
     {
         private readonly IMatchService _matchService;
 
-        public MatchClaimController(IMatchService matchService)
+        public StatusController(IMatchService matchService)
         {
             _matchService = matchService;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Claim()
+        [HttpGet]
+        public async Task<MatchStatusResult> Get()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
-            await _matchService.ClaimAsync(new Guid(userId));
-            return Ok();
+            return await _matchService.GetMatchStatus(new Guid(userId));
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
                 CardId = x.CardId
             }).ToList();
 
-            Minute = match.Duration;
+            Minute = match.Elapsed;
             Expired = match.IsOver;
             ExpiredOn = match.IsOver ? match.KickOff.AddMinutes(90) : (DateTime?)null;
         }

@@ -22,7 +22,7 @@ namespace Pitch.Match.API.Tests.Controllers
             var mockMatchService = new Mock<IMatchService>();
             mockMatchService.Setup(x => x.GetMatchStatus(userId)).Returns(Task.FromResult(stubMatchResult));
 
-            var controller = new MatchStatusController(mockMatchService.Object);
+            var controller = new StatusController(mockMatchService.Object);
 
             var claims = new List<Claim>
             {

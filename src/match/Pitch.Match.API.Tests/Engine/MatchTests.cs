@@ -18,7 +18,7 @@ namespace Pitch.Match.API.Tests.Engine
             _stubMatch.Statistics.Add(stubStatistic);
 
             //Act
-            _stubMatch.AsOfNow();
+            _stubMatch.AsAtElapsed();
 
             //Assert
             Assert.DoesNotContain(_stubMatch.Events, x => x == stubEvent);
@@ -36,7 +36,7 @@ namespace Pitch.Match.API.Tests.Engine
             _stubMatch.Statistics.Add(stubStatistic);
 
             //Act
-            _stubMatch.AsOfNow();
+            _stubMatch.AsAtElapsed();
 
             //Assert
             Assert.Contains(_stubMatch.Events, x => x == stubEvent);

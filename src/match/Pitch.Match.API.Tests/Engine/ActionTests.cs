@@ -11,16 +11,16 @@ namespace Pitch.Match.API.Tests.Engine
     {
         public class TestRandomnessProvider : IRandomnessProvider
         {
-            private readonly int value;
+            private readonly int _value;
 
             public TestRandomnessProvider(int value)
             {
-                this.value = value;
+                this._value = value;
             }
 
             public int Next(int minValue, int maxValue)
             {
-                return value;
+                return _value;
             }
         }
 

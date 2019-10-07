@@ -10,11 +10,11 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Actions
 {
     public class Foul : IAction
     {
-        private readonly IRandomnessProvider randomnessProvider;
+        private readonly IRandomnessProvider _randomnessProvider;
 
         public Foul(IRandomnessProvider randomnessProvider)
         {
-            this.randomnessProvider = randomnessProvider;
+            this._randomnessProvider = randomnessProvider;
         }
 
         [BsonIgnore]
@@ -34,7 +34,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Actions
 
         public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match)
         {
-            int randomNumber = randomnessProvider.Next(1, 40);
+            int randomNumber = _randomnessProvider.Next(1, 40);
 
             if (randomNumber == 1)
             {
