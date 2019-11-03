@@ -2,14 +2,11 @@
 
 namespace Pitch.Match.API.ApplicationCore.Engine.Events
 {
-    public class Substitution : EventBase, IEvent
+    public sealed class Substitution : EventBase
     {
         public Substitution(int minute, Guid cardId, Guid squadId) : base(minute, cardId, squadId) { }
 
-        public string Name => "Substitution";
-
-        //TODO add subbed on card id
-
-        public bool ShowInTimeline => true;
+        public override string Name => "Substitution";
+        public override bool ShowInTimeline => true;
     }
 }

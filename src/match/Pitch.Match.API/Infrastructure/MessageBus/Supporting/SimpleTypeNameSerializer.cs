@@ -7,6 +7,7 @@ namespace Pitch.Match.API.Infrastructure.MessageBus.Supporting
     public class SimpleTypeNameSerializer : ITypeNameSerializer
     {
         private readonly Type[] _typesInAssembly;
+
         public SimpleTypeNameSerializer(Type[] typesInAssembly)
         {
             _typesInAssembly = typesInAssembly;

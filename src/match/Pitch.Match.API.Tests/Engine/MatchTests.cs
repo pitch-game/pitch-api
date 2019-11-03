@@ -11,57 +11,57 @@ namespace Pitch.Match.API.Tests.Engine
         public void AsOfNow_OnOrAfterCurrentMinute_ExcludesEventsAndStatistics()
         {
             //Arrange
-            _stubMatch.KickOff = DateTime.Now.AddMinutes(-10);
-            var stubEvent = new ShotOnTarget(11, _stubHomePlayer.Id, _stubMatch.HomeTeam.Squad.Id);
-            _stubMatch.Events.Add(stubEvent);
-            var stubStatistic = new MinuteStats(11, _stubHomeSquad.Id, 0, 0);
-            _stubMatch.Statistics.Add(stubStatistic);
+            StubMatch.KickOff = DateTime.Now.AddMinutes(-10);
+            var stubEvent = new ShotOnTarget(11, StubHomePlayer.Id, StubMatch.HomeTeam.Squad.Id);
+            StubMatch.Events.Add(stubEvent);
+            var stubStatistic = new MinuteStats(11, StubHomeSquad.Id, 0, 0);
+            StubMatch.Statistics.Add(stubStatistic);
 
             //Act
-            _stubMatch.AsAtElapsed();
+            StubMatch.AsAtElapsed();
 
             //Assert
-            Assert.DoesNotContain(_stubMatch.Events, x => x == stubEvent);
-            Assert.DoesNotContain(_stubMatch.Statistics, x => x == stubStatistic);
+            Assert.DoesNotContain(StubMatch.Events, x => x == stubEvent);
+            Assert.DoesNotContain(StubMatch.Statistics, x => x == stubStatistic);
         }
 
         [Fact]
         public void AsOfNow_UpUntilCurrentMinute_IncludesEventsAndStatistics()
         {
             //Arrange
-            _stubMatch.KickOff = DateTime.Now.AddMinutes(-15);
-            var stubEvent = new ShotOnTarget(11, _stubHomePlayer.Id, _stubMatch.HomeTeam.Squad.Id);
-            _stubMatch.Events.Add(stubEvent);
-            var stubStatistic = new MinuteStats(11, _stubHomeSquad.Id, 0, 0);
-            _stubMatch.Statistics.Add(stubStatistic);
+            StubMatch.KickOff = DateTime.Now.AddMinutes(-15);
+            var stubEvent = new ShotOnTarget(11, StubHomePlayer.Id, StubMatch.HomeTeam.Squad.Id);
+            StubMatch.Events.Add(stubEvent);
+            var stubStatistic = new MinuteStats(11, StubHomeSquad.Id, 0, 0);
+            StubMatch.Statistics.Add(stubStatistic);
 
             //Act
-            _stubMatch.AsAtElapsed();
+            StubMatch.AsAtElapsed();
 
             //Assert
-            Assert.Contains(_stubMatch.Events, x => x == stubEvent);
-            Assert.Contains(_stubMatch.Statistics, x => x == stubStatistic);
+            Assert.Contains(StubMatch.Events, x => x == stubEvent);
+            Assert.Contains(StubMatch.Statistics, x => x == stubStatistic);
         }
 
         [Fact]
         public void GetSquad_ReturnsCorrectSquad()
         {
-            var homeSquad = _stubMatch.GetSquad(_stubHomeSquad.Id);
-            Assert.Equal(_stubHomeSquad, homeSquad);
+            var homeSquad = StubMatch.GetSquad(StubHomeSquad.Id);
+            Assert.Equal(StubHomeSquad, homeSquad);
         }
 
         [Fact]
         public void GetOppositionSquad_ReturnsCorrectSquad()
         {
-            var awaySquad = _stubMatch.GetOppositionSquad(_stubHomeSquad.Id);
-            Assert.Equal(_stubAwaySquad, awaySquad);
+            var awaySquad = StubMatch.GetOppositionSquad(StubHomeSquad.Id);
+            Assert.Equal(StubAwaySquad, awaySquad);
         }
 
         [Fact]
         public void GetTeam_ReturnsCorrectTeam()
         {
-            var teamDetails = _stubMatch.GetTeam(_stubHomeUserId);
-            Assert.Equal(_stubHomeTeamDetails, teamDetails);
+            var teamDetails = StubMatch.GetTeam(StubHomeUserId);
+            Assert.Equal(StubHomeTeamDetails, teamDetails);
         }
     }
 }

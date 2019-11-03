@@ -4,9 +4,9 @@ using Pitch.Match.API.Models;
 
 namespace Pitch.Match.API.Supporting
 {
-    public class AutomapperProfile : Profile
+    public class AutoMapperProfile : Profile
     {
-        public AutomapperProfile()
+        public AutoMapperProfile()
         {
             CreateMap<Lineup, LineupModel>();
             CreateMap<MatchListResult, MatchListResultModel>();

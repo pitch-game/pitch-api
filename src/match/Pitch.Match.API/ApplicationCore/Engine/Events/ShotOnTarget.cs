@@ -2,12 +2,11 @@
 
 namespace Pitch.Match.API.ApplicationCore.Engine.Events
 {
-    public class ShotOnTarget : EventBase, IEvent
+    public sealed class ShotOnTarget : EventBase
     {
         public ShotOnTarget(int minute, Guid cardId, Guid squadId) : base(minute, cardId, squadId) { }
 
-        public string Name => "Shot Saved";
-
-        public bool ShowInTimeline => true;
+        public override string Name => "Shot Saved";
+        public override bool ShowInTimeline => true;
     }
 }

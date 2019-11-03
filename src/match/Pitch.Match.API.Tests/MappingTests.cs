@@ -7,9 +7,10 @@ namespace Pitch.Match.API.Tests
     public class MappingTests
     {
         [Fact]
+        [System.Obsolete]
         public void AutoMapper_Configuration_IsValid()
         {
-            Mapper.Initialize(m => m.AddProfile<AutomapperProfile>());
+            Mapper.Initialize(m => m.AddProfile<AutoMapperProfile>());
             Mapper.AssertConfigurationIsValid();
         }
     }

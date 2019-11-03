@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Pitch.Match.API.ApplicationCore.Engine.Services;
 using Pitch.Match.API.ApplicationCore.Services;
 using Pitch.Match.API.Infrastructure.Repositories.Contexts;
 using Swashbuckle.AspNetCore.Swagger;
@@ -61,11 +62,12 @@ namespace Pitch.Match.API
             services.AddSingleton<IMatchSessionService, MatchSessionService>();
 
             services.AddSingleton<IMatchEngine, MatchEngine>();
+            services.AddSingleton<IActionService, ActionService>();
 
             services.AddScoped<IMatchRepository, MatchRepository>();
             services.AddScoped(typeof(IDataContext<>), typeof(MongoDbDataContext<>));
 
-            services.AddTransient<IRandomnessProvider, RandomnessProvider>();
+            services.AddSingleton<IRandomnessProvider, ThreadSafeRandomnessProvider>();
             services.AddSingleton<IAction, ApplicationCore.Engine.Actions.Foul>();
             services.AddSingleton<IAction, Shot>();
 

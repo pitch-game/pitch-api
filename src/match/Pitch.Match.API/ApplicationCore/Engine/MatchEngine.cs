@@ -1,18 +1,16 @@
 ﻿using Pitch.Match.API.ApplicationCore.Engine.Actions;
-using Pitch.Match.API.ApplicationCore.Engine.Helpers;
 using Pitch.Match.API.ApplicationCore.Models;
-using System.Collections.Generic;
-using System.Linq;
+using Pitch.Match.API.ApplicationCore.Engine.Services;
 
 namespace Pitch.Match.API.ApplicationCore.Engine
 {
     public class MatchEngine : IMatchEngine
     {
-        private readonly IEnumerable<IAction> _actions;
+        private readonly IActionService _actionService;
 
-        public MatchEngine(IEnumerable<IAction> actions)
+        public MatchEngine(IActionService actionService)
         {
-            _actions = actions;
+            _actionService = actionService;
         }
 
         public Models.Match SimulateReentrant(Models.Match match)
@@ -23,11 +21,11 @@ namespace Pitch.Match.API.ApplicationCore.Engine
             {
                 Squad inPossession = PossessionHelper.InPossession(match, out var notInPossession, out var homePossChance, out var awayPossChance);
 
-                IAction action = ActionHelper.RollAction(_actions);
+                IAction action = _actionService.RollAction();
                 if (action != null)
                 {
                     var affectedSquad = action.AffectsTeamInPossession ? inPossession : notInPossession;
-                    var card = ActionHelper.RollCard(affectedSquad, action, match.Events);
+                    var card = _actionService.RollCard(affectedSquad, action, match.Events);
                     if (card != null)
                     {
                         var @event = action.SpawnEvent(card, affectedSquad.Id, minute, match);
@@ -36,7 +34,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine
                     }
                 }
 
-                FitnessHelper.Drain(inPossession, notInPossession);
+                //TODO Fitness drain
 
                 match.Statistics.Add(new MinuteStats(minute, inPossession.Id, homePossChance, awayPossChance));
             }

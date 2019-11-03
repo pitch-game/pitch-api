@@ -2,12 +2,11 @@
 
 namespace Pitch.Match.API.ApplicationCore.Engine.Events
 {
-    public class YellowCard : EventBase, IEvent
+    public sealed class YellowCard : EventBase
     {
         public YellowCard(int minute, Guid cardId, Guid squadId) : base(minute, cardId, squadId) { }
 
-        public string Name => "Yellow Card";
-
-        public bool ShowInTimeline => true;
+        public override string Name => "Yellow Card";
+        public override bool ShowInTimeline => true;
     }
 }

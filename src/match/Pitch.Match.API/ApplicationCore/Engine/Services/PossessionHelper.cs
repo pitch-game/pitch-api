@@ -1,10 +1,11 @@
-﻿using Pitch.Match.API.ApplicationCore.Engine.Events;
-using Pitch.Match.API.ApplicationCore.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Pitch.Match.API.ApplicationCore.Engine.Events;
+using Pitch.Match.API.ApplicationCore.Models;
 
-namespace Pitch.Match.API.ApplicationCore.Engine.Helpers
+namespace Pitch.Match.API.ApplicationCore.Engine.Services
 {
+    //TODO Refactor as service and use DI
     public static class PossessionHelper
     {
         public static Squad InPossession(Models.Match match, out Squad notInPossession, out int homeChance, out int awayChance)

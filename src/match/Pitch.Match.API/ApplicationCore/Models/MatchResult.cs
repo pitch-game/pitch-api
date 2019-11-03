@@ -9,22 +9,22 @@ namespace Pitch.Match.API.ApplicationCore.Models
     {
         public MatchResult(Match match)
         {
-            var homeTeamEvents = match.Events.Where(x => x.SquadId == match.HomeTeam.Squad.Id);
-            var awayTeamEvents = match.Events.Where(x => x.SquadId == match.AwayTeam.Squad.Id);
+            var homeTeamEvents = match.Events.Where(x => x.SquadId == match.HomeTeam.Squad.Id).ToList();
+            var awayTeamEvents = match.Events.Where(x => x.SquadId == match.AwayTeam.Squad.Id).ToList();
 
             HomeStats = GetStats(match, homeTeamEvents, match.HomeTeam.Squad.Id);
             AwayStats = GetStats(match, awayTeamEvents, match.AwayTeam.Squad.Id);
 
             HomeResult = new Result
             {
-                Score = homeTeamEvents.Count(x => x.GetType() == typeof(Goal)),
+                Score = homeTeamEvents.Count(x => x is Goal),
                 Scorers = GetScorers(match, homeTeamEvents, match.HomeTeam.Squad),
                 Name = match.HomeTeam.Squad.Name
             };
 
             AwayResult = new Result
             {
-                Score = awayTeamEvents.Count(x => x.GetType() == typeof(Goal)),
+                Score = awayTeamEvents.Count(x => x is Goal),
                 Scorers = GetScorers(match, awayTeamEvents, match.AwayTeam.Squad),
                 Name = match.AwayTeam.Squad.Name
             };
@@ -54,21 +54,21 @@ namespace Pitch.Match.API.ApplicationCore.Models
                 ShotsOnTarget = homeTeamEvents.Count(x => (new Type[] { typeof(Goal), typeof(ShotOnTarget) }).Contains(x.GetType())),
                 Possession = CalculatePossession(match, teamId),
                 Fouls = homeTeamEvents.Count(x => (new Type[] { typeof(YellowCard), typeof(RedCard), typeof(Foul) }).Contains(x.GetType())),
-                YellowCards = homeTeamEvents.Count(x => x.GetType() == typeof(YellowCard)),
-                RedCards = homeTeamEvents.Count(x => x.GetType() == typeof(RedCard))
+                YellowCards = homeTeamEvents.Count(x => x is YellowCard),
+                RedCards = homeTeamEvents.Count(x => x is RedCard)
             };
         }
 
         private static int CalculatePossession(Match match, Guid teamId)
         {
-            if (match.Statistics.Count() == 0) return 0;
-            return (int)Math.Round(match.Statistics.Count(x => x.SquadIdInPossession == teamId) / (double)match.Statistics.Count() * 100);
+            if (!match.Statistics.Any()) return 0;
+            return (int)Math.Round(match.Statistics.Count(x => x.SquadIdInPossession == teamId) / (double)match.Statistics.Count * 100);
         }
 
         private static IEnumerable<string> GetScorers(Match match, IEnumerable<IEvent> events, Squad team)
         {
             var scorers = new List<string>();
-            var goals = events.Where(x => x.GetType() == typeof(Goal)).Cast<Goal>();
+            var goals = events.Where(x => x is Goal).Cast<Goal>();
             var playerCards = team.Lineup.SelectMany(x => x.Value).Concat(team.Subs ?? new Card[0]);
             foreach (var goal in goals)
             {

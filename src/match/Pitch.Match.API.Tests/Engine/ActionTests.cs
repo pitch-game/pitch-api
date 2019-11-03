@@ -18,6 +18,11 @@ namespace Pitch.Match.API.Tests.Engine
                 this._value = value;
             }
 
+            public int Next(int maxValue)
+            {
+                return _value;
+            }
+
             public int Next(int minValue, int maxValue)
             {
                 return _value;

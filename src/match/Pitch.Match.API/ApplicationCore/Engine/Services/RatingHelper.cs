@@ -1,11 +1,12 @@
-﻿using Pitch.Match.API.ApplicationCore.Engine.Events;
-using Pitch.Match.API.ApplicationCore.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pitch.Match.API.ApplicationCore.Engine.Events;
+using Pitch.Match.API.ApplicationCore.Models;
 
-namespace Pitch.Match.API.ApplicationCore.Engine.Helpers
+namespace Pitch.Match.API.ApplicationCore.Engine.Services
 {
+    //TODO Refactor as service and use DI
     public static class RatingHelper
     {
         public static int CurrentRating(PositionalArea positionalArea, Squad squad, IEnumerable<IEvent> events)
