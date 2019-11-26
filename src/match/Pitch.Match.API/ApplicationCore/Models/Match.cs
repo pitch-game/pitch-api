@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pitch.Match.API.ApplicationCore.Engine;
 using Pitch.Match.API.Infrastructure.Repositories.Contexts;
 
 namespace Pitch.Match.API.ApplicationCore.Models
@@ -12,6 +13,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
         {
             Events = new List<IEvent>();
             Statistics = new List<MinuteStats>();
+            Modifiers = new Modifier[Constants.MATCH_LENGTH_IN_MINUTES][];
         }
 
         public Guid Id { get; set; }
@@ -37,19 +39,27 @@ namespace Pitch.Match.API.ApplicationCore.Models
         public DateTime KickOff { get; set; }
 
         public IList<IEvent> Events { get; set; }
+
+        /// <summary>
+        /// An array of player card modifiers by minute
+        /// </summary>
+        public Modifier[][] Modifiers { get; set; }
+
         public IList<MinuteStats> Statistics { get; set; }
-
-        public int ExtraTime { get; set; }
-
+        
+        /// <summary>
+        /// The current elapsed minutes
+        /// </summary>
         public int Elapsed => (int)DateTime.Now.Subtract(KickOff).TotalMinutes;
 
-        public bool IsOver => DateTime.Now > KickOff.AddMinutes(90 + ExtraTime);
+        public bool IsOver => DateTime.Now > KickOff.AddMinutes(Constants.MATCH_LENGTH_IN_MINUTES);
 
         public void AsAtElapsed(bool includeCurrentMinute = false)
         {
             var elapsed = includeCurrentMinute ? Elapsed + 1 : Elapsed;
             Events = Events.Where(x => x.Minute < elapsed).ToList();
             Statistics = Statistics.Where(x => x.Minute < elapsed).ToList();
+            Modifiers = Modifiers.Take(elapsed).ToArray();
         }
 
         public virtual void Substitute(Guid off, Guid on, Guid userId)
@@ -67,6 +77,18 @@ namespace Pitch.Match.API.ApplicationCore.Models
         public Squad Squad { get; set; }
         public bool HasClaimedRewards { get; set; }
         public virtual int UsedSubs { get; set; }
+    }
+
+    public class Modifier
+    {
+        public Guid CardId { get; set; }
+        public int DrainValue { get; set; }
+        public ModifierType Type { get; set; }
+    }
+
+    public enum ModifierType
+    {
+        Fitness
     }
 
     public class MinuteStats
