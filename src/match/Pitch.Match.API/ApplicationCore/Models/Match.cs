@@ -59,7 +59,12 @@ namespace Pitch.Match.API.ApplicationCore.Models
             var elapsed = includeCurrentMinute ? Elapsed + 1 : Elapsed;
             Events = Events.Where(x => x.Minute < elapsed).ToList();
             Statistics = Statistics.Where(x => x.Minute < elapsed).ToList();
-            Modifiers = Modifiers.Take(elapsed).ToArray();
+
+            //Clear modifiers
+            for (int i = elapsed; i < Constants.MATCH_LENGTH_IN_MINUTES; i++)
+            {
+                Modifiers[i] = new Modifier[0];
+            }
         }
 
         public virtual void Substitute(Guid off, Guid on, Guid userId)
