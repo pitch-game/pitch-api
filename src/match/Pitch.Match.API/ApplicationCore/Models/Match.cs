@@ -11,9 +11,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
     {
         public Match()
         {
-            Events = new List<IEvent>();
-            Statistics = new List<MinuteStats>();
-            Modifiers = new Modifier[Constants.MATCH_LENGTH_IN_MINUTES][];
+            Minutes = new MatchMinute[Constants.MATCH_LENGTH_IN_MINUTES];
         }
 
         public Guid Id { get; set; }
@@ -37,15 +35,8 @@ namespace Pitch.Match.API.ApplicationCore.Models
         }
 
         public DateTime KickOff { get; set; }
-
-        public IList<IEvent> Events { get; set; }
-
-        /// <summary>
-        /// An array of player card modifiers by minute
-        /// </summary>
-        public Modifier[][] Modifiers { get; set; }
-
-        public IList<MinuteStats> Statistics { get; set; }
+        
+        public MatchMinute[] Minutes { get; set; }
         
         /// <summary>
         /// The current elapsed minutes
@@ -57,13 +48,10 @@ namespace Pitch.Match.API.ApplicationCore.Models
         public void AsAtElapsed(bool includeCurrentMinute = false)
         {
             var elapsed = includeCurrentMinute ? Elapsed + 1 : Elapsed;
-            Events = Events.Where(x => x.Minute < elapsed).ToList();
-            Statistics = Statistics.Where(x => x.Minute < elapsed).ToList();
-
-            //Clear modifiers
+            //Reset match minutes
             for (int i = elapsed; i < Constants.MATCH_LENGTH_IN_MINUTES; i++)
             {
-                Modifiers[i] = new Modifier[0];
+                Minutes[i] = new MatchMinute();
             }
         }
 
@@ -71,8 +59,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
         {
             var team = GetTeam(userId);
             team.Squad.Substitute(off, on);
-
-            Events.Add(new Substitution(Elapsed, on, team.Squad.Id));
+            Minutes[Elapsed].Events.Add(new Substitution(Elapsed, on, team.Squad.Id));
         }
     }
 
@@ -94,6 +81,19 @@ namespace Pitch.Match.API.ApplicationCore.Models
     public enum ModifierType
     {
         Fitness
+    }
+
+    public class MatchMinute
+    {
+        public MatchMinute()
+        {
+            Modifiers = new List<Modifier>();
+            Events = new List<IEvent>();
+        }
+
+        public MinuteStats Stats { get; set; }
+        public IList<Modifier> Modifiers { get; set; }
+        public IList<IEvent> Events { get; set; }
     }
 
     public class MinuteStats
