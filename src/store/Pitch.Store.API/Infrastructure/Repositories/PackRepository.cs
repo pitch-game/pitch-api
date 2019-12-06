@@ -12,44 +12,38 @@ namespace Pitch.Store.API.Infrastructure.Repositories
     {
         Task<IList<Pack>> GetAllAsync(string userId);
         Task<Pack> GetAsync(Guid id);
-        Task<EntityEntry<Pack>> AddAsync(Pack pack);
-        Task<int> SaveChangesAsync();
+        Task AddAsync(Pack pack);
         Task Delete(Guid id);
     }
 
     public class PackRepository : IPackRepository
     {
-        private readonly PackDBContext _context;
-        public PackRepository(PackDBContext context)
+        private readonly IDataContext<Pack> _packContext;
+        public PackRepository(IDataContext<Pack> context)
         {
-            _context = context;
+            _packContext = context;
         }
 
         public async Task<IList<Pack>> GetAllAsync(string userId)
         {
-            return await _context.Packs.Where(x => x.UserId == userId).ToListAsync();
+            return await _packContext.WhereAsync(x => x.UserId == userId);
         }
 
         public async Task<Pack> GetAsync(Guid id)
         {
-            return await _context.Packs.FindAsync(id);
+            return await _packContext.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<EntityEntry<Pack>> AddAsync(Pack pack)
+        public async Task AddAsync(Pack pack)
         {
-            return await _context.Packs.AddAsync(pack);
-        }
-
-        public async Task<int> SaveChangesAsync()
-        {
-            return await _context.SaveChangesAsync();
+            await _packContext.CreateAsync(pack);
         }
 
         public async Task Delete(Guid id)
         {
-            var entity = await _context.Packs.FindAsync(id);
+            var entity = await _packContext.FirstOrDefaultAsync(x => x.Id == id);
             if(entity != null)
-                _context.Remove(entity);
+                await _packContext.DeleteAsync(entity);
         }
     }
 }

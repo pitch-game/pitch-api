@@ -45,16 +45,14 @@ namespace Pitch.Store.API.Infrastructure.Services
             }
             var response = await _bus.RequestAsync<CreateCardRequest, CreateCardResponse>(request);
             await _packRepository.Delete(id);
-            await _packRepository.SaveChangesAsync();
             return response;
         }
 
         public async Task<Guid> Buy(Guid userId)
         {
             var pack = new Pack() { Id = Guid.NewGuid(), UserId = userId.ToString() };
-            var @new = await _packRepository.AddAsync(pack);
-            await _packRepository.SaveChangesAsync();
-            return @new.Entity.Id; 
+            await _packRepository.AddAsync(pack);
+            return pack.Id; 
         }
 
         public async Task RedeemMatchRewards(Guid userId, bool victorious)
@@ -66,14 +64,13 @@ namespace Pitch.Store.API.Infrastructure.Services
             }
             //TODO Reward 1 pack for a draw and none for a loss
             await AddPack(userId);
-
-            await _packRepository.SaveChangesAsync();
         }
 
-        private async Task<EntityEntry<Pack>> AddPack(Guid userId)
+        private async Task<Pack> AddPack(Guid userId)
         {
             var pack = new Pack() { Id = Guid.NewGuid(), UserId = userId.ToString() };
-            return await _packRepository.AddAsync(pack);
+            await _packRepository.AddAsync(pack);
+            return pack;
         }
 
         public async Task CreateStartingPacksAsync(Guid userId)
@@ -91,7 +88,6 @@ namespace Pitch.Store.API.Infrastructure.Services
                 var pack = new Pack() { Id = Guid.NewGuid(), UserId = userId.ToString()};
                 await _packRepository.AddAsync(pack);
             }
-            await _packRepository.SaveChangesAsync();
         }
     }
 }
