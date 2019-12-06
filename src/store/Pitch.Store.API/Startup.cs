@@ -20,6 +20,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using MongoDB.Driver;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Pitch.Store.API
@@ -60,6 +61,7 @@ namespace Pitch.Store.API
 
             services.AddScoped<IPackService, PackService>();
             services.AddScoped<IPackRepository, PackRepository>();
+            services.AddScoped(typeof(IDataContext<>), typeof(MongoDbDataContext<>));
 
             services.AddScoped<IUserCreatedEventSubscriber, UserCreatedEventSubscriber>();
             services.AddScoped<ISubscriber, UserCreatedEventSubscriber>();
@@ -75,12 +77,15 @@ namespace Pitch.Store.API
                     serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer(typesInAssembly)));
             });
 
+            services.AddSingleton<IMongoClient>(s =>
+            {
+                return new MongoClient(Configuration.GetConnectionString("MongoDb"));
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Store API", Version = "v1" });
             });
-
-            services.AddDbContext<PackDBContext>(options => options.UseInMemoryDatabase(databaseName: "Packs"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
