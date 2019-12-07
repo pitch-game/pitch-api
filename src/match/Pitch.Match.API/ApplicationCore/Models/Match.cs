@@ -11,7 +11,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
     {
         public Match()
         {
-            Minutes = new MatchMinute[Constants.MATCH_LENGTH_IN_MINUTES];
+            Minutes = new List<MatchMinute>(new MatchMinute[Constants.MATCH_LENGTH_IN_MINUTES]); //TODO
         }
 
         public Guid Id { get; set; }
@@ -36,14 +36,29 @@ namespace Pitch.Match.API.ApplicationCore.Models
 
         public DateTime KickOff { get; set; }
         
-        public MatchMinute[] Minutes { get; set; }
-        
+        public IList<MatchMinute> Minutes { get; set; }
+
+        public IReadOnlyList<IEvent> Events
+        {
+            get { return Minutes.Where(x => x != null).SelectMany(x => x.Events).ToList(); }
+        }
+
+        public IReadOnlyList<MinuteStats> Statistics
+        {
+            get { return Minutes.Where(x => x != null).Select(x => x.Stats).ToList(); }
+        }
+
+        public IReadOnlyList<Modifier> Modifiers
+        {
+            get { return Minutes.Where(x => x != null).SelectMany(x => x.Modifiers).ToList(); }
+        }
+
         /// <summary>
         /// The current elapsed minutes
         /// </summary>
         public int Elapsed => (int)DateTime.Now.Subtract(KickOff).TotalMinutes;
 
-        public bool IsOver => DateTime.Now > KickOff.AddMinutes(Constants.MATCH_LENGTH_IN_MINUTES);
+        public bool HasFinished => DateTime.Now > KickOff.AddMinutes(Constants.MATCH_LENGTH_IN_MINUTES);
 
         public void AsAtElapsed(bool includeCurrentMinute = false)
         {

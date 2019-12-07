@@ -17,13 +17,13 @@ namespace Pitch.Match.API.Tests.Engine
                 Type = ModifierType.Fitness,
                 DrainValue = 1
             };
-            StubMatch.Modifiers[10] = new []{ stubModifier };
+            StubMatch.Minutes[10].Modifiers = new []{ stubModifier };
 
             //Act
             StubMatch.AsAtElapsed();
 
             //Assert
-            Assert.Empty(StubMatch.Modifiers[11]);
+            Assert.Empty(StubMatch.Minutes[11].Modifiers);
         }
 
         [Fact]
@@ -37,13 +37,13 @@ namespace Pitch.Match.API.Tests.Engine
                 Type = ModifierType.Fitness,
                 DrainValue = 1
             };
-            StubMatch.Modifiers[11] = new[] { stubModifier };
+            StubMatch.Minutes[11].Modifiers = new[] { stubModifier };
 
             //Act
             StubMatch.AsAtElapsed();
 
             //Assert
-            Assert.Empty(StubMatch.Modifiers[11]);
+            Assert.Empty(StubMatch.Minutes[11].Modifiers);
         }
 
         [Fact]
@@ -57,13 +57,13 @@ namespace Pitch.Match.API.Tests.Engine
                 Type = ModifierType.Fitness,
                 DrainValue = 1
             };
-            StubMatch.Modifiers[8] = new[] { stubModifier };
+            StubMatch.Minutes[8].Modifiers = new[] { stubModifier };
 
             //Act
             StubMatch.AsAtElapsed();
 
             //Assert
-            Assert.Equal(StubMatch.Modifiers[8][0], stubModifier);
+            Assert.Equal(StubMatch.Minutes[8].Modifiers[0], stubModifier);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Pitch.Match.API.Tests.Engine
         {
             //Arrange
             StubMatch.KickOff = DateTime.Now.AddMinutes(-minute);
-            StubMatch.Events.Add(new ShotOnTarget(minute, StubHomePlayer.Id, StubMatch.HomeTeam.Squad.Id));
+            StubMatch.Minutes[minute].Events.Add(new ShotOnTarget(minute, StubHomePlayer.Id, StubMatch.HomeTeam.Squad.Id));
 
             //Act
             StubMatch.Substitute(StubHomePlayer.Id, StubHomeSub.Id, StubMatch.HomeTeam.UserId);
@@ -27,8 +27,8 @@ namespace Pitch.Match.API.Tests.Engine
                 x.Minute == minute && x.CardId == StubHomePlayer.Id && x.GetType() == typeof(ShotOnTarget));
             var subEvent = StubMatch.Events.FirstOrDefault(x =>
                 x.Minute == minute && x.CardId == StubHomeSub.Id && x.GetType() == typeof(Substitution));
-            var shotEventIndex = StubMatch.Events.IndexOf(shotEvent);
-            var subEventIndex = StubMatch.Events.IndexOf(subEvent);
+            var shotEventIndex = StubMatch.Minutes[minute].Events.IndexOf(shotEvent);
+            var subEventIndex = StubMatch.Minutes[minute].Events.IndexOf(subEvent);
             Assert.True(subEventIndex > shotEventIndex);
         }
 

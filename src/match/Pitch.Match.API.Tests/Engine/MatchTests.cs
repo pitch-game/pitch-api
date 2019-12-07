@@ -13,9 +13,9 @@ namespace Pitch.Match.API.Tests.Engine
             //Arrange
             StubMatch.KickOff = DateTime.Now.AddMinutes(-10);
             var stubEvent = new ShotOnTarget(11, StubHomePlayer.Id, StubMatch.HomeTeam.Squad.Id);
-            StubMatch.Events.Add(stubEvent);
+            StubMatch.Minutes[11].Events.Add(stubEvent);
             var stubStatistic = new MinuteStats(11, StubHomeSquad.Id, 0, 0);
-            StubMatch.Statistics.Add(stubStatistic);
+            StubMatch.Minutes[11].Stats = stubStatistic;
 
             //Act
             StubMatch.AsAtElapsed();
@@ -31,9 +31,9 @@ namespace Pitch.Match.API.Tests.Engine
             //Arrange
             StubMatch.KickOff = DateTime.Now.AddMinutes(-15);
             var stubEvent = new ShotOnTarget(11, StubHomePlayer.Id, StubMatch.HomeTeam.Squad.Id);
-            StubMatch.Events.Add(stubEvent);
+            StubMatch.Minutes[11].Events.Add(stubEvent);
             var stubStatistic = new MinuteStats(11, StubHomeSquad.Id, 0, 0);
-            StubMatch.Statistics.Add(stubStatistic);
+            StubMatch.Minutes[11].Stats = stubStatistic;
 
             //Act
             StubMatch.AsAtElapsed();

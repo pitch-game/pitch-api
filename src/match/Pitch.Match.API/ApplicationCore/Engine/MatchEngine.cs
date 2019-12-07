@@ -30,13 +30,13 @@ namespace Pitch.Match.API.ApplicationCore.Engine
                     {
                         var @event = action.SpawnEvent(card, affectedSquad.Id, minute, match);
                         if (@event != null)
-                            match.Events.Add(@event);
+                            match.Minutes[minute].Events.Add(@event);
                     }
                 }
 
                 //TODO Fitness drain
 
-                match.Statistics.Add(new MinuteStats(minute, inPossession.Id, homePossChance, awayPossChance));
+                match.Minutes[minute].Stats = new MinuteStats(minute, inPossession.Id, homePossChance, awayPossChance);
             }
 
             //extra time?

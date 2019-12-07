@@ -83,7 +83,7 @@ namespace Pitch.Match.API.Tests.Engine
             var cardId = Guid.NewGuid();
             var card = new Card {Id = cardId};
             var match = new ApplicationCore.Models.Match();
-            match.Events.Add(new YellowCard(5, cardId, new Guid()));
+            match.Minutes[5].Events.Add(new YellowCard(5, cardId, new Guid()));
 
             //Act
             var @event = foul.SpawnEvent(card, new Guid(), 10, match);

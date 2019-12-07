@@ -122,7 +122,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
         public async Task<IEnumerable<MatchListResult>> GetAllAsync(int skip, int? take, Guid userId)
         {
             var matches = await _matchRepository.GetAllAsync(skip, take ?? 25, userId);
-            matches = matches.Where(x => x.IsOver);
+            matches = matches.Where(x => x.HasFinished);
             return matches.Select(x =>
             {
                 var matchResult = new MatchResult(x);

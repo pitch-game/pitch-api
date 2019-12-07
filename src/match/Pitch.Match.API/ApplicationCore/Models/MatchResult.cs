@@ -42,8 +42,8 @@ namespace Pitch.Match.API.ApplicationCore.Models
             }).ToList();
 
             Minute = match.Elapsed;
-            Expired = match.IsOver;
-            ExpiredOn = match.IsOver ? match.KickOff.AddMinutes(90) : (DateTime?)null;
+            Expired = match.HasFinished;
+            ExpiredOn = match.HasFinished ? match.KickOff.AddMinutes(90) : (DateTime?)null;
         }
 
         private static Stats GetStats(Match match, IEnumerable<IEvent> homeTeamEvents, Guid teamId)
