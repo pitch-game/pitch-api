@@ -32,13 +32,10 @@ spec:
             httpGet:
               path: /liveness
               port: http
-              periodSeconds: 15
           readinessProbe:
             httpGet:
               path: /health
               port: http
-              initialDelaySeconds: 90
-              periodSeconds: 60
           env:
             - name: CI_BUILD_NUMBER
               value: "{{ .Values.buildNumber }}"
