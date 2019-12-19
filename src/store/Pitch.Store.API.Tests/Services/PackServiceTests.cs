@@ -14,7 +14,7 @@ namespace Pitch.Store.API.Tests.Services
     public class PackServiceTests
     {
         [Fact]
-        public async Task GetAllAsyncByUserId_ReturnsPacks()
+        public async Task GetAllAsyncByUserId_CallsGetAllOnRepository()
         {
             // Arrange
             var userId = Guid.NewGuid().ToString();
@@ -42,7 +42,8 @@ namespace Pitch.Store.API.Tests.Services
             mockPackRepository.Setup(x => x.GetAsync(packId)).Returns(Task.FromResult(new Pack()
             {
                 Id = packId,
-                UserId = userId
+                UserId = userId,
+                Position = "N/A"
             }));
 
             var mockBus = new Mock<IBus>();
@@ -53,6 +54,22 @@ namespace Pitch.Store.API.Tests.Services
 
             // Assert
             mockPackRepository.Verify(x => x.Delete(packId), Times.Once);
+        }
+
+        [Fact]
+        public async Task CreateStartingPacks_AddsExactly17Packs()
+        {
+            var userId = Guid.NewGuid();
+            var mockPackRepository = new Mock<IPackRepository>();
+
+            var mockBus = new Mock<IBus>();
+            var service = new PackService(mockPackRepository.Object, mockBus.Object);
+
+            // Act
+            await service.CreateStartingPacksAsync(userId);
+
+            // Assert
+            mockPackRepository.Verify(x => x.AddAsync(It.IsAny<Pack>()), Times.Exactly(17));
         }
     }
 }
