@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Microsoft.OpenApi.Models;
 using Pitch.Match.API.ApplicationCore.Engine.Services;
 using Pitch.Match.API.ApplicationCore.Services;
 using Pitch.Match.API.Infrastructure.Repositories.Contexts;
@@ -43,7 +44,7 @@ namespace Pitch.Match.API
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddAuthentication(options =>
             {
@@ -96,7 +97,7 @@ namespace Pitch.Match.API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Match API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Match API", Version = "v1" });
             });
         }
 
@@ -118,17 +119,17 @@ namespace Pitch.Match.API
 
             app.UseSwagger(c =>
             {
-                var basePath = "/match";
-                c.PreSerializeFilters.Add((swaggerDoc, httpReq) => swaggerDoc.BasePath = basePath);
+                //var basePath = "/match";
+                //c.PreSerializeFilters.Add((swaggerDoc, httpReq) => swaggerDoc.BasePath = basePath);
 
-                c.PreSerializeFilters.Add((swaggerDoc, httpReq) => {
-                    IDictionary<string, PathItem> paths = new Dictionary<string, PathItem>();
-                    foreach (var path in swaggerDoc.Paths)
-                    {
-                        paths.Add(path.Key.Replace(basePath, "/"), path.Value);
-                    }
-                    swaggerDoc.Paths = paths;
-                });
+                //c.PreSerializeFilters.Add((swaggerDoc, httpReq) => {
+                //    IDictionary<string, PathItem> paths = new Dictionary<string, PathItem>();
+                //    foreach (var path in swaggerDoc.Paths)
+                //    {
+                //        paths.Add(path.Key.Replace(basePath, "/"), path.Value);
+                //    }
+                //    swaggerDoc.Paths = paths;
+                //});
             });
 
             app.UseHealthChecks("/health");
@@ -147,7 +148,8 @@ namespace Pitch.Match.API
                 });
             });
 
-            app.UseMvc();
+            app.UseRouting();
+            app.UseAuthorization();
         }
     }
 }
