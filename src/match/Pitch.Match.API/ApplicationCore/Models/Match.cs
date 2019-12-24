@@ -11,7 +11,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
     {
         public Match()
         {
-            Minutes = new List<MatchMinute>(new MatchMinute[Constants.MATCH_LENGTH_IN_MINUTES]); //TODO
+            Minutes = Enumerable.Range(0, Constants.MATCH_LENGTH_IN_MINUTES + 1).Select( i=> new MatchMinute()).ToArray();
         }
 
         public Guid Id { get; set; }
@@ -38,19 +38,14 @@ namespace Pitch.Match.API.ApplicationCore.Models
         
         public IList<MatchMinute> Minutes { get; set; }
 
-        public IReadOnlyList<IEvent> Events
+        public IReadOnlyList<IEvent> Events //TODO Performance or remove?
         {
-            get { return Minutes.Where(x => x != null).SelectMany(x => x.Events).ToList(); }
+            get { return Minutes.Where(x => x != null).SelectMany(x => x.Events).Where(x => x != null).ToList(); }
         }
 
-        public IReadOnlyList<MinuteStats> Statistics
+        public IReadOnlyList<MinuteStats> Statistics //TODO Performance or remove?
         {
-            get { return Minutes.Where(x => x != null).Select(x => x.Stats).ToList(); }
-        }
-
-        public IReadOnlyList<Modifier> Modifiers
-        {
-            get { return Minutes.Where(x => x != null).SelectMany(x => x.Modifiers).ToList(); }
+            get { return Minutes.Where(x => x != null).Select(x => x.Stats).Where(x => x != null).ToList(); }
         }
 
         /// <summary>
