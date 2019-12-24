@@ -29,40 +29,39 @@ namespace Pitch.Match.API.Tests.Engine
         protected MatchTestBase()
         {
             var randomnessProvider = new ThreadSafeRandomnessProvider();
-            var actions = new IAction[] {new Foul(randomnessProvider), new Shot(randomnessProvider) };
+            var calculatedCardStatService = new CalculatedCardStatService();
+            var ratingService = new RatingService(calculatedCardStatService);
+            var possessionService = new PossessionService(ratingService);
+            var actions = new IAction[] {new Foul(randomnessProvider), new Shot(randomnessProvider, ratingService) };
             var actionService = new ActionService(actions, randomnessProvider);
-            StubMatchEngine = new MatchEngine(actionService);
+            StubMatchEngine = new MatchEngine(actionService, possessionService);
 
             StubHomePlayer = new Card
             {
                 Id = Guid.NewGuid(),
                 Name = "GK",
-                Rating = 80,
-                Fitness = 100
+                Rating = 80
             };
 
             StubHomeSub = new Card
             {
                 Id = Guid.NewGuid(),
                 Name = "ST",
-                Rating = 40,
-                Fitness = 100
+                Rating = 40
             };
 
             StubAwayPlayer = new Card
             {
                 Id = Guid.NewGuid(),
                 Name = "ST",
-                Rating = 40,
-                Fitness = 100
+                Rating = 40
             };
 
             StubAwaySub = new Card
             {
                 Id = Guid.NewGuid(),
                 Name = "ST",
-                Rating = 40,
-                Fitness = 100
+                Rating = 40
             };
 
             var stubHomeTeamLineup = new Dictionary<string, IEnumerable<Card>>
@@ -80,29 +79,25 @@ namespace Pitch.Match.API.Tests.Engine
                         {
                             Id = Guid.NewGuid(),
                             Name = "LB",
-                            Rating = 80,
-                            Fitness = 100
+                            Rating = 80
                         },
                         new Card
                         {
                             Id = Guid.NewGuid(),
                             Name = "CB",
-                            Rating = 80,
-                            Fitness = 100
+                            Rating = 80
                         },
                         new Card
                         {
                             Id = Guid.NewGuid(),
                             Name = "CB",
-                            Rating = 80,
-                            Fitness = 100
+                            Rating = 80
                         },
                         new Card
                         {
                             Id = Guid.NewGuid(),
                             Name = "RB",
-                            Rating = 80,
-                            Fitness = 100
+                            Rating = 80
                         }
                     }
                 },
@@ -113,29 +108,25 @@ namespace Pitch.Match.API.Tests.Engine
                         {
                             Id = Guid.NewGuid(),
                             Name = "LM",
-                            Rating = 80,
-                            Fitness = 100
+                            Rating = 80
                         },
                         new Card
                         {
                             Id = Guid.NewGuid(),
                             Name = "CM",
-                            Rating = 80,
-                            Fitness = 100
+                            Rating = 80
                         },
                         new Card
                         {
                             Id = Guid.NewGuid(),
                             Name = "CM",
-                            Rating = 80,
-                            Fitness = 100
+                            Rating = 80
                         },
                         new Card
                         {
                             Id = Guid.NewGuid(),
                             Name = "RM",
-                            Rating = 80,
-                            Fitness = 100
+                            Rating = 80
                         }
                     }
                 },
@@ -146,15 +137,13 @@ namespace Pitch.Match.API.Tests.Engine
                         {
                             Id = Guid.NewGuid(),
                             Name = "ST",
-                            Rating = 80,
-                            Fitness = 100
+                            Rating = 80
                         },
                         new Card
                         {
                             Id = Guid.NewGuid(),
                             Name = "ST",
-                            Rating = 80,
-                            Fitness = 100
+                            Rating = 80
                         }
                     }
                 }
@@ -169,8 +158,7 @@ namespace Pitch.Match.API.Tests.Engine
                         {
                             Id = Guid.NewGuid(),
                             Name = "GK",
-                            Rating = 40,
-                            Fitness = 100
+                            Rating = 40
                         }
                     }
                 },
@@ -181,29 +169,25 @@ namespace Pitch.Match.API.Tests.Engine
                         {
                             Id = Guid.NewGuid(),
                             Name = "LB",
-                            Rating = 40,
-                            Fitness = 100
+                            Rating = 40
                         },
                         new Card
                         {
                             Id = Guid.NewGuid(),
                             Name = "CB",
-                            Rating = 40,
-                            Fitness = 100
+                            Rating = 40
                         },
                         new Card
                         {
                             Id = Guid.NewGuid(),
                             Name = "CB",
-                            Rating = 40,
-                            Fitness = 100
+                            Rating = 40
                         },
                         new Card
                         {
                             Id = Guid.NewGuid(),
                             Name = "RB",
-                            Rating = 40,
-                            Fitness = 100
+                            Rating = 40
                         }
                     }
                 },
@@ -214,29 +198,25 @@ namespace Pitch.Match.API.Tests.Engine
                         {
                             Id = Guid.NewGuid(),
                             Name = "LM",
-                            Rating = 40,
-                            Fitness = 100
+                            Rating = 40
                         },
                         new Card
                         {
                             Id = Guid.NewGuid(),
                             Name = "CM",
-                            Rating = 40,
-                            Fitness = 100
+                            Rating = 40
                         },
                         new Card
                         {
                             Id = Guid.NewGuid(),
                             Name = "CM",
-                            Rating = 40,
-                            Fitness = 100
+                            Rating = 40
                         },
                         new Card
                         {
                             Id = Guid.NewGuid(),
                             Name = "RM",
-                            Rating = 40,
-                            Fitness = 100
+                            Rating = 40
                         }
                     }
                 },
@@ -248,8 +228,7 @@ namespace Pitch.Match.API.Tests.Engine
                         {
                             Id = Guid.NewGuid(),
                             Name = "ST",
-                            Rating = 40,
-                            Fitness = 100
+                            Rating = 40
                         }
                     }
                 }

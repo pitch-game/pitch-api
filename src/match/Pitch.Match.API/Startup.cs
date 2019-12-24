@@ -64,6 +64,9 @@ namespace Pitch.Match.API
 
             services.AddSingleton<IMatchEngine, MatchEngine>();
             services.AddSingleton<IActionService, ActionService>();
+            services.AddSingleton<ICalculatedCardStatService, CalculatedCardStatService>();
+            services.AddSingleton<IRatingService, RatingService>();
+            services.AddSingleton<IPossessionService, PossessionService>();
 
             services.AddScoped<IMatchRepository, MatchRepository>();
             services.AddScoped(typeof(IDataContext<>), typeof(MongoDbDataContext<>));

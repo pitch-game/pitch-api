@@ -49,12 +49,8 @@ namespace Pitch.Match.API.Tests.Engine
             SimulateStubMatch();
 
             //Assert
-            Assert.Contains(StubMatch.Events,
-                x => x.Minute == minute && x.SquadId == StubMatch.HomeTeam.Squad.Id && x.CardId == StubHomeSub.Id &&
-                     x.GetType() == typeof(Substitution));
-            Assert.Contains(StubMatch.Events,
-                x => x.Minute == minute && x.SquadId == StubMatch.AwayTeam.Squad.Id && x.CardId == StubAwaySub.Id &&
-                     x.GetType() == typeof(Substitution));
+            Assert.Contains(StubMatch.Events, x => x.Minute == minute && x.SquadId == StubMatch.HomeTeam.Squad.Id && x.CardId == StubHomeSub.Id && x is Substitution);
+            Assert.Contains(StubMatch.Events, x => x.Minute == minute && x.SquadId == StubMatch.AwayTeam.Squad.Id && x.CardId == StubAwaySub.Id && x is Substitution);
         }
 
         [Theory]

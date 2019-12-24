@@ -7,10 +7,12 @@ namespace Pitch.Match.API.ApplicationCore.Engine
     public class MatchEngine : IMatchEngine
     {
         private readonly IActionService _actionService;
+        private readonly IPossessionService _possessionService;
 
-        public MatchEngine(IActionService actionService)
+        public MatchEngine(IActionService actionService, IPossessionService possessionService)
         {
             _actionService = actionService;
+            _possessionService = possessionService;
         }
 
         public Models.Match SimulateReentrant(Models.Match match)
@@ -19,7 +21,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine
 
             for (int minute = match.Elapsed; minute < Constants.MATCH_LENGTH_IN_MINUTES; minute++) //TODO atm its simulating the same minute again on reentrancy, is this right?
             {
-                Squad inPossession = PossessionHelper.InPossession(match, out var notInPossession, out var homePossChance, out var awayPossChance);
+                Squad inPossession = _possessionService.InPossession(match, out var notInPossession, out var homePossChance, out var awayPossChance);
 
                 IAction action = _actionService.RollAction();
                 if (action != null)
