@@ -6,7 +6,6 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Events
     {
         Guid CardId { get; set; }
         Guid SquadId { get; set; }
-        int Minute { get; set; }
         string Name { get; }
         bool ShowInTimeline { get; }
     }

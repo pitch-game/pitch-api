@@ -9,8 +9,10 @@ namespace Pitch.Match.API.ApplicationCore.Models
     {
         public MatchResult(Match match)
         {
-            var homeTeamEvents = match.Events.Where(x => x.SquadId == match.HomeTeam.Squad.Id).ToList();
-            var awayTeamEvents = match.Events.Where(x => x.SquadId == match.AwayTeam.Squad.Id).ToList();
+            var matchEvents = match.Minutes.SelectMany(x => x.Events).ToList();
+
+            var homeTeamEvents = matchEvents.Where(x => x.SquadId == match.HomeTeam.Squad.Id).ToList();
+            var awayTeamEvents = matchEvents.Where(x => x.SquadId == match.AwayTeam.Squad.Id).ToList();
 
             HomeStats = GetStats(match, homeTeamEvents, match.HomeTeam.Squad.Id);
             AwayStats = GetStats(match, awayTeamEvents, match.AwayTeam.Squad.Id);
@@ -32,13 +34,15 @@ namespace Pitch.Match.API.ApplicationCore.Models
             var cards = match.HomeTeam.Squad.Lineup.SelectMany(x => x.Value).Concat(match.AwayTeam.Squad.Lineup.SelectMany(x => x.Value));
             cards = cards.Concat(match.HomeTeam.Squad.Subs ?? new Card[0]).Concat(match.AwayTeam.Squad.Subs ?? new Card[0]);
 
-            Events = match.Events.Where(x => x.ShowInTimeline).OrderByDescending(x => x.Minute).Select(x => new Event()
+            Events = matchEvents.Where(x => x.ShowInTimeline).Select((matchEvent, i) => new Event()
             {
-                Minute = x.Minute,
-                Name = x.Name,
-                Card = cards.FirstOrDefault(c => c != null && c.Id == x.CardId),
-                SquadName = match.HomeTeam.Squad.Id == x.SquadId ? match.HomeTeam.Squad.Name : match.AwayTeam.Squad.Name, //TODO sending repeated data
-                CardId = x.CardId
+                Minute = i, //TODO extension method
+                Name = matchEvent.Name,
+                Card = cards.FirstOrDefault(c => c != null && c.Id == matchEvent.CardId),
+                SquadName = match.HomeTeam.Squad.Id == matchEvent.SquadId
+                        ? match.HomeTeam.Squad.Name
+                        : match.AwayTeam.Squad.Name, //TODO sending repeated data
+                CardId = matchEvent.CardId
             }).ToList();
 
             Minute = match.Elapsed;
@@ -46,7 +50,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
             ExpiredOn = match.HasFinished ? match.KickOff.AddMinutes(90) : (DateTime?)null;
         }
 
-        private static Stats GetStats(Match match, IEnumerable<IEvent> homeTeamEvents, Guid teamId)
+        private static Stats GetStats(Match match, IList<IEvent> homeTeamEvents, Guid teamId)
         {
             return new Stats()
             {
@@ -61,8 +65,9 @@ namespace Pitch.Match.API.ApplicationCore.Models
 
         private static int CalculatePossession(Match match, Guid teamId)
         {
-            if (!match.Statistics.Any()) return 0;
-            return (int)Math.Round(match.Statistics.Count(x => x.SquadIdInPossession == teamId) / (double)match.Statistics.Count * 100);
+            var stats = match.Minutes.Where(x => x.Stats != null).Select(x => x.Stats).ToList();
+            if (!stats.Any()) return 0;
+            return (int)Math.Round(stats.Count(x => x.SquadIdInPossession == teamId) / (double)stats.Count * 100);
         }
 
         private static IEnumerable<string> GetScorers(Match match, IEnumerable<IEvent> events, Squad team)
@@ -73,7 +78,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
             foreach (var goal in goals)
             {
                 var player = playerCards.FirstOrDefault(x => x.Id == goal.CardId);
-                scorers.Add($"{player.Name} {goal.Minute}'");
+                scorers.Add($"{player.Name} {0}'");
             }
             return scorers;
         }

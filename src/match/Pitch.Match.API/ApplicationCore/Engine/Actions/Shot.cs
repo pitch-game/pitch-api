@@ -35,7 +35,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Actions
         [BsonIgnore]
         public bool AffectsTeamInPossession => true;
 
-        public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match)
+        public IEvent SpawnEvent(Card card, Guid squadId, Models.Match match)
         {
             var oppositionsDefenceRating = _ratingService.CurrentRating(PositionalArea.DEF, match, match.GetOppositionSquad(squadId));
             var shootersRating = _ratingService.CurrentRating(card.Id, match, match.GetSquad(squadId));
@@ -52,12 +52,12 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Actions
                 var goalRandomNumber = _randomnessProvider.Next(0, goalChanceAccum);
                 if (goalRandomNumber <= shootersRating * Constants.SHOOTER_AGAINST_GK_MODIFIER)
                 {
-                    return new Goal(minute, card.Id, squadId);
+                    return new Goal(card.Id, squadId);
                 }
-                return new ShotOnTarget(minute, card.Id, squadId);
+                return new ShotOnTarget(card.Id, squadId);
             }
 
-            return new ShotOffTarget(minute, card.Id, squadId);
+            return new ShotOffTarget(card.Id, squadId);
         }
     }
 }

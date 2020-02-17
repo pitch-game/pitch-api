@@ -19,35 +19,10 @@ namespace Pitch.Match.API.ApplicationCore.Models
         public virtual TeamDetails HomeTeam { get; set; }
         public virtual TeamDetails AwayTeam { get; set; }
 
-        public Squad GetSquad(Guid id)
-        {
-            return HomeTeam.Squad.Id == id ? HomeTeam.Squad : AwayTeam.Squad.Id == id ? AwayTeam.Squad : throw new Exception();
-        }
-
-        public Squad GetOppositionSquad(Guid id)
-        {
-            return HomeTeam.Squad.Id == id ? AwayTeam.Squad : AwayTeam.Squad.Id == id ? HomeTeam.Squad : throw new Exception();
-        }
-
-        public TeamDetails GetTeam(Guid userId)
-        {
-            return HomeTeam.UserId == userId ? HomeTeam : AwayTeam.UserId == userId ? AwayTeam : throw new Exception();
-        }
-
         public DateTime KickOff { get; set; }
+
+        public MatchMinute[] Minutes { get; set; }
         
-        public IList<MatchMinute> Minutes { get; set; }
-
-        public IReadOnlyList<IEvent> Events //TODO Performance or remove?
-        {
-            get { return Minutes.Where(x => x != null).SelectMany(x => x.Events).Where(x => x != null).ToList(); }
-        }
-
-        public IReadOnlyList<MinuteStats> Statistics //TODO Performance or remove?
-        {
-            get { return Minutes.Where(x => x != null).Select(x => x.Stats).Where(x => x != null).ToList(); }
-        }
-
         /// <summary>
         /// The current elapsed minutes
         /// </summary>
@@ -69,7 +44,22 @@ namespace Pitch.Match.API.ApplicationCore.Models
         {
             var team = GetTeam(userId);
             team.Squad.Substitute(off, on);
-            Minutes[Elapsed].Events.Add(new Substitution(Elapsed, on, team.Squad.Id));
+            Minutes[Elapsed].Events.Add(new Substitution(on, team.Squad.Id));
+        }
+
+        public Squad GetSquad(Guid id)
+        {
+            return HomeTeam.Squad.Id == id ? HomeTeam.Squad : AwayTeam.Squad.Id == id ? AwayTeam.Squad : throw new Exception();
+        }
+
+        public Squad GetOppositionSquad(Guid id)
+        {
+            return HomeTeam.Squad.Id == id ? AwayTeam.Squad : AwayTeam.Squad.Id == id ? HomeTeam.Squad : throw new Exception();
+        }
+
+        public TeamDetails GetTeam(Guid userId)
+        {
+            return HomeTeam.UserId == userId ? HomeTeam : AwayTeam.UserId == userId ? AwayTeam : throw new Exception();
         }
     }
 
@@ -108,18 +98,15 @@ namespace Pitch.Match.API.ApplicationCore.Models
 
     public class MinuteStats
     {
-        public MinuteStats(int minute, Guid squadIdInPossession, int homePossChance, int awayPossChance)
+        public MinuteStats(Guid squadIdInPossession, int homePossChance, int awayPossChance)
         {
-            Minute = minute;
             SquadIdInPossession = squadIdInPossession;
             HomePossessionChance = homePossChance;
             AwayPossessionChance = awayPossChance;
         }
-        public int Minute { get; set; }
-        public Guid SquadIdInPossession { get; set; }
 
+        public Guid SquadIdInPossession { get; set; }
         public int HomePossessionChance { get; set; }
         public int AwayPossessionChance { get; set; }
-
     }
 }

@@ -10,7 +10,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Services
     public interface IActionService
     {
         IAction RollAction();
-        Card RollCard(Squad team, IAction action, IEnumerable<IEvent> events);
+        Card RollCard(Squad team, IAction action, MatchMinute[] minutes);
     }
 
     public class ActionService : IActionService
@@ -29,11 +29,11 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Services
             return ChanceHelper.PercentBase100Chance(_actions, x => x.ChancePerMinute);
         }
 
-        public Card RollCard(Squad team, IAction action, IEnumerable<IEvent> events)
+        public Card RollCard(Squad team, IAction action, MatchMinute[] minutes)
         {
             PositionalArea positionalArea = ChanceHelper.PercentBase100Chance(action.PositionalChance, x => x.Value).Key;
 
-            var sentOffCardIds = events.Where(x => x is RedCard).Select(x => x.CardId);
+            var sentOffCardIds = minutes.SelectMany(x => x.Events).Where(x => x is RedCard).Select(x => x.CardId);
             var cards = team.Lineup[positionalArea.ToString()].Where(x => x != null && !sentOffCardIds.Contains(x.Id)).ToList();
 
             int r = _randomnessProvider.Next(cards.Count);
