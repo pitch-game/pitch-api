@@ -11,7 +11,7 @@ namespace Pitch.Match.API.Tests.Engine
         [Theory]
         [InlineData(0)]
         [InlineData(67)]
-        [InlineData(90)]
+        [InlineData(89)]
         public void Substitution_OnSameMinuteAsAnotherEvent_SubstitutionComesLast(int minute)
         {
             //Arrange
@@ -33,7 +33,7 @@ namespace Pitch.Match.API.Tests.Engine
         [Theory]
         [InlineData(0)]
         [InlineData(67)]
-        [InlineData(90)]
+        [InlineData(89)]
         public void Substitutions_OnSameMinute_AllOccur(int minute)
         {
             //Arrange

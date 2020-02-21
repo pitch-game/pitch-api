@@ -40,7 +40,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
             }
         }
 
-        public void Substitute(Guid off, Guid on, Guid userId)
+        public virtual void Substitute(Guid off, Guid on, Guid userId)
         {
             var team = GetTeam(userId);
             team.Squad.Substitute(off, on);
