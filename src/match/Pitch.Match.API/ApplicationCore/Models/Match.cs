@@ -11,7 +11,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
     {
         public Match()
         {
-            Minutes = Enumerable.Range(0, Constants.MATCH_LENGTH_IN_MINUTES + 1).Select( i=> new MatchMinute()).ToArray();
+            Minutes = Enumerable.Range(0, Constants.MatchLengthInMinutes + 1).Select( i=> new MatchMinute()).ToArray();
         }
 
         public Guid Id { get; set; }
@@ -28,13 +28,13 @@ namespace Pitch.Match.API.ApplicationCore.Models
         /// </summary>
         public int Elapsed => (int)DateTime.Now.Subtract(KickOff).TotalMinutes;
 
-        public bool HasFinished => DateTime.Now > KickOff.AddMinutes(Constants.MATCH_LENGTH_IN_MINUTES);
+        public bool HasFinished => DateTime.Now > KickOff.AddMinutes(Constants.MatchLengthInMinutes);
 
         public void AsAtElapsed(bool includeCurrentMinute = false)
         {
             var elapsed = includeCurrentMinute ? Elapsed + 1 : Elapsed;
             //Reset match minutes
-            for (int i = elapsed; i < Constants.MATCH_LENGTH_IN_MINUTES; i++)
+            for (int i = elapsed; i < Constants.MatchLengthInMinutes; i++)
             {
                 Minutes[i] = new MatchMinute();
             }
@@ -74,7 +74,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
     public class Modifier
     {
         public Guid CardId { get; set; }
-        public int DrainValue { get; set; }
+        public float DrainValue { get; set; }
         public ModifierType Type { get; set; }
     }
 

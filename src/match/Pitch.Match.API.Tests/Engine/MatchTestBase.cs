@@ -28,6 +28,7 @@ namespace Pitch.Match.API.Tests.Engine
 
         protected MatchTestBase()
         {
+            //TODO Mock these
             var randomnessProvider = new ThreadSafeRandomnessProvider();
             var calculatedCardStatService = new CalculatedCardStatService();
             var ratingService = new RatingService(calculatedCardStatService);

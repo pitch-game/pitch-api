@@ -3,6 +3,11 @@ using Pitch.Match.API.ApplicationCore.Engine.Services;
 
 namespace Pitch.Match.API.ApplicationCore.Engine
 {
+    public interface IMatchEngine
+    {
+        Models.Match SimulateReentrant(Models.Match match);
+    }
+
     public class MatchEngine : IMatchEngine
     {
         private readonly IActionService _actionService;
@@ -18,7 +23,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine
         {
             match.AsAtElapsed(true);
 
-            for (var minute = match.Elapsed; minute < Constants.MATCH_LENGTH_IN_MINUTES; minute++) //TODO atm its simulating the same minute again on reentrancy, is this right?
+            for (var minute = match.Elapsed; minute < Constants.MatchLengthInMinutes; minute++) //TODO atm its simulating the same minute again on reentrancy, is this right?
             {
                 var inPossession = _possessionService.InPossession(match, out var notInPossession, out var homePossChance, out var awayPossChance);
 

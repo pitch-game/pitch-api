@@ -14,7 +14,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Services
         public int Fitness(Models.Match match, Guid cardId)
         {
             var effectiveModifiers = match.Minutes.SelectMany(x => x.Modifiers).Where(x => x.CardId == cardId && x.Type == ModifierType.Fitness);
-            return 100 - effectiveModifiers.Sum(x => x.DrainValue);
+            return (int)Math.Round(100 - effectiveModifiers.Sum(x => x.DrainValue));
         }
     }
 }

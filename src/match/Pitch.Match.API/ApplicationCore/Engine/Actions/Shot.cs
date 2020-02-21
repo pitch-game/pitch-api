@@ -40,17 +40,17 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Actions
             var oppositionsDefenceRating = _ratingService.CurrentRating(PositionalArea.DEF, match, match.GetOppositionSquad(squadId));
             var shootersRating = _ratingService.CurrentRating(card.Id, match, match.GetSquad(squadId));
 
-            var shotOnTargetChance = (int)Math.Round(oppositionsDefenceRating + shootersRating * Constants.SHOOTER_AGAINST_DEFENDERS_MODIFIER);
+            var shotOnTargetChance = (int)Math.Round(oppositionsDefenceRating + shootersRating * Constants.ShooterAgainstDefendersModifier);
 
             var randomNumber = _randomnessProvider.Next(0, shotOnTargetChance);
-            if (randomNumber <= shootersRating * Constants.SHOOTER_AGAINST_DEFENDERS_MODIFIER)
+            if (randomNumber <= shootersRating * Constants.ShooterAgainstDefendersModifier)
             {
                 var gkRating = _ratingService.CurrentRating(PositionalArea.GK, match, match.GetOppositionSquad(squadId));
 
-                var goalChanceAccum = (int)Math.Round(gkRating + shootersRating * Constants.SHOOTER_AGAINST_GK_MODIFIER);
+                var goalChanceAccum = (int)Math.Round(gkRating + shootersRating * Constants.ShooterAgainstGkModifier);
 
                 var goalRandomNumber = _randomnessProvider.Next(0, goalChanceAccum);
-                if (goalRandomNumber <= shootersRating * Constants.SHOOTER_AGAINST_GK_MODIFIER)
+                if (goalRandomNumber <= shootersRating * Constants.ShooterAgainstGkModifier)
                 {
                     return new Goal(card.Id, squadId);
                 }
