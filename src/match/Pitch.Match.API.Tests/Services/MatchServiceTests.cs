@@ -165,7 +165,7 @@ namespace Pitch.Match.API.Tests.Services
             mockMatchmakingService.Setup(x => x.GetSession(sessionId)).Returns(session);
 
             var stubMatchEngine = new Mock<IMatchEngine>();
-            stubMatchEngine.Setup(x => x.SimulateReentrant(It.IsAny<ApplicationCore.Models.Match>()))
+            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<ApplicationCore.Models.Match>()))
                 .Returns(new ApplicationCore.Models.Match());
 
             ApplicationCore.Models.Match simulatedMatch = null;
@@ -211,7 +211,7 @@ namespace Pitch.Match.API.Tests.Services
             var mockMatchmakingService = new Mock<IMatchmakingService>();
 
             var stubMatchEngine = new Mock<IMatchEngine>();
-            stubMatchEngine.Setup(x => x.SimulateReentrant(It.IsAny<ApplicationCore.Models.Match>()))
+            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<ApplicationCore.Models.Match>()))
                 .Returns(mockMatch.Object);
 
             var mockBus = new Mock<IBus>();
@@ -243,7 +243,7 @@ namespace Pitch.Match.API.Tests.Services
             var mockMatchmakingService = new Mock<IMatchmakingService>();
 
             var stubMatchEngine = new Mock<IMatchEngine>();
-            stubMatchEngine.Setup(x => x.SimulateReentrant(It.IsAny<ApplicationCore.Models.Match>()))
+            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<ApplicationCore.Models.Match>()))
                 .Returns(mockMatch.Object);
 
             var mockBus = new Mock<IBus>();

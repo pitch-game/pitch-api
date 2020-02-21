@@ -92,7 +92,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
 
             match.KickOff = DateTime.Now;
 
-            var simulatedMatch = _matchEngine.SimulateReentrant(match);
+            var simulatedMatch = _matchEngine.Simulate(match);
 
             await _matchRepository.CreateAsync(simulatedMatch);
         }
@@ -172,7 +172,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
             if (team.UsedSubs >= SubCount) throw new Exception("No subs remaining");
 
             match.Substitute(off, on, userId);
-            var newMatch = _matchEngine.SimulateReentrant(match);
+            var newMatch = _matchEngine.Simulate(match);
 
             newMatch.GetTeam(userId).UsedSubs++;
 

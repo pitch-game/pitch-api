@@ -11,7 +11,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
     {
         public Match()
         {
-            Minutes = Enumerable.Range(0, Constants.MatchLengthInMinutes + 1).Select( i=> new MatchMinute()).ToArray();
+            Minutes = Enumerable.Range(0, Constants.MatchLengthInMinutes).Select( i=> new MatchMinute()).ToArray();
         }
 
         public Guid Id { get; set; }
@@ -40,7 +40,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
             }
         }
 
-        public virtual void Substitute(Guid off, Guid on, Guid userId)
+        public void Substitute(Guid off, Guid on, Guid userId)
         {
             var team = GetTeam(userId);
             team.Squad.Substitute(off, on);
@@ -49,17 +49,17 @@ namespace Pitch.Match.API.ApplicationCore.Models
 
         public Squad GetSquad(Guid id)
         {
-            return HomeTeam.Squad.Id == id ? HomeTeam.Squad : AwayTeam.Squad.Id == id ? AwayTeam.Squad : throw new Exception();
+            return HomeTeam.Squad.Id == id ? HomeTeam.Squad : AwayTeam.Squad.Id == id ? AwayTeam.Squad : null;
         }
 
         public Squad GetOppositionSquad(Guid id)
         {
-            return HomeTeam.Squad.Id == id ? AwayTeam.Squad : AwayTeam.Squad.Id == id ? HomeTeam.Squad : throw new Exception();
+            return HomeTeam.Squad.Id == id ? AwayTeam.Squad : AwayTeam.Squad.Id == id ? HomeTeam.Squad : null;
         }
 
         public TeamDetails GetTeam(Guid userId)
         {
-            return HomeTeam.UserId == userId ? HomeTeam : AwayTeam.UserId == userId ? AwayTeam : throw new Exception();
+            return HomeTeam.UserId == userId ? HomeTeam : AwayTeam.UserId == userId ? AwayTeam : null;
         }
     }
 

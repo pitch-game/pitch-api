@@ -281,7 +281,7 @@ namespace Pitch.Match.API.Tests.Engine
 
         protected void SimulateStubMatch()
         {
-            StubMatch = StubMatchEngine.SimulateReentrant(StubMatch);
+            StubMatch = StubMatchEngine.Simulate(StubMatch);
         }
     }
 }

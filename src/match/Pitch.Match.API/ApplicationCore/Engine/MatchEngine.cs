@@ -5,7 +5,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine
 {
     public interface IMatchEngine
     {
-        Models.Match SimulateReentrant(Models.Match match);
+        Models.Match Simulate(Models.Match match);
     }
 
     public class MatchEngine : IMatchEngine
@@ -19,7 +19,12 @@ namespace Pitch.Match.API.ApplicationCore.Engine
             _possessionService = possessionService;
         }
 
-        public Models.Match SimulateReentrant(Models.Match match)
+        /// <summary>
+        /// Reentrant method for simulating a match
+        /// </summary>
+        /// <param name="match"></param>
+        /// <returns></returns>
+        public Models.Match Simulate(Models.Match match)
         {
             match.AsAtElapsed(true);
 
@@ -41,13 +46,11 @@ namespace Pitch.Match.API.ApplicationCore.Engine
                         }
                     }
                 }
-
-                //TODO Fitness drain
+                //match.Tick(); TODO fitness drain
 
                 match.Minutes[minute].Stats = new MinuteStats(inPossession.Id, homePossChance, awayPossChance);
             }
 
-            //extra time?
             return match;
         }
     }
