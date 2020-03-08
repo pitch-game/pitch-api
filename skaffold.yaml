@@ -1,0 +1,57 @@
+apiVersion: skaffold/v2alpha4
+kind: Config
+build:
+  artifacts:
+  - image: api-gateway
+    context: src/api-gateway
+  - image: card
+    context: src/card
+  - image: identity
+    context: src/identity
+  - image: match
+    context: src/match
+  - image: player
+    context: src/player
+  - image: squad
+    context: src/squad
+  - image: store
+    context: src/store
+  - image: user
+    context: src/user
+  tagPolicy:
+    sha256: {}
+deploy:
+  helm:
+    releases:
+    - name: api-gateway
+      chartPath: k8s/helm/api-gateway
+      values:
+        imageName: api-gateway
+    - name: card
+      chartPath: k8s/helm/card
+      values:
+        imageName: card
+    - name: identity
+      chartPath: k8s/helm/identity
+      values:
+        imageName: identity
+    - name: match
+      chartPath: k8s/helm/match
+      values:
+        imageName: match
+    - name: player
+      chartPath: k8s/helm/player
+      values:
+        imageName: player
+    - name: squad
+      chartPath: k8s/helm/squad
+      values:
+        imageName: squad
+    - name: store
+      chartPath: k8s/helm/store
+      values:
+        imageName: store
+    - name: user
+      chartPath: k8s/helm/user
+      values:
+        imageName: user
