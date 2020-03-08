@@ -47,7 +47,7 @@ namespace Pitch.Gateway.API
                     .AllowCredentials();
                 });
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddOcelot(Configuration);
         }
 
@@ -71,8 +71,6 @@ namespace Pitch.Gateway.API
             {
                 Predicate = r => r.Name.Contains("self")
             });
-
-            app.UseMvc();
 
             app.UseWebSockets();
             app.UseOcelot().Wait();
