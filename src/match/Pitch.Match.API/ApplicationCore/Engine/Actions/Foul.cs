@@ -32,7 +32,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Actions
         [BsonIgnore]
         public bool AffectsTeamInPossession => false;
 
-        public IEvent SpawnEvent(Card card, Guid squadId, Models.Match match)
+        public IEvent SpawnEvent(Card card, Guid squadId, Models.Match.Match match)
         {
             int randomNumber = _randomnessProvider.Next(1, 40);
 

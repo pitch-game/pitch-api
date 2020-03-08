@@ -1,11 +1,10 @@
-﻿using Pitch.Match.API.ApplicationCore.Engine.Events;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using Pitch.Match.API.ApplicationCore.Engine;
+using Pitch.Match.API.ApplicationCore.Engine.Events;
 using Pitch.Match.API.Infrastructure.Repositories.Contexts;
 
-namespace Pitch.Match.API.ApplicationCore.Models
+namespace Pitch.Match.API.ApplicationCore.Models.Match
 {
     public class Match : IEntity
     {
@@ -61,52 +60,5 @@ namespace Pitch.Match.API.ApplicationCore.Models
         {
             return HomeTeam.UserId == userId ? HomeTeam : AwayTeam.UserId == userId ? AwayTeam : null;
         }
-    }
-
-    public class TeamDetails
-    {
-        public Guid UserId { get; set; }
-        public Squad Squad { get; set; }
-        public bool HasClaimedRewards { get; set; }
-        public virtual int UsedSubs { get; set; }
-    }
-
-    public class Modifier
-    {
-        public Guid CardId { get; set; }
-        public float DrainValue { get; set; }
-        public ModifierType Type { get; set; }
-    }
-
-    public enum ModifierType
-    {
-        Fitness
-    }
-
-    public class MatchMinute
-    {
-        public MatchMinute()
-        {
-            Modifiers = new List<Modifier>();
-            Events = new List<IEvent>();
-        }
-
-        public MinuteStats Stats { get; set; }
-        public IList<Modifier> Modifiers { get; set; }
-        public IList<IEvent> Events { get; set; }
-    }
-
-    public class MinuteStats
-    {
-        public MinuteStats(Guid squadIdInPossession, int homePossChance, int awayPossChance)
-        {
-            SquadIdInPossession = squadIdInPossession;
-            HomePossessionChance = homePossChance;
-            AwayPossessionChance = awayPossChance;
-        }
-
-        public Guid SquadIdInPossession { get; set; }
-        public int HomePossessionChance { get; set; }
-        public int AwayPossessionChance { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Pitch.Match.API.ApplicationCore.Models.MatchResult;
 using Pitch.Match.API.ApplicationCore.Services;
 
 namespace Pitch.Match.API.Controllers

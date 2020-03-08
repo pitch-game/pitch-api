@@ -1,4 +1,5 @@
 ﻿using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.API.ApplicationCore.Models.MatchResult;
 
 namespace Pitch.Match.API.Models
 {

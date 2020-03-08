@@ -1,13 +1,13 @@
-﻿using Pitch.Match.API.ApplicationCore.Engine.Events;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pitch.Match.API.ApplicationCore.Engine.Events;
 
-namespace Pitch.Match.API.ApplicationCore.Models
+namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
 {
     public class MatchResult
     {
-        public MatchResult(Match match)
+        public MatchResult(Match.Match match)
         {
             var matchEvents = match.Minutes.SelectMany(x => x.Events).ToList();
 
@@ -50,7 +50,7 @@ namespace Pitch.Match.API.ApplicationCore.Models
             ExpiredOn = match.HasFinished ? match.KickOff.AddMinutes(90) : (DateTime?)null;
         }
 
-        private static Stats GetStats(Match match, IList<IEvent> homeTeamEvents, Guid teamId)
+        private static Stats GetStats(Match.Match match, IList<IEvent> homeTeamEvents, Guid teamId)
         {
             return new Stats()
             {
@@ -63,14 +63,14 @@ namespace Pitch.Match.API.ApplicationCore.Models
             };
         }
 
-        private static int CalculatePossession(Match match, Guid teamId)
+        private static int CalculatePossession(Match.Match match, Guid teamId)
         {
             var stats = match.Minutes.Where(x => x.Stats != null).Select(x => x.Stats).ToList();
             if (!stats.Any()) return 0;
             return (int)Math.Round(stats.Count(x => x.SquadIdInPossession == teamId) / (double)stats.Count * 100);
         }
 
-        private static IEnumerable<string> GetScorers(Match match, IEnumerable<IEvent> events, Squad team)
+        private static IEnumerable<string> GetScorers(Match.Match match, IEnumerable<IEvent> events, Squad team)
         {
             var scorers = new List<string>();
             var goals = events.Where(x => x is Goal).Cast<Goal>();
@@ -97,31 +97,5 @@ namespace Pitch.Match.API.ApplicationCore.Models
         public bool Expired { get; set; }
 
         public DateTime? ExpiredOn { get; set; }
-    }
-
-    public class Stats
-    {
-        public int Shots { get; set; }
-        public int ShotsOnTarget { get; set; }
-        public int Possession { get; set; }
-        public int Fouls { get; set; }
-        public int YellowCards { get; set; }
-        public int RedCards { get; set; }
-    }
-
-    public class Result
-    {
-        public string Name { get; set; }
-        public int Score { get; set; }
-        public IEnumerable<string> Scorers { get; set; }
-    }
-
-    public class Event
-    {
-        public int Minute { get; set; }
-        public string Name { get; set; }
-        public Card Card { get; set; }
-        public string SquadName { get; set; }
-        public Guid CardId { get; set; }
     }
 }

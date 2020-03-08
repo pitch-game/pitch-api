@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.API.ApplicationCore.Models.Match;
 using Pitch.Match.API.ApplicationCore.Services;
 using Pitch.Match.API.Controllers;
 using Pitch.Match.API.Models;
@@ -24,7 +25,7 @@ namespace Pitch.Match.API.Tests.Controllers
             _matchId = Guid.NewGuid();
             var userId = Guid.NewGuid();
 
-            var matchStub = new ApplicationCore.Models.Match
+            var matchStub = new ApplicationCore.Models.Match.Match
             {
                 HomeTeam = new TeamDetails
                 {

@@ -5,6 +5,7 @@ using Pitch.Match.API.ApplicationCore.Engine.Actions;
 using Pitch.Match.API.ApplicationCore.Engine.Providers;
 using Pitch.Match.API.ApplicationCore.Engine.Services;
 using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.API.ApplicationCore.Models.Match;
 
 namespace Pitch.Match.API.Tests.Engine
 {
@@ -23,7 +24,7 @@ namespace Pitch.Match.API.Tests.Engine
 
         protected TeamDetails StubHomeTeamDetails;
 
-        protected ApplicationCore.Models.Match StubMatch;
+        protected ApplicationCore.Models.Match.Match StubMatch;
         protected MatchEngine StubMatchEngine;
 
         protected MatchTestBase()
@@ -32,10 +33,11 @@ namespace Pitch.Match.API.Tests.Engine
             var randomnessProvider = new ThreadSafeRandomnessProvider();
             var calculatedCardStatService = new CalculatedCardStatService();
             var ratingService = new RatingService(calculatedCardStatService);
+            var fitnessDrainService = new FitnessDrainService(randomnessProvider);
             var possessionService = new PossessionService(ratingService);
             var actions = new IAction[] {new Foul(randomnessProvider), new Shot(randomnessProvider, ratingService) };
             var actionService = new ActionService(actions, randomnessProvider);
-            StubMatchEngine = new MatchEngine(actionService, possessionService);
+            StubMatchEngine = new MatchEngine(actionService, possessionService, fitnessDrainService);
 
             StubHomePlayer = new Card
             {
@@ -266,7 +268,7 @@ namespace Pitch.Match.API.Tests.Engine
                 Squad = StubHomeSquad
             };
 
-            StubMatch = new ApplicationCore.Models.Match
+            StubMatch = new ApplicationCore.Models.Match.Match
             {
                 Id = Guid.NewGuid(),
                 KickOff = DateTime.Now,

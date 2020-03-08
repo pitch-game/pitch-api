@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pitch.Match.API.ApplicationCore.Engine.Services;
-using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.API.ApplicationCore.Models.Match;
 using Xunit;
 
 namespace Pitch.Match.API.Tests.Engine.Services
@@ -12,7 +12,7 @@ namespace Pitch.Match.API.Tests.Engine.Services
         public void Fitness_Returns_Correct_Value()
         {
             var cardId = Guid.NewGuid();
-            var stubMatch = new ApplicationCore.Models.Match();
+            var stubMatch = new ApplicationCore.Models.Match.Match();
             stubMatch.Minutes = new MatchMinute[]
             {
                 new MatchMinute()

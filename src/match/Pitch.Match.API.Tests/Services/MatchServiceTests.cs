@@ -6,6 +6,7 @@ using EasyNetQ;
 using Moq;
 using Pitch.Match.API.ApplicationCore.Engine;
 using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.API.ApplicationCore.Models.Match;
 using Pitch.Match.API.ApplicationCore.Models.Matchmaking;
 using Pitch.Match.API.ApplicationCore.Services;
 using Pitch.Match.API.Infrastructure.MessageBus.Events;
@@ -27,7 +28,7 @@ namespace Pitch.Match.API.Tests.Services
             var mockMatchRepository = new Mock<IMatchRepository>();
             var userId = Guid.NewGuid();
 
-            var unclaimedMatch = new ApplicationCore.Models.Match
+            var unclaimedMatch = new ApplicationCore.Models.Match.Match
             {
                 HomeTeam = new TeamDetails
                 {
@@ -47,14 +48,14 @@ namespace Pitch.Match.API.Tests.Services
                 }
             };
 
-            ApplicationCore.Models.Match updatedMatch = null;
+            ApplicationCore.Models.Match.Match updatedMatch = null;
             MatchCompletedEvent publishedEvent = null;
 
             mockMatchRepository.Setup(x => x.GetUnclaimedAsync(userId)).Returns(
-                Task.FromResult((IEnumerable<ApplicationCore.Models.Match>) new List<ApplicationCore.Models.Match>
+                Task.FromResult((IEnumerable<ApplicationCore.Models.Match.Match>) new List<ApplicationCore.Models.Match.Match>
                     {unclaimedMatch}));
-            mockMatchRepository.Setup(x => x.UpdateAsync(It.IsAny<ApplicationCore.Models.Match>()))
-                .Callback<ApplicationCore.Models.Match>(r => updatedMatch = r);
+            mockMatchRepository.Setup(x => x.UpdateAsync(It.IsAny<ApplicationCore.Models.Match.Match>()))
+                .Callback<ApplicationCore.Models.Match.Match>(r => updatedMatch = r);
 
             var stubMatchEngine = new Mock<IMatchEngine>();
 
@@ -80,7 +81,7 @@ namespace Pitch.Match.API.Tests.Services
             var mockMatchRepository = new Mock<IMatchRepository>();
             var userId = Guid.NewGuid();
 
-            var unclaimedMatch = new ApplicationCore.Models.Match
+            var unclaimedMatch = new ApplicationCore.Models.Match.Match
             {
                 HomeTeam = new TeamDetails
                 {
@@ -100,14 +101,14 @@ namespace Pitch.Match.API.Tests.Services
                 }
             };
 
-            ApplicationCore.Models.Match updatedMatch = null;
+            ApplicationCore.Models.Match.Match updatedMatch = null;
             MatchCompletedEvent publishedEvent = null;
 
             mockMatchRepository.Setup(x => x.GetUnclaimedAsync(userId)).Returns(
-                Task.FromResult((IEnumerable<ApplicationCore.Models.Match>) new List<ApplicationCore.Models.Match>
+                Task.FromResult((IEnumerable<ApplicationCore.Models.Match.Match>) new List<ApplicationCore.Models.Match.Match>
                     {unclaimedMatch}));
-            mockMatchRepository.Setup(x => x.UpdateAsync(It.IsAny<ApplicationCore.Models.Match>()))
-                .Callback<ApplicationCore.Models.Match>(r => updatedMatch = r);
+            mockMatchRepository.Setup(x => x.UpdateAsync(It.IsAny<ApplicationCore.Models.Match.Match>()))
+                .Callback<ApplicationCore.Models.Match.Match>(r => updatedMatch = r);
 
             var stubMatchEngine = new Mock<IMatchEngine>();
 
@@ -133,7 +134,7 @@ namespace Pitch.Match.API.Tests.Services
             var mockMatchRepository = new Mock<IMatchRepository>();
 
             var matchId = Guid.NewGuid();
-            var match = new ApplicationCore.Models.Match {Id = matchId};
+            var match = new ApplicationCore.Models.Match.Match {Id = matchId};
 
             mockMatchRepository.Setup(x => x.GetAsync(matchId)).Returns(Task.FromResult(match));
 
@@ -165,10 +166,10 @@ namespace Pitch.Match.API.Tests.Services
             mockMatchmakingService.Setup(x => x.GetSession(sessionId)).Returns(session);
 
             var stubMatchEngine = new Mock<IMatchEngine>();
-            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<ApplicationCore.Models.Match>()))
-                .Returns(new ApplicationCore.Models.Match());
+            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<ApplicationCore.Models.Match.Match>()))
+                .Returns(new ApplicationCore.Models.Match.Match());
 
-            ApplicationCore.Models.Match simulatedMatch = null;
+            ApplicationCore.Models.Match.Match simulatedMatch = null;
 
             var mockBus = new Mock<IBus>();
             var squadResponse = new GetSquadResponse
@@ -179,8 +180,8 @@ namespace Pitch.Match.API.Tests.Services
                 .Returns(Task.FromResult(squadResponse));
 
             var mockMatchRepository = new Mock<IMatchRepository>();
-            mockMatchRepository.Setup(x => x.CreateAsync(It.IsAny<ApplicationCore.Models.Match>()))
-                .Callback<ApplicationCore.Models.Match>(r => simulatedMatch = r);
+            mockMatchRepository.Setup(x => x.CreateAsync(It.IsAny<ApplicationCore.Models.Match.Match>()))
+                .Callback<ApplicationCore.Models.Match.Match>(r => simulatedMatch = r);
 
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
                 mockMatchRepository.Object, mockBus.Object);
@@ -204,14 +205,14 @@ namespace Pitch.Match.API.Tests.Services
                 UsedSubs = 0
             };
 
-            var mockMatch = new Mock<ApplicationCore.Models.Match>();
+            var mockMatch = new Mock<ApplicationCore.Models.Match.Match>();
             mockMatch.SetupGet(x => x.HomeTeam).Returns(teamDetails);
             mockMatch.SetupSet(x => x.HomeTeam).Callback(r => teamDetails = r);
 
             var mockMatchmakingService = new Mock<IMatchmakingService>();
 
             var stubMatchEngine = new Mock<IMatchEngine>();
-            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<ApplicationCore.Models.Match>()))
+            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<ApplicationCore.Models.Match.Match>()))
                 .Returns(mockMatch.Object);
 
             var mockBus = new Mock<IBus>();
@@ -233,7 +234,7 @@ namespace Pitch.Match.API.Tests.Services
             var userId = Guid.NewGuid();
             var matchId = Guid.NewGuid();
 
-            var mockMatch = new Mock<ApplicationCore.Models.Match>();
+            var mockMatch = new Mock<ApplicationCore.Models.Match.Match>();
             mockMatch.SetupGet(x => x.HomeTeam).Returns(new TeamDetails()
             {
                 UserId = userId,
@@ -243,7 +244,7 @@ namespace Pitch.Match.API.Tests.Services
             var mockMatchmakingService = new Mock<IMatchmakingService>();
 
             var stubMatchEngine = new Mock<IMatchEngine>();
-            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<ApplicationCore.Models.Match>()))
+            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<ApplicationCore.Models.Match.Match>()))
                 .Returns(mockMatch.Object);
 
             var mockBus = new Mock<IBus>();
@@ -263,7 +264,7 @@ namespace Pitch.Match.API.Tests.Services
             var userId = Guid.NewGuid();
             var matchId = Guid.NewGuid();
 
-            var mockMatch = new Mock<ApplicationCore.Models.Match>();
+            var mockMatch = new Mock<ApplicationCore.Models.Match.Match>();
 
             var mockMatchmakingService = new Mock<IMatchmakingService>();
 
@@ -297,7 +298,7 @@ namespace Pitch.Match.API.Tests.Services
 
             var mockBus = new Mock<IBus>();
             var mockMatchRepository = new Mock<IMatchRepository>();
-            mockMatchRepository.Setup(x => x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>(), userId)).ReturnsAsync(new List<ApplicationCore.Models.Match>());
+            mockMatchRepository.Setup(x => x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>(), userId)).ReturnsAsync(new List<ApplicationCore.Models.Match.Match>());
 
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
                 mockMatchRepository.Object, mockBus.Object);
@@ -317,7 +318,7 @@ namespace Pitch.Match.API.Tests.Services
             var userId = Guid.NewGuid();
             var matchId = Guid.NewGuid();
 
-            var mockMatch = new Mock<ApplicationCore.Models.Match>();
+            var mockMatch = new Mock<ApplicationCore.Models.Match.Match>();
             mockMatch.SetupGet(x => x.HomeTeam).Returns(new TeamDetails()
             {
                 UserId = userId,

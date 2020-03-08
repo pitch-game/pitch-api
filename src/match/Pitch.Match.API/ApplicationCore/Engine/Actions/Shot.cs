@@ -35,7 +35,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Actions
         [BsonIgnore]
         public bool AffectsTeamInPossession => true;
 
-        public IEvent SpawnEvent(Card card, Guid squadId, Models.Match match)
+        public IEvent SpawnEvent(Card card, Guid squadId, Models.Match.Match match)
         {
             var oppositionsDefenceRating = _ratingService.CurrentRating(PositionalArea.DEF, match, match.GetOppositionSquad(squadId));
             var shootersRating = _ratingService.CurrentRating(card.Id, match, match.GetSquad(squadId));

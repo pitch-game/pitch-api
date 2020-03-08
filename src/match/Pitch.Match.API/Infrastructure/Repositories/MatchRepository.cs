@@ -8,25 +8,25 @@ namespace Pitch.Match.API.Infrastructure.Repositories
 {
     public interface IMatchRepository
     {
-        Task<ApplicationCore.Models.Match> CreateAsync(ApplicationCore.Models.Match match);
-        Task<ApplicationCore.Models.Match> GetAsync(Guid id);
-        Task<ApplicationCore.Models.Match> UpdateAsync(ApplicationCore.Models.Match match);
-        Task<IEnumerable<ApplicationCore.Models.Match>> GetUnclaimedAsync(Guid userId);
+        Task<ApplicationCore.Models.Match.Match> CreateAsync(ApplicationCore.Models.Match.Match match);
+        Task<ApplicationCore.Models.Match.Match> GetAsync(Guid id);
+        Task<ApplicationCore.Models.Match.Match> UpdateAsync(ApplicationCore.Models.Match.Match match);
+        Task<IEnumerable<ApplicationCore.Models.Match.Match>> GetUnclaimedAsync(Guid userId);
         Task<bool> HasUnclaimedAsync(Guid userId);
         Task<Guid?> GetInProgressAsync(Guid userId);
-        Task<IEnumerable<ApplicationCore.Models.Match>> GetAllAsync(int skip, int take, Guid userId);
+        Task<IEnumerable<ApplicationCore.Models.Match.Match>> GetAllAsync(int skip, int take, Guid userId);
     }
 
     public class MatchRepository : IMatchRepository
     {
-        private readonly IDataContext<ApplicationCore.Models.Match> _dataContext;
+        private readonly IDataContext<ApplicationCore.Models.Match.Match> _dataContext;
 
-        public MatchRepository(IDataContext<ApplicationCore.Models.Match> dataContext)
+        public MatchRepository(IDataContext<ApplicationCore.Models.Match.Match> dataContext)
         {
             _dataContext = dataContext;
         }
 
-        public async Task<ApplicationCore.Models.Match> GetAsync(Guid id)
+        public async Task<ApplicationCore.Models.Match.Match> GetAsync(Guid id)
         {
             return await _dataContext.FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -38,19 +38,19 @@ namespace Pitch.Match.API.Infrastructure.Repositories
             return result?.Id;
         }
 
-        public async Task<ApplicationCore.Models.Match> CreateAsync(ApplicationCore.Models.Match match)
+        public async Task<ApplicationCore.Models.Match.Match> CreateAsync(ApplicationCore.Models.Match.Match match)
         {
             await _dataContext.CreateAsync(match);
             return match;
         }
 
-        public async Task<ApplicationCore.Models.Match> UpdateAsync(ApplicationCore.Models.Match match)
+        public async Task<ApplicationCore.Models.Match.Match> UpdateAsync(ApplicationCore.Models.Match.Match match)
         {
             await _dataContext.UpdateAsync(match);
             return match;
         }
 
-        public async Task<IEnumerable<ApplicationCore.Models.Match>> GetUnclaimedAsync(Guid userId)
+        public async Task<IEnumerable<ApplicationCore.Models.Match.Match>> GetUnclaimedAsync(Guid userId)
         {
             var minStartDate = DateTime.Now.AddMinutes(-90);
             return await _dataContext.ToListAsync(x =>
@@ -67,7 +67,7 @@ namespace Pitch.Match.API.Infrastructure.Repositories
             return result.Any();
         }
 
-        public async Task<IEnumerable<ApplicationCore.Models.Match>> GetAllAsync(int skip, int take, Guid userId)
+        public async Task<IEnumerable<ApplicationCore.Models.Match.Match>> GetAllAsync(int skip, int take, Guid userId)
         {
             //TODO include orderby and skip/take in query
             var result = await _dataContext.ToListAsync(x => x.HomeTeam.UserId == userId || x.AwayTeam.UserId == userId);

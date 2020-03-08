@@ -4,6 +4,7 @@ using Pitch.Match.API.ApplicationCore.Engine.Actions;
 using Pitch.Match.API.ApplicationCore.Engine.Events;
 using Pitch.Match.API.ApplicationCore.Engine.Providers;
 using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.API.ApplicationCore.Models.Match;
 
 namespace Pitch.Match.API.ApplicationCore.Engine.Services
 {

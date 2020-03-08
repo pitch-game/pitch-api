@@ -10,6 +10,6 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Actions
         decimal ChancePerMinute { get; }
         IDictionary<PositionalArea, decimal> PositionalChance { get; }
         bool AffectsTeamInPossession { get; }
-        IEvent SpawnEvent(Card card, Guid squadId, Models.Match match);
+        IEvent SpawnEvent(Card card, Guid squadId, Models.Match.Match match);
     }
 }
