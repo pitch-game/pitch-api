@@ -55,7 +55,6 @@ namespace Pitch.Match.API.ApplicationCore.Models
             ShortName = card.ShortName;
             Rating = card.Rating;
             Rarity = card.Rarity;
-            Fitness = card.Fitness;
             Position = card.Position;
             Chemistry = card.Chemistry;
         }
@@ -65,7 +64,6 @@ namespace Pitch.Match.API.ApplicationCore.Models
         public string ShortName { get; set; }
         public int Rating { get; set; }
         public string Rarity { get; set; }
-        public int Fitness { get; set; }
         public string Position { get; set; }
         public int Chemistry { get; set; }
     }

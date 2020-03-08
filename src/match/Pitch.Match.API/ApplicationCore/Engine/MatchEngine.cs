@@ -1,46 +1,77 @@
-﻿using Pitch.Match.API.ApplicationCore.Engine.Actions;
-using Pitch.Match.API.ApplicationCore.Models;
+﻿using Pitch.Match.API.ApplicationCore.Models;
 using Pitch.Match.API.ApplicationCore.Engine.Services;
+using Pitch.Match.API.ApplicationCore.Models.Match;
 
 namespace Pitch.Match.API.ApplicationCore.Engine
 {
+    public interface IMatchEngine
+    {
+        Models.Match.Match Simulate(Models.Match.Match match);
+    }
+
     public class MatchEngine : IMatchEngine
     {
         private readonly IActionService _actionService;
+        private readonly IPossessionService _possessionService;
+        private readonly IFitnessDrainService _fitnessDrainService;
 
-        public MatchEngine(IActionService actionService)
+        public MatchEngine(IActionService actionService, IPossessionService possessionService, IFitnessDrainService fitnessDrainService)
         {
             _actionService = actionService;
+            _possessionService = possessionService;
+            _fitnessDrainService = fitnessDrainService;
         }
 
-        public Models.Match SimulateReentrant(Models.Match match)
+        /// <summary>
+        /// Reentrant method for simulating a match
+        /// </summary>
+        /// <param name="match"></param>
+        /// <returns></returns>
+        public Models.Match.Match Simulate(Models.Match.Match match)
         {
             match.AsAtElapsed(true);
 
-            for (int minute = match.Elapsed; minute < Constants.MATCH_LENGTH_IN_MINUTES; minute++) //TODO atm its simulating the same minute again on reentrancy, is this right?
+            for (var minute = match.Elapsed; minute < Constants.MatchLengthInMinutes; minute++)
             {
-                Squad inPossession = PossessionHelper.InPossession(match, out var notInPossession, out var homePossChance, out var awayPossChance);
-
-                IAction action = _actionService.RollAction();
-                if (action != null)
-                {
-                    var affectedSquad = action.AffectsTeamInPossession ? inPossession : notInPossession;
-                    var card = _actionService.RollCard(affectedSquad, action, match.Events);
-                    if (card != null)
-                    {
-                        var @event = action.SpawnEvent(card, affectedSquad.Id, minute, match);
-                        if (@event != null)
-                            match.Events.Add(@event);
-                    }
-                }
-
-                //TODO Fitness drain
-
-                match.Statistics.Add(new MinuteStats(minute, inPossession.Id, homePossChance, awayPossChance));
+                SimulateMinute(match, minute);
             }
 
-            //extra time?
             return match;
+        }
+
+        private void SimulateMinute(Models.Match.Match match, int minute)
+        {
+            var inPossession = _possessionService.InPossession(match, out var notInPossession, out var homePossChance,
+                out var awayPossChance);
+
+            var action = _actionService.RollAction();
+            if (action != null)
+            {
+                var affectedSquad = action.AffectsTeamInPossession ? inPossession : notInPossession;
+                var affectedCard = _actionService.RollCard(affectedSquad, action, match.Minutes);
+                if (affectedCard != null)
+                {
+                    var @event = action.SpawnEvent(affectedCard, affectedSquad.Id, match);
+                    if (@event != null)
+                    {
+                        match.Minutes[minute].Events.Add(@event);
+                    }
+                }
+            }
+
+            ApplyModifiers(match, minute);
+
+            AssignStats(match, minute, inPossession, homePossChance, awayPossChance);
+        }
+
+        private static void AssignStats(Models.Match.Match match, int minute, Squad inPossession, int homePossChance, int awayPossChance)
+        {
+            match.Minutes[minute].Stats = new MinuteStats(inPossession.Id, homePossChance, awayPossChance);
+        }
+
+        private void ApplyModifiers(Models.Match.Match match, int minute)
+        {
+            _fitnessDrainService.Drain(match, minute);
         }
     }
 }

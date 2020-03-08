@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Moq;
-using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.API.ApplicationCore.Models.Match;
 using Pitch.Match.API.Infrastructure.Repositories;
 using Pitch.Match.API.Infrastructure.Repositories.Contexts;
 using Xunit;
@@ -49,13 +49,13 @@ namespace Pitch.Match.API.Tests.Repositories
         {
             // Arrange
             var matchId = Guid.NewGuid();
-            var stubMatch = new ApplicationCore.Models.Match
+            var stubMatch = new ApplicationCore.Models.Match.Match
             {
                 Id = matchId
             };
-            var stubMatchList = new List<ApplicationCore.Models.Match>() {stubMatch};
+            var stubMatchList = new List<ApplicationCore.Models.Match.Match>() {stubMatch};
 
-            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match>(stubMatchList);
+            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match.Match>(stubMatchList);
 
             // Act
             var repository = new MatchRepository(dbContextStub);
@@ -71,7 +71,7 @@ namespace Pitch.Match.API.Tests.Repositories
             // Arrange
             var matchId = Guid.NewGuid();
             var userId = Guid.NewGuid();
-            var stubMatch = new ApplicationCore.Models.Match
+            var stubMatch = new ApplicationCore.Models.Match.Match
             {
                 Id = matchId,
                 HomeTeam = new TeamDetails()
@@ -84,9 +84,9 @@ namespace Pitch.Match.API.Tests.Repositories
                 },
                 KickOff = DateTime.Now.AddMinutes(-10)
             };
-            var stubMatchList = new List<ApplicationCore.Models.Match>() { stubMatch };
+            var stubMatchList = new List<ApplicationCore.Models.Match.Match>() { stubMatch };
 
-            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match>(stubMatchList);
+            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match.Match>(stubMatchList);
 
             // Act
             var repository = new MatchRepository(dbContextStub);
@@ -102,7 +102,7 @@ namespace Pitch.Match.API.Tests.Repositories
             // Arrange
             var matchId = Guid.NewGuid();
             var userId = Guid.NewGuid();
-            var stubMatch = new ApplicationCore.Models.Match
+            var stubMatch = new ApplicationCore.Models.Match.Match
             {
                 Id = matchId,
                 HomeTeam = new TeamDetails()
@@ -115,9 +115,9 @@ namespace Pitch.Match.API.Tests.Repositories
                 },
                 KickOff = DateTime.Now.AddMinutes(-10)
             };
-            var stubMatchList = new List<ApplicationCore.Models.Match>() { stubMatch };
+            var stubMatchList = new List<ApplicationCore.Models.Match.Match>() { stubMatch };
 
-            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match>(stubMatchList);
+            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match.Match>(stubMatchList);
 
             // Act
             var repository = new MatchRepository(dbContextStub);
@@ -133,7 +133,7 @@ namespace Pitch.Match.API.Tests.Repositories
             // Arrange
             var matchId = Guid.NewGuid();
             var userId = Guid.NewGuid();
-            var stubMatch = new ApplicationCore.Models.Match
+            var stubMatch = new ApplicationCore.Models.Match.Match
             {
                 Id = matchId,
                 HomeTeam = new TeamDetails()
@@ -146,9 +146,9 @@ namespace Pitch.Match.API.Tests.Repositories
                 },
                 KickOff = DateTime.Now.AddMinutes(-100)
             };
-            var stubMatchList = new List<ApplicationCore.Models.Match>() { stubMatch };
+            var stubMatchList = new List<ApplicationCore.Models.Match.Match>() { stubMatch };
 
-            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match>(stubMatchList);
+            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match.Match>(stubMatchList);
 
             // Act
             var repository = new MatchRepository(dbContextStub);
@@ -163,9 +163,9 @@ namespace Pitch.Match.API.Tests.Repositories
         {
             // Arrange
             var userId = Guid.NewGuid();
-            var stubMatchList = new List<ApplicationCore.Models.Match>();
+            var stubMatchList = new List<ApplicationCore.Models.Match.Match>();
 
-            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match>(stubMatchList);
+            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match.Match>(stubMatchList);
 
             // Act
             var repository = new MatchRepository(dbContextStub);
@@ -181,12 +181,12 @@ namespace Pitch.Match.API.Tests.Repositories
         {
             // Arrange
             var matchId = Guid.NewGuid();
-            var stubMatch = new ApplicationCore.Models.Match()
+            var stubMatch = new ApplicationCore.Models.Match.Match()
             {
                 Id = matchId
             };
 
-            var dbContextMock = new Mock<IDataContext<ApplicationCore.Models.Match>>();
+            var dbContextMock = new Mock<IDataContext<ApplicationCore.Models.Match.Match>>();
             dbContextMock.Setup(x => x.CreateAsync(stubMatch));
 
             // Act
@@ -203,7 +203,7 @@ namespace Pitch.Match.API.Tests.Repositories
             // Arrange
             var matchId = Guid.NewGuid();
             var userId = Guid.NewGuid();
-            var stubMatch = new ApplicationCore.Models.Match
+            var stubMatch = new ApplicationCore.Models.Match.Match
             {
                 Id = matchId,
                 HomeTeam = new TeamDetails()
@@ -217,9 +217,9 @@ namespace Pitch.Match.API.Tests.Repositories
                 },
                 KickOff = DateTime.Now.AddMinutes(-100)
             };
-            var stubMatchList = new List<ApplicationCore.Models.Match>() { stubMatch };
+            var stubMatchList = new List<ApplicationCore.Models.Match.Match>() { stubMatch };
 
-            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match>(stubMatchList);
+            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match.Match>(stubMatchList);
 
             // Act
             var repository = new MatchRepository(dbContextStub);
@@ -234,7 +234,7 @@ namespace Pitch.Match.API.Tests.Repositories
         {
             var matchId = Guid.NewGuid();
             var userId = Guid.NewGuid();
-            var stubMatch = new ApplicationCore.Models.Match
+            var stubMatch = new ApplicationCore.Models.Match.Match
             {
                 Id = matchId,
                 HomeTeam = new TeamDetails()
@@ -248,9 +248,9 @@ namespace Pitch.Match.API.Tests.Repositories
                 },
                 KickOff = DateTime.Now.AddMinutes(-100)
             };
-            var stubMatchList = new List<ApplicationCore.Models.Match>() { stubMatch };
+            var stubMatchList = new List<ApplicationCore.Models.Match.Match>() { stubMatch };
 
-            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match>(stubMatchList);
+            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match.Match>(stubMatchList);
 
             // Act
             var repository = new MatchRepository(dbContextStub);
@@ -265,12 +265,12 @@ namespace Pitch.Match.API.Tests.Repositories
         {
             // Arrange
             var matchId = Guid.NewGuid();
-            var stubMatch = new ApplicationCore.Models.Match()
+            var stubMatch = new ApplicationCore.Models.Match.Match()
             {
                 Id = matchId
             };
 
-            var dbContextMock = new Mock<IDataContext<ApplicationCore.Models.Match>>();
+            var dbContextMock = new Mock<IDataContext<ApplicationCore.Models.Match.Match>>();
             dbContextMock.Setup(x => x.CreateAsync(stubMatch));
 
             // Act
@@ -287,7 +287,7 @@ namespace Pitch.Match.API.Tests.Repositories
             // Arrange
             var matchId = Guid.NewGuid();
             var userId = Guid.NewGuid();
-            var stubMatch = new ApplicationCore.Models.Match
+            var stubMatch = new ApplicationCore.Models.Match.Match
             {
                 Id = matchId,
                 HomeTeam = new TeamDetails()
@@ -299,9 +299,9 @@ namespace Pitch.Match.API.Tests.Repositories
                     UserId = Guid.NewGuid()
                 }
             };
-            var stubMatchList = new List<ApplicationCore.Models.Match>() { stubMatch };
+            var stubMatchList = new List<ApplicationCore.Models.Match.Match>() { stubMatch };
 
-            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match>(stubMatchList);
+            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match.Match>(stubMatchList);
 
             // Act
             var repository = new MatchRepository(dbContextStub);
@@ -315,7 +315,7 @@ namespace Pitch.Match.API.Tests.Repositories
         public async Task GetAllSync_WithMatchNotInvolvingUser_ReturnsEmptyList()
         {
             // Arrange
-            var stubMatch = new ApplicationCore.Models.Match
+            var stubMatch = new ApplicationCore.Models.Match.Match
             {
                 Id = Guid.NewGuid(),
                 HomeTeam = new TeamDetails()
@@ -327,9 +327,9 @@ namespace Pitch.Match.API.Tests.Repositories
                     UserId = Guid.NewGuid()
                 }
             };
-            var stubMatchList = new List<ApplicationCore.Models.Match>() { stubMatch };
+            var stubMatchList = new List<ApplicationCore.Models.Match.Match>() { stubMatch };
 
-            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match>(stubMatchList);
+            var dbContextStub = new InMemoryDataContext<ApplicationCore.Models.Match.Match>(stubMatchList);
 
             // Act
             var repository = new MatchRepository(dbContextStub);

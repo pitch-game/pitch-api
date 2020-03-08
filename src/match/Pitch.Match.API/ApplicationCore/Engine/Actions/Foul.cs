@@ -32,25 +32,25 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Actions
         [BsonIgnore]
         public bool AffectsTeamInPossession => false;
 
-        public IEvent SpawnEvent(Card card, Guid squadId, int minute, Models.Match match)
+        public IEvent SpawnEvent(Card card, Guid squadId, Models.Match.Match match)
         {
             int randomNumber = _randomnessProvider.Next(1, 40);
 
             if (randomNumber == 1)
             {
-                return new RedCard(minute, card.Id, squadId);
+                return new RedCard(card.Id, squadId);
             }
             if (randomNumber >= 2 && randomNumber < 5)
             {
-                var yellowCards = match.Events.Where(x => x.GetType() == typeof(YellowCard)).Select(x => x.CardId);
+                var yellowCards = match.Minutes.SelectMany(x => x.Events).Where(x => x is YellowCard).Select(x => x.CardId);
                 if (yellowCards.Contains(card.Id))
                 {
-                    return new RedCard(minute, card.Id, squadId); //TODO return yellow and red event
+                    return new RedCard(card.Id, squadId); //TODO return yellow and red event
                 }
-                return new YellowCard(minute, card.Id, squadId);
+                return new YellowCard(card.Id, squadId);
             }
             if (randomNumber >= 5)
-                return new Events.Foul(minute, card.Id, squadId);
+                return new Events.Foul(card.Id, squadId);
             return null;
         }
     }

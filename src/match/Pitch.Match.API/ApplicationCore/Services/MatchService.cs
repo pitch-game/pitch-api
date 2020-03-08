@@ -6,6 +6,8 @@ using EasyNetQ;
 using Pitch.Match.API.ApplicationCore.Engine;
 using Pitch.Match.API.ApplicationCore.Engine.Events;
 using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.API.ApplicationCore.Models.Match;
+using Pitch.Match.API.ApplicationCore.Models.MatchResult;
 using Pitch.Match.API.Infrastructure.MessageBus.Events;
 using Pitch.Match.API.Infrastructure.MessageBus.Requests;
 using Pitch.Match.API.Infrastructure.MessageBus.Responses;
@@ -16,7 +18,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
     public interface IMatchService
     {
         Task KickOff(Guid sessionId);
-        Task<Models.Match> GetAsync(Guid id);
+        Task<Models.Match.Match> GetAsync(Guid id);
         Task ClaimAsync(Guid userId);
         Task<IEnumerable<MatchListResult>> GetAllAsync(int skip, int? take, Guid userId);
         Task<MatchStatusResult> GetMatchStatus(Guid userId);
@@ -53,14 +55,14 @@ namespace Pitch.Match.API.ApplicationCore.Services
                     match.AwayTeam.HasClaimedRewards = true;
                     var matchResult = new MatchResult(match);
                     victorious = matchResult.AwayResult.Score > matchResult.HomeResult.Score;
-                    scorers = match.Events.Where(x => x.SquadId == match.AwayTeam.Squad.Id && x.GetType() == typeof(Goal)).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
+                    scorers = match.Minutes.SelectMany(x => x.Events).Where(x => x.SquadId == match.AwayTeam.Squad.Id && x is Goal).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
                 }
                 else if (match.HomeTeam.UserId == userId)
                 {
                     match.HomeTeam.HasClaimedRewards = true;
                     var matchResult = new MatchResult(match);
                     victorious = matchResult.HomeResult.Score > matchResult.AwayResult.Score;
-                    scorers = match.Events.Where(x => x.SquadId == match.HomeTeam.Squad.Id && x.GetType() == typeof(Goal)).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
+                    scorers = match.Minutes.SelectMany(x => x.Events).Where(x => x.SquadId == match.HomeTeam.Squad.Id && x is Goal).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
                 }
 
                 await _bus.PublishAsync(new MatchCompletedEvent(match.Id, userId, victorious, scorers));
@@ -68,7 +70,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
             }
         }
 
-        public async Task<Models.Match> GetAsync(Guid id)
+        public async Task<Models.Match.Match> GetAsync(Guid id)
         {
             return await _matchRepository.GetAsync(id);
         }
@@ -77,7 +79,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
         {
             var session = _matchmakingService.GetSession(sessionId);
 
-            var match = new Models.Match
+            var match = new Models.Match.Match
             {
                 Id = sessionId, HomeTeam = new TeamDetails { UserId = session.HostPlayerId }
             };
@@ -92,7 +94,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
 
             match.KickOff = DateTime.Now;
 
-            var simulatedMatch = _matchEngine.SimulateReentrant(match);
+            var simulatedMatch = _matchEngine.Simulate(match);
 
             await _matchRepository.CreateAsync(simulatedMatch);
         }
@@ -122,7 +124,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
         public async Task<IEnumerable<MatchListResult>> GetAllAsync(int skip, int? take, Guid userId)
         {
             var matches = await _matchRepository.GetAllAsync(skip, take ?? 25, userId);
-            matches = matches.Where(x => x.IsOver);
+            matches = matches.Where(x => x.HasFinished);
             return matches.Select(x =>
             {
                 var matchResult = new MatchResult(x);
@@ -158,7 +160,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
         {
             var match = await _matchRepository.GetAsync(matchId);
             var team = match.GetTeam(userId);
-            var sendingOffs = match.Events.Where(x => x.GetType() == typeof(RedCard)).Select(x => x.CardId);
+            var sendingOffs = match.Minutes.SelectMany(x => x.Events).Where(x => x is RedCard).Select(x => x.CardId);
             var lineup = team.Squad.Lineup.Values.SelectMany(x => x).Where(x => !sendingOffs.Contains(x.Id)).ToList();
             return new Lineup { Active = lineup, Subs = team.Squad.Subs };
         }
@@ -172,7 +174,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
             if (team.UsedSubs >= SubCount) throw new Exception("No subs remaining");
 
             match.Substitute(off, on, userId);
-            var newMatch = _matchEngine.SimulateReentrant(match);
+            var newMatch = _matchEngine.Simulate(match);
 
             newMatch.GetTeam(userId).UsedSubs++;
 

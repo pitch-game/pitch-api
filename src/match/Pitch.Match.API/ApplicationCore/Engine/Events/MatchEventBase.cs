@@ -4,14 +4,12 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Events
 {
     public abstract class EventBase : IEvent
     {
-        protected EventBase(int minute, Guid cardId, Guid squadId)
+        protected EventBase(Guid cardId, Guid squadId)
         {
-            Minute = minute;
             CardId = cardId;
             SquadId = squadId;
         }
 
-        public int Minute { get; set; }
         public Guid CardId { get; set; }
         public Guid SquadId { get; set; }
 

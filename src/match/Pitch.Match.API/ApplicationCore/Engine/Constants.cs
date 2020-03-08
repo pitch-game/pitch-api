@@ -2,8 +2,8 @@
 {
     public static class Constants
     {
-        public const int MATCH_LENGTH_IN_MINUTES = 90;
-        public const double SHOOTER_AGAINST_DEFENDERS_MODIFIER = 0.8;
-        public const double SHOOTER_AGAINST_GK_MODIFIER = 0.8;
+        public const int MatchLengthInMinutes = 90;
+        public const double ShooterAgainstDefendersModifier = 0.8;
+        public const double ShooterAgainstGkModifier = 0.8;
     }
 }

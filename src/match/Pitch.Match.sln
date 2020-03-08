@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Match.API", "Pitch.Ma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Match.API.Tests", "Pitch.Match.API.Tests\Pitch.Match.API.Tests.csproj", "{A0EE2E2D-916D-4C72-B083-464163AEE11A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9540BDF5-9FB7-48EF-A858-5E8531BBB3D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A0EE2E2D-916D-4C72-B083-464163AEE11A} = {9540BDF5-9FB7-48EF-A858-5E8531BBB3D9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4A5227FA-B037-4181-BCA1-8D0F5C4ABA9D}

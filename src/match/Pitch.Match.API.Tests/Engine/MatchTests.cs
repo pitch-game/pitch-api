@@ -1,6 +1,6 @@
 ﻿using System;
 using Pitch.Match.API.ApplicationCore.Engine.Events;
-using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.API.ApplicationCore.Models.Match;
 using Xunit;
 
 namespace Pitch.Match.API.Tests.Engine
@@ -12,17 +12,17 @@ namespace Pitch.Match.API.Tests.Engine
         {
             //Arrange
             StubMatch.KickOff = DateTime.Now.AddMinutes(-10);
-            var stubEvent = new ShotOnTarget(11, StubHomePlayer.Id, StubMatch.HomeTeam.Squad.Id);
-            StubMatch.Events.Add(stubEvent);
-            var stubStatistic = new MinuteStats(11, StubHomeSquad.Id, 0, 0);
-            StubMatch.Statistics.Add(stubStatistic);
+            var stubEvent = new ShotOnTarget(StubHomePlayer.Id, StubMatch.HomeTeam.Squad.Id);
+            StubMatch.Minutes[11].Events.Add(stubEvent);
+            var stubStatistic = new MinuteStats(StubHomeSquad.Id, 0, 0);
+            StubMatch.Minutes[11].Stats = stubStatistic;
 
             //Act
             StubMatch.AsAtElapsed();
 
             //Assert
-            Assert.DoesNotContain(StubMatch.Events, x => x == stubEvent);
-            Assert.DoesNotContain(StubMatch.Statistics, x => x == stubStatistic);
+            Assert.DoesNotContain(StubMatch.Minutes[11].Events, x => x == stubEvent);
+            Assert.NotEqual(StubMatch.Minutes[11].Stats, stubStatistic);
         }
 
         [Fact]
@@ -30,17 +30,17 @@ namespace Pitch.Match.API.Tests.Engine
         {
             //Arrange
             StubMatch.KickOff = DateTime.Now.AddMinutes(-15);
-            var stubEvent = new ShotOnTarget(11, StubHomePlayer.Id, StubMatch.HomeTeam.Squad.Id);
-            StubMatch.Events.Add(stubEvent);
-            var stubStatistic = new MinuteStats(11, StubHomeSquad.Id, 0, 0);
-            StubMatch.Statistics.Add(stubStatistic);
+            var stubEvent = new ShotOnTarget(StubHomePlayer.Id, StubMatch.HomeTeam.Squad.Id);
+            StubMatch.Minutes[11].Events.Add(stubEvent);
+            var stubStatistic = new MinuteStats(StubHomeSquad.Id, 0, 0);
+            StubMatch.Minutes[11].Stats = stubStatistic;
 
             //Act
             StubMatch.AsAtElapsed();
 
             //Assert
-            Assert.Contains(StubMatch.Events, x => x == stubEvent);
-            Assert.Contains(StubMatch.Statistics, x => x == stubStatistic);
+            Assert.Contains(StubMatch.Minutes[11].Events, x => x == stubEvent);
+            Assert.Equal(StubMatch.Minutes[11].Stats, stubStatistic);
         }
 
         [Fact]
