@@ -24,38 +24,38 @@ deploy:
   helm:
     releases:
     - name: api-gateway
-      chartPath: k8s/helm/api-gateway
+      chartPath: deploy/k8s/helm/api-gateway
       values:
         imageName: api-gateway
     - name: card
-      chartPath: k8s/helm/card
+      chartPath: deploy/k8s/helm/card
       values:
         imageName: card
     - name: identity
-      chartPath: k8s/helm/identity
+      chartPath: deploy/k8s/helm/identity
       values:
         imageName: identity
     - name: match
-      chartPath: k8s/helm/match
+      chartPath: deploy/k8s/helm/match
       values:
         imageName: match
     - name: player
-      chartPath: k8s/helm/player
+      chartPath: deploy/k8s/helm/player
       values:
         imageName: player
     - name: squad
-      chartPath: k8s/helm/squad
+      chartPath: deploy/k8s/helm/squad
       values:
         imageName: squad
     - name: store
-      chartPath: k8s/helm/store
+      chartPath: deploy/k8s/helm/store
       values:
         imageName: store
     - name: user
-      chartPath: k8s/helm/user
+      chartPath: deploy/k8s/helm/user
       values:
         imageName: user
     - name: mongodb
-      chartPath: k8s/helm/mongodb
+      chartPath: deploy/k8s/helm/mongodb
     - name: rabbitmq
-      chartPath: k8s/helm/rabbitmq
+      chartPath: deploy/k8s/helm/rabbitmq

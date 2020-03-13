@@ -8,7 +8,7 @@ trigger:
   paths:
     include:
     - src/card/*
-    - k8s/helm/card/*
+    - deploy/k8s/helm/card/*
     - build/card/*
 jobs:
 - job: BuildLinux
