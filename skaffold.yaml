@@ -55,3 +55,11 @@ deploy:
       chartPath: k8s/helm/user
       values:
         imageName: user
+    - name: mongodb
+      chartPath: k8s/helm/mongodb
+      values:
+        image: mongodb
+    - name: rabbitmq
+      chartPath: k8s/helm/rabbitmq
+      values:
+        image: rabbitmq

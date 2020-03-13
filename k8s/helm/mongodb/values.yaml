@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: mongodb
   tag: stable
   pullPolicy: IfNotPresent
 
@@ -48,3 +48,60 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+mongodbRootUsername: root
+mongodbRootPassword: example
+
+## Init containers parameters:
+## volumePermissions: Change the owner and group of the persistent volume mountpoint to runAsUser:fsGroup values from the securityContext section.
+##
+volumePermissions:
+  enabled: true
+  image:
+    registry: docker.io
+    repository: bitnami/minideb
+    tag: buster
+    pullPolicy: Always
+  resources: {}
+
+## Enable persistence using Persistent Volume Claims
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistence:
+  enabled: true
+  ## A manually managed Persistent Volume and Claim
+  ## Requires persistence.enabled: true
+  ## If defined, PVC must be created manually before volume will be bound
+  ##
+  # existingClaim:
+
+  ## The path the volume will be mounted at, useful when using different
+  ## MongoDB images.
+  ##
+  mountPath: /bitnami/mongodb
+
+  ## The subdirectory of the volume to mount to, useful in dev environments
+  ## and one PV for multiple services.
+  ##
+  subPath: ""
+
+  ## mongodb data Persistent Volume Storage Class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  # storageClass: "-"
+  accessModes:
+    - ReadWriteOnce
+  size: 8Gi
+  annotations: {}
+
+## Pod Security Context
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+##
+securityContext:
+  enabled: true
+  fsGroup: 1001
+  runAsUser: 1001
