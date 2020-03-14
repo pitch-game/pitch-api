@@ -67,6 +67,7 @@ namespace Pitch.Match.API
             services.AddSingleton<ICalculatedCardStatService, CalculatedCardStatService>();
             services.AddSingleton<IRatingService, RatingService>();
             services.AddSingleton<IPossessionService, PossessionService>();
+            services.AddSingleton<IFitnessDrainService, FitnessDrainService>();
 
             services.AddScoped<IMatchRepository, MatchRepository>();
             services.AddScoped(typeof(IDataContext<>), typeof(MongoDbDataContext<>));
@@ -141,18 +142,18 @@ namespace Pitch.Match.API
                 Predicate = r => r.Name.Contains("self")
             });
 
-            app.UseAuthentication();
+            app.UseRouting();
 
-            app.UseSignalR(route =>
-            {
-                route.MapHub<MatchmakingHub>("/hubs/matchmaking", (options) =>
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints => {
+                endpoints.MapHub<MatchmakingHub>("/hubs/matchmaking", (options) =>
                 {
                     options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransports.All;
                 });
+                endpoints.MapControllers();
             });
-
-            app.UseRouting();
-            app.UseAuthorization();
         }
     }
 }

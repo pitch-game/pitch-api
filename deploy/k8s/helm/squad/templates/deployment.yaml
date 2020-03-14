@@ -52,8 +52,8 @@ spec:
                 secretKeyRef:
                   key:  "RabbitMQHealthCheck"
                   name: "connection-strings"
-            - name: CI_BUILD_NUMBER
-              value: "{{ .Values.buildNumber }}"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "{{ .Values.aspnetcoreEnvironment }}"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

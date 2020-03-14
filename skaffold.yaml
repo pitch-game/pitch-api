@@ -27,34 +27,50 @@ deploy:
       chartPath: deploy/k8s/helm/api-gateway
       values:
         imageName: api-gateway
+      setValues:
+        aspnetcoreEnvironment: Development
     - name: card
       chartPath: deploy/k8s/helm/card
       values:
         imageName: card
+      setValues:
+        aspnetcoreEnvironment: Development
     - name: identity
       chartPath: deploy/k8s/helm/identity
       values:
         imageName: identity
+      setValues:
+        aspnetcoreEnvironment: Development
     - name: match
       chartPath: deploy/k8s/helm/match
       values:
         imageName: match
+      setValues:
+        aspnetcoreEnvironment: Development
     - name: player
       chartPath: deploy/k8s/helm/player
       values:
         imageName: player
+      setValues:
+        aspnetcoreEnvironment: Development
     - name: squad
       chartPath: deploy/k8s/helm/squad
       values:
         imageName: squad
+      setValues:
+        aspnetcoreEnvironment: Development
     - name: store
       chartPath: deploy/k8s/helm/store
       values:
         imageName: store
+      setValues:
+        aspnetcoreEnvironment: Development
     - name: user
       chartPath: deploy/k8s/helm/user
       values:
         imageName: user
+      setValues:
+        aspnetcoreEnvironment: Development
     - name: mongodb
       chartPath: deploy/k8s/helm/mongodb
     - name: rabbitmq
