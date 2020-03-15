@@ -30,7 +30,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Services
         private void DrainLineup(Models.Match.Match match, int minute, IDictionary<string, IEnumerable<Card>> lineup)
         {
             var allCards = lineup.SelectMany(x => x.Value);
-            foreach (var card in allCards)
+            foreach (var card in allCards.Where(x => x != null))
             {
                 AddModifier(match, minute, card.Id, CalculateFitnessDrain());
             }
