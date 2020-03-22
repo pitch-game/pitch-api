@@ -66,5 +66,6 @@ namespace Pitch.Match.API.ApplicationCore.Models
         public string Rarity { get; set; }
         public string Position { get; set; }
         public int Chemistry { get; set; }
+        public int Fitness { get; set; }
     }
 }

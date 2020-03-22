@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Pitch.Match.API.ApplicationCore.Engine;
 using Pitch.Match.API.ApplicationCore.Engine.Events;
 
 namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
@@ -31,23 +32,30 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
                 Name = match.AwayTeam.Squad.Name
             };
 
-            var cards = match.HomeTeam.Squad.Lineup.SelectMany(x => x.Value).Concat(match.AwayTeam.Squad.Lineup.SelectMany(x => x.Value));
-            cards = cards.Concat(match.HomeTeam.Squad.Subs ?? new Card[0]).Concat(match.AwayTeam.Squad.Subs ?? new Card[0]);
-
-            Events = matchEvents.Where(x => x.ShowInTimeline).Select((matchEvent, i) => new Event()
+            Timeline = matchEvents.Where(x => x.ShowInTimeline).Select((matchEvent, i) => new Event()
             {
-                Minute = i, //TODO extension method
+                Minute = i, //TODO fix get actual minute
                 Name = matchEvent.Name,
-                Card = cards.FirstOrDefault(c => c != null && c.Id == matchEvent.CardId),
+                CardId = matchEvent.CardId,
                 SquadName = match.HomeTeam.Squad.Id == matchEvent.SquadId
                         ? match.HomeTeam.Squad.Name
                         : match.AwayTeam.Squad.Name, //TODO sending repeated data
-                CardId = matchEvent.CardId
             }).ToList();
+
+            var homeSquad = new ApplicationCore.Models.MatchResult.Squad(match.HomeTeam.Squad.Lineup.ToDictionary(x => x.Key, x => x.Value.Select(c => c.Id)), match.HomeTeam.Squad.Subs.Select(x => x.Id).ToArray());
+            var awaySquad = new ApplicationCore.Models.MatchResult.Squad(match.AwayTeam.Squad.Lineup.ToDictionary(x => x.Key, x => x.Value.Select(c => c.Id)), match.AwayTeam.Squad.Subs.Select(x => x.Id).ToArray());
+            Lineup = new ApplicationCore.Models.MatchResult.Lineup(homeSquad, awaySquad);
+
+            var cards = new List<Card>();
+            cards.AddRange(match.AwayTeam.Squad.Lineup.Values.SelectMany(x => x));
+            cards.AddRange(match.AwayTeam.Squad.Subs);
+            cards.AddRange(match.HomeTeam.Squad.Lineup.Values.SelectMany(x => x));
+            cards.AddRange(match.HomeTeam.Squad.Subs);
+            CardLookup = cards.ToDictionary(x => x.Id, x => x);
 
             Minute = match.Elapsed;
             Expired = match.HasFinished;
-            ExpiredOn = match.HasFinished ? match.KickOff.AddMinutes(90) : (DateTime?)null;
+            ExpiredOn = match.HasFinished ? match.KickOff.AddMinutes(Constants.MatchLengthInMinutes) : (DateTime?)null;
         }
 
         private static Stats GetStats(Match.Match match, IList<IEvent> homeTeamEvents, Guid teamId)
@@ -70,14 +78,13 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
             return (int)Math.Round(stats.Count(x => x.SquadIdInPossession == teamId) / (double)stats.Count * 100);
         }
 
-        private static IEnumerable<string> GetScorers(Match.Match match, IEnumerable<IEvent> events, Squad team)
+        private IEnumerable<string> GetScorers(Match.Match match, IEnumerable<IEvent> events, ApplicationCore.Models.Squad team)
         {
             var scorers = new List<string>();
             var goals = events.Where(x => x is Goal).Cast<Goal>();
-            var playerCards = team.Lineup.SelectMany(x => x.Value).Concat(team.Subs ?? new Card[0]);
             foreach (var goal in goals)
             {
-                var player = playerCards.FirstOrDefault(x => x.Id == goal.CardId);
+                var player = CardLookup[goal.CardId];
                 scorers.Add($"{player.Name} {0}'");
             }
             return scorers;
@@ -91,11 +98,14 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
         public Stats HomeStats { get; set; }
         public Stats AwayStats { get; set; }
 
-        //TODO Rename to timeline?
-        public IList<Event> Events { get; set; }
+        public Lineup Lineup { get; set; }
+
+        public IList<Event> Timeline { get; set; }
 
         public bool Expired { get; set; }
 
         public DateTime? ExpiredOn { get; set; }
+
+        public IDictionary<Guid, Card> CardLookup { get; set; }
     }
 }
