@@ -32,7 +32,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Services
                 }
             }
 
-            foreach (var card in squad.Subs)
+            foreach (var card in squad.Subs.Where(x => x != null))
             {
                 card.Fitness = Fitness(modifiers, card.Id);
             }

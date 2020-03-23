@@ -18,7 +18,7 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
         //TODO move to factory
         public MatchResult(Match.Match match)
         {
-            _calculatedCardStatService.Set(match, match.Elapsed);
+            //_calculatedCardStatService.Set(match, match.Elapsed);
 
             var matchEvents = match.Minutes.SelectMany(x => x.Events).ToList();
 
