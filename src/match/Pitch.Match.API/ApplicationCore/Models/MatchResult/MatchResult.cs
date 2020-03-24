@@ -10,7 +10,10 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
     {
         public MatchResult(Match.Match match)
         {
+            SetCardLookup(match);
+
             var matchEvents = match.Minutes.SelectMany(x => x.Events).ToList();
+            var matchEventsWithMinutes = match.Minutes.Select((matchMinute, minute) => new { Minute = minute, Events = matchMinute.Events });
 
             var homeTeamEvents = matchEvents.Where(x => x.SquadId == match.HomeTeam.Squad.Id).ToList();
             var awayTeamEvents = matchEvents.Where(x => x.SquadId == match.AwayTeam.Squad.Id).ToList();
@@ -32,19 +35,20 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
                 Name = match.AwayTeam.Squad.Name
             };
 
-            Timeline = matchEvents.Where(x => x.ShowInTimeline).Select((matchEvent, i) => new Event()
+            Timeline = matchEventsWithMinutes.SelectMany(x =>
             {
-                Minute = i, //TODO fix get actual minute
-                Name = matchEvent.Name,
-                CardId = matchEvent.CardId,
-                SquadName = match.HomeTeam.Squad.Id == matchEvent.SquadId
+                return x.Events.Where(x => x.ShowInTimeline).Select((matchEvent, i) => new Event()
+                {
+                    Minute = x.Minute,
+                    Name = matchEvent.Name,
+                    CardId = matchEvent.CardId,
+                    SquadName = match.HomeTeam.Squad.Id == matchEvent.SquadId
                         ? match.HomeTeam.Squad.Name
                         : match.AwayTeam.Squad.Name, //TODO sending repeated data
-            }).ToList();
+                });
+            }).OrderByDescending(x => x.Minute).ToList();
 
             SetLineups(match);
-
-            SetCardLookup(match);
 
             Minute = match.Elapsed;
             Expired = match.HasFinished;
@@ -58,7 +62,7 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
             cards.AddRange(match.AwayTeam.Squad.Subs);
             cards.AddRange(match.HomeTeam.Squad.Lineup.Values.SelectMany(x => x));
             cards.AddRange(match.HomeTeam.Squad.Subs);
-            CardLookup = cards.Where(x => x != null).ToDictionary(x => x.Id, x => x);
+            CardLookup = cards.Where(x => x != null).ToDictionary(x => x.Id.ToString(), x => x);
         }
 
         private void SetLineups(Match.Match match)
@@ -98,7 +102,7 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
             var goals = events.Where(x => x is Goal).Cast<Goal>();
             foreach (var goal in goals)
             {
-                var player = CardLookup[goal.CardId];
+                var player = CardLookup[goal.CardId.ToString()];
                 scorers.Add($"{player.Name} {0}'");
             }
             return scorers;
@@ -120,6 +124,6 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
 
         public DateTime? ExpiredOn { get; set; }
 
-        public IDictionary<Guid, Card> CardLookup { get; set; }
+        public IDictionary<string, Card> CardLookup { get; set; }
     }
 }
