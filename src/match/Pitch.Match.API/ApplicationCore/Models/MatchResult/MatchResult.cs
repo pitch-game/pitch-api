@@ -52,20 +52,34 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
                         : match.AwayTeam.Squad.Name, //TODO sending repeated data
             }).ToList();
 
-            var homeSquad = new ApplicationCore.Models.MatchResult.Squad(match.HomeTeam.Squad.Lineup.ToDictionary(x => x.Key, x => x.Value.Select(c => c.Id)), match.HomeTeam.Squad.Subs.Select(x => x.Id).ToArray());
-            var awaySquad = new ApplicationCore.Models.MatchResult.Squad(match.AwayTeam.Squad.Lineup.ToDictionary(x => x.Key, x => x.Value.Select(c => c.Id)), match.AwayTeam.Squad.Subs.Select(x => x.Id).ToArray());
-            Lineup = new ApplicationCore.Models.MatchResult.Lineup(homeSquad, awaySquad);
+            SetLineups(match);
 
+            SetCardLookup(match);
+
+            Minute = match.Elapsed;
+            Expired = match.HasFinished;
+            ExpiredOn = match.HasFinished ? match.KickOff.AddMinutes(Constants.MatchLengthInMinutes) : (DateTime?)null;
+        }
+
+        private void SetCardLookup(Match.Match match)
+        {
             var cards = new List<Card>();
             cards.AddRange(match.AwayTeam.Squad.Lineup.Values.SelectMany(x => x));
             cards.AddRange(match.AwayTeam.Squad.Subs);
             cards.AddRange(match.HomeTeam.Squad.Lineup.Values.SelectMany(x => x));
             cards.AddRange(match.HomeTeam.Squad.Subs);
-            CardLookup = cards.ToDictionary(x => x.Id, x => x);
+            CardLookup = cards.Where(x => x != null).ToDictionary(x => x.Id, x => x);
+        }
 
-            Minute = match.Elapsed;
-            Expired = match.HasFinished;
-            ExpiredOn = match.HasFinished ? match.KickOff.AddMinutes(Constants.MatchLengthInMinutes) : (DateTime?)null;
+        private void SetLineups(Match.Match match)
+        {
+            var homeSquad = new Squad(
+                match.HomeTeam.Squad.Lineup.ToDictionary(x => x.Key, x => x.Value.Select(c => c.Id)),
+                match.HomeTeam.Squad.Subs.Where(x => x != null).Select(x => x.Id).ToArray());
+            var awaySquad = new Squad(
+                match.AwayTeam.Squad.Lineup.ToDictionary(x => x.Key, x => x.Value.Select(c => c.Id)),
+                match.AwayTeam.Squad.Subs.Where(x => x != null).Select(x => x.Id).ToArray());
+            Lineup = new Lineup(homeSquad, awaySquad);
         }
 
         private static Stats GetStats(Match.Match match, IList<IEvent> homeTeamEvents, Guid teamId)
