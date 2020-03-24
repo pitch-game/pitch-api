@@ -3,23 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Pitch.Match.API.ApplicationCore.Engine;
 using Pitch.Match.API.ApplicationCore.Engine.Events;
-using Pitch.Match.API.ApplicationCore.Engine.Services;
 
 namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
 {
     public class MatchResult
     {
-        private readonly ICalculatedCardStatService _calculatedCardStatService;
-        public MatchResult(ICalculatedCardStatService calculatedCardStatService)
-        {
-         _calculatedCardStatService = calculatedCardStatService;   
-        }
-
-        //TODO move to factory
         public MatchResult(Match.Match match)
         {
-            //_calculatedCardStatService.Set(match, match.Elapsed);
-
             var matchEvents = match.Minutes.SelectMany(x => x.Events).ToList();
 
             var homeTeamEvents = matchEvents.Where(x => x.SquadId == match.HomeTeam.Squad.Id).ToList();
