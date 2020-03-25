@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EasyNetQ;
 using Pitch.Match.API.ApplicationCore.Engine;
 using Pitch.Match.API.ApplicationCore.Engine.Events;
+using Pitch.Match.API.ApplicationCore.Engine.Services;
 using Pitch.Match.API.ApplicationCore.Models;
 using Pitch.Match.API.ApplicationCore.Models.Match;
 using Pitch.Match.API.ApplicationCore.Models.MatchResult;
@@ -18,7 +19,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
     public interface IMatchService
     {
         Task KickOff(Guid sessionId);
-        Task<Models.Match.Match> GetAsync(Guid id);
+        Task<Models.Match.Match> GetAsAtElapsedAsync(Guid id);
         Task ClaimAsync(Guid userId);
         Task<IEnumerable<MatchListResult>> GetAllAsync(int skip, int? take, Guid userId);
         Task<MatchStatusResult> GetMatchStatus(Guid userId);
@@ -31,16 +32,18 @@ namespace Pitch.Match.API.ApplicationCore.Services
         private readonly IMatchmakingService _matchmakingService;
         private readonly IMatchEngine _matchEngine;
         private readonly IMatchRepository _matchRepository;
+        private readonly ICalculatedCardStatService _calculatedCardStatService;
         private readonly IBus _bus;
 
         public const int SubCount = 3;
 
-        public MatchService(IMatchmakingService matchmakingService, IMatchEngine matchEngine, IMatchRepository matchRepository, IBus bus)
+        public MatchService(IMatchmakingService matchmakingService, IMatchEngine matchEngine, IMatchRepository matchRepository, IBus bus, ICalculatedCardStatService calculatedCardStatService)
         {
             _matchmakingService = matchmakingService;
             _matchEngine = matchEngine;
             _matchRepository = matchRepository;
             _bus = bus;
+            _calculatedCardStatService = calculatedCardStatService;
         }
 
         public async Task ClaimAsync(Guid userId)
@@ -70,9 +73,12 @@ namespace Pitch.Match.API.ApplicationCore.Services
             }
         }
 
-        public async Task<Models.Match.Match> GetAsync(Guid id)
+        public async Task<Models.Match.Match> GetAsAtElapsedAsync(Guid id)
         {
-            return await _matchRepository.GetAsync(id);
+            var match = await _matchRepository.GetAsync(id);
+            match.AsAtElapsed();
+            _calculatedCardStatService.Set(match, match.Elapsed);
+            return match;
         }
 
         public async Task KickOff(Guid sessionId)

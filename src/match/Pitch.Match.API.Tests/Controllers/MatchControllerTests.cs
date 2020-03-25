@@ -46,7 +46,7 @@ namespace Pitch.Match.API.Tests.Controllers
             };
 
             var mockMatchService = new Mock<IMatchService>();
-            mockMatchService.Setup(x => x.GetAsync(_matchId)).Returns(Task.FromResult(matchStub));
+            mockMatchService.Setup(x => x.GetAsAtElapsedAsync(_matchId)).Returns(Task.FromResult(matchStub));
 
             var mockAutomapper = new Mock<IMapper>();
             mockAutomapper.Setup(x => x.Map<LineupModel>(It.IsAny<Lineup>())).Returns(new LineupModel());
