@@ -21,7 +21,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Actions
         }
 
         [BsonIgnore]
-        public decimal ChancePerMinute => 0.15m;
+        public decimal ChancePerMinute => 0.4m;
 
         [BsonIgnore]
         public IDictionary<PositionalArea, decimal> PositionalChance => new Dictionary<PositionalArea, decimal>()

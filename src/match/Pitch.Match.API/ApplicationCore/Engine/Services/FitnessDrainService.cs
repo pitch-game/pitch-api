@@ -38,7 +38,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Services
 
         private float CalculateFitnessDrain()
         {
-            return 0.01f * _randomnessProvider.Next(100); //TODO drain based on position
+            return 0.01f * _randomnessProvider.Next(200); //TODO drain based on position
         }
 
         private void AddModifier(Models.Match.Match match, int minute, Guid cardId, float value)
