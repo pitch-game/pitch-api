@@ -58,6 +58,9 @@ namespace Pitch.Match.API.ApplicationCore.Models
             Position = card.Position;
             Chemistry = card.Chemistry;
             Fitness = card.Fitness;
+            Goals = card.Goals;
+            YellowCards = card.YellowCards;
+            RedCards = card.RedCards;
         }
 
         public Guid Id { get; set; }
@@ -68,5 +71,8 @@ namespace Pitch.Match.API.ApplicationCore.Models
         public string Position { get; set; }
         public int Chemistry { get; set; }
         public int Fitness { get; set; }
+        public int Goals { get; set; }
+        public int YellowCards { get; set; }
+        public int RedCards { get; set; }
     }
 }

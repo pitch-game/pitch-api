@@ -6,17 +6,24 @@ using Pitch.Match.API.ApplicationCore.Engine.Events;
 
 namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
 {
+    public class MatchEventsWithMinute
+    {
+        public int Minute { get; set; }
+        public IList<IEvent> Events { get; set; }
+    }
+
     public class MatchResult
     {
         public MatchResult(Match.Match match)
         {
             SetCardLookup(match);
 
-            var matchEvents = match.Minutes.SelectMany(x => x.Events).ToList();
-            var matchEventsWithMinutes = match.Minutes.Select((matchMinute, minute) => new { Minute = minute, Events = matchMinute.Events });
+            var matchEventsWithMinutes = match.Minutes.Select((matchMinute, minute) => new MatchEventsWithMinute { Minute = minute, Events = matchMinute.Events }).ToList();
 
-            var homeTeamEvents = matchEvents.Where(x => x.SquadId == match.HomeTeam.Squad.Id).ToList();
-            var awayTeamEvents = matchEvents.Where(x => x.SquadId == match.AwayTeam.Squad.Id).ToList();
+            SetCardStats(matchEventsWithMinutes);
+
+            var homeTeamEvents = matchEventsWithMinutes.SelectMany(x => x.Events.Where(e => e.SquadId == match.HomeTeam.Squad.Id)).ToList();
+            var awayTeamEvents = matchEventsWithMinutes.SelectMany(x => x.Events.Where(x => x.SquadId == match.AwayTeam.Squad.Id)).ToList();
 
             HomeStats = GetStats(match, homeTeamEvents, match.HomeTeam.Squad.Id);
             AwayStats = GetStats(match, awayTeamEvents, match.AwayTeam.Squad.Id);
@@ -24,14 +31,14 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
             HomeResult = new Result
             {
                 Score = homeTeamEvents.Count(x => x is Goal),
-                Scorers = GetScorers(match, homeTeamEvents, match.HomeTeam.Squad),
+                Scorers = GetScorers(match, matchEventsWithMinutes, match.HomeTeam.Squad),
                 Name = match.HomeTeam.Squad.Name
             };
 
             AwayResult = new Result
             {
                 Score = awayTeamEvents.Count(x => x is Goal),
-                Scorers = GetScorers(match, awayTeamEvents, match.AwayTeam.Squad),
+                Scorers = GetScorers(match, matchEventsWithMinutes, match.AwayTeam.Squad),
                 Name = match.AwayTeam.Squad.Name
             };
 
@@ -42,9 +49,7 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
                     Minute = x.Minute,
                     Name = matchEvent.Name,
                     CardId = matchEvent.CardId,
-                    SquadName = match.HomeTeam.Squad.Id == matchEvent.SquadId
-                        ? match.HomeTeam.Squad.Name
-                        : match.AwayTeam.Squad.Name, //TODO sending repeated data
+                    SquadName = match.HomeTeam.Squad.Id == matchEvent.SquadId ? match.HomeTeam.Squad.Name : match.AwayTeam.Squad.Name
                 });
             }).OrderByDescending(x => x.Minute).ToList();
 
@@ -63,6 +68,16 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
             cards.AddRange(match.HomeTeam.Squad.Lineup.Values.SelectMany(x => x));
             cards.AddRange(match.HomeTeam.Squad.Subs);
             CardLookup = cards.Where(x => x != null).ToDictionary(x => x.Id.ToString(), x => x);
+        }
+
+        private void SetCardStats(IList<MatchEventsWithMinute> events)
+        {
+            foreach (var card in CardLookup)
+            {
+                card.Value.Goals = events.Sum(x => x.Events.Count(e => e.CardId == card.Value.Id && e is Goal));
+                card.Value.YellowCards = events.Sum(x => x.Events.Count(e => e.CardId == card.Value.Id && e is YellowCard));
+                card.Value.RedCards = events.Sum(x => x.Events.Count(e => e.CardId == card.Value.Id && e is RedCard));
+            }
         }
 
         private void SetLineups(Match.Match match)
@@ -96,16 +111,16 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
             return (int)Math.Round(stats.Count(x => x.SquadIdInPossession == teamId) / (double)stats.Count * 100);
         }
 
-        private IEnumerable<string> GetScorers(Match.Match match, IEnumerable<IEvent> events, ApplicationCore.Models.Squad team)
+        private IEnumerable<string> GetScorers(Match.Match match, IList<MatchEventsWithMinute> events, ApplicationCore.Models.Squad team)
         {
-            var scorers = new List<string>();
-            var goals = events.Where(x => x is Goal).Cast<Goal>();
-            foreach (var goal in goals)
+            return events.SelectMany(x => 
             {
-                var player = CardLookup[goal.CardId.ToString()];
-                scorers.Add($"{player.Name} {0}'");
-            }
-            return scorers;
+                return x.Events.Where(e => e is Goal && e.SquadId == team.Id).Cast<Goal>().Select(goal =>
+                {
+                    var player = CardLookup[goal.CardId.ToString()];
+                    return $"{player.Name} {x.Minute}'";
+                });
+            });
         }
 
         public int Minute { get; set; }

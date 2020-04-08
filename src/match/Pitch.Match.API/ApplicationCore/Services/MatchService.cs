@@ -46,6 +46,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
             _calculatedCardStatService = calculatedCardStatService;
         }
 
+        //TODO remove usage of match result model
         public async Task ClaimAsync(Guid userId)
         {
             var unclaimed = await _matchRepository.GetUnclaimedAsync(userId);
@@ -127,6 +128,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
             };
         }
 
+        //TODO remove usage of match result model
         public async Task<IEnumerable<MatchListResult>> GetAllAsync(int skip, int? take, Guid userId)
         {
             var matches = await _matchRepository.GetAllAsync(skip, take ?? 25, userId);
