@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Pitch.Store.API.Models;
+﻿using Pitch.Store.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

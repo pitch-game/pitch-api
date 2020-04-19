@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyNetQ;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Pitch.Store.API.Application.Requests;
 using Pitch.Store.API.Application.Responses;
 using Pitch.Store.API.Infrastructure.Repositories;

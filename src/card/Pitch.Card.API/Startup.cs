@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -19,6 +18,7 @@ using Pitch.Player.API.Supporting;
 using System;
 using System.Linq;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 
 namespace Pitch.Card.API
 {
@@ -47,7 +47,7 @@ namespace Pitch.Card.API
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddAuthentication(options =>
             {
@@ -82,7 +82,7 @@ namespace Pitch.Card.API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Card API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Card API", Version = "v1" });
             });
         }
 
@@ -110,7 +110,11 @@ namespace Pitch.Card.API
             app.UseEasyNetQ();
             app.UseAuthentication();
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+            });
         }
     }
 }

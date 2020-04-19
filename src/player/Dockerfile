@@ -1,9 +1,9 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
 COPY ["Pitch.Player.API/Pitch.Player.API.csproj", "Pitch.Player.API/"]
 COPY ["Pitch.Player.API.Tests/Pitch.Player.API.Tests.csproj", "Pitch.Player.API.Tests/"]

@@ -46,7 +46,7 @@ namespace Pitch.Player.API
                 .AddCheck("self", () => HealthCheckResult.Healthy())
                 .AddRabbitMQ(Configuration.GetConnectionString("RabbitMQHealthCheck"), name: "rabbitmq-check", tags: new string[] { "rabbitmq" });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddSingleton<IPlayerRequestResponder, PlayerRequestResponder>();
             services.AddSingleton<IResponder, PlayerRequestResponder>();
@@ -91,7 +91,11 @@ namespace Pitch.Player.API
 
             app.UseEasyNetQ();
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+            });
         }
     }
 }

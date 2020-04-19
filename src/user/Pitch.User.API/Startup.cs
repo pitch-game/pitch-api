@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using Pitch.User.API.Application.Responders;
 using Pitch.User.API.Application.Subscribers;
@@ -77,7 +78,7 @@ namespace Pitch.User.API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "User API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "User API", Version = "v1" });
             });
         }
 
@@ -105,7 +106,11 @@ namespace Pitch.User.API
             app.UseAuthentication();
             app.UseEasyNetQ();
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+            });
         }
     }
 }

@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using Pitch.Squad.API.Application.Responders;
 using Pitch.Squad.API.Infrastructure;
@@ -44,7 +44,7 @@ namespace Pitch.Squad.API
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddHealthChecks();
 
             services.AddAuthentication(options =>
@@ -83,7 +83,7 @@ namespace Pitch.Squad.API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Squad API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Squad API", Version = "v1" });
             });
         }
 
@@ -100,9 +100,14 @@ namespace Pitch.Squad.API
             app.UseHealthChecks("/health");
             app.UseHealthChecks("/liveness");
 
+            app.UseRouting();
+
             app.UseEasyNetQ();
             app.UseAuthentication();
-            app.UseMvc();
+
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+            });
         }
     }
 }
