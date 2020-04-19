@@ -64,7 +64,7 @@ namespace Pitch.User.API.Tests
             await mongoDbContext.UpdateAsync(testEntity);
 
             //Assert
-            mongoCollectionMock.Verify(m => m.ReplaceOneAsync(It.IsAny<FilterDefinition<TestEntity>>(), testEntity, null, It.IsAny<CancellationToken>()), Times.Once);
+            mongoCollectionMock.Verify(m => m.ReplaceOneAsync(It.IsAny<FilterDefinition<TestEntity>>(), testEntity, (ReplaceOptions)null, It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

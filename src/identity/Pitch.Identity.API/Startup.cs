@@ -44,7 +44,9 @@ namespace PitchApi
             });
 
             services.AddCors();
-            services.AddMvc();
+            services.AddMvc(s => {
+                s.EnableEndpointRouting = false;
+            });
 
             services.AddSingleton(s =>
             {
