@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EasyNetQ;
 using Pitch.Match.API.ApplicationCore.Engine;
 using Pitch.Match.API.ApplicationCore.Engine.Events;
+using Pitch.Match.API.ApplicationCore.Engine.Services;
 using Pitch.Match.API.ApplicationCore.Models;
 using Pitch.Match.API.ApplicationCore.Models.Match;
 using Pitch.Match.API.ApplicationCore.Models.MatchResult;
@@ -18,11 +19,11 @@ namespace Pitch.Match.API.ApplicationCore.Services
     public interface IMatchService
     {
         Task KickOff(Guid sessionId);
-        Task<Models.Match.Match> GetAsync(Guid id);
+        Task<Models.Match.Match> GetAsAtElapsedAsync(Guid id);
         Task ClaimAsync(Guid userId);
         Task<IEnumerable<MatchListResult>> GetAllAsync(int skip, int? take, Guid userId);
         Task<MatchStatusResult> GetMatchStatus(Guid userId);
-        Task<Lineup> GetLineupAsync(Guid matchId, Guid userId);
+        Task<ApplicationCore.Models.Lineup> GetLineupAsync(Guid matchId, Guid userId);
         Task Substitution(Guid off, Guid on, Guid matchId, Guid userId);
     }
 
@@ -31,18 +32,21 @@ namespace Pitch.Match.API.ApplicationCore.Services
         private readonly IMatchmakingService _matchmakingService;
         private readonly IMatchEngine _matchEngine;
         private readonly IMatchRepository _matchRepository;
+        private readonly ICalculatedCardStatService _calculatedCardStatService;
         private readonly IBus _bus;
 
         public const int SubCount = 3;
 
-        public MatchService(IMatchmakingService matchmakingService, IMatchEngine matchEngine, IMatchRepository matchRepository, IBus bus)
+        public MatchService(IMatchmakingService matchmakingService, IMatchEngine matchEngine, IMatchRepository matchRepository, IBus bus, ICalculatedCardStatService calculatedCardStatService)
         {
             _matchmakingService = matchmakingService;
             _matchEngine = matchEngine;
             _matchRepository = matchRepository;
             _bus = bus;
+            _calculatedCardStatService = calculatedCardStatService;
         }
 
+        //TODO remove usage of match result model
         public async Task ClaimAsync(Guid userId)
         {
             var unclaimed = await _matchRepository.GetUnclaimedAsync(userId);
@@ -70,9 +74,12 @@ namespace Pitch.Match.API.ApplicationCore.Services
             }
         }
 
-        public async Task<Models.Match.Match> GetAsync(Guid id)
+        public async Task<Models.Match.Match> GetAsAtElapsedAsync(Guid id)
         {
-            return await _matchRepository.GetAsync(id);
+            var match = await _matchRepository.GetAsync(id);
+            match.AsAtElapsed();
+            _calculatedCardStatService.Set(match, match.Elapsed);
+            return match;
         }
 
         public async Task KickOff(Guid sessionId)
@@ -99,14 +106,14 @@ namespace Pitch.Match.API.ApplicationCore.Services
             await _matchRepository.CreateAsync(simulatedMatch);
         }
 
-        private Squad BuildSquad(GetSquadResponse squadResp)
+        private ApplicationCore.Models.Squad BuildSquad(GetSquadResponse squadResp)
         {
             var gk = squadResp.Lineup.Where(x => x.Key == "GK").Select(x => x.Value).ToList();
             var def = squadResp.Lineup.Where(x => (new [] { "LB", "LCB", "RCB", "RB" }).Contains(x.Key)).Select(x => x.Value).ToList();
             var mid = squadResp.Lineup.Where(x => (new [] { "LM", "LCM", "RCM", "RM" }).Contains(x.Key)).Select(x => x.Value).ToList();
             var att = squadResp.Lineup.Where(x => (new [] { "LST", "RST" }).Contains(x.Key)).Select(x => x.Value).ToList();
 
-            return new Squad()
+            return new ApplicationCore.Models.Squad()
             {
                 Id = squadResp.Id,
                 Name = squadResp.Name,
@@ -121,6 +128,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
             };
         }
 
+        //TODO remove usage of match result model
         public async Task<IEnumerable<MatchListResult>> GetAllAsync(int skip, int? take, Guid userId)
         {
             var matches = await _matchRepository.GetAllAsync(skip, take ?? 25, userId);
@@ -156,13 +164,13 @@ namespace Pitch.Match.API.ApplicationCore.Services
             };
         }
 
-        public async Task<Lineup> GetLineupAsync(Guid matchId, Guid userId)
+        public async Task<ApplicationCore.Models.Lineup> GetLineupAsync(Guid matchId, Guid userId)
         {
             var match = await _matchRepository.GetAsync(matchId);
             var team = match.GetTeam(userId);
             var sendingOffs = match.Minutes.SelectMany(x => x.Events).Where(x => x is RedCard).Select(x => x.CardId);
             var lineup = team.Squad.Lineup.Values.SelectMany(x => x).Where(x => !sendingOffs.Contains(x.Id)).ToList();
-            return new Lineup { Active = lineup, Subs = team.Squad.Subs };
+            return new ApplicationCore.Models.Lineup { Active = lineup, Subs = team.Squad.Subs };
         }
 
         public async Task Substitution(Guid off, Guid on, Guid matchId, Guid userId)

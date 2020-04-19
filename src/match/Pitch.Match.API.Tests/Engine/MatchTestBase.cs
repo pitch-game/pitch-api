@@ -32,12 +32,12 @@ namespace Pitch.Match.API.Tests.Engine
             //TODO Mock these
             var randomnessProvider = new ThreadSafeRandomnessProvider();
             var calculatedCardStatService = new CalculatedCardStatService();
-            var ratingService = new RatingService(calculatedCardStatService);
+            var ratingService = new RatingService();
             var fitnessDrainService = new FitnessDrainService(randomnessProvider);
             var possessionService = new PossessionService(ratingService);
             var actions = new IAction[] {new Foul(randomnessProvider), new Shot(randomnessProvider, ratingService) };
             var actionService = new ActionService(actions, randomnessProvider);
-            StubMatchEngine = new MatchEngine(actionService, possessionService, fitnessDrainService);
+            StubMatchEngine = new MatchEngine(actionService, possessionService, fitnessDrainService, calculatedCardStatService);
 
             StubHomePlayer = new Card
             {

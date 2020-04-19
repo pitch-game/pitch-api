@@ -71,7 +71,7 @@ deploy:
         imageName: user
       setValues:
         aspnetcoreEnvironment: Development
-    - name: mongodb
-      chartPath: deploy/k8s/helm/mongodb
-    - name: rabbitmq
-      chartPath: deploy/k8s/helm/rabbitmq
+    # - name: mongodb
+    #   chartPath: deploy/k8s/helm/mongodb
+    # - name: rabbitmq
+    #   chartPath: deploy/k8s/helm/rabbitmq

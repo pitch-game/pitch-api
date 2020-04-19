@@ -14,12 +14,14 @@ namespace Pitch.Match.API.ApplicationCore.Engine
         private readonly IActionService _actionService;
         private readonly IPossessionService _possessionService;
         private readonly IFitnessDrainService _fitnessDrainService;
+        private readonly ICalculatedCardStatService _calculatedCardStatService;
 
-        public MatchEngine(IActionService actionService, IPossessionService possessionService, IFitnessDrainService fitnessDrainService)
+        public MatchEngine(IActionService actionService, IPossessionService possessionService, IFitnessDrainService fitnessDrainService, ICalculatedCardStatService calculatedCardStatService)
         {
             _actionService = actionService;
             _possessionService = possessionService;
             _fitnessDrainService = fitnessDrainService;
+            _calculatedCardStatService = calculatedCardStatService;
         }
 
         /// <summary>
@@ -41,6 +43,8 @@ namespace Pitch.Match.API.ApplicationCore.Engine
 
         private void SimulateMinute(Models.Match.Match match, int minute)
         {
+            SetCalculatedStats(match, minute);
+
             var inPossession = _possessionService.InPossession(match, out var notInPossession, out var homePossChance,
                 out var awayPossChance);
 
@@ -72,6 +76,11 @@ namespace Pitch.Match.API.ApplicationCore.Engine
         private void ApplyModifiers(Models.Match.Match match, int minute)
         {
             _fitnessDrainService.Drain(match, minute);
+        }
+
+        private void SetCalculatedStats(Models.Match.Match match, int minute)
+        {
+            _calculatedCardStatService.Set(match, minute);
         }
     }
 }

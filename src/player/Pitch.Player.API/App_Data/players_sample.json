@@ -33,8 +33,8 @@
   },
   {
     "Id": "fee424e5-fcfd-47f0-b1f6-4921642852be",
-    "Name": "Adrián",
-    "ShortName": "Adrián",
+    "Name": "Adrian",
+    "ShortName": "Adrian",
     "Nationality": "Spain",
     "Position": "GK",
     "Rating": 78
@@ -57,8 +57,8 @@
   },
   {
     "Id": "e851f567-2cd9-4c27-9cc8-a7dffefa15eb",
-    "Name": "Sergio Agüero",
-    "ShortName": "Agüero",
+    "Name": "Sergio Aguero",
+    "ShortName": "Aguero",
     "Nationality": "Argentina",
     "Position": "ST",
     "Rating": 96
@@ -81,8 +81,8 @@
   },
   {
     "Id": "3b203ac9-92cc-4b73-aa29-8ec55eda9b4e",
-    "Name": "Nathan Aké",
-    "ShortName": "Aké",
+    "Name": "Nathan Ake",
+    "ShortName": "Ake",
     "Nationality": "Netherlands",
     "Position": "CB",
     "Rating": 82
@@ -105,8 +105,8 @@
   },
   {
     "Id": "edb5de6c-986d-4dfb-9788-3a049a1485d1",
-    "Name": "Aleix García",
-    "ShortName": "García",
+    "Name": "Aleix Garcia",
+    "ShortName": "Garcia",
     "Nationality": "Spain",
     "Position": "CM",
     "Rating": 75
@@ -161,8 +161,8 @@
   },
   {
     "Id": "ac5f738a-c008-4cd9-916d-bffdeee58024",
-    "Name": "Miguel Almirón",
-    "ShortName": "Almirón",
+    "Name": "Miguel Almiron",
+    "ShortName": "Almiron",
     "Nationality": "Paraguay",
     "Position": "CM",
     "Rating": 82
@@ -209,7 +209,7 @@
   },
   {
     "Id": "515c2012-2c41-4d5f-897c-fc9eebcf52ea",
-    "Name": "André Gomes",
+    "Name": "Andre Gomes",
     "ShortName": "Gomes",
     "Nationality": "Portugal",
     "Position": "CM",
@@ -225,8 +225,8 @@
   },
   {
     "Id": "a647dd8e-b960-45ce-993a-2473e2d9b460",
-    "Name": "Angeliño",
-    "ShortName": "Angeliño",
+    "Name": "Angelino",
+    "ShortName": "Angelino",
     "Nationality": "Spain",
     "Position": "CB",
     "Rating": 89
@@ -345,15 +345,15 @@
   },
   {
     "Id": "5aa6c862-a5d5-43a8-96a3-1d4d57b8cfb5",
-    "Name": "Ayoze Pérez",
-    "ShortName": "Pérez",
+    "Name": "Ayoze Perez",
+    "ShortName": "Perez",
     "Nationality": "Spain",
     "Position": "ST",
     "Rating": 62
   },
   {
     "Id": "cfb9c160-fee1-42c1-9a7b-376f0a108b1f",
-    "Name": "César Azpilicueta",
+    "Name": "Cesar Azpilicueta",
     "ShortName": "Azpilicueta",
     "Nationality": "Spain",
     "Position": "CB",
@@ -401,7 +401,7 @@
   },
   {
     "Id": "c1bcd4ab-a313-4eda-8005-5fba12758a11",
-    "Name": "Tiemoué Bakayoko",
+    "Name": "Tiemoue Bakayoko",
     "ShortName": "Bakayoko",
     "Nationality": "France",
     "Position": "CM",
@@ -417,7 +417,7 @@
   },
   {
     "Id": "bcc5dc96-3a22-42d5-ac97-9fc4019f5895",
-    "Name": "Fabián Balbuena",
+    "Name": "Fabian Balbuena",
     "ShortName": "Balbuena",
     "Nationality": "Paraguay",
     "Position": "CB",
@@ -545,8 +545,8 @@
   },
   {
     "Id": "abbdf894-8f26-4079-9f79-b96402b5460d",
-    "Name": "Héctor Bellerín",
-    "ShortName": "Bellerín",
+    "Name": "Hector Bellerin",
+    "ShortName": "Bellerin",
     "Nationality": "Spain",
     "Position": "CB",
     "Rating": 63
@@ -601,8 +601,8 @@
   },
   {
     "Id": "78d8c949-50c3-46cf-abd6-2528d148fa18",
-    "Name": "Adrián Bernabé",
-    "ShortName": "Bernabé",
+    "Name": "Adrian Bernabe",
+    "ShortName": "Bernabe",
     "Nationality": "Spain",
     "Position": "CM",
     "Rating": 86
@@ -705,7 +705,7 @@
   },
   {
     "Id": "c769c629-7644-4d27-b0d6-4a85527b9aec",
-    "Name": "Gaëtan Bong",
+    "Name": "Gaetan Bong",
     "ShortName": "Bong",
     "Nationality": "Cameroon",
     "Position": "CB",
@@ -817,8 +817,8 @@
   },
   {
     "Id": "7d3845c5-e6c2-40bb-a957-d586ca058cba",
-    "Name": "Emiliano Buendía",
-    "ShortName": "Buendía",
+    "Name": "Emiliano Buendia",
+    "ShortName": "Buendia",
     "Nationality": "Argentina",
     "Position": "CM",
     "Rating": 56
@@ -929,8 +929,8 @@
   },
   {
     "Id": "3332d2e6-fe6b-4048-ba03-a81e7269af22",
-    "Name": "Carlos Sánchez",
-    "ShortName": "Sánchez",
+    "Name": "Carlos Sanchez",
+    "ShortName": "Sanchez",
     "Nationality": "Colombia",
     "Position": "CM",
     "Rating": 91
@@ -1001,7 +1001,7 @@
   },
   {
     "Id": "e79dfb91-ce60-4926-af6c-f105e2ba2d19",
-    "Name": "Cédric Soares",
+    "Name": "Cedric Soares",
     "ShortName": "Soares",
     "Nationality": "Portugal",
     "Position": "CB",
@@ -1433,8 +1433,8 @@
   },
   {
     "Id": "7ff811ae-c210-4528-9e41-750a19d93ac1",
-    "Name": "Mousa Dembélé",
-    "ShortName": "Dembélé",
+    "Name": "Mousa Dembele",
+    "ShortName": "Dembele",
     "Nationality": "Belgium",
     "Position": "CM",
     "Rating": 96
@@ -1465,16 +1465,16 @@
   },
   {
     "Id": "a96a595c-59db-4b1d-805d-a309a40c4443",
-    "Name": "Fousseni Diabaté",
-    "ShortName": "Diabaté",
+    "Name": "Fousseni Diabate",
+    "ShortName": "Diabate",
     "Nationality": "Mali",
     "Position": "CM",
     "Rating": 58
   },
   {
     "Id": "2a4b68eb-d251-4508-8431-53767ebc077f",
-    "Name": "Mohamed Diamé",
-    "ShortName": "Diamé",
+    "Name": "Mohamed Diame",
+    "ShortName": "Diame",
     "Nationality": "Senegal",
     "Position": "CM",
     "Rating": 60
@@ -1489,8 +1489,8 @@
   },
   {
     "Id": "71dd78ef-6101-477b-8e84-60cfb955bd17",
-    "Name": "Brahim Díaz",
-    "ShortName": "Díaz",
+    "Name": "Brahim Diaz",
+    "ShortName": "Diaz",
     "Nationality": "Spain",
     "Position": "ST",
     "Rating": 66
@@ -1569,8 +1569,8 @@
   },
   {
     "Id": "eb14e555-e064-4cd2-b143-187683f521d7",
-    "Name": "Abdoulaye Doucouré",
-    "ShortName": "Doucouré",
+    "Name": "Abdoulaye Doucoure",
+    "ShortName": "Doucoure",
     "Nationality": "France",
     "Position": "CM",
     "Rating": 60
@@ -1761,7 +1761,7 @@
   },
   {
     "Id": "ab67dbeb-e8a4-4126-8f2e-64aca85c203d",
-    "Name": "Björn Engels",
+    "Name": "Bjorn Engels",
     "ShortName": "Engels",
     "Nationality": "Belgium",
     "Position": "CB",
@@ -1825,24 +1825,24 @@
   },
   {
     "Id": "bf69dd39-473f-4ab3-beba-79819659492f",
-    "Name": "Cesc Fàbregas",
-    "ShortName": "Fàbregas",
+    "Name": "Cesc Fabregas",
+    "ShortName": "Fabregas",
     "Nationality": "Spain",
     "Position": "CM",
     "Rating": 66
   },
   {
     "Id": "e80486fe-ceb1-49e3-8052-47203bcfc8c3",
-    "Name": "Ralf Fährmann",
-    "ShortName": "Fährmann",
+    "Name": "Ralf Fahrmann",
+    "ShortName": "Fahrmann",
     "Nationality": "Germany",
     "Position": "GK",
     "Rating": 81
   },
   {
     "Id": "23bb20df-c877-4ea2-8ce0-72c567b1442f",
-    "Name": "Federico Fernández",
-    "ShortName": "Fernández",
+    "Name": "Federico Fernandez",
+    "ShortName": "Fernandez",
     "Nationality": "Argentina",
     "Position": "CB",
     "Rating": 85
@@ -2257,8 +2257,8 @@
   },
   {
     "Id": "fabcb466-abf6-4bf3-95df-e1bfd2c3bd23",
-    "Name": "Pascal Groß",
-    "ShortName": "Groß",
+    "Name": "Pascal GroÃŸ",
+    "ShortName": "GroÃŸ",
     "Nationality": "Germany",
     "Position": "CM",
     "Rating": 85
@@ -2305,8 +2305,8 @@
   },
   {
     "Id": "aff9f364-2f1f-491b-867f-a3969f8e3f03",
-    "Name": "Ilkay Gündogan",
-    "ShortName": "Gündogan",
+    "Name": "Ilkay Gundogan",
+    "ShortName": "Gundogan",
     "Nationality": "Germany",
     "Position": "CM",
     "Rating": 87
@@ -2337,7 +2337,7 @@
   },
   {
     "Id": "cbc73531-06e6-41d5-b7bb-5025c587022c",
-    "Name": "Sébastien Haller",
+    "Name": "Sebastien Haller",
     "ShortName": "Haller",
     "Nationality": "France",
     "Position": "ST",
@@ -2441,7 +2441,7 @@
   },
   {
     "Id": "ef6e3cec-b658-416f-b40f-e03cfd55d05e",
-    "Name": "Hélder Costa",
+    "Name": "Helder Costa",
     "ShortName": "Costa",
     "Nationality": "Portugal",
     "Position": "ST",
@@ -2505,8 +2505,8 @@
   },
   {
     "Id": "5016f6e4-929b-4d7d-b18b-56f211826956",
-    "Name": "Onel Hernández",
-    "ShortName": "Hernández",
+    "Name": "Onel Hernandez",
+    "ShortName": "Hernandez",
     "Nationality": "Cuba",
     "Position": "CM",
     "Rating": 66
@@ -2545,8 +2545,8 @@
   },
   {
     "Id": "58229909-bef7-42b6-93dd-20a6c08fcc3a",
-    "Name": "Gonzalo Higuaín",
-    "ShortName": "Higuaín",
+    "Name": "Gonzalo Higuain",
+    "ShortName": "Higuain",
     "Nationality": "Argentina",
     "Position": "ST",
     "Rating": 90
@@ -2585,7 +2585,7 @@
   },
   {
     "Id": "aa26e424-c26d-4c8b-8520-460ac08b1050",
-    "Name": "José Holebas",
+    "Name": "Jose Holebas",
     "ShortName": "Holebas",
     "Nationality": "Greece",
     "Position": "CB",
@@ -2689,8 +2689,8 @@
   },
   {
     "Id": "a17ee7bc-dfa0-438a-84ec-110355c5f5a3",
-    "Name": "Pierre-Emile Højbjerg",
-    "ShortName": "Højbjerg",
+    "Name": "Pierre-Emile Hojbjerg",
+    "ShortName": "Hojbjerg",
     "Nationality": "Denmark",
     "Position": "CM",
     "Rating": 99
@@ -2777,7 +2777,7 @@
   },
   {
     "Id": "623854c4-5b5d-4f28-98c0-c6d5cc18310a",
-    "Name": "José Izquierdo",
+    "Name": "Jose Izquierdo",
     "ShortName": "Izquierdo",
     "Nationality": "Colombia",
     "Position": "ST",
@@ -2873,15 +2873,15 @@
   },
   {
     "Id": "1d76a5d2-8173-4024-acf5-5656befe853f",
-    "Name": "Roberto Jiménez",
-    "ShortName": "Jiménez",
+    "Name": "Roberto Jimenez",
+    "ShortName": "Jimenez",
     "Nationality": "Spain",
     "Position": "GK",
     "Rating": 65
   },
   {
     "Id": "47090175-369f-4bc5-b5a0-a0b096677cfe",
-    "Name": "João Moutinho",
+    "Name": "Joao Moutinho",
     "ShortName": "Moutinho",
     "Nationality": "Portugal",
     "Position": "CM",
@@ -2889,8 +2889,8 @@
   },
   {
     "Id": "8d3623df-8b41-483e-8acc-434ed59a0a12",
-    "Name": "João Virgínia",
-    "ShortName": "Virgínia",
+    "Name": "Joao Virginia",
+    "ShortName": "Virginia",
     "Nationality": "Portugal",
     "Position": "GK",
     "Rating": 99
@@ -3097,8 +3097,8 @@
   },
   {
     "Id": "b1f2b4ef-c334-401e-bde2-c841a7580824",
-    "Name": "N'Golo Kanté",
-    "ShortName": "Kanté",
+    "Name": "N'Golo Kante",
+    "ShortName": "Kante",
     "Nationality": "France",
     "Position": "CM",
     "Rating": 80
@@ -3193,8 +3193,8 @@
   },
   {
     "Id": "62503e92-5414-4fe2-a72e-7a607f15c2ce",
-    "Name": "Kiko Femenía",
-    "ShortName": "Femenía",
+    "Name": "Kiko Femenia",
+    "ShortName": "Femenia",
     "Nationality": "Spain",
     "Position": "CB",
     "Rating": 68
@@ -3305,8 +3305,8 @@
   },
   {
     "Id": "0e9447d7-1682-4225-8f27-cd72449ef052",
-    "Name": "Cheikhou Kouyaté",
-    "ShortName": "Kouyaté",
+    "Name": "Cheikhou Kouyate",
+    "ShortName": "Kouyate",
     "Nationality": "Senegal",
     "Position": "CM",
     "Rating": 90
@@ -3481,7 +3481,7 @@
   },
   {
     "Id": "9112e5ac-daf2-40fe-af60-af7d11661bb6",
-    "Name": "Léo Bonatini",
+    "Name": "Leo Bonatini",
     "ShortName": "Bonatini",
     "Nationality": "Brazil",
     "Position": "ST",
@@ -3537,8 +3537,8 @@
   },
   {
     "Id": "d82b272c-5e05-4876-984f-f78076d7057a",
-    "Name": "Victor Lindelöf",
-    "ShortName": "Lindelöf",
+    "Name": "Victor Lindelof",
+    "ShortName": "Lindelof",
     "Nationality": "Sweden",
     "Position": "CB",
     "Rating": 83
@@ -3569,7 +3569,7 @@
   },
   {
     "Id": "87e0d8c7-4893-4b9e-b4b4-26e699030919",
-    "Name": "Jürgen Locadia",
+    "Name": "Jurgen Locadia",
     "ShortName": "Locadia",
     "Nationality": "Netherlands",
     "Position": "ST",
@@ -3617,8 +3617,8 @@
   },
   {
     "Id": "15f80108-88fa-42ba-85e0-2bc2b8d0cc9f",
-    "Name": "Jonas Lössl",
-    "ShortName": "Lössl",
+    "Name": "Jonas Lossl",
+    "ShortName": "Lossl",
     "Nationality": "Denmark",
     "Position": "GK",
     "Rating": 86
@@ -3761,11 +3761,11 @@
   },
   {
     "Id": "6d41cdd3-b55c-4a04-918f-87ada1ff5cfe",
-    "Name": "Sadio Mané",
-    "ShortName": "Mané",
+    "Name": "Sadio Mane",
+    "ShortName": "Mane",
     "Nationality": "Senegal",
     "Position": "ST",
-    "Rating": 75
+    "Rating": 92
   },
   {
     "Id": "af009ed3-5c89-42d3-8ed3-2ad7a77fbe3d",
@@ -3849,8 +3849,8 @@
   },
   {
     "Id": "7d6345d4-7f7c-4ac0-92d0-dac539f80bf4",
-    "Name": "Emiliano Martínez",
-    "ShortName": "Martínez",
+    "Name": "Emiliano Martinez",
+    "ShortName": "Martinez",
     "Nationality": "Argentina",
     "Position": "GK",
     "Rating": 88
@@ -4169,7 +4169,7 @@
   },
   {
     "Id": "1fb501bc-5fea-4117-822f-4dcef75d2510",
-    "Name": "Martín Montoya",
+    "Name": "Martin Montoya",
     "ShortName": "Montoya",
     "Nationality": "Spain",
     "Position": "CB",
@@ -4185,7 +4185,7 @@
   },
   {
     "Id": "f1269035-03ec-4e19-a134-0a16008d7ce9",
-    "Name": "Álvaro Morata",
+    "Name": "Alvaro Morata",
     "ShortName": "Morata",
     "Nationality": "Spain",
     "Position": "ST",
@@ -4369,7 +4369,7 @@
   },
   {
     "Id": "5476dda8-f6db-4821-a72f-6ce4b8d6c6b8",
-    "Name": "Nélson Oliveira",
+    "Name": "Nelson Oliveira",
     "ShortName": "Oliveira",
     "Nationality": "Portugal",
     "Position": "ST",
@@ -4385,7 +4385,7 @@
   },
   {
     "Id": "9b7c0b32-a002-404f-b93b-93ba6ebbb3e2",
-    "Name": "Georges-Kévin Nkoudou",
+    "Name": "Georges-Kevin Nkoudou",
     "ShortName": "Nkoudou",
     "Nationality": "France",
     "Position": "CM",
@@ -4433,7 +4433,7 @@
   },
   {
     "Id": "4584db3b-1b3e-43f8-959f-c66966fb93e2",
-    "Name": "Ørjan Nyland",
+    "Name": "Orjan Nyland",
     "ShortName": "Nyland",
     "Nationality": "Norway",
     "Position": "GK",
@@ -4625,7 +4625,7 @@
   },
   {
     "Id": "ec274837-136f-4617-be80-e69d9c6ed49f",
-    "Name": "Nicolás Otamendi",
+    "Name": "Nicolas Otamendi",
     "ShortName": "Otamendi",
     "Nationality": "Argentina",
     "Position": "CB",
@@ -4657,8 +4657,8 @@
   },
   {
     "Id": "462f0429-3edb-4577-8be7-4fa030d811e5",
-    "Name": "Mesut Özil",
-    "ShortName": "Özil",
+    "Name": "Mesut Ozil",
+    "ShortName": "Ozil",
     "Nationality": "Germany",
     "Position": "CM",
     "Rating": 55
@@ -4721,8 +4721,8 @@
   },
   {
     "Id": "72c4e53d-1bc0-405f-b84b-121cc5ecd47c",
-    "Name": "Adalberto Peñaranda",
-    "ShortName": "Peñaranda",
+    "Name": "Adalberto Penaranda",
+    "ShortName": "Penaranda",
     "Nationality": "Venezuela",
     "Position": "ST",
     "Rating": 58
@@ -4745,8 +4745,8 @@
   },
   {
     "Id": "cee8ece4-d1ea-4fb9-8ff8-fd48bdfee91b",
-    "Name": "Nicolas Pépé",
-    "ShortName": "Pépé",
+    "Name": "Nicolas Pepe",
+    "ShortName": "Pepe",
     "Nationality": "Cote D'Ivoire",
     "Position": "ST",
     "Rating": 59
@@ -4761,8 +4761,8 @@
   },
   {
     "Id": "e8c3c1be-6433-4385-83d0-9b9fe736fc35",
-    "Name": "Lucas Pérez",
-    "ShortName": "Pérez",
+    "Name": "Lucas Perez",
+    "ShortName": "Perez",
     "Nationality": "Spain",
     "Position": "ST",
     "Rating": 90
@@ -4841,16 +4841,16 @@
   },
   {
     "Id": "6e3a0697-d426-4d1b-82cc-bbf6ca6a468b",
-    "Name": "Sebastian Prödl",
-    "ShortName": "Prödl",
+    "Name": "Sebastian Prodl",
+    "ShortName": "Prodl",
     "Nationality": "Austria",
     "Position": "CB",
     "Rating": 68
   },
   {
     "Id": "54767205-f07f-4671-974e-56668a0ba179",
-    "Name": "Davy Pröpper",
-    "ShortName": "Pröpper",
+    "Name": "Davy Propper",
+    "ShortName": "Propper",
     "Nationality": "Netherlands",
     "Position": "CM",
     "Rating": 82
@@ -4921,8 +4921,8 @@
   },
   {
     "Id": "f53a202f-8271-48cd-bed8-f9be9cc7d271",
-    "Name": "Sandro Ramírez",
-    "ShortName": "Ramírez",
+    "Name": "Sandro Ramirez",
+    "ShortName": "Ramirez",
     "Nationality": "Spain",
     "Position": "ST",
     "Rating": 73
@@ -5137,8 +5137,8 @@
   },
   {
     "Id": "5bf44a80-8f73-49e4-b3b2-be8aafbb0747",
-    "Name": "Salomón Rondón",
-    "ShortName": "Rondón",
+    "Name": "Salomon Rondon",
+    "ShortName": "Rondon",
     "Nationality": "Venezuela",
     "Position": "ST",
     "Rating": 65
@@ -5153,7 +5153,7 @@
   },
   {
     "Id": "d9d1d72d-5c61-41c7-a5f7-2b43b4d87707",
-    "Name": "Rúben Neves",
+    "Name": "Ruben Neves",
     "ShortName": "Neves",
     "Nationality": "Portugal",
     "Position": "CM",
@@ -5161,7 +5161,7 @@
   },
   {
     "Id": "d85c1f7e-454a-49a4-9d28-9171087bb1f5",
-    "Name": "Rúben Vinagre",
+    "Name": "Ruben Vinagre",
     "ShortName": "Vinagre",
     "Nationality": "Portugal",
     "Position": "CB",
@@ -5177,16 +5177,16 @@
   },
   {
     "Id": "cde24d9d-2315-4f63-8b21-e6bfd87c2029",
-    "Name": "Antonio Rüdiger",
-    "ShortName": "Rüdiger",
+    "Name": "Antonio Rudiger",
+    "ShortName": "Rudiger",
     "Nationality": "Germany",
     "Position": "CB",
     "Rating": 82
   },
   {
     "Id": "0f291432-e356-4e2b-af24-050166772f11",
-    "Name": "Rui Patrício",
-    "ShortName": "Patrício",
+    "Name": "Rui Patricio",
+    "ShortName": "Patricio",
     "Nationality": "Portugal",
     "Position": "GK",
     "Rating": 96
@@ -5209,8 +5209,8 @@
   },
   {
     "Id": "0a12b66a-b711-4f67-9e86-86c0ab609c01",
-    "Name": "Romain Saïss",
-    "ShortName": "Saïss",
+    "Name": "Romain Saiss",
+    "ShortName": "Saiss",
     "Nationality": "Morocco",
     "Position": "CM",
     "Rating": 72
@@ -5265,8 +5265,8 @@
   },
   {
     "Id": "2755a9da-7241-4035-8cf7-d19e91b3708b",
-    "Name": "Robert Sánchez",
-    "ShortName": "Sánchez",
+    "Name": "Robert Sanchez",
+    "ShortName": "Sanchez",
     "Nationality": "Spain",
     "Position": "GK",
     "Rating": 90
@@ -5297,8 +5297,8 @@
   },
   {
     "Id": "c36eda53-dd6b-406a-96e8-6a0d179eb2d3",
-    "Name": "Leroy Sané",
-    "ShortName": "Sané",
+    "Name": "Leroy Sane",
+    "ShortName": "Sane",
     "Nationality": "Germany",
     "Position": "ST",
     "Rating": 56
@@ -5313,8 +5313,8 @@
   },
   {
     "Id": "a711912d-ae2d-44f6-b8d8-79cc18ecac9f",
-    "Name": "Fabian Schär",
-    "ShortName": "Schär",
+    "Name": "Fabian Schar",
+    "ShortName": "Schar",
     "Nationality": "Switzerland",
     "Position": "CB",
     "Rating": 64
@@ -5553,16 +5553,16 @@
   },
   {
     "Id": "b963b7af-0766-464e-8e4d-b64376515b2c",
-    "Name": "Pape Souaré",
-    "ShortName": "Souaré",
+    "Name": "Pape Souare",
+    "ShortName": "Souare",
     "Nationality": "Senegal",
     "Position": "CB",
     "Rating": 59
   },
   {
     "Id": "ccebfef1-1864-4639-816c-c1ffa0c8e265",
-    "Name": "Çaglar Söyüncü",
-    "ShortName": "Söyüncü",
+    "Name": "Caglar Soyuncu",
+    "ShortName": "Soyuncu",
     "Nationality": "Turkey",
     "Position": "CB",
     "Rating": 69
@@ -5705,8 +5705,8 @@
   },
   {
     "Id": "f3775505-f85a-4fb8-861e-f0755720f409",
-    "Name": "Denis Suárez",
-    "ShortName": "Suárez",
+    "Name": "Denis Suarez",
+    "ShortName": "Suarez",
     "Nationality": "Spain",
     "Position": "CM",
     "Rating": 91
@@ -5737,8 +5737,8 @@
   },
   {
     "Id": "952870b1-92ce-4ccf-846d-c78189b64e24",
-    "Name": "Alexander Sørloth",
-    "ShortName": "Sørloth",
+    "Name": "Alexander Sorloth",
+    "ShortName": "Sorloth",
     "Nationality": "Norway",
     "Position": "ST",
     "Rating": 88
@@ -5865,8 +5865,8 @@
   },
   {
     "Id": "3d2041af-e000-4772-b774-4fe617d4c70e",
-    "Name": "Toni Martínez",
-    "ShortName": "Martínez",
+    "Name": "Toni Martinez",
+    "ShortName": "Martinez",
     "Nationality": "Spain",
     "Position": "ST",
     "Rating": 58
@@ -5905,8 +5905,8 @@
   },
   {
     "Id": "ffe1fa4e-7fec-42ef-8709-49dd2f54ec9d",
-    "Name": "Adama Traoré",
-    "ShortName": "Traoré",
+    "Name": "Adama Traore",
+    "ShortName": "Traore",
     "Nationality": "Spain",
     "Position": "ST",
     "Rating": 68
@@ -5921,8 +5921,8 @@
   },
   {
     "Id": "d50b2be2-9c2c-491b-bb15-5af19a95f3aa",
-    "Name": "Trézéguet",
-    "ShortName": "Trézéguet",
+    "Name": "Trezeguet",
+    "ShortName": "Trezeguet",
     "Nationality": "Egypt",
     "Position": "CM",
     "Rating": 73
@@ -6001,7 +6001,7 @@
   },
   {
     "Id": "2f02f0ce-2714-4023-a5c8-3c4caf76e346",
-    "Name": "Jesús Vallejo",
+    "Name": "Jesus Vallejo",
     "ShortName": "Vallejo",
     "Nationality": "Spain",
     "Position": "CB",

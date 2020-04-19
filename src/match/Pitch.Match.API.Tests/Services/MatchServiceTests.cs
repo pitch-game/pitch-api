@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EasyNetQ;
 using Moq;
 using Pitch.Match.API.ApplicationCore.Engine;
+using Pitch.Match.API.ApplicationCore.Engine.Services;
 using Pitch.Match.API.ApplicationCore.Models;
 using Pitch.Match.API.ApplicationCore.Models.Match;
 using Pitch.Match.API.ApplicationCore.Models.Matchmaking;
@@ -59,12 +60,14 @@ namespace Pitch.Match.API.Tests.Services
 
             var stubMatchEngine = new Mock<IMatchEngine>();
 
+            var mockCalculatedStatService = new Mock<ICalculatedCardStatService>();
+
             var mockBus = new Mock<IBus>();
             mockBus.Setup(x => x.PublishAsync(It.IsAny<MatchCompletedEvent>()))
                 .Callback<MatchCompletedEvent>(r => publishedEvent = r);
 
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
-                mockMatchRepository.Object, mockBus.Object);
+                mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
             //Act
             await _matchService.ClaimAsync(userId);
@@ -116,8 +119,10 @@ namespace Pitch.Match.API.Tests.Services
             mockBus.Setup(x => x.PublishAsync(It.IsAny<MatchCompletedEvent>()))
                 .Callback<MatchCompletedEvent>(r => publishedEvent = r);
 
+            var mockCalculatedStatService = new Mock<ICalculatedCardStatService>();
+
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
-                mockMatchRepository.Object, mockBus.Object);
+                mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
             //Act
             await _matchService.ClaimAsync(userId);
@@ -142,11 +147,13 @@ namespace Pitch.Match.API.Tests.Services
 
             var mockBus = new Mock<IBus>();
 
+            var mockCalculatedStatService = new Mock<ICalculatedCardStatService>();
+
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
-                mockMatchRepository.Object, mockBus.Object);
+                mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
             //Act
-            var returnedMatch = await _matchService.GetAsync(matchId);
+            var returnedMatch = await _matchService.GetAsAtElapsedAsync(matchId);
 
             //Assert
             Assert.Equal(returnedMatch, match);
@@ -183,8 +190,10 @@ namespace Pitch.Match.API.Tests.Services
             mockMatchRepository.Setup(x => x.CreateAsync(It.IsAny<ApplicationCore.Models.Match.Match>()))
                 .Callback<ApplicationCore.Models.Match.Match>(r => simulatedMatch = r);
 
+            var mockCalculatedStatService = new Mock<ICalculatedCardStatService>();
+
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
-                mockMatchRepository.Object, mockBus.Object);
+                mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
             //Act
             await _matchService.KickOff(sessionId);
@@ -219,8 +228,10 @@ namespace Pitch.Match.API.Tests.Services
             var mockMatchRepository = new Mock<IMatchRepository>();
             mockMatchRepository.Setup(x => x.GetAsync(matchId)).ReturnsAsync(mockMatch.Object);
 
+            var mockCalculatedStatService = new Mock<ICalculatedCardStatService>();
+
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
-                mockMatchRepository.Object, mockBus.Object);
+                mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
             await _matchService.Substitution(Guid.NewGuid(), Guid.NewGuid(), matchId, userId);
 
@@ -251,8 +262,10 @@ namespace Pitch.Match.API.Tests.Services
             var mockMatchRepository = new Mock<IMatchRepository>();
             mockMatchRepository.Setup(x => x.GetAsync(matchId)).ReturnsAsync(mockMatch.Object);
 
+            var mockCalculatedStatService = new Mock<ICalculatedCardStatService>();
+
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
-                mockMatchRepository.Object, mockBus.Object);
+                mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
             await Assert.ThrowsAsync<Exception>(() => _matchService.Substitution(Guid.NewGuid(), Guid.NewGuid(), matchId, userId));
         }
@@ -275,8 +288,10 @@ namespace Pitch.Match.API.Tests.Services
             mockMatchRepository.Setup(x => x.HasUnclaimedAsync(userId)).ReturnsAsync(true);
             mockMatchRepository.Setup(x => x.GetInProgressAsync(userId)).ReturnsAsync((Guid?)null);
 
+            var mockCalculatedStatService = new Mock<ICalculatedCardStatService>();
+
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
-                mockMatchRepository.Object, mockBus.Object);
+                mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
             //Act
             var result = await _matchService.GetMatchStatus(userId);
@@ -300,8 +315,10 @@ namespace Pitch.Match.API.Tests.Services
             var mockMatchRepository = new Mock<IMatchRepository>();
             mockMatchRepository.Setup(x => x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>(), userId)).ReturnsAsync(new List<ApplicationCore.Models.Match.Match>());
 
+            var mockCalculatedStatService = new Mock<ICalculatedCardStatService>();
+
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
-                mockMatchRepository.Object, mockBus.Object);
+                mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
             //Act
             var result = await _matchService.GetAllAsync(0, 1, userId);
@@ -333,8 +350,10 @@ namespace Pitch.Match.API.Tests.Services
             var mockMatchRepository = new Mock<IMatchRepository>();
             mockMatchRepository.Setup(x => x.GetAsync(It.IsAny<Guid>())).ReturnsAsync(mockMatch.Object);
 
+            var mockCalculatedStatService = new Mock<ICalculatedCardStatService>();
+
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
-                mockMatchRepository.Object, mockBus.Object);
+                mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
             //Act
             var result = await _matchService.GetLineupAsync(matchId, userId);

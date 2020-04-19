@@ -38,9 +38,8 @@ namespace Pitch.Match.API.Controllers
         public async Task<ActionResult<MatchModel>> Get(Guid id)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
-            var match = await _matchService.GetAsync(id);
-            match.AsAtElapsed();
-            return new MatchModel { Match = new MatchResult(match), SubsRemaining = MatchService.SubCount - match.GetTeam(new Guid(userId)).UsedSubs };
+            var match = await _matchService.GetAsAtElapsedAsync(id);
+            return new MatchModel { Match = _mapper.Map<MatchResultModel>(new MatchResult(match)), SubsRemaining = MatchService.SubCount - match.GetTeam(new Guid(userId)).UsedSubs }; //TODO bleh
         }
 
         [HttpGet("{matchId}/lineup")]
