@@ -7,15 +7,15 @@ namespace Pitch.Squad.API.Models
 {
     public class Squad
     {
-        public Squad(SquadFormation formation = SquadFormation.FourFourTwo)
+        public Squad()
         {
-            Formation = formation;
+            Formation = SquadFormation.FourFourTwo;
             Lineup = FormationLookup.AllowedPositions[Formation].ToDictionary(x => x.ToString(), x => (Guid?)null);
             Subs = new Guid?[6];
             Instructions = new SquadInstructions();
             LastUpdated = DateTime.Now;
         }
-
+        
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string UserId { get; set; }

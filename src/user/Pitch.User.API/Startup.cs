@@ -95,6 +95,8 @@ namespace Pitch.User.API
                 app.UseHsts();
             }
 
+            app.UseRouting();
+
             app.UseSwagger();
 
             app.UseHealthChecks("/health");
@@ -104,9 +106,9 @@ namespace Pitch.User.API
             });
 
             app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEasyNetQ();
-            app.UseHttpsRedirection();
-            app.UseRouting();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();

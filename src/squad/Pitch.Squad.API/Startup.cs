@@ -95,15 +95,17 @@ namespace Pitch.Squad.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseRouting();
+
             app.UseSwagger();
 
             app.UseHealthChecks("/health");
             app.UseHealthChecks("/liveness");
 
-            app.UseRouting();
-
             app.UseEasyNetQ();
+
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
