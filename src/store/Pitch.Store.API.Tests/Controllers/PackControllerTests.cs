@@ -75,7 +75,7 @@ namespace Pitch.Store.API.Tests.Controllers
             var result = await controller.Buy();
 
             //Assert
-            mockPackService.Verify(x => x.Buy(userId), Times.Once);
+            mockPackService.Verify(x => x.Buy(userId, It.IsAny<int>()), Times.Once);
         }
 
         [Fact]

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.Extensions;
+using MongoDB.Driver;
 using Pitch.User.API.Infrastructure.Repositories.Contexts;
 
 
@@ -11,6 +13,7 @@ namespace Pitch.User.API.Infrastructure.Repositories
         Task<Models.User> GetAsync(string email);
         Task<Models.User> CreateAsync(string email);
         Task UpdateAsync(Models.User user);
+        Task<bool> TakePayment(Guid id, int amount);
     }
 
     public class UserRepository : IUserRepository
@@ -44,6 +47,13 @@ namespace Pitch.User.API.Infrastructure.Repositories
         public async Task UpdateAsync(Models.User user)
         {
             await _dataContext.UpdateAsync(user);
+        }
+
+        public async Task<bool> TakePayment(Guid id, int amount)
+        {
+            var query = Builders<Models.User>.Filter.Eq(x => x.Id, id) & Builders<Models.User>.Filter.Gte(x => x.Money, amount);
+            var update = Builders<Models.User>.Update.Inc(x => x.Money, -amount);
+            return await _dataContext.UpdateAsync(query, update);
         }
     }
 }
