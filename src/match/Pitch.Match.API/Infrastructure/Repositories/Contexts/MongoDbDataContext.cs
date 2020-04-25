@@ -34,7 +34,9 @@ namespace Pitch.Match.API.Infrastructure.Repositories.Contexts
 
         public async Task UpdateAsync(T item)
         {
-            await _collection.ReplaceOneAsync(x => x.Id == item.Id, item);
+            var version = item.Version;
+            item.Version++;
+            await _collection.ReplaceOneAsync(x => x.Id == item.Id && x.Version == version, item);
         }
     }
 }

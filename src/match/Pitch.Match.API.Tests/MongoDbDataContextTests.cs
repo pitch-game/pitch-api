@@ -14,6 +14,7 @@ namespace Pitch.Match.API.Tests
         public class TestEntity : IEntity
         {
             public Guid Id { get; set; }
+            public int Version { get; set; }
         }
 
         [Fact]

@@ -8,6 +8,7 @@ namespace Pitch.Match.API.Infrastructure.Repositories.Contexts
     public interface IEntity
     {
         Guid Id { get; set; }
+        int Version { get; set; }
     }
 
     public interface IDataContext<T> where T : IEntity
