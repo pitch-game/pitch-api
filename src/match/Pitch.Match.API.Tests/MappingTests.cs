@@ -10,8 +10,12 @@ namespace Pitch.Match.API.Tests
         [System.Obsolete]
         public void AutoMapper_Configuration_IsValid()
         {
-            Mapper.Initialize(m => m.AddProfile<AutoMapperProfile>());
-            Mapper.AssertConfigurationIsValid();
+            var config = new MapperConfiguration(cfg => {
+                cfg.AddProfile<AutoMapperProfile>();
+            });
+
+            var mapper = config.CreateMapper();
+            mapper.ConfigurationProvider.AssertConfigurationIsValid();
         }
     }
 }
