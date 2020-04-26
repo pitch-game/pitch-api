@@ -4,6 +4,8 @@ using System.Text;
 using System.Threading.Tasks;
 using EasyNetQ;
 using Moq;
+using Pitch.Store.API.Application.Requests;
+using Pitch.Store.API.Application.Responses;
 using Pitch.Store.API.Infrastructure.Repositories;
 using Pitch.Store.API.Infrastructure.Services;
 using Pitch.Store.API.Models;
@@ -71,5 +73,72 @@ namespace Pitch.Store.API.Tests.Services
             // Assert
             mockPackRepository.Verify(x => x.AddAsync(It.IsAny<Pack>()), Times.Exactly(17));
         }
+
+
+        [Fact]
+        public async Task Buy_Calls_Add_On_Payment_Success()
+        {
+            var userId = Guid.NewGuid();
+            var amount = 10;
+
+            var mockPackRepository = new Mock<IPackRepository>();
+
+            var takePaymentResponse = new TakePaymentResponse()
+            {
+                Success = true
+            };
+
+            var mockBus = new Mock<IBus>();
+            mockBus.Setup(x => x.RequestAsync<TakePaymentRequest, TakePaymentResponse>(It.IsAny<TakePaymentRequest>())).ReturnsAsync(takePaymentResponse);
+
+            var service = new PackService(mockPackRepository.Object, mockBus.Object);
+
+            await service.Buy(userId, amount);
+
+            mockPackRepository.Verify(x => x.AddAsync(It.IsAny<Pack>()), Times.Exactly(1));
+        }
+
+        [Fact]
+        public async Task Buy_Throws_Exception_On_Payment_Failure()
+        {
+            var userId = Guid.NewGuid();
+            var amount = 10;
+
+            var mockPackRepository = new Mock<IPackRepository>();
+
+            var takePaymentResponse = new TakePaymentResponse()
+            {
+                Success = false
+            };
+
+            var mockBus = new Mock<IBus>();
+            mockBus.Setup(x => x.RequestAsync<TakePaymentRequest, TakePaymentResponse>(It.IsAny<TakePaymentRequest>())).ReturnsAsync(takePaymentResponse);
+
+            var service = new PackService(mockPackRepository.Object, mockBus.Object);
+
+            await Assert.ThrowsAsync<Exception>(() => service.Buy(userId, amount));
+        }
+
+        [Fact]
+        public async Task Buy_Sends_Payment_Request_With_Correct_Params()
+        {
+            var userId = Guid.NewGuid();
+            var amount = 10;
+
+            var mockPackRepository = new Mock<IPackRepository>();
+
+            var mockBus = new Mock<IBus>();
+            mockBus.Setup(x => x.RequestAsync<TakePaymentRequest, TakePaymentResponse>(It.IsAny<TakePaymentRequest>())).ReturnsAsync(new TakePaymentResponse()
+            {
+                Success = true
+            });
+
+            var service = new PackService(mockPackRepository.Object, mockBus.Object);
+
+            await service.Buy(userId, amount);
+
+            mockBus.Verify(x => x.RequestAsync<TakePaymentRequest, TakePaymentResponse>(It.Is<TakePaymentRequest>(x => x.UserId == userId && x.Amount == amount)));
+        }
+
     }
 }

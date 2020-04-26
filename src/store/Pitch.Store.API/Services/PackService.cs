@@ -54,7 +54,7 @@ namespace Pitch.Store.API.Infrastructure.Services
                 Amount = amount
             };
 
-            var paymentResult = await _bus.RequestAsync<TakePaymentRequest, TakePaymentResponse>(paymentRequest); ;
+            var paymentResult = await _bus.RequestAsync<TakePaymentRequest, TakePaymentResponse>(paymentRequest);
 
             if (!paymentResult.Success) throw new Exception("Payment failed"); //TODO Handle
 
