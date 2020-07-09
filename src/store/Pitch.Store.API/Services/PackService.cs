@@ -58,9 +58,8 @@ namespace Pitch.Store.API.Infrastructure.Services
 
             if (!paymentResult.Success) throw new Exception("Payment failed"); //TODO Handle
 
-            var pack = new Pack() { Id = Guid.NewGuid(), UserId = userId.ToString() };
-            await _packRepository.AddAsync(pack);
-            return pack.Id; 
+            var pack = await AddPack(userId);
+            return pack.Id;
         }
 
         public async Task RedeemMatchRewards(Guid userId, bool victorious)

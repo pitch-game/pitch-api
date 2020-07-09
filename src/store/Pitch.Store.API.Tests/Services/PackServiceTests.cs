@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using EasyNetQ;
+using FluentAssertions;
 using Moq;
 using Pitch.Store.API.Application.Requests;
 using Pitch.Store.API.Application.Responses;
@@ -48,14 +47,32 @@ namespace Pitch.Store.API.Tests.Services
                 Position = "N/A"
             }));
 
+            var createCardResponse = new CreateCardResponse()
+            {
+                Id = Guid.NewGuid(),
+                PlayerId = Guid.NewGuid(),
+                Name = "Test",
+                ShortName = "Test",
+                Position = "ST",
+                Rating = 90,
+                Rarity = "Rare",
+                Opened = false,
+                Form = 1
+            };
+
             var mockBus = new Mock<IBus>();
+            mockBus.Setup(x => x.RequestAsync<CreateCardRequest, CreateCardResponse>(It.IsAny<CreateCardRequest>())).ReturnsAsync(createCardResponse);
+
             var service = new PackService(mockPackRepository.Object, mockBus.Object);
 
             // Act
-            var result = await service.Open(packId, Guid.NewGuid().ToString());
+            var result = await service.Open(packId, userId);
 
             // Assert
             mockPackRepository.Verify(x => x.Delete(packId), Times.Once);
+            mockBus.Verify(x => x.RequestAsync<CreateCardRequest, CreateCardResponse>(It.Is<CreateCardRequest>(x => x.UserId == userId)), Times.Once);
+
+            result.Should().BeEquivalentTo(createCardResponse);
         }
 
         [Fact]
@@ -95,7 +112,7 @@ namespace Pitch.Store.API.Tests.Services
 
             await service.Buy(userId, amount);
 
-            mockPackRepository.Verify(x => x.AddAsync(It.IsAny<Pack>()), Times.Exactly(1));
+            mockPackRepository.Verify(x => x.AddAsync(It.Is<Pack>(x => x.UserId == userId.ToString())), Times.Exactly(1));
         }
 
         [Fact]
@@ -140,5 +157,22 @@ namespace Pitch.Store.API.Tests.Services
             mockBus.Verify(x => x.RequestAsync<TakePaymentRequest, TakePaymentResponse>(It.Is<TakePaymentRequest>(x => x.UserId == userId && x.Amount == amount)));
         }
 
+        [Theory]
+        [InlineData(true, 3)]
+        [InlineData(false, 1)]
+        public async Task RedeemMatchRewards_Rewards_Correct_Amount_Of_Packs(bool victorious, int expectedPacks)
+        {
+            var userId = Guid.NewGuid();
+            var amount = 10;
+
+            var mockPackRepository = new Mock<IPackRepository>();
+            var mockBus = new Mock<IBus>();
+
+            var service = new PackService(mockPackRepository.Object, mockBus.Object);
+
+            await service.RedeemMatchRewards(userId, victorious);
+
+            mockPackRepository.Verify(x => x.AddAsync(It.IsAny<Pack>()), Times.Exactly(expectedPacks));
+        }
     }
 }
