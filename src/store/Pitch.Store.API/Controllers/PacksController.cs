@@ -44,7 +44,7 @@ namespace Pitch.Store.API.Controllers
         public async Task<Guid> Buy()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
-            return await _packService.Buy(new Guid(userId));
+            return await _packService.Buy(new Guid(userId), 10000);
         }
     }
 }

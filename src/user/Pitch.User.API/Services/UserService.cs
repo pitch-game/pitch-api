@@ -12,6 +12,7 @@ namespace Pitch.User.API.Services
         Task<Models.User> GetAsync(string email);
         Task<Models.User> GetOrCreateAsync(string email);
         Task RedeemMatchRewards(Guid id, bool victorious);
+        Task<bool> TakePayment(Guid id, int amount);
     }
 
     public class UserService : IUserService
@@ -53,6 +54,13 @@ namespace Pitch.User.API.Services
             user.XP += 1000;
             user.Money += victorious ? 15000 : 10000;
             await _userRepository.UpdateAsync(user);
+        }
+
+        public async Task<bool> TakePayment(Guid id, int amount)
+        {
+            //Validate amount is positive
+
+            return await _userRepository.TakePayment(id, amount);
         }
     }
 }

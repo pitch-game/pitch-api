@@ -41,7 +41,9 @@ namespace Pitch.User.API
             services.AddScoped(typeof(IDataContext<>), typeof(MongoDbDataContext<>));
 
             services.AddScoped<IGetOrCreateUserResponder, GetOrCreateUserResponder>();
+            services.AddScoped<ITakePaymentResponder, TakePaymentResponder>();
             services.AddScoped<IResponder, GetOrCreateUserResponder>();
+            services.AddScoped<IResponder, TakePaymentResponder>();
 
             services.AddScoped<IMatchCompletedEventSubscriber, MatchCompletedEventSubscriber>();
             services.AddScoped<ISubscriber, MatchCompletedEventSubscriber>();

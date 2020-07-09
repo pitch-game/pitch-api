@@ -13,7 +13,7 @@ namespace Pitch.Store.API.Infrastructure.Services
     {
         Task<IList<Pack>> GetAll(string userId);
         Task<CreateCardResponse> Open(Guid id, string userId);
-        Task<Guid> Buy(Guid userId);
+        Task<Guid> Buy(Guid userId, int amount);
         Task CreateStartingPacksAsync(Guid userId);
         Task RedeemMatchRewards(Guid userId, bool victorious);
     }
@@ -46,11 +46,20 @@ namespace Pitch.Store.API.Infrastructure.Services
             return response;
         }
 
-        public async Task<Guid> Buy(Guid userId)
+        public async Task<Guid> Buy(Guid userId, int amount)
         {
-            var pack = new Pack() { Id = Guid.NewGuid(), UserId = userId.ToString() };
-            await _packRepository.AddAsync(pack);
-            return pack.Id; 
+            var paymentRequest = new TakePaymentRequest()
+            {
+                UserId = userId,
+                Amount = amount
+            };
+
+            var paymentResult = await _bus.RequestAsync<TakePaymentRequest, TakePaymentResponse>(paymentRequest);
+
+            if (!paymentResult.Success) throw new Exception("Payment failed"); //TODO Handle
+
+            var pack = await AddPack(userId);
+            return pack.Id;
         }
 
         public async Task RedeemMatchRewards(Guid userId, bool victorious)
