@@ -145,5 +145,23 @@ namespace Pitch.User.API.Tests.Services
             Assert.True(updatedUser.Money > 0);
             Assert.True(updatedUser.XP > 0);
         }
+
+        [Fact]
+        public async Task TakePayment_Calls_TakePayment()
+        {
+            // Arrange
+            var userId = Guid.NewGuid();
+
+            var mockUserRepository = new Mock<IUserRepository>();
+
+            var mockBus = new Mock<IBus>();
+            var service = new UserService(mockUserRepository.Object, mockBus.Object);
+
+            // Act
+            await service.TakePayment(userId, 1);
+
+            // Assert
+            mockUserRepository.Verify(x => x.TakePayment(userId, 1), Times.Once);
+        }
     }
 }

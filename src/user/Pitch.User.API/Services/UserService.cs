@@ -58,6 +58,8 @@ namespace Pitch.User.API.Services
 
         public async Task<bool> TakePayment(Guid id, int amount)
         {
+            //Validate amount is positive
+
             return await _userRepository.TakePayment(id, amount);
         }
     }
