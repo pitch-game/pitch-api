@@ -10,22 +10,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using Pitch.Match.API.ApplicationCore.Engine;
-using Pitch.Match.API.ApplicationCore.Engine.Actions;
 using Pitch.Match.API.ApplicationCore.Engine.Events;
-using Pitch.Match.API.ApplicationCore.Engine.Providers;
 using Pitch.Match.API.Hubs;
 using Pitch.Match.API.Infrastructure.MessageBus.Supporting;
-using Pitch.Match.API.Infrastructure.Repositories;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.OpenApi.Models;
-using Pitch.Match.API.ApplicationCore.Engine.Services;
-using Pitch.Match.API.ApplicationCore.Services;
-using Pitch.Match.API.Infrastructure.Repositories.Contexts;
-using Swashbuckle.AspNetCore.Swagger;
+using Pitch.Match.API.Installers;
 
 namespace Pitch.Match.API
 {
@@ -39,7 +31,6 @@ namespace Pitch.Match.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -58,23 +49,9 @@ namespace Pitch.Match.API
                 options.RequireHttpsMetadata = false;
             });
 
-            services.AddScoped<IMatchService, MatchService>();
-            services.AddScoped<IMatchmakingService, MatchmakingService>();
-            services.AddSingleton<IMatchSessionService, MatchSessionService>();
-
-            services.AddSingleton<IMatchEngine, MatchEngine>();
-            services.AddSingleton<IActionService, ActionService>();
-            services.AddSingleton<ICalculatedCardStatService, CalculatedCardStatService>();
-            services.AddSingleton<IRatingService, RatingService>();
-            services.AddSingleton<IPossessionService, PossessionService>();
-            services.AddSingleton<IFitnessDrainService, FitnessDrainService>();
-
-            services.AddScoped<IMatchRepository, MatchRepository>();
-            services.AddScoped(typeof(IDataContext<>), typeof(MongoDbDataContext<>));
-
-            services.AddSingleton<IRandomnessProvider, ThreadSafeRandomnessProvider>();
-            services.AddSingleton<IAction, ApplicationCore.Engine.Actions.Foul>();
-            services.AddSingleton<IAction, Shot>();
+            services.AddMatchEngine();
+            services.AddMatchServices();
+            services.AddMatchRepository();
 
             services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy())
@@ -118,7 +95,7 @@ namespace Pitch.Match.API
             BsonClassMap.RegisterClassMap<Goal>();
             BsonClassMap.RegisterClassMap<ShotOnTarget>();
             BsonClassMap.RegisterClassMap<ShotOffTarget>();
-            BsonClassMap.RegisterClassMap<ApplicationCore.Engine.Events.Foul>();
+            BsonClassMap.RegisterClassMap<Foul>();
             BsonClassMap.RegisterClassMap<Substitution>();
 
             app.UseSwagger(c =>
