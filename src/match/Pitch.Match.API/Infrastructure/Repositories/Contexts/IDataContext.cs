@@ -13,8 +13,8 @@ namespace Pitch.Match.API.Infrastructure.Repositories.Contexts
 
     public interface IDataContext<T> where T : IEntity
     {
-        Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> query);
-        Task<IEnumerable<T>> ToListAsync(Expression<Func<T, bool>> query);
+        Task<T> FindOneAsync(Expression<Func<T, bool>> query);
+        Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> query);
         Task CreateAsync(T item);
         Task UpdateAsync(T item);
     }

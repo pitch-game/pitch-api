@@ -28,13 +28,13 @@ namespace Pitch.Match.API.Infrastructure.Repositories
 
         public async Task<ApplicationCore.Models.Match.Match> GetAsync(Guid id)
         {
-            return await _dataContext.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dataContext.FindOneAsync(x => x.Id == id);
         }
 
         public async Task<Guid?> GetInProgressAsync(Guid userId)
         {
             var minStartDate = DateTime.Now.AddMinutes(-90);
-            var result = await _dataContext.FirstOrDefaultAsync(x => x.KickOff > minStartDate && (x.HomeTeam.UserId == userId || x.AwayTeam.UserId == userId));
+            var result = await _dataContext.FindOneAsync(x => x.KickOff > minStartDate && (x.HomeTeam.UserId == userId || x.AwayTeam.UserId == userId));
             return result?.Id;
         }
 
@@ -53,7 +53,7 @@ namespace Pitch.Match.API.Infrastructure.Repositories
         public async Task<IEnumerable<ApplicationCore.Models.Match.Match>> GetUnclaimedAsync(Guid userId)
         {
             var minStartDate = DateTime.Now.AddMinutes(-90);
-            return await _dataContext.ToListAsync(x =>
+            return await _dataContext.FindAsync(x =>
                 x.KickOff <= minStartDate && (x.HomeTeam.UserId == userId && !x.HomeTeam.HasClaimedRewards
                                               || x.AwayTeam.UserId == userId && !x.AwayTeam.HasClaimedRewards));
         }
@@ -61,7 +61,7 @@ namespace Pitch.Match.API.Infrastructure.Repositories
         public async Task<bool> HasUnclaimedAsync(Guid userId)
         {
             var minStartDate = DateTime.Now.AddMinutes(-90);
-            var result = await _dataContext.ToListAsync(x =>
+            var result = await _dataContext.FindAsync(x =>
                 x.KickOff <= minStartDate && (x.HomeTeam.UserId == userId && !x.HomeTeam.HasClaimedRewards
                                               || x.AwayTeam.UserId == userId && !x.AwayTeam.HasClaimedRewards));
             return result.Any();
@@ -70,7 +70,7 @@ namespace Pitch.Match.API.Infrastructure.Repositories
         public async Task<IEnumerable<ApplicationCore.Models.Match.Match>> GetAllAsync(int skip, int take, Guid userId)
         {
             //TODO include orderby and skip/take in query
-            var result = await _dataContext.ToListAsync(x => x.HomeTeam.UserId == userId || x.AwayTeam.UserId == userId);
+            var result = await _dataContext.FindAsync(x => x.HomeTeam.UserId == userId || x.AwayTeam.UserId == userId);
             return result.OrderByDescending(x => x.KickOff).Skip(skip).Take(take);
         }
     }

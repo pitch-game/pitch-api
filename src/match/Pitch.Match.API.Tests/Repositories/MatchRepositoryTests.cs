@@ -28,12 +28,12 @@ namespace Pitch.Match.API.Tests.Repositories
                 return Task.CompletedTask;
             }
 
-            public Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> query)
+            public Task<T> FindOneAsync(Expression<Func<T, bool>> query)
             {
                 return Task.FromResult(InMemoryList.FirstOrDefault(query.Compile()));
             }
 
-            public Task<IEnumerable<T>> ToListAsync(Expression<Func<T, bool>> query)
+            public Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> query)
             {
                 return Task.FromResult(InMemoryList.Where(query.Compile()));
             }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 
 namespace Pitch.Match.API.Infrastructure.Repositories.Contexts
 {
@@ -17,14 +16,16 @@ namespace Pitch.Match.API.Infrastructure.Repositories.Contexts
             _collection = database.GetCollection<T>("matches"); //TODO name
         }
 
-        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> query)
+        public async Task<T> FindOneAsync(Expression<Func<T, bool>> query)
         {
-            return await _collection.AsQueryable().Where(query).FirstOrDefaultAsync();
+            var result = await _collection.FindAsync(query);
+            return await result.FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<T>> ToListAsync(Expression<Func<T, bool>> query)
+        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> query)
         {
-            return await _collection.AsQueryable().Where(query).ToListAsync();
+            var result = await _collection.FindAsync(query);
+            return await result.ToListAsync();
         }
 
         public async Task CreateAsync(T item)
