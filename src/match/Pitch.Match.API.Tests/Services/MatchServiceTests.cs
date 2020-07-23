@@ -157,6 +157,7 @@ namespace Pitch.Match.API.Tests.Services
 
             //Assert
             Assert.Equal(returnedMatch, match);
+            mockCalculatedStatService.Verify(x => x.Set(It.IsAny<ApplicationCore.Models.Match.Match>()), Times.Once);
         }
 
         [Fact]
