@@ -51,7 +51,7 @@ namespace Pitch.Match.API.Tests.Engine.Services
             var service = new CalculatedCardStatService();
 
             //Act
-            service.Set(stubMatch, 1);
+            service.Set(stubMatch);
 
             //Assert
             Assert.Equal(99, stubMatch.AwayTeam.Squad.Lineup["LST"].First().Fitness);

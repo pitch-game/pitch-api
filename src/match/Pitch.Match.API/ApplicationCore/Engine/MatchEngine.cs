@@ -43,7 +43,7 @@ namespace Pitch.Match.API.ApplicationCore.Engine
 
         private void SimulateMinute(Models.Match.Match match, int minute)
         {
-            SetCalculatedStats(match, minute);
+            SetCalculatedStats(match);
 
             var inPossession = _possessionService.InPossession(match, out var notInPossession, out var homePossChance,
                 out var awayPossChance);
@@ -78,9 +78,9 @@ namespace Pitch.Match.API.ApplicationCore.Engine
             _fitnessDrainService.Drain(match, minute);
         }
 
-        private void SetCalculatedStats(Models.Match.Match match, int minute)
+        private void SetCalculatedStats(Models.Match.Match match)
         {
-            _calculatedCardStatService.Set(match, minute);
+            _calculatedCardStatService.Set(match);
         }
     }
 }

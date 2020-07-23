@@ -18,7 +18,7 @@ namespace Pitch.Match.API.Installers
             services.AddSingleton<IFitnessDrainService, FitnessDrainService>();
 
             services.AddSingleton<IRandomnessProvider, ThreadSafeRandomnessProvider>();
-            services.AddSingleton<IAction, ApplicationCore.Engine.Actions.Foul>();
+            services.AddSingleton<IAction, Foul>();
             services.AddSingleton<IAction, Shot>();
 
             return services;

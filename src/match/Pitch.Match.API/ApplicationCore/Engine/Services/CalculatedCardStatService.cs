@@ -8,21 +8,21 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Services
 {
     public interface ICalculatedCardStatService
     {
-        void Set(Models.Match.Match match, int minute);
+        void Set(Models.Match.Match match);
     }
 
     public class CalculatedCardStatService : ICalculatedCardStatService
     {
         private const int FitnessUpperBound = 100;
 
-        public void Set(Models.Match.Match match, int minute)
+        public void Set(Models.Match.Match match)
         {
             var modifiers = match.Minutes.SelectMany(x => x.Modifiers);
-            SetFitness(modifiers, minute, match.HomeTeam.Squad);
-            SetFitness(modifiers, minute, match.AwayTeam.Squad);
+            SetFitness(modifiers, match.HomeTeam.Squad);
+            SetFitness(modifiers, match.AwayTeam.Squad);
         }
 
-        private void SetFitness(IEnumerable<Modifier> modifiers, int minute, Squad squad)
+        private void SetFitness(IEnumerable<Modifier> modifiers, Squad squad)
         {
             foreach (var position in squad.Lineup)
             {

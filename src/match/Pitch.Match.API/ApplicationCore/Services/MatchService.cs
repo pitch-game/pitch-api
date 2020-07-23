@@ -78,7 +78,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
         {
             var match = await _matchRepository.GetAsync(id);
             match.AsAtElapsed();
-            _calculatedCardStatService.Set(match, match.Elapsed);
+            _calculatedCardStatService.Set(match);
             return match;
         }
 
