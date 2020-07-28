@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Pitch.Store.API.Controllers;
-using Pitch.Store.API.Infrastructure.Services;
+using Pitch.Store.API.Services;
 using Xunit;
 
 namespace Pitch.Store.API.Tests.Controllers

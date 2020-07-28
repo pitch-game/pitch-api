@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Pitch.Store.API.Application.Events;
 using Pitch.Store.API.Application.Subscribers;
-using Pitch.Store.API.Infrastructure.Services;
+using Pitch.Store.API.Services;
 using Xunit;
 
 namespace Pitch.Store.API.Tests.Subscribers

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Pitch.Store.API.Application.Responses;
-using Pitch.Store.API.Infrastructure.Services;
 using Pitch.Store.API.Models;
+using Pitch.Store.API.Services;
 
 namespace Pitch.Store.API.Controllers
 {
@@ -25,7 +25,7 @@ namespace Pitch.Store.API.Controllers
 
         // GET /
         [HttpGet()]
-        public async Task<IList<Pack>> Get()
+        public async Task<IEnumerable<Pack>> Get()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //TODO move to currentUserContext
             return await _packService.GetAll(userId);

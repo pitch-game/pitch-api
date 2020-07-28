@@ -19,7 +19,7 @@ using MongoDB.Driver;
 using Pitch.Store.API.Application.Subscribers;
 using Pitch.Store.API.Infrastructure;
 using Pitch.Store.API.Infrastructure.Repositories;
-using Pitch.Store.API.Infrastructure.Services;
+using Pitch.Store.API.Services;
 using Pitch.Store.API.Supporting;
 using Swashbuckle.AspNetCore.Swagger;
 

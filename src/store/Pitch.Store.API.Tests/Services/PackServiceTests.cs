@@ -6,8 +6,8 @@ using Moq;
 using Pitch.Store.API.Application.Requests;
 using Pitch.Store.API.Application.Responses;
 using Pitch.Store.API.Infrastructure.Repositories;
-using Pitch.Store.API.Infrastructure.Services;
 using Pitch.Store.API.Models;
+using Pitch.Store.API.Services;
 using Xunit;
 
 namespace Pitch.Store.API.Tests.Services

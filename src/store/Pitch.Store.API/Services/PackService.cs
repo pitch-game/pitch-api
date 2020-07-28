@@ -7,11 +7,11 @@ using Pitch.Store.API.Application.Responses;
 using Pitch.Store.API.Infrastructure.Repositories;
 using Pitch.Store.API.Models;
 
-namespace Pitch.Store.API.Infrastructure.Services
+namespace Pitch.Store.API.Services
 {
     public interface IPackService
     {
-        Task<IList<Pack>> GetAll(string userId);
+        Task<IEnumerable<Pack>> GetAll(string userId);
         Task<CreateCardResponse> Open(Guid id, string userId);
         Task<Guid> Buy(Guid userId, int amount);
         Task CreateStartingPacksAsync(Guid userId);
@@ -28,7 +28,7 @@ namespace Pitch.Store.API.Infrastructure.Services
             _bus = bus;
         }
 
-        public async Task<IList<Pack>> GetAll(string userId)
+        public async Task<IEnumerable<Pack>> GetAll(string userId)
         {
             return await _packRepository.GetAllAsync(userId);
         }

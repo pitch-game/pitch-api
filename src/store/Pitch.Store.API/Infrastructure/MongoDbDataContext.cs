@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 
 namespace Pitch.Store.API.Infrastructure
 {
@@ -12,11 +11,10 @@ namespace Pitch.Store.API.Infrastructure
         Guid Id { get; set; }
     }
 
-
     public interface IDataContext<T> where T : IEntity
     {
-        Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> query);
-        Task<IList<T>> WhereAsync(Expression<Func<T, bool>> query);
+        Task<T> FindOneAsync(Expression<Func<T, bool>> query);
+        Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> query);
         Task CreateAsync(T item);
         Task UpdateAsync(T item);
         Task DeleteAsync(T item);
@@ -28,18 +26,20 @@ namespace Pitch.Store.API.Infrastructure
 
         public MongoDbDataContext(IMongoClient mongoClient)
         {
-            var database = mongoClient.GetDatabase("store"); //TODO name
-            _collection = database.GetCollection<T>("packs"); //TODO name
+            var database = mongoClient.GetDatabase("match"); //TODO name
+            _collection = database.GetCollection<T>("matches"); //TODO name
         }
 
-        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> query)
+        public async Task<T> FindOneAsync(Expression<Func<T, bool>> query)
         {
-            return await _collection.AsQueryable().Where(query).FirstOrDefaultAsync();
+            var result = await _collection.FindAsync(query);
+            return await result.FirstOrDefaultAsync();
         }
 
-        public async Task<IList<T>> WhereAsync(Expression<Func<T, bool>> query)
+        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> query)
         {
-            return await _collection.AsQueryable().Where(query).ToListAsync();
+            var result = await _collection.FindAsync(query);
+            return await result.ToListAsync();
         }
 
         public async Task CreateAsync(T item)

@@ -2,7 +2,7 @@
 using EasyNetQ;
 using Microsoft.Extensions.DependencyInjection;
 using Pitch.Store.API.Application.Events;
-using Pitch.Store.API.Infrastructure.Services;
+using Pitch.Store.API.Services;
 
 namespace Pitch.Store.API.Application.Subscribers
 {
