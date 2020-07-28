@@ -13,11 +13,11 @@ namespace Pitch.Store.API.Infrastructure
 
     public interface IDataContext<T> where T : IEntity
     {
-        Task<T> FindOneAsync(Expression<Func<T, bool>> query);
-        Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> query);
+        Task<T> FindOneAsync(Expression<Func<T, bool>> filter);
+        Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> filter);
         Task CreateAsync(T item);
         Task UpdateAsync(T item);
-        Task DeleteAsync(T item);
+        Task DeleteAsync(Expression<Func<T, bool>> filter);
     }
 
     public class MongoDbDataContext<T> : IDataContext<T> where T : IEntity
@@ -30,15 +30,15 @@ namespace Pitch.Store.API.Infrastructure
             _collection = database.GetCollection<T>("matches"); //TODO name
         }
 
-        public async Task<T> FindOneAsync(Expression<Func<T, bool>> query)
+        public async Task<T> FindOneAsync(Expression<Func<T, bool>> filter)
         {
-            var result = await _collection.FindAsync(query);
+            var result = await _collection.FindAsync(filter);
             return await result.FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> query)
+        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> filter)
         {
-            var result = await _collection.FindAsync(query);
+            var result = await _collection.FindAsync(filter);
             return await result.ToListAsync();
         }
 
@@ -52,9 +52,9 @@ namespace Pitch.Store.API.Infrastructure
             await _collection.ReplaceOneAsync(x => x.Id == item.Id, item);
         }
 
-        public async Task DeleteAsync(T item)
+        public async Task DeleteAsync(Expression<Func<T, bool>> filter)
         {
-            await _collection.DeleteOneAsync(x => x.Id == item.Id);
+            await _collection.DeleteOneAsync(filter);
         }
     }
 }

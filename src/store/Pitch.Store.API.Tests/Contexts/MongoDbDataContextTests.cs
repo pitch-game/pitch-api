@@ -47,10 +47,6 @@ namespace Pitch.Store.API.Tests.Contexts
         public async Task DeleteAsync_TestEntity_CalledOnceMongoDeleteOneAsync()
         {
             var testId = Guid.NewGuid();
-            var testEntity = new TestEntity()
-            {
-                Id = testId
-            };
 
             var mongoCollectionMock = new Mock<IMongoCollection<TestEntity>>();
             mongoCollectionMock.Setup(x => x.InsertOneAsync(It.IsAny<TestEntity>(), null, It.IsAny<CancellationToken>()));
@@ -62,7 +58,7 @@ namespace Pitch.Store.API.Tests.Contexts
             mongoClientMock.Setup(x => x.GetDatabase(It.IsAny<string>(), null)).Returns(mongoDatabaseMock.Object);
 
             var mongoDbContext = new MongoDbDataContext<TestEntity>(mongoClientMock.Object);
-            await mongoDbContext.DeleteAsync(testEntity);
+            await mongoDbContext.DeleteAsync(x => x.Id == testId);
 
             mongoCollectionMock.Verify(m => m.DeleteOneAsync(It.IsAny<FilterDefinition<TestEntity>>(), It.IsAny<CancellationToken>()), Times.Once);
         }

@@ -1,7 +1,6 @@
 ﻿using Pitch.Store.API.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Pitch.Store.API.Infrastructure.Repositories
@@ -11,7 +10,7 @@ namespace Pitch.Store.API.Infrastructure.Repositories
         Task<IEnumerable<Pack>> GetAllAsync(string userId);
         Task<Pack> GetAsync(Guid id);
         Task AddAsync(Pack pack);
-        Task Delete(Guid id);
+        Task DeleteAsync(Guid id);
     }
 
     public class PackRepository : IPackRepository
@@ -37,11 +36,9 @@ namespace Pitch.Store.API.Infrastructure.Repositories
             await _packContext.CreateAsync(pack);
         }
 
-        public async Task Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            var entity = await _packContext.FindOneAsync(x => x.Id == id);
-            if(entity != null)
-                await _packContext.DeleteAsync(entity);
+            await _packContext.DeleteAsync(x => x.Id == id);
         }
     }
 }

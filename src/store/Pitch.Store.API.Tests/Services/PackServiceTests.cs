@@ -69,7 +69,7 @@ namespace Pitch.Store.API.Tests.Services
             var result = await service.Open(packId, userId);
 
             // Assert
-            mockPackRepository.Verify(x => x.Delete(packId), Times.Once);
+            mockPackRepository.Verify(x => x.DeleteAsync(packId), Times.Once);
             mockBus.Verify(x => x.RequestAsync<CreateCardRequest, CreateCardResponse>(It.Is<CreateCardRequest>(x => x.UserId == userId)), Times.Once);
 
             result.Should().BeEquivalentTo(createCardResponse);

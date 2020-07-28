@@ -42,7 +42,7 @@ namespace Pitch.Store.API.Services
                 request.Position = pack.Position;
             }
             var response = await _bus.RequestAsync<CreateCardRequest, CreateCardResponse>(request);
-            await _packRepository.Delete(id);
+            await _packRepository.DeleteAsync(id);
             return response;
         }
 
