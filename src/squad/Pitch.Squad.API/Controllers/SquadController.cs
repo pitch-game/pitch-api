@@ -12,15 +12,12 @@ namespace Pitch.Squad.API.Controllers
     public class SquadController : ControllerBase
     {
         private readonly ISquadService _squadService;
-        private readonly IChemistryService _chemistryService;
 
-        public SquadController(ISquadService activeSquadService, IChemistryService chemistryService)
+        public SquadController(ISquadService squadService)
         {
-            _squadService = activeSquadService;
-            _chemistryService = chemistryService;
+            _squadService = squadService;
         }
 
-        // GET /
         [HttpGet]
         public async Task<Models.Squad> Get()
         {

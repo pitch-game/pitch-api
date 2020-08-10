@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
 using EasyNetQ;
-using Pitch.Squad.API.Application.Requests;
-using Pitch.Squad.API.Application.Response;
 using Pitch.Squad.API.Infrastructure.Repositories;
-using Pitch.Squad.API.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Pitch.Squad.API.Services
@@ -21,29 +15,16 @@ namespace Pitch.Squad.API.Services
     {
         private readonly ISquadRepository _squadRepository;
         private readonly ISquadValidationService _squadValidationService;
-        private readonly IBus _bus;
-        private readonly IMapper _mapper;
 
         public SquadService(ISquadRepository squadRepository, ISquadValidationService squadValidationService, IBus bus, IMapper mapper)
         {
             _squadRepository = squadRepository;
             _squadValidationService = squadValidationService;
-            _bus = bus;
-            _mapper = mapper;
         }
 
         public async Task<Models.Squad> GetOrCreateAsync(string userId)
         {
             var activeSquad = await _squadRepository.GetAsync(userId);
-            //if(activeSquad != null)
-            //{
-            //    var cardIds = activeSquad.Lineup.Where(x => x.Value.HasValue).Select(x => x.Value).Cast<Guid>()
-            //        .Concat(activeSquad.Subs.Where(x => x != null).Select(x => x.Value)).ToList(); //TODO move out
-            //    var request = new GetCardsRequest(cardIds);
-            //    var response = await _bus.RequestAsync<GetCardsRequest, GetCardsResponse>(request);
-
-            //    activeSquad.Cards = _mapper.Map<IList<Card>>(response.Cards);
-            //}
             return activeSquad ?? await _squadRepository.CreateAsync(userId);
         }
 

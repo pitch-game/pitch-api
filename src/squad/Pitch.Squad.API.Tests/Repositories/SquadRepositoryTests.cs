@@ -18,7 +18,7 @@ namespace Pitch.Squad.API.Tests.Repositories
         }
 
         [Fact]
-        public async Task GetAsync_ReturnsExpectedPack()
+        public async Task GetAsync_Returns_Squad_By_UserId()
         {
             var userId = Guid.NewGuid().ToString();
             var pack = new Models.Squad
@@ -37,23 +37,22 @@ namespace Pitch.Squad.API.Tests.Repositories
         }
 
         [Fact]
-        public async Task CreateAsync_CallsCreateAsyncOnce()
+        public async Task CreateAsync_Sets_Id_And_Calls_CreateAsyncOnce_With_Squad()
         {
             var userId = Guid.NewGuid().ToString();
-            var squad = new Models.Squad
-            {
-                UserId = userId
-            };
+
+            Models.Squad squad = null;
+            _mockDataContext.Setup(x => x.CreateAsync(It.IsAny<Models.Squad>())).Callback<Models.Squad>(s => squad = s);
 
             var repository = new SquadRepository(_mockDataContext.Object);
             await repository.CreateAsync(userId);
 
             _mockDataContext.Verify(x => x.CreateAsync(It.Is<Models.Squad>(x => x.UserId == userId)), Times.Once);
-            //TODO verify id is set
+            squad.Id.Should().NotBeEmpty();
         }
 
         [Fact]
-        public async Task UpdateAsync_CallsDeleteAsyncOnce()
+        public async Task UpdateAsync_Calls_UpdateAsync_With_Squad()
         {
             var userId = Guid.NewGuid().ToString();
             var squad = new Models.Squad
