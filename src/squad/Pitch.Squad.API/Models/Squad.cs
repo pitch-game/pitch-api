@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Pitch.Squad.API.Infrastructure;
 
 namespace Pitch.Squad.API.Models
 {
-    public class Squad
+    public class Squad : IEntity
     {
         public Squad()
         {
@@ -78,7 +78,7 @@ namespace Pitch.Squad.API.Models
     {
         public static IDictionary<SquadFormation, Position[]> AllowedPositions => new Dictionary<SquadFormation, Position[]> {
             {
-                SquadFormation.FourFourTwo, new Position[] { Position.GK, Position.LB, Position.LCB, Position.RCB, Position.RB, Position.LM, Position.LCM, Position.RCM, Position.RM, Position.LST, Position.RST }
+                SquadFormation.FourFourTwo, new[] { Position.GK, Position.LB, Position.LCB, Position.RCB, Position.RB, Position.LM, Position.LCM, Position.RCM, Position.RM, Position.LST, Position.RST }
             }
         };
     }
