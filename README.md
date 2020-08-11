@@ -18,30 +18,25 @@ RESTful Web API for Pitch in a microservices architecture on containers
 
 ## Getting Started
 
-For instructions on how to get a copy of the project up and running on your local machine for development and testing purposes, please see the wiki article on [setting up a local development environment](../../wiki/Setting-up-a-local-development-environment).
-
-
-## Deployment
-
-To deploy Pitch to a production environment in the cloud please see either [deploying to AKS in production](../../wiki/Deploying-to-AKS-in-production) or [deploying to AWS in production](../../wiki/Deploying-to-AWS-in-production).
+For instructions on how to get a copy of the project up and running on your local machine for development and testing purposes, please see [setting up a local development environment](https://pitch-game.github.io/pitch-docs/setting-up-a-local-environment).
 
 ## Built With
 
-* [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-2.2) - The web framework used
+* [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-3.1) - The web framework used
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](/tags).
 
 ## Authors
 
 * **Jacob** - *Initial work* - [Jcbcn](https://github.com/jcbcn)
 
-See also the list of [contributors](/contributors) who participated in this project.
+See also the list of [contributors](/graphs/contributors) who participated in this project.
 
 ## License
 
