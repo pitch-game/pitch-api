@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using EasyNetQ;
-using Pitch.Squad.API.Infrastructure.Repositories;
+﻿using Pitch.Squad.API.Infrastructure.Repositories;
 using System.Threading.Tasks;
 
 namespace Pitch.Squad.API.Services
@@ -16,7 +14,7 @@ namespace Pitch.Squad.API.Services
         private readonly ISquadRepository _squadRepository;
         private readonly ISquadValidationService _squadValidationService;
 
-        public SquadService(ISquadRepository squadRepository, ISquadValidationService squadValidationService, IBus bus, IMapper mapper)
+        public SquadService(ISquadRepository squadRepository, ISquadValidationService squadValidationService)
         {
             _squadRepository = squadRepository;
             _squadValidationService = squadValidationService;
