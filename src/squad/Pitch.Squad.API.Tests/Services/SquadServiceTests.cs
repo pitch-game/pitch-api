@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
 using Moq;
+using Pitch.Squad.API.Exceptions;
 using Pitch.Squad.API.Infrastructure.Repositories;
 using Pitch.Squad.API.Services;
 using Xunit;
@@ -86,7 +87,7 @@ namespace Pitch.Squad.API.Tests.Services
             var squadService = new SquadService(_mockSquadRepository.Object, _mockSquadValidationService.Object);
 
             Func<Task> act = async () => { await squadService.UpdateAsync(updatedSquadFixture, userId); };
-            await act.Should().ThrowAsync<Exception>("Squad is not valid.");
+            await act.Should().ThrowAsync<InvalidSquadException>("Squad is not valid.");
 
             _mockSquadRepository.Verify(x => x.GetAsync(userId), Times.Once);
             _mockSquadRepository.Verify(x => x.UpdateAsync(updatedSquadFixture), Times.Never);

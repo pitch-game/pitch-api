@@ -1,5 +1,6 @@
 ﻿using Pitch.Squad.API.Infrastructure.Repositories;
 using System.Threading.Tasks;
+using Pitch.Squad.API.Exceptions;
 
 namespace Pitch.Squad.API.Services
 {
@@ -29,7 +30,7 @@ namespace Pitch.Squad.API.Services
         public async Task<Models.Squad> UpdateAsync(Models.Squad squad, string userId)
         {
             var squadInDb = await _squadRepository.GetAsync(userId);
-            if (!await _squadValidationService.Validate(squad, squadInDb.Id, userId)) throw new System.Exception("Squad is not valid.");
+            if (!await _squadValidationService.Validate(squad, squadInDb.Id, userId)) throw new InvalidSquadException("Squad is not valid.");
             return await _squadRepository.UpdateAsync(squad);
         }
     }
