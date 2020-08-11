@@ -36,7 +36,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 * **Jacob** - *Initial work* - [Jcbcn](https://github.com/jcbcn)
 
-See also the list of [contributors](/graphs/contributors) who participated in this project.
+See also the list of [contributors](../../graphs/contributors) who participated in this project.
 
 ## License
 
