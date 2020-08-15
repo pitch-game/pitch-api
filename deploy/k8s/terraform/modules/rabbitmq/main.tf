@@ -6,12 +6,12 @@ resource "helm_release" "rabbitmq" {
 
   set {
     name  = "auth.username"
-    value = "test" //TODO var
+    value = var.auth_username
   }
 
   set {
     name  = "auth.password"
-    value = "test" //TODO var
+    value = var.auth_password
   }
 
   set {

@@ -19,8 +19,13 @@ module "secrets" {
 
 module "mongodb" {
   source = "../modules/mongodb"
+
+  root_password = "example"
 }
 
 module "rabbitmq" {
   source = "../modules/rabbitmq"
+
+  auth_username = "test"
+  auth_password = "test"
 }

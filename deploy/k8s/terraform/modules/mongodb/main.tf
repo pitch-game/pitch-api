@@ -5,7 +5,7 @@ resource "helm_release" "mongodb" {
 
   set {
     name  = "auth.rootPassword"
-    value = "example" //TODO var
+    value = var.root_password
   }
 
   set {
