@@ -1,9 +1,10 @@
 provider "kubernetes" {
 }
 
-resource "kubernetes_ingress" "example_ingress" {
+resource "kubernetes_ingress" "pitch-gateway-ingress" {
   metadata {
-    name = "pitch-gateway-ingress"
+    name      = "pitch-gateway-ingress"
+    namespace = "pitch-api"
   }
 
   spec {
