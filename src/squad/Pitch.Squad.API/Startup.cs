@@ -62,6 +62,7 @@ namespace Pitch.Squad.API
             services.AddScoped<ISquadService, SquadService>();
             services.AddScoped<IChemistryService, ChemistryService>();
 
+            services.AddScoped(typeof(IDataContext<>), typeof(MongoDbDataContext<>));
             services.AddScoped<ISquadRepository, SquadRepository>();
             services.AddScoped<ISquadValidationService, SquadValidationService>();
 
