@@ -11,7 +11,7 @@ namespace Pitch.Squad.API.Services
 
     public class ChemistryService : IChemistryService
     {
-        private static readonly IDictionary<string, string> CorePositions = new Dictionary<string, string>
+        private static readonly IDictionary<string, string> PositionOverrides = new Dictionary<string, string>
         {
             {"LCB", "CB"},
             {"RCB", "CB"},
@@ -103,11 +103,16 @@ namespace Pitch.Squad.API.Services
             {
                 if (card == null) continue;
 
-                var hasCorePosition = CorePositions.TryGetValue(position, out var corePosition);
-                if (!hasCorePosition) throw new ChemistryException($"Could not find {position} in core positions.");
+                var actualPosition = position;
 
-                var hasChemistryLookup = ChemistryMap.TryGetValue(corePosition, out var chemistryLookup);
-                if (!hasChemistryLookup) throw new ChemistryException($"Could not find {corePosition} in chemistry map.");
+                var hasCorePosition = PositionOverrides.TryGetValue(actualPosition, out var corePosition);
+                if (hasCorePosition)
+                {
+                    actualPosition = corePosition;
+                }
+
+                var hasChemistryLookup = ChemistryMap.TryGetValue(actualPosition, out var chemistryLookup);
+                if (!hasChemistryLookup) throw new ChemistryException($"Could not find {actualPosition} in chemistry map.");
 
                 chemistryLookup.TryGetValue(card.Position, out var chemistryValue);
 

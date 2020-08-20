@@ -28,6 +28,8 @@ namespace Pitch.Squad.API.Tests.Services
         [InlineData("RST", "RB", 0)]
         [InlineData("RST", "CB", 0)]
         [InlineData("RST", "GK", 0)]
+
+        [InlineData("GK", "GK", 100)]
         public void Set_Expected_Chemistry(string lineupPosition, string cardPosition, int expectedChemistry)
         {
             var lineup = new Dictionary<string, Card>
@@ -40,6 +42,7 @@ namespace Pitch.Squad.API.Tests.Services
                     }
                 }
             };
+
             var chemistryService = new ChemistryService();
             chemistryService.SetChemistryOnLineup(lineup);
 
