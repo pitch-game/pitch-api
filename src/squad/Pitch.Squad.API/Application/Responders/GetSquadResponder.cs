@@ -46,7 +46,7 @@ namespace Pitch.Squad.API.Application.Responders
 
                 var finalLineup = lineup.ToDictionary(x => x.Key, x => _mapper.Map<Card>(x.Value));
 
-                scope.ServiceProvider.GetRequiredService<IChemistryService>().SetChemistry(finalLineup);
+                scope.ServiceProvider.GetRequiredService<IChemistryService>().SetChemistryOnLineup(finalLineup);
 
                 return new GetSquadResponse()
                 {

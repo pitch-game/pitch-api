@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.28917.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Squad.API", "Pitch.Squad.API\Pitch.Squad.API.csproj", "{B3AB2070-FC28-466C-8062-DEF672D901F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pitch.Squad.API.Tests", "Pitch.Squad.API.Tests\Pitch.Squad.API.Tests.csproj", "{1ECD3917-8CFC-4F12-85AE-DD84C8EA2520}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitch.Squad.API.Tests", "Pitch.Squad.API.Tests\Pitch.Squad.API.Tests.csproj", "{1ECD3917-8CFC-4F12-85AE-DD84C8EA2520}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0C5A36BC-AA97-4A20-AFD1-E608572B956A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +26,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1ECD3917-8CFC-4F12-85AE-DD84C8EA2520} = {0C5A36BC-AA97-4A20-AFD1-E608572B956A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6431314E-0075-4447-B962-4F56FCDB6222}
