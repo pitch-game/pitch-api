@@ -43,7 +43,7 @@ namespace Pitch.Squad.API.Services
 
             foreach (var cardId in cardIds)
             {
-                var card = response.Cards.FirstOrDefault(x => x.Id == cardId);
+                var card = response?.Cards.FirstOrDefault(x => x.Id == cardId);
                 if (card == null || card.UserId != userId) return false;
             }
             return true;
