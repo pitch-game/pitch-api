@@ -25,7 +25,9 @@ namespace Pitch.Squad.API.Tests.Services
         public async Task Return_True_When_Squad_Is_Valid()
         {
             var squadBuilder = new SquadBuilder();
-            var squad = squadBuilder.WithDefaults().Build();
+            var squad = squadBuilder
+                .WithDefaults()
+                .Build();
 
             var getCardsResponseBuilder = new GetCardsResponseBuilder();
             var getCardsResponse = getCardsResponseBuilder
@@ -94,8 +96,8 @@ namespace Pitch.Squad.API.Tests.Services
                 .Build();
 
             _busMock.Setup(x => x.RequestAsync<GetCardsRequest, GetCardsResponse>(It.IsAny<GetCardsRequest>()))
-               .ReturnsAsync(getCardsResponse);
-            
+                .ReturnsAsync(getCardsResponse);
+
             var squadValidationService = new SquadValidationService(_busMock.Object);
             var isValid = await squadValidationService.Validate(squad, squad.Id, squad.UserId);
 
@@ -173,7 +175,7 @@ namespace Pitch.Squad.API.Tests.Services
 
             var squad = squadBuilder
                 .WithDefaults()
-                .WithLineup(new Dictionary<string, Guid?>()
+                .WithLineup(new Dictionary<string, Guid?>
                 {
                     {"INV", cardId}
                 })
