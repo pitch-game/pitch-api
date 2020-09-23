@@ -18,7 +18,7 @@ RESTful Web API for Pitch in a microservices architecture on containers
 
 ## Getting Started
 
-For instructions on how to get a copy of the project up and running on your local machine for development and testing purposes, please see [setting up a local development environment](https://pitch-game.github.io/pitch-docs/setting-up-a-local-environment).
+For instructions on how to get a copy of the project up and running on your local machine for development and testing purposes, please see [setting up a local development environment](https://pitch-game.github.io/pitch-docs/api-local-setup).
 
 ## Built With
 
