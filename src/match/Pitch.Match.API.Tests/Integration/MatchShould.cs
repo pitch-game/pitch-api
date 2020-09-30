@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
@@ -25,11 +24,11 @@ namespace Pitch.Match.API.Tests.Integration
         }
 
         [Fact]
-        public async Task Integration_test_uses_decorator()
+        public async Task Return_Match()
         {
             var client = _fixture.CreateClient();
 
-            var result = await client.GetAsync("/db694e59-ae5c-4e32-989c-e17b0ead81a2");
+            var result = await client.GetAsync("/db694e59-ae5c-4e32-989c-e17b0ead81a2"); //TODO DefaultMatchId
             var response = await result.Content.ReadAsStringAsync();
             result.EnsureSuccessStatusCode();
         }
