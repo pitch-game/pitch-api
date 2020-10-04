@@ -6,9 +6,9 @@ namespace Pitch.Match.API.Tests.Builders
     public class MatchBuilder
     {
         private Guid _id = Guid.NewGuid();
-        private TeamDetails _awayTeam = new TeamDetails(); //TODO builder
-        private TeamDetails _homeTeam = new TeamDetails(); //TODO builder
-        private DateTime _kickOff = DateTime.Now;
+        private TeamDetails _awayTeam = new TeamDetailsBuilder().Build();
+        private TeamDetails _homeTeam = new TeamDetailsBuilder().Build();
+        private DateTime _kickOff = DateTime.Now; 
         private MatchMinute[] _minutes = new MatchMinute[0]; //TODO builder
 
         public MatchBuilder WithId(Guid id)
@@ -16,16 +16,15 @@ namespace Pitch.Match.API.Tests.Builders
             _id = id;
             return this;
         }
+        public MatchBuilder WithHomeTeam(TeamDetails homeTeam)
+        {
+            _homeTeam = homeTeam;
+            return this;
+        }
 
         public MatchBuilder WithAwayTeam(TeamDetails awayTeam)
         {
             _awayTeam = awayTeam;
-            return this;
-        }
-
-        public MatchBuilder WithHomeTeam(TeamDetails homeTeam)
-        {
-            _awayTeam = homeTeam;
             return this;
         }
 

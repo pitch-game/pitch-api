@@ -17,7 +17,11 @@ namespace Pitch.Match.API.Tests.Integration
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var claims = new[] { new Claim(ClaimTypes.Name, "Test user") };
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name, "6338a6e5-eaaa-4299-9428-763d85363c3e"),
+                new Claim(ClaimTypes.NameIdentifier, "6338a6e5-eaaa-4299-9428-763d85363c3e")
+            };
             var identity = new ClaimsIdentity(claims, "Test");
             var principal = new ClaimsPrincipal(identity);
             var ticket = new AuthenticationTicket(principal, "Test");
