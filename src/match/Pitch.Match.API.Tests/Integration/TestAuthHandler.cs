@@ -19,8 +19,7 @@ namespace Pitch.Match.API.Tests.Integration
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, "6338a6e5-eaaa-4299-9428-763d85363c3e"),
-                new Claim(ClaimTypes.NameIdentifier, "6338a6e5-eaaa-4299-9428-763d85363c3e")
+                new Claim(ClaimTypes.NameIdentifier, TestConstants.DefaultUserId.ToString())
             };
             var identity = new ClaimsIdentity(claims, "Test");
             var principal = new ClaimsPrincipal(identity);
