@@ -318,7 +318,7 @@ namespace Pitch.Match.API.Tests.Services
         }
 
         [Fact]
-        public async Task GetLineupAsync_CallsGetAsyncOnce()
+        public async Task GetLineupAsync_Returns_Correct_Lineup()
         {
             var userId = Guid.NewGuid();
             var matchId = Guid.NewGuid();
@@ -326,6 +326,10 @@ namespace Pitch.Match.API.Tests.Services
             var match = new MatchBuilder()
                 .WithHomeTeam(new TeamDetailsBuilder()
                     .WithUserId(userId)
+                    .WithSquad(new SquadBuilder().WithSubs(new[]
+                    {
+                        new CardBuilder().Build()
+                    }).Build())
                     .Build())
                 .Build();
 
@@ -357,8 +361,10 @@ namespace Pitch.Match.API.Tests.Services
             var matchId = Guid.NewGuid();
             var cardId = Guid.NewGuid();
 
+            var eventMinute = 20;
+
             var match = new MatchBuilder()
-                .WithKickOff(DateTime.Now.AddMinutes(-21))
+                .WithKickOff(DateTime.Now.AddMinutes(-eventMinute - 1))
                 .WithHomeTeam(new TeamDetailsBuilder()
                     .WithUserId(userId)
                     .WithSquad(new SquadBuilder()
@@ -372,7 +378,7 @@ namespace Pitch.Match.API.Tests.Services
                         )
                         .Build())
                     .Build())
-                .WithMinute(20, new MatchMinuteBuilder(squadId)
+                .WithMinute(eventMinute, new MatchMinuteBuilder(squadId)
                     .WithEvent(new RedCard(cardId, squadId))
                     .Build())
                 .Build();

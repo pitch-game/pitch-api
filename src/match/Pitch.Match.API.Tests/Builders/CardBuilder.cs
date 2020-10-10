@@ -5,7 +5,7 @@ namespace Pitch.Match.API.Tests.Builders
 {
     public class CardBuilder
     {
-        private Guid _id;
+        private Guid _id = Guid.NewGuid();
 
         public CardBuilder WithId(Guid id)
         {

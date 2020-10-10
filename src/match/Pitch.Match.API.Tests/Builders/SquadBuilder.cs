@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Pitch.Match.API.ApplicationCore.Models;
 
 namespace Pitch.Match.API.Tests.Builders
@@ -8,6 +9,7 @@ namespace Pitch.Match.API.Tests.Builders
     {
         private Guid _id;
         private readonly Dictionary<string, IEnumerable<Card>> _lineup = new Dictionary<string, IEnumerable<Card>>();
+        private Card[] _subs = new Card[0];
 
         public SquadBuilder WithId(Guid id)
         {
@@ -21,12 +23,19 @@ namespace Pitch.Match.API.Tests.Builders
             return this;
         }
 
+        public SquadBuilder WithSubs(Card[] subs)
+        {
+            _subs = subs;
+            return this;
+        }
+
         public Squad Build()
         {
             return new Squad()
             {
                 Id = _id,
-                Lineup = _lineup
+                Lineup = _lineup,
+                Subs = _subs
             };
         }
     }
