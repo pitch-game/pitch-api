@@ -18,6 +18,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.OpenApi.Models;
 using Pitch.Match.API.Installers;
+using Pitch.Match.API.Supporting;
 
 namespace Pitch.Match.API
 {
@@ -90,13 +91,13 @@ namespace Pitch.Match.API
                 app.UseDeveloperExceptionPage();
             }
 
-            BsonClassMap.RegisterClassMap<RedCard>();
-            BsonClassMap.RegisterClassMap<YellowCard>();
-            BsonClassMap.RegisterClassMap<Goal>();
-            BsonClassMap.RegisterClassMap<ShotOnTarget>();
-            BsonClassMap.RegisterClassMap<ShotOffTarget>();
-            BsonClassMap.RegisterClassMap<Foul>();
-            BsonClassMap.RegisterClassMap<Substitution>();
+            BsonClassMapExtensions.TryRegisterClassMap<RedCard>();
+            BsonClassMapExtensions.TryRegisterClassMap<YellowCard>();
+            BsonClassMapExtensions.TryRegisterClassMap<Goal>();
+            BsonClassMapExtensions.TryRegisterClassMap<ShotOnTarget>();
+            BsonClassMapExtensions.TryRegisterClassMap<ShotOffTarget>();
+            BsonClassMapExtensions.TryRegisterClassMap<Foul>();
+            BsonClassMapExtensions.TryRegisterClassMap<Substitution>();
 
             app.UseSwagger(c =>
             {

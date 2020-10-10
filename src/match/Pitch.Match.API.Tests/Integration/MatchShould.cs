@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -8,29 +9,52 @@ using Pitch.Match.API.Models;
 using Xunit;
 using System.Text.Json;
 using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.API.Tests.Builders;
 
 namespace Pitch.Match.API.Tests.Integration
 {
-    public class MatchShould : IClassFixture<IntegrationTestsFixture>
+    public class MatchShould : IDisposable
     {
-        private readonly HttpClient _client;
+        private readonly TestWebApplicationFactory _testWebApplicationFactory;
 
-        public MatchShould(IntegrationTestsFixture fixture)
+        public MatchShould()
         {
-            _client = fixture.CreateClient();
+            _testWebApplicationFactory = new TestWebApplicationFactory();
+        }
+
+        [Fact]
+        public async Task Return_MatchListResult()
+        {
+            var finishedMatch = new MatchBuilder()
+                .WithKickOff(DateTime.Now.AddDays(-1))
+                .WithId(TestConstants.DefaultMatchId)
+                .WithHomeTeam(new TeamDetailsBuilder()
+                    .WithUserId(TestConstants.DefaultUserId)
+                    .Build())
+                .Build();
+
+            var client = _testWebApplicationFactory.SetMatch(finishedMatch).CreateClient();
+            var result = await client.GetAsync($"/?skip=0&take=10");
+            var response = await result.Content.ReadAsStringAsync();
+            var responseModel = JsonSerializer.Deserialize<IEnumerable<MatchListResultModel>>(response);
+
+            result.EnsureSuccessStatusCode();
+            responseModel.Should().HaveCount(1);
         }
 
         [Fact]
         public async Task Return_BadRequest_When_Id_Isnt_Guid()
         {
-            var result = await _client.GetAsync("/1");
+            var client = _testWebApplicationFactory.CreateClient();
+            var result = await client.GetAsync("/1");
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Fact]
         public async Task Return_Match()
         {
-            var result = await _client.GetAsync($"/{TestConstants.DefaultMatchId}");
+            var client = _testWebApplicationFactory.CreateClient();
+            var result = await client.GetAsync($"/{TestConstants.DefaultMatchId}");
             var response = await result.Content.ReadAsStringAsync();
             var responseModel = JsonSerializer.Deserialize<MatchModel>(response);
 
@@ -42,7 +66,8 @@ namespace Pitch.Match.API.Tests.Integration
         [Fact]
         public async Task Return_Lineup()
         {
-            var result = await _client.GetAsync($"/{TestConstants.DefaultMatchId}/lineup");
+            var client = _testWebApplicationFactory.CreateClient();
+            var result = await client.GetAsync($"/{TestConstants.DefaultMatchId}/lineup");
             var response = await result.Content.ReadAsStringAsync();
             var responseModel = JsonSerializer.Deserialize<LineupModel>(response);
 
@@ -60,9 +85,15 @@ namespace Pitch.Match.API.Tests.Integration
                 On = TestConstants.DefaultSubCardId
             };
             var httpContent = new StringContent(JsonSerializer.Serialize(subRequest), Encoding.UTF8, "application/json");
-            var result = await _client.PostAsync($"/{TestConstants.DefaultMatchId}/substitution", httpContent);
+            var client = _testWebApplicationFactory.CreateClient();
+            var result = await client.PostAsync($"/{TestConstants.DefaultMatchId}/substitution", httpContent);
 
             result.EnsureSuccessStatusCode();
+        }
+
+        public void Dispose()
+        {
+            _testWebApplicationFactory?.Dispose();
         }
     }
 }
