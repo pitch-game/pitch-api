@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Pitch.Match.API.ApplicationCore.Engine;
 using Pitch.Match.API.ApplicationCore.Models.Match;
 
 namespace Pitch.Match.API.Tests.Builders
@@ -9,7 +11,7 @@ namespace Pitch.Match.API.Tests.Builders
         private TeamDetails _awayTeam = new TeamDetailsBuilder().Build();
         private TeamDetails _homeTeam = new TeamDetailsBuilder().Build();
         private DateTime _kickOff = DateTime.Now; 
-        private MatchMinute[] _minutes = new MatchMinute[0]; //TODO builder
+        private readonly MatchMinute[] _matchMinutes = Enumerable.Range(0, Constants.MatchLengthInMinutes).Select(i => new MatchMinute()).ToArray();
 
         public MatchBuilder WithId(Guid id)
         {
@@ -34,9 +36,9 @@ namespace Pitch.Match.API.Tests.Builders
             return this;
         }
 
-        public MatchBuilder WithMinutes(MatchMinute[] minutes)
+        public MatchBuilder WithMinute(int minute, MatchMinute matchMinute)
         {
-            _minutes = minutes;
+            _matchMinutes[minute] = matchMinute;
             return this;
         }
 
@@ -48,7 +50,7 @@ namespace Pitch.Match.API.Tests.Builders
                 AwayTeam = _awayTeam,
                 HomeTeam = _homeTeam,
                 KickOff = _kickOff,
-                //Minutes = _minutes
+                Minutes = _matchMinutes
             };
         }
     }

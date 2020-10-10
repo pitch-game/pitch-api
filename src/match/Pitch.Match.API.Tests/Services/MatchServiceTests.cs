@@ -5,6 +5,7 @@ using EasyNetQ;
 using FluentAssertions;
 using Moq;
 using Pitch.Match.API.ApplicationCore.Engine;
+using Pitch.Match.API.ApplicationCore.Engine.Events;
 using Pitch.Match.API.ApplicationCore.Engine.Services;
 using Pitch.Match.API.ApplicationCore.Models;
 using Pitch.Match.API.ApplicationCore.Models.Match;
@@ -14,6 +15,7 @@ using Pitch.Match.API.Infrastructure.MessageBus.Events;
 using Pitch.Match.API.Infrastructure.MessageBus.Requests;
 using Pitch.Match.API.Infrastructure.MessageBus.Responses;
 using Pitch.Match.API.Infrastructure.Repositories;
+using Pitch.Match.API.Tests.Builders;
 using Xunit;
 
 namespace Pitch.Match.API.Tests.Services
@@ -71,10 +73,8 @@ namespace Pitch.Match.API.Tests.Services
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
                 mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
-            //Act
             await _matchService.ClaimAsync(userId);
 
-            //Assert
             updatedMatch.AwayTeam.HasClaimedRewards.Should().BeTrue();
             publishedEvent.UserId.Should().Be(userId);
             publishedEvent.MatchId.Should().Be(matchId);
@@ -87,30 +87,25 @@ namespace Pitch.Match.API.Tests.Services
         {
             var mockMatchmakingService = new Mock<IMatchmakingService>();
             var mockMatchRepository = new Mock<IMatchRepository>();
+
             var userId = Guid.NewGuid();
             var matchId = Guid.NewGuid();
+            var homeSquadId = Guid.NewGuid();
+            var cardId = Guid.NewGuid();
 
-            var unclaimedMatch = new ApplicationCore.Models.Match.Match
-            {
-                Id = matchId,
-                HomeTeam = new TeamDetails
-                {
-                    UserId = userId,
-                    Squad = new Squad
-                    {
-                        Id = Guid.NewGuid()
-                    }
-                },
-                AwayTeam = new TeamDetails
-                {
-                    UserId = Guid.NewGuid(),
-                    Squad = new Squad
-                    {
-                        Id = Guid.NewGuid()
-                    }
-                }
-            };
-
+            var unclaimedMatch = new MatchBuilder()
+                .WithId(matchId)
+                .WithHomeTeam(new TeamDetailsBuilder()
+                    .WithSquad(new SquadBuilder()
+                        .WithId(homeSquadId)
+                        .Build())
+                    .WithUserId(userId)
+                    .Build())
+                .WithMinute(30, new MatchMinuteBuilder(homeSquadId)
+                    .WithEvent(new Goal(cardId, homeSquadId))
+                    .Build())
+                .Build();
+            
             ApplicationCore.Models.Match.Match updatedMatch = null;
             MatchCompletedEvent publishedEvent = null;
 
@@ -131,15 +126,13 @@ namespace Pitch.Match.API.Tests.Services
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
                 mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
-            //Act
             await _matchService.ClaimAsync(userId);
 
-            //Assert
-            Assert.True(updatedMatch.HomeTeam.HasClaimedRewards);
+            updatedMatch.HomeTeam.HasClaimedRewards.Should().BeTrue();
             publishedEvent.UserId.Should().Be(userId);
             publishedEvent.MatchId.Should().Be(matchId);
-            publishedEvent.Victorious.Should().BeFalse();
-            publishedEvent.Scorers.Should().BeEmpty();
+            publishedEvent.Victorious.Should().BeTrue();
+            publishedEvent.Scorers.Count.Should().Be(1);
         }
 
         [Fact]
@@ -162,11 +155,9 @@ namespace Pitch.Match.API.Tests.Services
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
                 mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
-            //Act
             var returnedMatch = await _matchService.GetAsAtElapsedAsync(matchId);
 
-            //Assert
-            Assert.Equal(returnedMatch, match);
+            returnedMatch.Should().BeEquivalentTo(match);
             mockCalculatedStatService.Verify(x => x.Set(It.IsAny<ApplicationCore.Models.Match.Match>()), Times.Once);
         }
 
@@ -212,11 +203,9 @@ namespace Pitch.Match.API.Tests.Services
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
                 mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
-            //Act
             await _matchService.KickOff(sessionId);
 
-            //Assert
-            Assert.NotNull(simulatedMatch);
+            simulatedMatch.Should().NotBeNull();
         }
 
         [Fact]
@@ -253,7 +242,7 @@ namespace Pitch.Match.API.Tests.Services
             await _matchService.Substitution(Guid.NewGuid(), Guid.NewGuid(), matchId, userId);
 
             mockMatch.Verify(x => x.Substitute(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Once);
-            Assert.Equal(1, teamDetails.UsedSubs);
+            teamDetails.UsedSubs.Should().Be(1);
         }
 
         [Fact]
@@ -290,11 +279,7 @@ namespace Pitch.Match.API.Tests.Services
         [Fact]
         public async Task GetMatchStatus_ReturnsCorrectModel()
         {
-            //Arrange
             var userId = Guid.NewGuid();
-            var matchId = Guid.NewGuid();
-
-            var mockMatch = new Mock<ApplicationCore.Models.Match.Match>();
 
             var mockMatchmakingService = new Mock<IMatchmakingService>();
 
@@ -310,18 +295,15 @@ namespace Pitch.Match.API.Tests.Services
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
                 mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
-            //Act
             var result = await _matchService.GetMatchStatus(userId);
 
-            //Assert
-            Assert.True(result.HasUnclaimedRewards);
-            Assert.Null(result.InProgressMatchId);
+            result.HasUnclaimedRewards.Should().BeTrue();
+            result.InProgressMatchId.Should().BeNull();
         }
 
         [Fact]
         public async Task GetAllAsync_CallsGetAllAsyncOnce()
         {
-            //Arrange
             var userId = Guid.NewGuid();
 
             var mockMatchmakingService = new Mock<IMatchmakingService>();
@@ -337,18 +319,15 @@ namespace Pitch.Match.API.Tests.Services
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
                 mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
-            //Act
             var result = await _matchService.GetAllAsync(0, 1, userId);
 
-            //Assert
             mockMatchRepository.Verify(x => x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>(), userId), Times.Once);
-            Assert.Empty(result);
+            result.Should().BeEmpty();
         }
 
         [Fact]
         public async Task GetLineupAsync_CallsGetAsyncOnce()
         {
-            //Arrange
             var userId = Guid.NewGuid();
             var matchId = Guid.NewGuid();
 
@@ -372,10 +351,8 @@ namespace Pitch.Match.API.Tests.Services
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
                 mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
-            //Act
-            var result = await _matchService.GetLineupAsync(matchId, userId);
+            await _matchService.GetLineupAsync(matchId, userId);
 
-            //Assert
             mockMatchRepository.Verify(x => x.GetAsync(matchId), Times.Once);
         }
     }
