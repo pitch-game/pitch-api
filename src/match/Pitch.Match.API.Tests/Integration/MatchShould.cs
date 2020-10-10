@@ -2,7 +2,9 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Pitch.Match.API.Models;
 using Xunit;
+using System.Text.Json;
 
 namespace Pitch.Match.API.Tests.Integration
 {
@@ -27,8 +29,11 @@ namespace Pitch.Match.API.Tests.Integration
         {
             var result = await _client.GetAsync($"/{TestConstants.DefaultMatchId}");
             var response = await result.Content.ReadAsStringAsync();
+            var responseModel = JsonSerializer.Deserialize<MatchModel>(response);
 
             result.EnsureSuccessStatusCode();
+            responseModel.SubsRemaining.Should().Be(0);
+            responseModel.Match.Should().BeNull();
         }
 
         [Fact]
@@ -36,8 +41,11 @@ namespace Pitch.Match.API.Tests.Integration
         {
             var result = await _client.GetAsync($"/{TestConstants.DefaultMatchId}/lineup");
             var response = await result.Content.ReadAsStringAsync();
+            var responseModel = JsonSerializer.Deserialize<LineupModel>(response);
 
             result.EnsureSuccessStatusCode();
+            responseModel.Subs.Should().BeNull();
+            responseModel.Active.Should().BeNull();
         }
     }
 }
