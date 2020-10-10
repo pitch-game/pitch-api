@@ -1,10 +1,13 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Pitch.Match.API.Models;
 using Xunit;
 using System.Text.Json;
+using Pitch.Match.API.ApplicationCore.Models;
 
 namespace Pitch.Match.API.Tests.Integration
 {
@@ -46,6 +49,20 @@ namespace Pitch.Match.API.Tests.Integration
             result.EnsureSuccessStatusCode();
             responseModel.Subs.Should().BeNull();
             responseModel.Active.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task Return_200_Status_Code_On_Substitution()
+        {
+            var subRequest = new SubRequest()
+            {
+                Off = TestConstants.DefaultActiveCardId,
+                On = TestConstants.DefaultSubCardId
+            };
+            var httpContent = new StringContent(JsonSerializer.Serialize(subRequest), Encoding.UTF8, "application/json");
+            var result = await _client.PostAsync($"/{TestConstants.DefaultMatchId}/substitution", httpContent);
+
+            result.EnsureSuccessStatusCode();
         }
     }
 }

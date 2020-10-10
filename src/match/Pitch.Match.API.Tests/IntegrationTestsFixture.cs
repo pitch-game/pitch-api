@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using Pitch.Match.API.ApplicationCore.Models;
 using Pitch.Match.API.Infrastructure.Repositories.Contexts;
 using Pitch.Match.API.Tests.Builders;
 using Pitch.Match.API.Tests.Integration;
@@ -54,7 +55,23 @@ namespace Pitch.Match.API.Tests
         {
             var match = new MatchBuilder()
                 .WithId(TestConstants.DefaultMatchId)
-                .WithHomeTeam(new TeamDetailsBuilder().WithUserId(TestConstants.DefaultUserId).Build())
+                .WithHomeTeam(new TeamDetailsBuilder()
+                    .WithUserId(TestConstants.DefaultUserId)
+                    .WithSquad(new SquadBuilder()
+                        .WithCardsInLineup("ST", new[]
+                        {
+                            new CardBuilder()
+                                .WithId(TestConstants.DefaultActiveCardId)
+                                .Build()
+                        })
+                        .WithSubs(new[]
+                        {
+                            new CardBuilder()
+                                .WithId(TestConstants.DefaultSubCardId)
+                                .Build()
+                        })
+                        .Build())
+                    .Build())
                 .Build();
 
             _mockDataContext.Setup(x => x.FindOneAsync(It.IsAny<Expression<Func<ApplicationCore.Models.Match.Match, bool>>>()))
