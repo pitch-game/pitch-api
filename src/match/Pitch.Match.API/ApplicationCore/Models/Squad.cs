@@ -48,21 +48,6 @@ namespace Pitch.Match.API.ApplicationCore.Models
 
         }
 
-        public Card(Card card)
-        {
-            Id = card.Id;
-            Name = card.Name;
-            ShortName = card.ShortName;
-            Rating = card.Rating;
-            Rarity = card.Rarity;
-            Position = card.Position;
-            Chemistry = card.Chemistry;
-            Fitness = card.Fitness;
-            Goals = card.Goals;
-            YellowCards = card.YellowCards;
-            RedCards = card.RedCards;
-        }
-
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string ShortName { get; set; }
