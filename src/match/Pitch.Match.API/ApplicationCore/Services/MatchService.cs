@@ -164,13 +164,13 @@ namespace Pitch.Match.API.ApplicationCore.Services
             };
         }
 
-        public async Task<ApplicationCore.Models.Lineup> GetLineupAsync(Guid matchId, Guid userId)
+        public async Task<Models.Lineup> GetLineupAsync(Guid matchId, Guid userId)
         {
             var match = await GetAsAtElapsedAsync(matchId);
             var team = match.GetTeam(userId);
             var sendingOffs = match.Minutes.SelectMany(x => x.Events).Where(x => x is RedCard).Select(x => x.CardId);
             var lineup = team.Squad.Lineup.Values.SelectMany(x => x).Where(x => !sendingOffs.Contains(x.Id)).ToList();
-            return new ApplicationCore.Models.Lineup { Active = lineup, Subs = team.Squad.Subs };
+            return new Models.Lineup { Active = lineup, Subs = team.Squad.Subs };
         }
 
         public async Task Substitution(Guid off, Guid on, Guid matchId, Guid userId)
