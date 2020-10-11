@@ -121,10 +121,33 @@ namespace Pitch.Match.API.Tests.Integration
                 {
                     TestConstants.DefaultAwaySubCardId.ToString(), new Card
                     {
-                        Id =  TestConstants.DefaultAwaySubCardId,
+                        Id = TestConstants.DefaultAwaySubCardId,
                         Rating = 50,
                         Fitness = 100
                     }
+                }
+            }
+        };
+
+        public LineupModel DefaultLineupModel => new LineupModel
+        {
+            Active = new List<Card>
+            {
+                new Card
+                {
+                    Id = TestConstants.DefaultHomeActiveCardId,
+                    Name = "Jimmy Johnson",
+                    Rating = 50,
+                    Fitness = 100,
+                }
+            },
+            Subs = new[]
+            {
+                new Card
+                {
+                    Id = TestConstants.DefaultHomeSubCardId,
+                    Rating = 50,
+                    Fitness = 100
                 }
             }
         };

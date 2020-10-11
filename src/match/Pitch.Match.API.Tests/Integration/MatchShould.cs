@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -17,6 +18,10 @@ namespace Pitch.Match.API.Tests.Integration
     {
         private readonly TestWebApplicationFactory _testWebApplicationFactory;
         private readonly MatchResponseFixtures _matchResponseFixtures;
+        private static JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions()
+        {
+            PropertyNameCaseInsensitive = true
+        };
 
         public MatchShould(MatchResponseFixtures matchResponseFixtures)
         {
@@ -27,8 +32,9 @@ namespace Pitch.Match.API.Tests.Integration
         [Fact]
         public async Task Return_MatchListResult()
         {
+            var kickOff = DateTime.Now.AddDays(-1);
             var finishedMatch = new MatchBuilder()
-                .WithKickOff(DateTime.Now.AddDays(-1))
+                .WithKickOff(kickOff)
                 .WithId(TestConstants.DefaultMatchId)
                 .WithHomeTeam(new TeamDetailsBuilder()
                     .WithUserId(TestConstants.DefaultUserId)
@@ -38,10 +44,18 @@ namespace Pitch.Match.API.Tests.Integration
             var client = _testWebApplicationFactory.SetMatch(finishedMatch).CreateClient();
             var result = await client.GetAsync($"/?skip=0&take=10");
             var response = await result.Content.ReadAsStringAsync();
-            var responseModel = JsonSerializer.Deserialize<IEnumerable<MatchListResultModel>>(response);
+            var responseModel = JsonSerializer.Deserialize<IEnumerable<MatchListResultModel>>(response, _jsonSerializerOptions);
 
             result.EnsureSuccessStatusCode();
             responseModel.Should().HaveCount(1);
+            responseModel.First().AwayScore.Should().Be(0);
+            responseModel.First().HomeScore.Should().Be(0);
+            responseModel.First().Id.Should().Be(TestConstants.DefaultMatchId);
+            responseModel.First().Result.Should().Be("D");
+            responseModel.First().Claimed.Should().BeFalse();
+            responseModel.First().KickOff.Should().Be(kickOff);
+            responseModel.First().HomeTeam.Should().Be(string.Empty);
+            responseModel.First().AwayTeam.Should().Be(string.Empty);
         }
 
         [Fact]
@@ -58,10 +72,12 @@ namespace Pitch.Match.API.Tests.Integration
             var client = _testWebApplicationFactory.CreateClient();
             var result = await client.GetAsync($"/{TestConstants.DefaultMatchId}");
             var response = await result.Content.ReadAsStringAsync();
-            var responseModel = JsonSerializer.Deserialize<MatchModel>(response, new JsonSerializerOptions(){ PropertyNameCaseInsensitive = true});
+            _jsonSerializerOptions = new JsonSerializerOptions(){ PropertyNameCaseInsensitive = true};
+            var responseModel = JsonSerializer.Deserialize<MatchModel>(response, _jsonSerializerOptions);
 
             result.EnsureSuccessStatusCode();
             responseModel.Match.Should().BeEquivalentTo(_matchResponseFixtures.DefaultMatchResultModel);
+            responseModel.SubsRemaining.Should().Be(3);
         }
 
         [Fact]
@@ -70,11 +86,10 @@ namespace Pitch.Match.API.Tests.Integration
             var client = _testWebApplicationFactory.CreateClient();
             var result = await client.GetAsync($"/{TestConstants.DefaultMatchId}/lineup");
             var response = await result.Content.ReadAsStringAsync();
-            var responseModel = JsonSerializer.Deserialize<LineupModel>(response);
+            var responseModel = JsonSerializer.Deserialize<LineupModel>(response, _jsonSerializerOptions);
 
             result.EnsureSuccessStatusCode();
-            responseModel.Subs.Should().BeNull();
-            responseModel.Active.Should().BeNull();
+            responseModel.Should().BeEquivalentTo(_matchResponseFixtures.DefaultLineupModel);
         }
 
         [Fact]
