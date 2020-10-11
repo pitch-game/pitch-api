@@ -82,13 +82,21 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
 
         private void SetLineups(Match.Match match)
         {
-            var homeSquad = new Squad(
-                match.HomeTeam.Squad.Lineup.ToDictionary(x => x.Key, x => x.Value.Select(c => c.Id)),
-                match.HomeTeam.Squad.Subs.Where(x => x != null).Select(x => x.Id).ToArray());
-            var awaySquad = new Squad(
-                match.AwayTeam.Squad.Lineup.ToDictionary(x => x.Key, x => x.Value.Select(c => c.Id)),
-                match.AwayTeam.Squad.Subs.Where(x => x != null).Select(x => x.Id).ToArray());
-            Lineup = new Lineup(homeSquad, awaySquad);
+            var homeSquad = new Squad
+            {
+                Lineup = match.HomeTeam.Squad.Lineup.ToDictionary(x => x.Key, x => x.Value.Select(c => c.Id)),
+                Subs = match.HomeTeam.Squad.Subs.Where(x => x != null).Select(x => x.Id).ToArray()
+            };
+            var awaySquad = new Squad
+            {
+                Lineup = match.AwayTeam.Squad.Lineup.ToDictionary(x => x.Key, x => x.Value.Select(c => c.Id)),
+                Subs = match.AwayTeam.Squad.Subs.Where(x => x != null).Select(x => x.Id).ToArray()
+            };
+            Lineup = new Lineup
+            {
+                Away = awaySquad,
+                Home = homeSquad
+            };
         }
 
         private static Stats GetStats(Match.Match match, IList<IEvent> homeTeamEvents, Guid teamId)

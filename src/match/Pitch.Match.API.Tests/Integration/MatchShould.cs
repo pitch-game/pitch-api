@@ -13,12 +13,14 @@ using Pitch.Match.API.Tests.Builders;
 
 namespace Pitch.Match.API.Tests.Integration
 {
-    public class MatchShould : IDisposable
+    public class MatchShould : IClassFixture<MatchResponseFixtures>, IDisposable
     {
         private readonly TestWebApplicationFactory _testWebApplicationFactory;
+        private readonly MatchResponseFixtures _matchResponseFixtures;
 
-        public MatchShould()
+        public MatchShould(MatchResponseFixtures matchResponseFixtures)
         {
+            _matchResponseFixtures = matchResponseFixtures;
             _testWebApplicationFactory = new TestWebApplicationFactory();
         }
 
@@ -56,11 +58,10 @@ namespace Pitch.Match.API.Tests.Integration
             var client = _testWebApplicationFactory.CreateClient();
             var result = await client.GetAsync($"/{TestConstants.DefaultMatchId}");
             var response = await result.Content.ReadAsStringAsync();
-            var responseModel = JsonSerializer.Deserialize<MatchModel>(response);
+            var responseModel = JsonSerializer.Deserialize<MatchModel>(response, new JsonSerializerOptions(){ PropertyNameCaseInsensitive = true});
 
             result.EnsureSuccessStatusCode();
-            responseModel.SubsRemaining.Should().Be(0);
-            responseModel.Match.Should().BeNull();
+            responseModel.Match.Should().BeEquivalentTo(_matchResponseFixtures.DefaultMatchResultModel);
         }
 
         [Fact]
@@ -81,8 +82,8 @@ namespace Pitch.Match.API.Tests.Integration
         {
             var subRequest = new SubRequest()
             {
-                Off = TestConstants.DefaultActiveCardId,
-                On = TestConstants.DefaultSubCardId
+                Off = TestConstants.DefaultHomeActiveCardId,
+                On = TestConstants.DefaultHomeSubCardId
             };
             var httpContent = new StringContent(JsonSerializer.Serialize(subRequest), Encoding.UTF8, "application/json");
             var client = _testWebApplicationFactory.CreateClient();

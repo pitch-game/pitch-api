@@ -10,6 +10,7 @@ namespace Pitch.Match.API.Tests.Builders
         private Guid _id;
         private readonly Dictionary<string, IEnumerable<Card>> _lineup = new Dictionary<string, IEnumerable<Card>>();
         private Card[] _subs = new Card[0];
+        private string _name = string.Empty;
 
         public SquadBuilder WithId(Guid id)
         {
@@ -29,11 +30,18 @@ namespace Pitch.Match.API.Tests.Builders
             return this;
         }
 
+        public SquadBuilder WithName(string name)
+        {
+            _name = name;
+            return this;
+        }
+
         public Squad Build()
         {
             return new Squad()
             {
                 Id = _id,
+                Name = _name,
                 Lineup = _lineup,
                 Subs = _subs
             };

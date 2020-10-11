@@ -23,6 +23,12 @@ namespace Pitch.Match.API.Tests.Builders
             return this;
         }
 
+        public CardBuilder WithName(string name)
+        {
+            _name = name;
+            return this;
+        }
+
         public Card Build()
         {
             return new Card()
