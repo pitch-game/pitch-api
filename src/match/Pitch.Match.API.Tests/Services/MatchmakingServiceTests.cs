@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyNetQ;
+using FluentAssertions;
 using Microsoft.AspNetCore.SignalR;
 using Moq;
 using Pitch.Match.API.ApplicationCore.Models.Matchmaking;
@@ -116,7 +117,6 @@ namespace Pitch.Match.API.Tests.Services
         [Fact]
         public void JoinSession_ReturnsCompletedSession()
         {
-            // Arrange
             var sessionId = Guid.NewGuid();
             var userId = Guid.NewGuid();
 
@@ -138,12 +138,11 @@ namespace Pitch.Match.API.Tests.Services
             var mockBus = new Mock<IBus>();
             var service = new MatchmakingService(mockMatchRepository.Object, mockBus.Object, mockMatchSessionService.Object);
 
-            // Act
             var session = service.JoinSession(sessionId, userId);
 
-            // Assert
-            Assert.Equal(session.JoinedPlayerId, userId);
-            Assert.False(session.Open);
+            session.JoinedPlayerId.Should().Be(userId);
+            session.Open.Should().BeFalse();
+            session.CompletedOn.Should().BeCloseTo(DateTime.Now, 2000);
         }
 
         [Fact]
