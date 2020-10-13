@@ -171,20 +171,32 @@ namespace Pitch.Match.API.Tests.Services
 
             var stubMatchEngine = new Mock<IMatchEngine>();
             stubMatchEngine.Setup(x => x.Simulate(It.IsAny<ApplicationCore.Models.Match.Match>()))
-                .Returns(new ApplicationCore.Models.Match.Match());
+                .Returns<ApplicationCore.Models.Match.Match>(x => x);
 
             ApplicationCore.Models.Match.Match simulatedMatch = null;
+
+            var sub = new CardBuilder().Build();
+            var lst = new CardBuilder().Build();
+            var gk = new CardBuilder().Build();
+            var lb = new CardBuilder().Build();
+            var lm = new CardBuilder().Build();
 
             var mockBus = new Mock<IBus>();
             var squadResponse = new GetSquadResponse
             {
                 Id = Guid.NewGuid(),
                 Name = "Test",
-                Subs = new Card[0],
+                Subs = new [] { sub },
                 Lineup = new Dictionary<string, Card>()
+                {
+                    {"GK", gk},
+                    {"LB", lb},
+                    {"LM", lm},
+                    {"LST", lst}
+                }
             };
-            mockBus.Setup(x => x.RequestAsync<GetSquadRequest, GetSquadResponse>(It.Is<GetSquadRequest>(x => x.UserId == hostPlayerId || x.UserId == joinedPlayerId)))
-                .Returns(Task.FromResult(squadResponse));
+            mockBus.Setup(x => x.RequestAsync<GetSquadRequest, GetSquadResponse>(It.IsAny<GetSquadRequest>()))
+                .ReturnsAsync(squadResponse);
 
             var mockMatchRepository = new Mock<IMatchRepository>();
             mockMatchRepository.Setup(x => x.CreateAsync(It.IsAny<ApplicationCore.Models.Match.Match>()))
@@ -198,6 +210,11 @@ namespace Pitch.Match.API.Tests.Services
             await _matchService.KickOff(sessionId);
 
             simulatedMatch.Should().NotBeNull();
+            simulatedMatch.HomeTeam.Squad.Subs.Should().Contain(sub);
+            simulatedMatch.HomeTeam.Squad.Lineup["GK"].Should().Contain(gk);
+            simulatedMatch.HomeTeam.Squad.Lineup["DEF"].Should().Contain(lb);
+            simulatedMatch.HomeTeam.Squad.Lineup["MID"].Should().Contain(lm);
+            simulatedMatch.HomeTeam.Squad.Lineup["ATT"].Should().Contain(lst);
         }
 
         [Fact]
