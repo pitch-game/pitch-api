@@ -215,6 +215,9 @@ namespace Pitch.Match.API.Tests.Services
             simulatedMatch.HomeTeam.Squad.Lineup["DEF"].Should().Contain(lb);
             simulatedMatch.HomeTeam.Squad.Lineup["MID"].Should().Contain(lm);
             simulatedMatch.HomeTeam.Squad.Lineup["ATT"].Should().Contain(lst);
+
+            mockBus.Verify(x => x.RequestAsync<GetSquadRequest, GetSquadResponse>(It.Is<GetSquadRequest>(x => x.UserId == hostPlayerId)), Times.Once);
+            mockBus.Verify(x => x.RequestAsync<GetSquadRequest, GetSquadResponse>(It.Is<GetSquadRequest>(x => x.UserId == joinedPlayerId)), Times.Once);
         }
 
         [Fact]

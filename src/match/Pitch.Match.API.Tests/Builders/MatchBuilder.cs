@@ -12,6 +12,7 @@ namespace Pitch.Match.API.Tests.Builders
         private TeamDetails _homeTeam = new TeamDetailsBuilder().Build();
         private DateTime _kickOff = DateTime.Now; 
         private readonly MatchMinute[] _matchMinutes = Enumerable.Range(0, Constants.MatchLengthInMinutes).Select(i => new MatchMinute()).ToArray();
+        private int _version = 0;
 
         public MatchBuilder WithId(Guid id)
         {
@@ -50,7 +51,8 @@ namespace Pitch.Match.API.Tests.Builders
                 AwayTeam = _awayTeam,
                 HomeTeam = _homeTeam,
                 KickOff = _kickOff,
-                Minutes = _matchMinutes
+                Minutes = _matchMinutes,
+                Version = _version
             };
         }
     }

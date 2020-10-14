@@ -52,7 +52,8 @@ namespace Pitch.Match.API.Tests
             var testId = Guid.NewGuid();
             var testEntity = new TestEntity()
             {
-                Id = testId
+                Id = testId,
+                Version = 1
             };
 
             var mongoCollectionMock = new Mock<IMongoCollection<TestEntity>>();
@@ -70,6 +71,7 @@ namespace Pitch.Match.API.Tests
 
             //Assert
             mongoCollectionMock.Verify(m => m.ReplaceOneAsync(It.IsAny<FilterDefinition<TestEntity>>(), testEntity, (ReplaceOptions)null, It.IsAny<CancellationToken>()), Times.Once);
+            testEntity.Version.Should().Be(2);
         }
 
         [Fact]

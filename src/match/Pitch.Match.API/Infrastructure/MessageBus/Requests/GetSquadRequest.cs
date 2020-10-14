@@ -9,6 +9,6 @@ namespace Pitch.Match.API.Infrastructure.MessageBus.Requests
             UserId = userId;
         }
 
-        public Guid UserId { get; set; }
+        public Guid UserId { get; }
     }
 }
