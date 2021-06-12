@@ -72,7 +72,44 @@ namespace Pitch.Match.API.Tests.Functional
             var responseModel = JsonSerializer.Deserialize<MatchModel>(response, _jsonSerializerOptions);
 
             result.EnsureSuccessStatusCode();
-            //responseModel.Match.Should().BeEquivalentTo(_matchFixtures.DefaultMatchResultModel);
+
+            responseModel.Match.Should().NotBeNull();
+
+            responseModel.Match.AwayResult.Should().NotBeNull();
+            responseModel.Match.AwayResult.Name.Should().Be("Evil FC");
+            responseModel.Match.AwayResult.Score.Should().Be(0);
+            responseModel.Match.AwayResult.Scorers.Count().Should().Be(0);
+
+            responseModel.Match.HomeResult.Should().NotBeNull();
+            responseModel.Match.HomeResult.Name.Should().Be("Default FC");
+            responseModel.Match.HomeResult.Score.Should().Be(1);
+            responseModel.Match.HomeResult.Scorers.Count().Should().Be(1);
+            responseModel.Match.HomeResult.Scorers.First().Should().Be("Jimmy Johnson 20'");
+
+            responseModel.Match.AwayStats.Should().NotBeNull();
+            responseModel.Match.AwayStats.Fouls.Should().Be(0);
+            responseModel.Match.AwayStats.Possession.Should().Be(0);
+            responseModel.Match.AwayStats.RedCards.Should().Be(0);
+            responseModel.Match.AwayStats.Shots.Should().Be(0);
+            responseModel.Match.AwayStats.ShotsOnTarget.Should().Be(0);
+            responseModel.Match.AwayStats.YellowCards.Should().Be(0);
+
+            responseModel.Match.HomeStats.Should().NotBeNull();
+            responseModel.Match.HomeStats.Fouls.Should().Be(0);
+            responseModel.Match.HomeStats.Possession.Should().Be(6);
+            responseModel.Match.HomeStats.RedCards.Should().Be(0);
+            responseModel.Match.HomeStats.Shots.Should().Be(2);
+            responseModel.Match.HomeStats.ShotsOnTarget.Should().Be(2);
+            responseModel.Match.HomeStats.YellowCards.Should().Be(0);
+
+            responseModel.Match.Expired.Should().BeFalse();
+            responseModel.Match.ExpiredOn.Should().BeNull();
+            responseModel.Match.Minute.Should().Be(34);
+            
+            //lineup
+
+            //timeline
+
             responseModel.SubsRemaining.Should().Be(3);
         }
 
@@ -85,7 +122,19 @@ namespace Pitch.Match.API.Tests.Functional
             var responseModel = JsonSerializer.Deserialize<LineupModel>(response, _jsonSerializerOptions);
 
             result.EnsureSuccessStatusCode();
-            //responseModel.Should().BeEquivalentTo(_matchFixtures.DefaultLineupModel);
+
+            responseModel.Should().NotBeNull();
+
+            responseModel.Active.Count.Should().Be(1);
+            responseModel.Active.First().Id.Should().Be(TestConstants.DefaultHomeActiveCardId);
+            responseModel.Active.First().Name.Should().Be("Jimmy Johnson");
+            responseModel.Active.First().Rating.Should().Be(50);
+            responseModel.Active.First().Fitness.Should().Be(100);
+
+            responseModel.Subs.Length.Should().Be(1);
+            responseModel.Subs.First().Id.Should().Be(TestConstants.DefaultHomeSubCardId);
+            responseModel.Subs.First().Rating.Should().Be(50);
+            responseModel.Subs.First().Fitness.Should().Be(100);
         }
 
         [Fact]
