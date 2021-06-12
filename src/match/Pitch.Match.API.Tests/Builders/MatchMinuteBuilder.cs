@@ -8,17 +8,18 @@ namespace Pitch.Match.API.Tests.Builders
     public class MatchMinuteBuilder
     {
         private readonly IList<IEvent> _events = new List<IEvent>();
-        private readonly MinuteStats _stats;
+        private MinuteStatsBuilder _stats = new MinuteStatsBuilder();
         private readonly IList<Modifier> _modifiers = new List<Modifier>();
-
-        public MatchMinuteBuilder(Guid homeSquadId)
-        {
-            _stats = new MinuteStats(homeSquadId, 50, 50);
-        }
 
         public MatchMinuteBuilder WithEvent(IEvent @event)
         {
             _events.Add(@event);
+            return this;
+        }
+
+        public MatchMinuteBuilder WithMinuteStats(MinuteStatsBuilder minuteStats)
+        {
+            _stats = minuteStats;
             return this;
         }
 
@@ -27,7 +28,7 @@ namespace Pitch.Match.API.Tests.Builders
             return new MatchMinute
             {
                 Events =  _events,
-                Stats = _stats,
+                Stats = _stats.Build(),
                 Modifiers = _modifiers
             };
         }

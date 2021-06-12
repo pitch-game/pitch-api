@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Pitch.Match.API.Tests.Integration
+namespace Pitch.Match.API.Tests.Functional.Framework
 {
     public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {

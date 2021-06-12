@@ -41,14 +41,11 @@ namespace Pitch.Match.API.Tests.Services
                 .WithId(matchId)
                 .WithAwayTeam(new TeamDetailsBuilder()
                     .WithSquad(new SquadBuilder()
-                        .WithId(homeSquadId)
-                        .Build())
+                        .WithId(homeSquadId))
                     .WithUserId(userId)
-                    .WithHasClaimedRewards(false)
-                    .Build())
-                .WithMinute(30, new MatchMinuteBuilder(homeSquadId)
-                    .WithEvent(new Goal(cardId, homeSquadId))
-                    .Build())
+                    .WithHasClaimedRewards(false))
+                .WithMinute(30, new MatchMinuteBuilder().WithMinuteStats(new MinuteStatsBuilder().WithSquadInPossession(homeSquadId))
+                    .WithEvent(new Goal(cardId, homeSquadId)))
                 .Build();
 
             ApplicationCore.Models.Match.Match updatedMatch = null;
@@ -92,14 +89,11 @@ namespace Pitch.Match.API.Tests.Services
                 .WithId(matchId)
                 .WithHomeTeam(new TeamDetailsBuilder()
                     .WithSquad(new SquadBuilder()
-                        .WithId(homeSquadId)
-                        .Build())
+                        .WithId(homeSquadId))
                     .WithUserId(userId)
-                    .WithHasClaimedRewards(false)
-                    .Build())
-                .WithMinute(30, new MatchMinuteBuilder(homeSquadId)
-                    .WithEvent(new Goal(cardId, homeSquadId))
-                    .Build())
+                    .WithHasClaimedRewards(false))
+                .WithMinute(30, new MatchMinuteBuilder().WithMinuteStats(new MinuteStatsBuilder().WithSquadInPossession(homeSquadId))
+                    .WithEvent(new Goal(cardId, homeSquadId)))
                 .Build();
 
             ApplicationCore.Models.Match.Match updatedMatch = null;
@@ -348,9 +342,9 @@ namespace Pitch.Match.API.Tests.Services
                     .WithUserId(userId)
                     .WithSquad(new SquadBuilder().WithSubs(new[]
                     {
-                        new CardBuilder().Build()
-                    }).Build())
-                    .Build())
+                        new CardBuilder()
+                    }))
+                    )
                 .Build();
 
             var mockMatchmakingService = new Mock<IMatchmakingService>();
@@ -393,14 +387,10 @@ namespace Pitch.Match.API.Tests.Services
                             {
                                 new CardBuilder()
                                     .WithId(cardId)
-                                    .Build()
                             }
-                        )
-                        .Build())
-                    .Build())
-                .WithMinute(eventMinute, new MatchMinuteBuilder(squadId)
-                    .WithEvent(new RedCard(cardId, squadId))
-                    .Build())
+                        )))
+                .WithMinute(eventMinute, new MatchMinuteBuilder().WithMinuteStats(new MinuteStatsBuilder().WithSquadInPossession(squadId))
+                    .WithEvent(new RedCard(cardId, squadId)))
                 .Build();
 
             var mockMatchmakingService = new Mock<IMatchmakingService>();

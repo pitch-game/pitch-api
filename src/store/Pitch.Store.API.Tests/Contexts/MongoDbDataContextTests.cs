@@ -135,7 +135,7 @@ namespace Pitch.Store.API.Tests.Contexts
 
             Expression<Func<TestEntity, bool>> MatchOnIdQuery()
             {
-                return entity => entity.Id == expectedGuid;
+                return entity => entity.Id == Guid.Empty;
             };
 
             var mongoDatabaseMock = new Mock<IMongoDatabase>();

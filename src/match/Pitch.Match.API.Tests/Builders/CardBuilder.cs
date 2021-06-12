@@ -7,15 +7,15 @@ namespace Pitch.Match.API.Tests.Builders
     {
         private Guid _id = Guid.NewGuid();
         private string _name;
-        private string _shortName;
+        private readonly string _shortName = "Player Name";
         private int _rating = 50;
-        private string _rarity;
-        private string _position;
-        private int _chemistry;
-        private int _fitness;
-        private int _goals;
-        private int _yellowCards;
-        private int _redCards;
+        private readonly string _rarity = "rare";
+        private readonly string _position = "ST";
+        private readonly int _chemistry = 100;
+        private readonly int _fitness = 100;
+        private readonly int _goals = 0;
+        private readonly int _yellowCards = 0;
+        private readonly int _redCards = 0;
 
         public CardBuilder WithId(Guid id)
         {

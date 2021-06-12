@@ -6,7 +6,7 @@ using Pitch.Match.API.Models;
 using Lineup = Pitch.Match.API.ApplicationCore.Models.MatchResult.Lineup;
 using Squad = Pitch.Match.API.ApplicationCore.Models.MatchResult.Squad;
 
-namespace Pitch.Match.API.Tests.Integration
+namespace Pitch.Match.API.Tests.Functional.Fixtures
 {
     public class MatchResponseFixtures
     {

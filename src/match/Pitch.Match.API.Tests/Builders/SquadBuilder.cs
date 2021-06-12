@@ -8,8 +8,8 @@ namespace Pitch.Match.API.Tests.Builders
     public class SquadBuilder
     {
         private Guid _id;
-        private readonly Dictionary<string, IEnumerable<Card>> _lineup = new Dictionary<string, IEnumerable<Card>>();
-        private Card[] _subs = new Card[0];
+        private readonly Dictionary<string, IEnumerable<CardBuilder>> _lineup = new Dictionary<string, IEnumerable<CardBuilder>>();
+        private CardBuilder[] _subs = new CardBuilder[0];
         private string _name = string.Empty;
 
         public SquadBuilder WithId(Guid id)
@@ -18,13 +18,13 @@ namespace Pitch.Match.API.Tests.Builders
             return this;
         }
 
-        public SquadBuilder WithCardsInLineup(string position, IEnumerable<Card> cards)
+        public SquadBuilder WithCardsInLineup(string position, IEnumerable<CardBuilder> cards)
         {
             _lineup.Add(position, cards);
             return this;
         }
 
-        public SquadBuilder WithSubs(Card[] subs)
+        public SquadBuilder WithSubs(CardBuilder[] subs)
         {
             _subs = subs;
             return this;
@@ -42,8 +42,8 @@ namespace Pitch.Match.API.Tests.Builders
             {
                 Id = _id,
                 Name = _name,
-                Lineup = _lineup,
-                Subs = _subs
+                Lineup = _lineup.ToDictionary(x => x.Key, x => x.Value.Select(cb => cb.Build())),
+                Subs = _subs.Select(x => x.Build()).ToArray()
             };
         }
     }

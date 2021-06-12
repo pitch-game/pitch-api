@@ -7,7 +7,7 @@ namespace Pitch.Match.API.Tests.Builders
     public class TeamDetailsBuilder
     {
         private Guid _userId = Guid.NewGuid();
-        private Squad _squad = new SquadBuilder().Build();
+        private SquadBuilder _squad = new SquadBuilder();
         private bool _hasClaimedRewards;
         private int _usedSubs;
 
@@ -17,7 +17,7 @@ namespace Pitch.Match.API.Tests.Builders
             return this;
         }
 
-        public TeamDetailsBuilder WithSquad(Squad squad)
+        public TeamDetailsBuilder WithSquad(SquadBuilder squad)
         {
             _squad = squad;
             return this;
@@ -40,7 +40,7 @@ namespace Pitch.Match.API.Tests.Builders
             return new TeamDetails()
             {
                 UserId = _userId,
-                Squad = _squad,
+                Squad = _squad.Build(),
                 HasClaimedRewards = _hasClaimedRewards,
                 UsedSubs = _usedSubs
             };

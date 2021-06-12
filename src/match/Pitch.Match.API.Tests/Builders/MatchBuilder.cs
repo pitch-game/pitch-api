@@ -8,10 +8,10 @@ namespace Pitch.Match.API.Tests.Builders
     public class MatchBuilder
     {
         private Guid _id = Guid.NewGuid();
-        private TeamDetails _awayTeam = new TeamDetailsBuilder().Build();
-        private TeamDetails _homeTeam = new TeamDetailsBuilder().Build();
+        private TeamDetailsBuilder _awayTeam = new TeamDetailsBuilder();
+        private TeamDetailsBuilder _homeTeam = new TeamDetailsBuilder();
         private DateTime _kickOff = DateTime.Now; 
-        private readonly MatchMinute[] _matchMinutes = Enumerable.Range(0, Constants.MatchLengthInMinutes).Select(i => new MatchMinute()).ToArray();
+        private readonly MatchMinuteBuilder[] _matchMinutes = Enumerable.Range(0, Constants.MatchLengthInMinutes).Select(i => new MatchMinuteBuilder()).ToArray();
         private int _version = 0;
 
         public MatchBuilder WithId(Guid id)
@@ -19,13 +19,13 @@ namespace Pitch.Match.API.Tests.Builders
             _id = id;
             return this;
         }
-        public MatchBuilder WithHomeTeam(TeamDetails homeTeam)
+        public MatchBuilder WithHomeTeam(TeamDetailsBuilder homeTeam)
         {
             _homeTeam = homeTeam;
             return this;
         }
 
-        public MatchBuilder WithAwayTeam(TeamDetails awayTeam)
+        public MatchBuilder WithAwayTeam(TeamDetailsBuilder awayTeam)
         {
             _awayTeam = awayTeam;
             return this;
@@ -37,7 +37,7 @@ namespace Pitch.Match.API.Tests.Builders
             return this;
         }
 
-        public MatchBuilder WithMinute(int minute, MatchMinute matchMinute)
+        public MatchBuilder WithMinute(int minute, MatchMinuteBuilder matchMinute)
         {
             _matchMinutes[minute] = matchMinute;
             return this;
@@ -48,10 +48,10 @@ namespace Pitch.Match.API.Tests.Builders
             return new ApplicationCore.Models.Match.Match()
             {
                 Id = _id,
-                AwayTeam = _awayTeam,
-                HomeTeam = _homeTeam,
+                AwayTeam = _awayTeam.Build(),
+                HomeTeam = _homeTeam.Build(),
                 KickOff = _kickOff,
-                Minutes = _matchMinutes,
+                Minutes = _matchMinutes.Select(x => x.Build()).ToArray(),
                 Version = _version
             };
         }

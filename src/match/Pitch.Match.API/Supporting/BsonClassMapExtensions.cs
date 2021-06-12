@@ -6,8 +6,8 @@ namespace Pitch.Match.API.Supporting
     {
         public static void TryRegisterClassMap<T>()
         {
-            var exists = BsonClassMap.IsClassMapRegistered(typeof(T));
-            if (exists) return;
+            if (BsonClassMap.IsClassMapRegistered(typeof(T)))
+                return;
 
             BsonClassMap.RegisterClassMap<T>();
         }

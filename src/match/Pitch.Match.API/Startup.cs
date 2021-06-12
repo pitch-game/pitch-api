@@ -1,22 +1,22 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using AutoMapper;
 using EasyNetQ;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using MongoDB.Bson.Serialization;
+using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using Pitch.Match.API.ApplicationCore.Engine.Events;
 using Pitch.Match.API.Hubs;
 using Pitch.Match.API.Infrastructure.MessageBus.Supporting;
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using Microsoft.OpenApi.Models;
 using Pitch.Match.API.Installers;
 using Pitch.Match.API.Supporting;
 
@@ -42,7 +42,6 @@ namespace Pitch.Match.API
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
             }).AddJwtBearer(options =>
             {
                 options.Authority = Configuration.GetValue<string>("IdentityUrl");
@@ -56,8 +55,10 @@ namespace Pitch.Match.API
 
             services.AddHealthChecks()
                 .AddCheck("self", () => HealthCheckResult.Healthy())
-                .AddRabbitMQ(Configuration.GetConnectionString("RabbitMQHealthCheck"), name: "rabbitmq-check", tags: new string[] { "rabbitmq" })
-                .AddMongoDb(Configuration.GetConnectionString("MongoDb"), name: "mongodb-check", tags: new string[] { "mongodb" });
+                .AddRabbitMQ(Configuration.GetConnectionString("RabbitMQHealthCheck"), name: "rabbitmq-check",
+                    tags: new[] {"rabbitmq"})
+                .AddMongoDb(Configuration.GetConnectionString("MongoDb"), name: "mongodb-check",
+                    tags: new[] {"mongodb"});
             //.AddSignalRHub("/hubs/matchmaking", name: "signalr-check", tags: new string[] { "signalr" });
 
             services.AddSingleton<IMongoClient>(s =>
@@ -69,27 +70,19 @@ namespace Pitch.Match.API
             {
                 var typesInAssembly = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).ToArray();
                 return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
-                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider => new SimpleTypeNameSerializer(typesInAssembly)));
+                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider =>
+                        new SimpleTypeNameSerializer(typesInAssembly)));
             });
 
-            services.AddSignalR(o =>
-            {
-                o.EnableDetailedErrors = true;
-            });
+            services.AddSignalR(o => { o.EnableDetailedErrors = true; });
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Match API", Version = "v1" });
-            });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Match API", Version = "v1"}); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             BsonClassMapExtensions.TryRegisterClassMap<RedCard>();
             BsonClassMapExtensions.TryRegisterClassMap<YellowCard>();
@@ -125,11 +118,10 @@ namespace Pitch.Match.API
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => {
-                endpoints.MapHub<MatchmakingHub>("/hubs/matchmaking", (options) =>
-                {
-                    options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransports.All;
-                });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<MatchmakingHub>("/hubs/matchmaking",
+                    options => { options.Transports = HttpTransports.All; });
                 endpoints.MapControllers();
             });
         }
