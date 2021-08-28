@@ -63,8 +63,8 @@ namespace Pitch.Match.API.Tests.Services
             var mockCalculatedStatService = new Mock<ICalculatedCardStatService>();
 
             var mockBus = new Mock<IBus>();
-            mockBus.Setup(x => x.PubSub.PublishAsync(It.IsAny<MatchCompletedEvent>(), It.IsAny<Type>(), It.IsAny<CancellationToken>()))
-                .Callback<MatchCompletedEvent>(r => publishedEvent = r);
+            mockBus.Setup(x => x.PubSub.PublishAsync(It.IsAny<MatchCompletedEvent>(), It.IsAny<Action<IPublishConfiguration>>(), It.IsAny<CancellationToken>()))
+                .Callback<MatchCompletedEvent, Action<IPublishConfiguration>, CancellationToken>((mce, config, ct) => publishedEvent = mce);
 
             _matchService = new MatchService(_matchMatchingServiceMock.Object, stubMatchEngine.Object,
                 _matchRepositoryMock.Object, mockBus.Object, mockCalculatedStatService.Object);
@@ -109,8 +109,8 @@ namespace Pitch.Match.API.Tests.Services
             var stubMatchEngine = new Mock<IMatchEngine>();
 
             var mockBus = new Mock<IBus>();
-            mockBus.Setup(x => x.PubSub.PublishAsync(It.IsAny<MatchCompletedEvent>(), It.IsAny<Type>(), It.IsAny<CancellationToken>()))
-                .Callback<MatchCompletedEvent>(r => publishedEvent = r);
+            mockBus.Setup(x => x.PubSub.PublishAsync(It.IsAny<MatchCompletedEvent>(), It.IsAny<Action<IPublishConfiguration>>(), It.IsAny<CancellationToken>()))
+                .Callback<MatchCompletedEvent, Action<IPublishConfiguration>, CancellationToken>((mce, config, ct) => publishedEvent = mce);
 
             var mockCalculatedStatService = new Mock<ICalculatedCardStatService>();
 
@@ -190,7 +190,7 @@ namespace Pitch.Match.API.Tests.Services
                     {"LST", lst}
                 }
             };
-            mockBus.Setup(x => x.Rpc.RequestAsync<GetSquadRequest, GetSquadResponse>(It.IsAny<GetSquadRequest>(), It.IsAny<CancellationToken>()))
+            mockBus.Setup(x => x.Rpc.RequestAsync<GetSquadRequest, GetSquadResponse>(It.IsAny<GetSquadRequest>(), It.IsAny<Action<IRequestConfiguration>>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(squadResponse);
 
             var mockMatchRepository = new Mock<IMatchRepository>();
@@ -211,8 +211,8 @@ namespace Pitch.Match.API.Tests.Services
             simulatedMatch.HomeTeam.Squad.Lineup["MID"].Should().Contain(lm);
             simulatedMatch.HomeTeam.Squad.Lineup["ATT"].Should().Contain(lst);
 
-            mockBus.Verify(x => x.Rpc.RequestAsync<GetSquadRequest, GetSquadResponse>(It.Is<GetSquadRequest>(x => x.UserId == hostPlayerId), It.IsAny<CancellationToken>()), Times.Once);
-            mockBus.Verify(x => x.Rpc.RequestAsync<GetSquadRequest, GetSquadResponse>(It.Is<GetSquadRequest>(x => x.UserId == joinedPlayerId), It.IsAny<CancellationToken>()), Times.Once);
+            mockBus.Verify(x => x.Rpc.RequestAsync<GetSquadRequest, GetSquadResponse>(It.Is<GetSquadRequest>(x => x.UserId == hostPlayerId), It.IsAny<Action<IRequestConfiguration>>(), It.IsAny<CancellationToken>()), Times.Once);
+            mockBus.Verify(x => x.Rpc.RequestAsync<GetSquadRequest, GetSquadResponse>(It.Is<GetSquadRequest>(x => x.UserId == joinedPlayerId), It.IsAny<Action<IRequestConfiguration>>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
