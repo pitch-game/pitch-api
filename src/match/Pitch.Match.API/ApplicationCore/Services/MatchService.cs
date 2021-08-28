@@ -69,7 +69,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
                     scorers = match.Minutes.SelectMany(x => x.Events).Where(x => x.SquadId == match.HomeTeam.Squad.Id && x is Goal).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
                 }
 
-                await _bus.PublishAsync(new MatchCompletedEvent(match.Id, userId, victorious, scorers));
+                await _bus.PubSub.PublishAsync(new MatchCompletedEvent(match.Id, userId, victorious, scorers));
                 await _matchRepository.UpdateAsync(match);
             }
         }
@@ -91,13 +91,13 @@ namespace Pitch.Match.API.ApplicationCore.Services
                 Id = sessionId, HomeTeam = new TeamDetails { UserId = session.HostPlayerId }
             };
 
-            match.HomeTeam.Squad = BuildSquad(await _bus.RequestAsync<GetSquadRequest, GetSquadResponse>(new GetSquadRequest(match.HomeTeam.UserId)));
+            match.HomeTeam.Squad = BuildSquad(await _bus.Rpc.RequestAsync<GetSquadRequest, GetSquadResponse>(new GetSquadRequest(match.HomeTeam.UserId)));
 
             match.AwayTeam = new TeamDetails
             {
                 UserId = session.JoinedPlayerId.Value
             };
-            match.AwayTeam.Squad = BuildSquad(await _bus.RequestAsync<GetSquadRequest, GetSquadResponse>(new GetSquadRequest(match.AwayTeam.UserId)));
+            match.AwayTeam.Squad = BuildSquad(await _bus.Rpc.RequestAsync<GetSquadRequest, GetSquadResponse>(new GetSquadRequest(match.AwayTeam.UserId)));
 
             match.KickOff = DateTime.Now;
 

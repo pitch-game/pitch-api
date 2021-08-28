@@ -138,7 +138,7 @@ namespace Pitch.Match.API.Tests.Services
 
             session.JoinedPlayerId.Should().Be(userId);
             session.Open.Should().BeFalse();
-            session.CompletedOn.Should().BeCloseTo(DateTime.Now, 2000);
+            session.CompletedOn.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(2000));
         }
 
         [Fact]
