@@ -19,8 +19,8 @@ jobs:
       cd src/match
       docker build --pull --target testrunner -t pitch.match.api:testrunner .
       docker run --name matchapitest pitch.match.api:testrunner
-      docker cp matchapitest:/src/Pitch.Match.Api.Tests.Unit/TestResults $(System.DefaultWorkingDirectory)
-      docker cp matchapitest:/src/Pitch.Match.Api.Tests.Functional/TestResults $(System.DefaultWorkingDirectory)
+      docker cp matchapitest:/src/Pitch.Match.Api.Tests.Unit/TestResults $(System.DefaultWorkingDirectory)/Coverage/Unit
+      docker cp matchapitest:/src/Pitch.Match.Api.Tests.Functional/TestResults $(System.DefaultWorkingDirectory)/Coverage/Functional
   - task: PublishTestResults@2
     inputs:
       testRunner: VSTest
@@ -30,7 +30,7 @@ jobs:
     displayName: 'Publish coverage reports'
     inputs:
       codeCoverageTool: 'cobertura'
-      summaryFileLocation: '$(System.DefaultWorkingDirectory)/TestResults/coverage.cobertura.xml'
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/Coverage/**/TestResults/coverage.cobertura.xml'
   - task: Docker@2
     displayName: Build and Push
     inputs:
