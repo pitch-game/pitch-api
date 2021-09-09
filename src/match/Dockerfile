@@ -16,10 +16,8 @@ WORKDIR "/src/Pitch.Match.API"
 RUN dotnet build "Pitch.Match.API.csproj" -c Release -o /app
 
 FROM build AS testrunner
-WORKDIR /src/Pitch.Match.Api.Tests.Unit
-COPY Pitch.Match.Api.Tests.Unit/. .
-WORKDIR /src/Pitch.Match.Api.Tests.Functional
-COPY Pitch.Match.Api.Tests.Functional/. .
+WORKDIR /src
+COPY . .
 ENTRYPOINT ["dotnet", "test"]
 CMD ["--logger:trx", "/p:CollectCoverage=true", "/p:CoverletOutputFormat=cobertura", "/p:CoverletOutput=./TestResults/"]
 
