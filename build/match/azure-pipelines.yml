@@ -19,7 +19,7 @@ jobs:
       cd src/match
       docker build --pull --target testrunner -t pitch.match.api:testrunner .
       docker run --name matchapitest pitch.match.api:testrunner
-      docker cp matchapitest:/src/Pitch.Match.API.Tests/TestResults $(System.DefaultWorkingDirectory)
+      docker cp matchapitest:/src/TestResults $(System.DefaultWorkingDirectory)
   - task: PublishTestResults@2
     inputs:
       testRunner: VSTest
