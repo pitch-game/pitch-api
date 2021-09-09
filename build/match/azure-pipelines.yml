@@ -19,6 +19,9 @@ jobs:
       cd src/match
       docker build --pull --target testrunner -t pitch.match.api:testrunner .
       docker run --name matchapitest pitch.match.api:testrunner
+      mkdir $(System.DefaultWorkingDirectory)/Coverage && cd $_
+      mkdir Unit
+      mkdir Functional/TestResults
       docker cp matchapitest:/src/Pitch.Match.Api.Tests.Unit/TestResults $(System.DefaultWorkingDirectory)/Coverage/Unit
       docker cp matchapitest:/src/Pitch.Match.Api.Tests.Functional/TestResults $(System.DefaultWorkingDirectory)/Coverage/Functional
   - task: PublishTestResults@2
