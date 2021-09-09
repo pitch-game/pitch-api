@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Reflection;
 using Pitch.Match.API.Infrastructure.MessageBus.Supporting;
 using Xunit;
 
-namespace Pitch.Match.API.Tests
+namespace Pitch.Match.Api.Tests.Unit
 {
     public class SimpleTypeNameSerializerTest
     {

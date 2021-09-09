@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyNetQ;
 using FluentAssertions;
-using Microsoft.AspNetCore.SignalR;
 using Moq;
 using Pitch.Match.API.ApplicationCore.Models.Matchmaking;
 using Pitch.Match.API.ApplicationCore.Services;
 using Pitch.Match.API.Infrastructure.Repositories;
 using Xunit;
 
-namespace Pitch.Match.API.Tests.Services
+namespace Pitch.Match.Api.Tests.Unit.Services
 {
     public class MatchmakingServiceTests
     {

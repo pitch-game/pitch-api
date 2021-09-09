@@ -6,7 +6,7 @@ using Pitch.Match.API.ApplicationCore.Models;
 using Pitch.Match.API.ApplicationCore.Models.Match;
 using Xunit;
 
-namespace Pitch.Match.API.Tests.Engine.Services
+namespace Pitch.Match.Api.Tests.Unit.Engine.Services
 {
     public class FitnessDrainServiceTests
     {
@@ -25,7 +25,7 @@ namespace Pitch.Match.API.Tests.Engine.Services
                     {"ST", new[] {stubCard}}
                 }
             };
-            var stubMatch = new ApplicationCore.Models.Match.Match()
+            var stubMatch = new API.ApplicationCore.Models.Match.Match()
             {
                 HomeTeam = new TeamDetails()
                 {

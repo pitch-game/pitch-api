@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Pitch.Match.API.ApplicationCore.Models;
 using Pitch.Match.API.Models;
-using Pitch.Match.API.Tests.Builders;
-using Pitch.Match.API.Tests.Functional.Fixtures;
-using Pitch.Match.API.Tests.Functional.Framework;
+using Pitch.Match.Api.Tests.Functional.Fixtures;
+using Pitch.Match.Api.Tests.Functional.Framework;
+using Pitch.Match.Api.Tests.Shared;
 using Xunit;
 
-namespace Pitch.Match.API.Tests.Functional
+namespace Pitch.Match.Api.Tests.Functional
 {
     public class MatchShould : IClassFixture<MatchFixtures>, IDisposable
     {

@@ -7,20 +7,21 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using Pitch.Match.API;
 using Pitch.Match.API.Infrastructure.Repositories.Contexts;
-using Pitch.Match.API.Tests.Functional.Fixtures;
+using Pitch.Match.Api.Tests.Functional.Fixtures;
 
-namespace Pitch.Match.API.Tests.Functional.Framework
+namespace Pitch.Match.Api.Tests.Functional.Framework
 {
     public class TestWebApplicationFactory : WebApplicationFactory<Startup>
     {
-        private readonly Mock<IDataContext<ApplicationCore.Models.Match.Match>> _mockDataContext;
+        private readonly Mock<IDataContext<API.ApplicationCore.Models.Match.Match>> _mockDataContext;
 
-        private ApplicationCore.Models.Match.Match _stubMatch;
+        private API.ApplicationCore.Models.Match.Match _stubMatch;
 
         public TestWebApplicationFactory()
         {
-            _mockDataContext = new Mock<IDataContext<ApplicationCore.Models.Match.Match>>();
+            _mockDataContext = new Mock<IDataContext<API.ApplicationCore.Models.Match.Match>>();
 
             var matchFixtures = new MatchFixtures();
             _stubMatch = matchFixtures.DefaultMatch.Build();
@@ -57,18 +58,18 @@ namespace Pitch.Match.API.Tests.Functional.Framework
 
         private void SetupDefaults()
         {
-            _mockDataContext.Setup(x => x.FindOneAsync(It.IsAny<Expression<Func<ApplicationCore.Models.Match.Match, bool>>>()))
+            _mockDataContext.Setup(x => x.FindOneAsync(It.IsAny<Expression<Func<API.ApplicationCore.Models.Match.Match, bool>>>()))
                 .ReturnsAsync(_stubMatch);
 
             _mockDataContext
-                .Setup(x => x.FindAsync(It.IsAny<Expression<Func<ApplicationCore.Models.Match.Match, bool>>>()))
-                .ReturnsAsync(new List<ApplicationCore.Models.Match.Match>
+                .Setup(x => x.FindAsync(It.IsAny<Expression<Func<API.ApplicationCore.Models.Match.Match, bool>>>()))
+                .ReturnsAsync(new List<API.ApplicationCore.Models.Match.Match>
                 {
                     _stubMatch
                 });
         }
 
-        public TestWebApplicationFactory WithMatch(ApplicationCore.Models.Match.Match match)
+        public TestWebApplicationFactory WithMatch(API.ApplicationCore.Models.Match.Match match)
         {
             _stubMatch = match;
             return this;

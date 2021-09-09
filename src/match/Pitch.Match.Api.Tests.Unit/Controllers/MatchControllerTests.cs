@@ -13,7 +13,7 @@ using Pitch.Match.API.Controllers;
 using Pitch.Match.API.Models;
 using Xunit;
 
-namespace Pitch.Match.API.Tests.Controllers
+namespace Pitch.Match.Api.Tests.Unit.Controllers
 {
     public class MatchControllerTests
     {
@@ -25,7 +25,7 @@ namespace Pitch.Match.API.Tests.Controllers
             _matchId = Guid.NewGuid();
             var userId = Guid.NewGuid();
 
-            var matchStub = new ApplicationCore.Models.Match.Match
+            var matchStub = new API.ApplicationCore.Models.Match.Match
             {
                 HomeTeam = new TeamDetails
                 {

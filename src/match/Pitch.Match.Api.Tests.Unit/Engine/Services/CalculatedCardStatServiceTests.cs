@@ -5,7 +5,7 @@ using Pitch.Match.API.ApplicationCore.Engine.Services;
 using Pitch.Match.API.ApplicationCore.Models.Match;
 using Xunit;
 
-namespace Pitch.Match.API.Tests.Engine.Services
+namespace Pitch.Match.Api.Tests.Unit.Engine.Services
 {
     public class CalculatedCardStatServiceTests
     {
@@ -13,18 +13,18 @@ namespace Pitch.Match.API.Tests.Engine.Services
         public void Fitness_Returns_Correct_Value()
         {
             var cardId = Guid.NewGuid();
-            var stubMatch = new ApplicationCore.Models.Match.Match(){
+            var stubMatch = new API.ApplicationCore.Models.Match.Match(){
                 HomeTeam = new TeamDetails(){
-                    Squad = new ApplicationCore.Models.Squad(){
-                        Lineup = new Dictionary<string, IEnumerable<ApplicationCore.Models.Card>>()
+                    Squad = new API.ApplicationCore.Models.Squad(){
+                        Lineup = new Dictionary<string, IEnumerable<API.ApplicationCore.Models.Card>>()
                     }
                 },
                 AwayTeam = new TeamDetails(){
-                    Squad = new ApplicationCore.Models.Squad(){
-                        Lineup = new Dictionary<string, IEnumerable<ApplicationCore.Models.Card>>(){
+                    Squad = new API.ApplicationCore.Models.Squad(){
+                        Lineup = new Dictionary<string, IEnumerable<API.ApplicationCore.Models.Card>>(){
                            {
-                               "LST", new List<ApplicationCore.Models.Card>(){
-                                    new ApplicationCore.Models.Card(){
+                               "LST", new List<API.ApplicationCore.Models.Card>(){
+                                    new API.ApplicationCore.Models.Card(){
                                         Id = cardId
                                     }
                                 }

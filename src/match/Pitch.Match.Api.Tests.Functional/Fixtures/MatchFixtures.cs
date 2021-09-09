@@ -1,8 +1,9 @@
 ﻿using System;
 using Pitch.Match.API.ApplicationCore.Engine.Events;
-using Pitch.Match.API.Tests.Builders;
+using Pitch.Match.Api.Tests.Shared;
+using Pitch.Match.Api.Tests.Shared.Builders;
 
-namespace Pitch.Match.API.Tests.Functional.Fixtures
+namespace Pitch.Match.Api.Tests.Functional.Fixtures
 {
     public class MatchFixtures
     {

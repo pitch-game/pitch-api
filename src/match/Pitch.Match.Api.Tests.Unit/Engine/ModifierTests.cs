@@ -1,9 +1,8 @@
 ﻿using System;
-using Pitch.Match.API.ApplicationCore.Models;
 using Pitch.Match.API.ApplicationCore.Models.Match;
 using Xunit;
 
-namespace Pitch.Match.API.Tests.Engine
+namespace Pitch.Match.Api.Tests.Unit.Engine
 {
     public class ModifierTests : MatchTestBase
     {

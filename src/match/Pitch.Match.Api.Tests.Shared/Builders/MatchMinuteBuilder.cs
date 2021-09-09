@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Pitch.Match.API.ApplicationCore.Engine.Events;
 using Pitch.Match.API.ApplicationCore.Models.Match;
 
-namespace Pitch.Match.API.Tests.Builders
+namespace Pitch.Match.Api.Tests.Shared.Builders
 {
     public class MatchMinuteBuilder
     {

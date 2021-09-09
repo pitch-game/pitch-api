@@ -7,7 +7,7 @@ using Pitch.Match.API.ApplicationCore.Services;
 using Pitch.Match.API.Hubs;
 using Xunit;
 
-namespace Pitch.Match.API.Tests.Hubs
+namespace Pitch.Match.Api.Tests.Unit.Hubs
 {
     public class MatchmakingHubTests
     {

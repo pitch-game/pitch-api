@@ -1,8 +1,7 @@
 ﻿using System;
-using Pitch.Match.API.ApplicationCore.Models;
 using Pitch.Match.API.ApplicationCore.Models.Match;
 
-namespace Pitch.Match.API.Tests.Builders
+namespace Pitch.Match.Api.Tests.Unit.Builders
 {
     public class TeamDetailsBuilder
     {

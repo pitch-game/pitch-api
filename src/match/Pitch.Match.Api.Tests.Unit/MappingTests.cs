@@ -2,7 +2,7 @@
 using Pitch.Match.API.Supporting;
 using Xunit;
 
-namespace Pitch.Match.API.Tests
+namespace Pitch.Match.Api.Tests.Unit
 {
     public class MappingTests
     {

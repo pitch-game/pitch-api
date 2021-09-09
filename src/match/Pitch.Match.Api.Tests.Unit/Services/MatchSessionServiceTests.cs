@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace Pitch.Match.API.Tests.Services
+﻿namespace Pitch.Match.Api.Tests.Unit.Services
 {
     public class MatchSessionServiceTests
     {

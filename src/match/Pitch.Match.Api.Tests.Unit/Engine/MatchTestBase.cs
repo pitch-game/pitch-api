@@ -7,7 +7,7 @@ using Pitch.Match.API.ApplicationCore.Engine.Services;
 using Pitch.Match.API.ApplicationCore.Models;
 using Pitch.Match.API.ApplicationCore.Models.Match;
 
-namespace Pitch.Match.API.Tests.Engine
+namespace Pitch.Match.Api.Tests.Unit.Engine
 {
     public abstract class MatchTestBase
     {
@@ -24,7 +24,7 @@ namespace Pitch.Match.API.Tests.Engine
 
         protected TeamDetails StubHomeTeamDetails;
 
-        protected ApplicationCore.Models.Match.Match StubMatch;
+        protected API.ApplicationCore.Models.Match.Match StubMatch;
         protected MatchEngine StubMatchEngine;
 
         protected MatchTestBase()
@@ -268,7 +268,7 @@ namespace Pitch.Match.API.Tests.Engine
                 Squad = StubHomeSquad
             };
 
-            StubMatch = new ApplicationCore.Models.Match.Match
+            StubMatch = new API.ApplicationCore.Models.Match.Match
             {
                 Id = Guid.NewGuid(),
                 KickOff = DateTime.Now,

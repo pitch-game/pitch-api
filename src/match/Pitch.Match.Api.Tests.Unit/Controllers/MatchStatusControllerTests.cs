@@ -10,7 +10,7 @@ using Pitch.Match.API.ApplicationCore.Services;
 using Pitch.Match.API.Controllers;
 using Xunit;
 
-namespace Pitch.Match.API.Tests.Controllers
+namespace Pitch.Match.Api.Tests.Unit.Controllers
 {
     public class MatchStatusControllerTests
     {

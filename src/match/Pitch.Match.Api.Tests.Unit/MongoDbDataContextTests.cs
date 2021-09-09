@@ -10,7 +10,7 @@ using Moq;
 using Pitch.Match.API.Infrastructure.Repositories.Contexts;
 using Xunit;
 
-namespace Pitch.Match.API.Tests
+namespace Pitch.Match.Api.Tests.Unit
 {
     public class MongoDbDataContextTests
     {

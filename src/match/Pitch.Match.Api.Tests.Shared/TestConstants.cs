@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Match.API.Tests
+namespace Pitch.Match.Api.Tests.Shared
 {
     public static class TestConstants
     {

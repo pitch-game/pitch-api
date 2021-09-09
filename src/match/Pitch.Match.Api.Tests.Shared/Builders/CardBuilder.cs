@@ -1,7 +1,7 @@
 ﻿using System;
 using Pitch.Match.API.ApplicationCore.Models;
 
-namespace Pitch.Match.API.Tests.Builders
+namespace Pitch.Match.Api.Tests.Shared.Builders
 {
     public class CardBuilder
     {

@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Pitch.Match.Api.Tests.Shared;
 
-namespace Pitch.Match.API.Tests.Functional.Framework
+namespace Pitch.Match.Api.Tests.Functional.Framework
 {
     public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {

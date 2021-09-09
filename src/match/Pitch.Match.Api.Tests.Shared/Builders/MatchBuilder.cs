@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Pitch.Match.API.ApplicationCore.Engine;
-using Pitch.Match.API.ApplicationCore.Models.Match;
 
-namespace Pitch.Match.API.Tests.Builders
+namespace Pitch.Match.Api.Tests.Shared.Builders
 {
     public class MatchBuilder
     {
@@ -43,9 +42,9 @@ namespace Pitch.Match.API.Tests.Builders
             return this;
         }
 
-        public ApplicationCore.Models.Match.Match Build()
+        public API.ApplicationCore.Models.Match.Match Build()
         {
-            return new ApplicationCore.Models.Match.Match()
+            return new API.ApplicationCore.Models.Match.Match()
             {
                 Id = _id,
                 AwayTeam = _awayTeam.Build(),

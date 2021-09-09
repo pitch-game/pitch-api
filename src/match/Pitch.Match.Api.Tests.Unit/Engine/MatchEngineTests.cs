@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Pitch.Match.API.Tests.Engine
+﻿namespace Pitch.Match.Api.Tests.Unit.Engine
 {
     public class MatchEngineTests
     {
