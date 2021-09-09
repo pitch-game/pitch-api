@@ -12,6 +12,7 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
         public IList<IEvent> Events { get; set; }
     }
 
+    //TODO Move to mapping class
     public class MatchResult
     {
         public MatchResult(Match.Match match)
