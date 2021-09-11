@@ -1,10 +1,6 @@
 # Pitch API
 RESTful Web API for Pitch in a microservices architecture on containers
 
-![GitHub last commit](https://img.shields.io/github/last-commit/pitch-game/pitch-api.svg)
-![GitHub issues](https://img.shields.io/github/issues/pitch-game/pitch-api.svg)
-![GitHub](https://img.shields.io/github/license/pitch-game/pitch-api.svg?color=brightgreen)
-
 |    Service   |  Build Status  |    Tests   |   Code Coverage
 |     :---:    |     :---:      |     :---:      |     :---:      |  
 | [Pitch.Gateway.API](/src/api-gateway)   | [![Build Status](https://dev.azure.com/pitch-game/Pitch%20API/_apis/build/status/Pitch.Gateway.API?branchName=master)](https://dev.azure.com/pitch-game/Pitch%20API/_build/latest?definitionId=14&branchName=master) | - | -
