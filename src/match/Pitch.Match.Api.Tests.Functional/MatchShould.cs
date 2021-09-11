@@ -17,7 +17,7 @@ using Xunit;
 namespace Pitch.Match.Api.Tests.Functional
 {
     [Collection("Functional")]
-    public class MatchShould : IClassFixture<MatchFixtures>, IDisposable
+    public class MatchShould : IClassFixture<MatchFixtures>
     {
         private readonly TestWebApplicationFactory _testWebApplicationFactory;
         private readonly MatchFixtures _matchFixtures;
@@ -151,11 +151,6 @@ namespace Pitch.Match.Api.Tests.Functional
             var result = await client.PostAsync($"/{TestConstants.DefaultMatchId}/substitution", httpContent);
 
             result.EnsureSuccessStatusCode();
-        }
-
-        public void Dispose()
-        {
-            //_testWebApplicationFactory?.Dispose();
         }
     }
 }

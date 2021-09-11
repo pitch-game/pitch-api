@@ -7,7 +7,7 @@ using Xunit;
 namespace Pitch.Match.Api.Tests.Functional
 {
     [Collection("Functional")]
-    public class ClaimShould : IDisposable
+    public class ClaimShould
     {
         private readonly TestWebApplicationFactory _testWebApplicationFactory;
 
@@ -24,11 +24,6 @@ namespace Pitch.Match.Api.Tests.Functional
 
             result.IsSuccessStatusCode.Should().BeTrue();
             //TODO Verify update?
-        }
-
-        public void Dispose()
-        {
-            _testWebApplicationFactory?.Dispose();
         }
     }
 }

@@ -10,7 +10,7 @@ using Xunit;
 namespace Pitch.Match.Api.Tests.Functional
 {
     [Collection("Functional")]
-    public class StatusShould : IDisposable
+    public class StatusShould
     {
         private readonly TestWebApplicationFactory _testWebApplicationFactory;
         private static readonly JsonSerializerOptions JsonSerializerOptions = new()
@@ -34,11 +34,6 @@ namespace Pitch.Match.Api.Tests.Functional
             responseModel.Should().NotBeNull();
             responseModel.HasUnclaimedRewards.Should().BeTrue();
             responseModel.InProgressMatchId.Should().Be(TestConstants.DefaultMatchId);
-        }
-
-        public void Dispose()
-        {
-            _testWebApplicationFactory?.Dispose();
         }
     }
 }
