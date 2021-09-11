@@ -69,7 +69,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
                     scorers = match.Minutes.SelectMany(x => x.Events).Where(x => x.SquadId == match.HomeTeam.Squad.Id && x is Goal).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
                 }
 
-                await _bus.PublishAsync(new MatchCompletedEvent(match.Id, userId, victorious, scorers));
+                await _bus.PubSub.PublishAsync(new MatchCompletedEvent(match.Id, userId, victorious, scorers));
                 await _matchRepository.UpdateAsync(match);
             }
         }
@@ -91,13 +91,13 @@ namespace Pitch.Match.API.ApplicationCore.Services
                 Id = sessionId, HomeTeam = new TeamDetails { UserId = session.HostPlayerId }
             };
 
-            match.HomeTeam.Squad = BuildSquad(await _bus.RequestAsync<GetSquadRequest, GetSquadResponse>(new GetSquadRequest(match.HomeTeam.UserId)));
+            match.HomeTeam.Squad = BuildSquad(await _bus.Rpc.RequestAsync<GetSquadRequest, GetSquadResponse>(new GetSquadRequest(match.HomeTeam.UserId)));
 
             match.AwayTeam = new TeamDetails
             {
                 UserId = session.JoinedPlayerId.Value
             };
-            match.AwayTeam.Squad = BuildSquad(await _bus.RequestAsync<GetSquadRequest, GetSquadResponse>(new GetSquadRequest(match.AwayTeam.UserId)));
+            match.AwayTeam.Squad = BuildSquad(await _bus.Rpc.RequestAsync<GetSquadRequest, GetSquadResponse>(new GetSquadRequest(match.AwayTeam.UserId)));
 
             match.KickOff = DateTime.Now;
 
@@ -164,13 +164,13 @@ namespace Pitch.Match.API.ApplicationCore.Services
             };
         }
 
-        public async Task<ApplicationCore.Models.Lineup> GetLineupAsync(Guid matchId, Guid userId)
+        public async Task<Models.Lineup> GetLineupAsync(Guid matchId, Guid userId)
         {
             var match = await GetAsAtElapsedAsync(matchId);
             var team = match.GetTeam(userId);
             var sendingOffs = match.Minutes.SelectMany(x => x.Events).Where(x => x is RedCard).Select(x => x.CardId);
             var lineup = team.Squad.Lineup.Values.SelectMany(x => x).Where(x => !sendingOffs.Contains(x.Id)).ToList();
-            return new ApplicationCore.Models.Lineup { Active = lineup, Subs = team.Squad.Subs };
+            return new Models.Lineup { Active = lineup, Subs = team.Squad.Subs };
         }
 
         public async Task Substitution(Guid off, Guid on, Guid matchId, Guid userId)

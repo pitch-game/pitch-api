@@ -33,7 +33,7 @@ namespace Pitch.Match.API.Infrastructure.Repositories
 
         public async Task<Guid?> GetInProgressAsync(Guid userId)
         {
-            var minStartDate = DateTime.Now.AddMinutes(-90);
+            var minStartDate = DateTime.Now.AddMinutes(-90); //TODO Fix
             var result = await _dataContext.FindOneAsync(x => x.KickOff > minStartDate && (x.HomeTeam.UserId == userId || x.AwayTeam.UserId == userId));
             return result?.Id;
         }
@@ -52,7 +52,7 @@ namespace Pitch.Match.API.Infrastructure.Repositories
 
         public async Task<IEnumerable<ApplicationCore.Models.Match.Match>> GetUnclaimedAsync(Guid userId)
         {
-            var minStartDate = DateTime.Now.AddMinutes(-90);
+            var minStartDate = DateTime.Now.AddMinutes(-90); //TODO Fix
             return await _dataContext.FindAsync(x =>
                 x.KickOff <= minStartDate && (x.HomeTeam.UserId == userId && !x.HomeTeam.HasClaimedRewards
                                               || x.AwayTeam.UserId == userId && !x.AwayTeam.HasClaimedRewards));
@@ -60,7 +60,7 @@ namespace Pitch.Match.API.Infrastructure.Repositories
 
         public async Task<bool> HasUnclaimedAsync(Guid userId)
         {
-            var minStartDate = DateTime.Now.AddMinutes(-90);
+            var minStartDate = DateTime.Now.AddMinutes(-90); //TODO Fix
             var result = await _dataContext.FindAsync(x =>
                 x.KickOff <= minStartDate && (x.HomeTeam.UserId == userId && !x.HomeTeam.HasClaimedRewards
                                               || x.AwayTeam.UserId == userId && !x.AwayTeam.HasClaimedRewards));

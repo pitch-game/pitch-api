@@ -35,6 +35,8 @@ namespace Pitch.Match.API.ApplicationCore.Engine.Services
             PositionalArea positionalArea = ChanceHelper.PercentBase100Chance(action.PositionalChance, x => x.Value).Key;
 
             var sentOffCardIds = minutes.SelectMany(x => x.Events).Where(x => x is RedCard).Select(x => x.CardId);
+
+            if (!team.Lineup.ContainsKey(positionalArea.ToString())) return null;
             var cards = team.Lineup[positionalArea.ToString()].Where(x => x != null && !sentOffCardIds.Contains(x.Id)).ToList();
 
             int r = _randomnessProvider.Next(cards.Count);

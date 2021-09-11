@@ -1,3 +1,9 @@
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+}
+
 resource "helm_release" "rabbitmq" {
   name       = "rabbitmq"
   repository = "https://charts.bitnami.com/bitnami"
