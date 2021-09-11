@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using AutoMapper;
 using EasyNetQ;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +20,6 @@ using Pitch.Match.API.Supporting;
 
 namespace Pitch.Match.API
 {
-    [ExcludeFromCodeCoverage]
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -46,7 +42,7 @@ namespace Pitch.Match.API
             }).AddJwtBearer(options =>
             {
                 options.Authority = Configuration.GetValue<string>("IdentityUrl");
-                options.Audience = "cbf24cc4a1bb79e441a5b5937be6dd84";
+                options.Audience = Configuration.GetValue<string>("Audience");
                 options.RequireHttpsMetadata = false;
             });
 
@@ -62,17 +58,13 @@ namespace Pitch.Match.API
                     tags: new[] {"mongodb"});
             //.AddSignalRHub("/hubs/matchmaking", name: "signalr-check", tags: new string[] { "signalr" });
 
-            services.AddSingleton<IMongoClient>(s =>
-            {
-                return new MongoClient(Configuration.GetConnectionString("MongoDb"));
-            });
+            services.AddSingleton<IMongoClient>(s => new MongoClient(Configuration.GetConnectionString("MongoDb")));
 
             services.AddSingleton(s =>
             {
                 var typesInAssembly = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).ToArray();
                 return RabbitHutch.CreateBus(Configuration.GetConnectionString("ServiceBus"), serviceRegister =>
-                    serviceRegister.Register<ITypeNameSerializer>(serviceProvider =>
-                        new SimpleTypeNameSerializer(typesInAssembly)));
+                    serviceRegister.Register<ITypeNameSerializer>(_ => new SimpleTypeNameSerializer(typesInAssembly)));
             });
 
             services.AddSignalR(o => { o.EnableDetailedErrors = true; });

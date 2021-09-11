@@ -16,6 +16,7 @@ using Xunit;
 
 namespace Pitch.Match.Api.Tests.Functional
 {
+    [Collection("Functional")]
     public class MatchShould : IClassFixture<MatchFixtures>, IDisposable
     {
         private readonly TestWebApplicationFactory _testWebApplicationFactory;
@@ -154,7 +155,7 @@ namespace Pitch.Match.Api.Tests.Functional
 
         public void Dispose()
         {
-            _testWebApplicationFactory?.Dispose();
+            //_testWebApplicationFactory?.Dispose();
         }
     }
 }

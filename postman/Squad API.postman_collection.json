@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "9fd06147-2d3f-4aa4-bc52-4d819363e26a",
+		"name": "Squad API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "(root)",
+			"item": [
+				{
+					"name": "/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"id\": \"07c9a288-ea5f-4ab8-1a17-7708daf2f795\",\n \"name\": \"proident nisi dolor aliqua in\",\n \"userId\": \"cillum id ut cupidatat\",\n \"lineup\": {},\n \"subs\": [\n  \"urn:uuid:103bb0b3-0dfe-5c21-9486-01c6352f33db\",\n  \"urn:uuid:7469dd76-b2e6-d581-dba9-fab3c04a28d2\"\n ],\n \"instructions\": {\n  \"core\": 2,\n  \"attacking\": 1,\n  \"defensive\": 1\n },\n \"lastUpdated\": \"1973-11-01T03:06:51.914Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "/",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"urn:uuid:ef30fd59-9f17-3235-7d26-6604072e257e\",\n    \"name\": \"commodo pariatur reprehenderit\",\n    \"userId\": \"in labore \",\n    \"lineup\": {},\n    \"subs\": [\n        \"urn:uuid:d0ad9fa8-e491-f597-675e-2148bcf6ac73\",\n        \"urn:uuid:763ef874-3e6e-5b9c-b54a-8df365228820\"\n    ],\n    \"instructions\": {\n        \"core\": 0,\n        \"attacking\": 1,\n        \"defensive\": 2\n    },\n    \"lastUpdated\": \"1942-06-23T09:15:17.010Z\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"urn:uuid:ef30fd59-9f17-3235-7d26-6604072e257e\",\n    \"name\": \"commodo pariatur reprehenderit\",\n    \"userId\": \"in labore \",\n    \"lineup\": {},\n    \"subs\": [\n        \"urn:uuid:d0ad9fa8-e491-f597-675e-2148bcf6ac73\",\n        \"urn:uuid:763ef874-3e6e-5b9c-b54a-8df365228820\"\n    ],\n    \"instructions\": {\n        \"core\": 0,\n        \"attacking\": 1,\n        \"defensive\": 2\n    },\n    \"lastUpdated\": \"1942-06-23T09:15:17.010Z\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"id\": \"urn:uuid:ef30fd59-9f17-3235-7d26-6604072e257e\",\n \"name\": \"commodo pariatur reprehenderit\",\n \"userId\": \"in labore \",\n \"lineup\": {},\n \"subs\": [\n  \"urn:uuid:d0ad9fa8-e491-f597-675e-2148bcf6ac73\",\n  \"urn:uuid:763ef874-3e6e-5b9c-b54a-8df365228820\"\n ],\n \"instructions\": {\n  \"core\": 0,\n  \"attacking\": 1,\n  \"defensive\": 2\n },\n \"lastUpdated\": \"1942-06-23T09:15:17.010Z\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "/",
+			"type": "string"
+		}
+	]
+}

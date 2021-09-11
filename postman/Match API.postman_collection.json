@@ -1,0 +1,364 @@
+{
+	"info": {
+		"_postman_id": "5cbcd471-b5f4-4126-8826-3537992a55ed",
+		"name": "Match API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "{match Id}",
+			"item": [
+				{
+					"name": "/:matchId/lineup",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/:matchId/lineup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":matchId",
+								"lineup"
+							],
+							"variable": [
+								{
+									"key": "matchId",
+									"value": "2b7f58d6-974f-0b81-1689-4fd3525a6a15",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/:matchId/lineup",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":matchId",
+										"lineup"
+									],
+									"variable": [
+										{
+											"key": "matchId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"active\": [\n  {\n   \"id\": \"urn:uuid:b3a6d666-8997-4bc9-7ee0-7373be5c97e8\",\n   \"name\": \"deserunt anim in dolor\",\n   \"shortName\": \"deserunt aute\",\n   \"rating\": 27581152,\n   \"rarity\": \"sed culpa occaecat\",\n   \"position\": \"consequat\",\n   \"chemistry\": 38462470,\n   \"fitness\": -57491028,\n   \"goals\": -37261447,\n   \"yellowCards\": 28984930,\n   \"redCards\": -47860717\n  },\n  {\n   \"id\": \"urn:uuid:1ab5400e-1799-af0e-04fb-564d6759b9c9\",\n   \"name\": \"Lorem labore\",\n   \"shortName\": \"dolore non dolor\",\n   \"rating\": -24507098,\n   \"rarity\": \"nulla velit deserunt qui in\",\n   \"position\": \"est elit\",\n   \"chemistry\": 24159578,\n   \"fitness\": -75459101,\n   \"goals\": 78882699,\n   \"yellowCards\": 92506760,\n   \"redCards\": -85213659\n  }\n ],\n \"subs\": [\n  {\n   \"id\": \"urn:uuid:963c7134-6c74-5906-34fa-9f4461fc349f\",\n   \"name\": \"commodo Excepteur\",\n   \"shortName\": \"aute nisi officia commodo in\",\n   \"rating\": -8508598,\n   \"rarity\": \"officia ipsum aliqua adip\",\n   \"position\": \"ipsum sed\",\n   \"chemistry\": -5111311,\n   \"fitness\": 97225803,\n   \"goals\": 89687153,\n   \"yellowCards\": 27418349,\n   \"redCards\": 97641034\n  },\n  {\n   \"id\": \"deda0158-f6a2-6d18-58ad-e9ca6384b96b\",\n   \"name\": \"veniam\",\n   \"shortName\": \"eu Duis amet\",\n   \"rating\": -97727523,\n   \"rarity\": \"fugiat Ut proident\",\n   \"position\": \"nulla irure consectetur culpa\",\n   \"chemistry\": 6884116,\n   \"fitness\": -15919621,\n   \"goals\": 87069516,\n   \"yellowCards\": 66969369,\n   \"redCards\": -56643196\n  }\n ]\n}"
+						}
+					]
+				},
+				{
+					"name": "/:matchId/substitution",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"off\": \"urn:uuid:c8fdf46d-d11e-8d0c-4874-775c6d08bda1\",\n    \"on\": \"b593adda-68d1-5367-4ada-34cee544b67c\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/:matchId/substitution",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":matchId",
+								"substitution"
+							],
+							"variable": [
+								{
+									"key": "matchId",
+									"value": "2b7f58d6-974f-0b81-1689-4fd3525a6a15",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"off\": \"urn:uuid:c8fdf46d-d11e-8d0c-4874-775c6d08bda1\",\n    \"on\": \"b593adda-68d1-5367-4ada-34cee544b67c\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/:matchId/substitution",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":matchId",
+										"substitution"
+									],
+									"variable": [
+										{
+											"key": "matchId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "/claim",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/claim",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"claim"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/claim",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"claim"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/?skip=6872944&take=6872944",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						""
+					],
+					"query": [
+						{
+							"key": "skip",
+							"value": "6872944"
+						},
+						{
+							"key": "take",
+							"value": "6872944"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/?skip=6872944&take=6872944",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								""
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "6872944"
+								},
+								{
+									"key": "take",
+									"value": "6872944"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n {\n  \"id\": \"urn:uuid:3e19a08c-7d6a-580d-d51c-5a0c9c05123c\",\n  \"result\": \"mollit labore laboris in\",\n  \"claimed\": true,\n  \"homeTeam\": \"et enim ipsum\",\n  \"awayTeam\": \"ut consequat id\",\n  \"homeScore\": 11388100,\n  \"awayScore\": 12511949,\n  \"kickOff\": \"1955-07-17T01:06:44.778Z\"\n },\n {\n  \"id\": \"e023dd87-c71e-64c2-e6df-68ab0940f9f0\",\n  \"result\": \"non sint\",\n  \"claimed\": false,\n  \"homeTeam\": \"est proident sed ad\",\n  \"awayTeam\": \"dolor ullamco\",\n  \"homeScore\": 71010663,\n  \"awayScore\": -13572620,\n  \"kickOff\": \"1990-12-21T00:23:35.430Z\"\n }\n]"
+				}
+			]
+		},
+		{
+			"name": "/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "2b7f58d6-974f-0b81-1689-4fd3525a6a15",
+							"description": "(Required) "
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"match\": {\n  \"minute\": -64625568,\n  \"homeResult\": {\n   \"name\": \"minim\",\n   \"score\": 13740267,\n   \"scorers\": [\n    \"veniam ipsum\",\n    \"adipisicing minim veniam\"\n   ]\n  },\n  \"awayResult\": {\n   \"name\": \"dolor quis est\",\n   \"score\": 88315328,\n   \"scorers\": [\n    \"minim culpa aliqua sunt\",\n    \"occaecat veniam minim non\"\n   ]\n  },\n  \"homeStats\": {\n   \"shots\": -89563442,\n   \"shotsOnTarget\": 24278743,\n   \"possession\": 82175617,\n   \"fouls\": -19302940,\n   \"yellowCards\": 54548513,\n   \"redCards\": 60503171\n  },\n  \"awayStats\": {\n   \"shots\": 31556456,\n   \"shotsOnTarget\": 37316286,\n   \"possession\": -9180024,\n   \"fouls\": -38219464,\n   \"yellowCards\": 71173083,\n   \"redCards\": 40898118\n  },\n  \"lineup\": {\n   \"home\": {\n    \"lineup\": {},\n    \"subs\": [\n     \"2932b158-f2b5-25ac-2625-20ee7e7fa489\",\n     \"urn:uuid:2f1a60c5-7117-b4ea-a934-db66a529e628\"\n    ]\n   },\n   \"away\": {\n    \"lineup\": {},\n    \"subs\": [\n     \"urn:uuid:29050c3c-748b-e8b4-e5c8-adb89ba2f782\",\n     \"e22e8a9e-997f-d907-e030-d461f6b1699a\"\n    ]\n   }\n  },\n  \"timeline\": [\n   {\n    \"minute\": 32913994,\n    \"name\": \"fugiat \",\n    \"squadName\": \"do adipisicing sit\",\n    \"cardId\": \"2e76a480-81df-0f64-1e32-e6d85f36b309\"\n   },\n   {\n    \"minute\": 47687685,\n    \"name\": \"dolore culpa proident\",\n    \"squadName\": \"tempor dolor\",\n    \"cardId\": \"urn:uuid:c77dee6a-94f4-0332-aaca-da0291175f52\"\n   }\n  ],\n  \"expired\": false,\n  \"expiredOn\": \"2000-02-19T17:25:26.540Z\",\n  \"cardLookup\": {}\n },\n \"subsRemaining\": -11420472\n}"
+				}
+			]
+		},
+		{
+			"name": "/status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/status",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"status"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"hasUnclaimedRewards\": true,\n \"inProgressMatchId\": \"d4490d75-ad75-3cf0-988e-57f667579d0d\"\n}"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "/",
+			"type": "string"
+		}
+	]
+}

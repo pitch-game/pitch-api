@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using EasyNetQ;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -37,6 +38,11 @@ namespace Pitch.Match.Api.Tests.Functional.Framework
             {
                 ConfigureAuthentication(services);
                 ConfigureServices(services);
+
+                var busMock = new Mock<IBus>();
+                var pubSubMock = new Mock<IPubSub>();
+                busMock.SetupGet(x => x.PubSub).Returns(pubSubMock.Object);
+                services.AddSingleton<IBus>(busMock.Object);
             });
         }
 
