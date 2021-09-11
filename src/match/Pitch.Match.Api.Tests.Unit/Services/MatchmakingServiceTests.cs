@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyNetQ;
 using FluentAssertions;
+using Microsoft.AspNetCore.SignalR;
 using Moq;
 using Pitch.Match.API.ApplicationCore.Models.Matchmaking;
 using Pitch.Match.API.ApplicationCore.Services;
@@ -29,27 +30,6 @@ namespace Pitch.Match.Api.Tests.Unit.Services
             //Act & Assert
             await Assert.ThrowsAsync<Exception>(() => service.Matchmake(userId));
         }
-
-        //[Fact]
-        //public void CreateSession_CreatesANewSession()
-        //{
-        //    //Arrange
-        //    var userId = Guid.NewGuid();
-        //    var mockMatchRepository = new Mock<IMatchRepository>();
-
-        //    IList<MatchmakingSession> sessions = new List<MatchmakingSession>();
-
-        //    var matchSessionService = new MatchSessionService();
-        //    matchSessionService.Sessions = sessions;
-
-        //    var service = new MatchmakingService(mockMatchRepository.Object, matchSessionService);
-
-        //    // Act
-        //    var session = service.CreateSession(userId);
-
-        //    Assert.Equal(session.HostPlayerId, userId);
-        //    Assert.Contains(session, sessions);
-        //}
 
         [Fact]
         public void Cancel_RemovesSession()
@@ -106,36 +86,6 @@ namespace Pitch.Match.Api.Tests.Unit.Services
             Assert.Equal(session, sessions.First());
         }
 
-        //[Fact]
-        //public void JoinSession_ReturnsCompletedSession()
-        //{
-        //    var sessionId = Guid.NewGuid();
-        //    var userId = Guid.NewGuid();
-
-        //    var mockMatchRepository = new Mock<IMatchRepository>();
-
-        //    IList<MatchmakingSession> sessions = new List<MatchmakingSession>()
-        //    {
-        //        new MatchmakingSession
-        //        {
-        //            Id = sessionId,
-        //            HostPlayerId = Guid.NewGuid()
-        //        }
-        //    };
-
-        //    var matchSessionService = new MatchSessionService();
-        //    matchSessionService.Sessions = sessions;
-
-        //    var mockBus = new Mock<IBus>();
-        //    var service = new MatchmakingService(mockMatchRepository.Object, matchSessionService);
-
-        //    var session = service.JoinSession(sessionId, userId);
-
-        //    session.JoinedPlayerId.Should().Be(userId);
-        //    session.Open.Should().BeFalse();
-        //    session.CompletedOn.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(2000));
-        //}
-
         [Fact]
         public void JoinSession_On_Existing_Session_CreateNewSession()
         {
@@ -146,7 +96,7 @@ namespace Pitch.Match.Api.Tests.Unit.Services
 
             IList<MatchmakingSession> sessions = new List<MatchmakingSession>()
             {
-                new MatchmakingSession
+                new()
                 {
                     Id = sessionId,
                     HostPlayerId = Guid.NewGuid(),
@@ -157,10 +107,9 @@ namespace Pitch.Match.Api.Tests.Unit.Services
             var matchSessionService = new MatchSessionService();
             matchSessionService.Sessions = sessions;
 
-            var mockBus = new Mock<IBus>();
             var service = new MatchmakingService(mockMatchRepository.Object, matchSessionService);
 
-            var session = service.Matchmake(userId);
+            _ = service.Matchmake(userId);
 
             sessions.Should().HaveCount(2);
         }
@@ -175,7 +124,7 @@ namespace Pitch.Match.Api.Tests.Unit.Services
 
             IList<MatchmakingSession> sessions = new List<MatchmakingSession>()
             {
-                new MatchmakingSession
+                new()
                 {
                     Id = sessionId,
                     HostPlayerId = Guid.NewGuid(),
@@ -186,40 +135,36 @@ namespace Pitch.Match.Api.Tests.Unit.Services
             var matchSessionService = new MatchSessionService();
             matchSessionService.Sessions = sessions;
 
-            var mockBus = new Mock<IBus>();
             var service = new MatchmakingService(mockMatchRepository.Object, matchSessionService);
 
-            var session = service.Matchmake(userId);
+            _ = service.Matchmake(userId);
 
             sessions.Should().HaveCount(1);
         }
 
-        //[Fact]
-        //public void JoinSession_AsHost_ThrowsException()
-        //{
-        //    // Arrange
-        //    var sessionId = Guid.NewGuid();
-        //    var userId = Guid.NewGuid();
+        [Fact]
+        public void JoinSession_AsHost_ThrowsException()
+        {
+            var sessionId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
 
-        //    var mockMatchRepository = new Mock<IMatchRepository>();
+            var mockMatchRepository = new Mock<IMatchRepository>();
 
-        //    IList<MatchmakingSession> sessions = new List<MatchmakingSession>()
-        //    {
-        //        new MatchmakingSession
-        //        {
-        //            Id = sessionId,
-        //            HostPlayerId = userId
-        //        }
-        //    };
+            IList<MatchmakingSession> sessions = new List<MatchmakingSession>()
+            {
+                new()
+                {
+                    Id = sessionId,
+                    HostPlayerId = userId
+                }
+            };
 
-        //    var matchSessionService = new MatchSessionService();
-        //    matchSessionService.Sessions = sessions;
+            var matchSessionService = new MatchSessionService();
+            matchSessionService.Sessions = sessions;
 
-        //    var mockBus = new Mock<IBus>();
-        //    var service = new MatchmakingService(mockMatchRepository.Object, matchSessionService);
+            var service = new MatchmakingService(mockMatchRepository.Object, matchSessionService);
 
-        //    // Act & Assert
-        //    Assert.Throws<HubException>(() => service.JoinSession(sessionId, userId));
-        //}
+            Assert.ThrowsAsync<HubException>(() => service.Matchmake(userId));
+        }
     }
 }
