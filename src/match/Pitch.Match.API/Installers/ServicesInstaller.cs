@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Pitch.Match.API.ApplicationCore.Services;
+using Pitch.Match.Api.ApplicationCore.Services;
 
-namespace Pitch.Match.API.Installers
+namespace Pitch.Match.Api.Installers
 {
     public static class ServicesInstaller
     {

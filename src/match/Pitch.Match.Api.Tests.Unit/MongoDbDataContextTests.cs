@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using MongoDB.Driver;
 using Moq;
-using Pitch.Match.API.Infrastructure.Repositories.Contexts;
+using Pitch.Match.Api.Infrastructure.Repositories.Contexts;
 using Xunit;
 
 namespace Pitch.Match.Api.Tests.Unit

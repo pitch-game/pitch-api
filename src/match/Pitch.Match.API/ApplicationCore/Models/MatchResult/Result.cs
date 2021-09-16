@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
+namespace Pitch.Match.Api.ApplicationCore.Models.MatchResult
 {
     public class Result
     {

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pitch.Match.API.ApplicationCore.Engine;
-using Pitch.Match.API.ApplicationCore.Engine.Events;
+using Pitch.Match.Engine;
+using Pitch.Match.Engine.Events;
+using Pitch.Match.Engine.Models;
 
-namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
+namespace Pitch.Match.Api.ApplicationCore.Models.MatchResult
 {
     public class MatchEventsWithMinute
     {
@@ -15,7 +16,7 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
     //TODO Move to mapping class
     public class MatchResult
     {
-        public MatchResult(Match.Match match)
+        public MatchResult(Engine.Models.Match match)
         {
             SetCardLookup(match);
 
@@ -61,7 +62,7 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
             ExpiredOn = match.HasFinished ? match.KickOff.AddMinutes(Constants.MatchLengthInMinutes) : (DateTime?)null;
         }
 
-        private void SetCardLookup(Match.Match match)
+        private void SetCardLookup(Engine.Models.Match match)
         {
             var cards = new List<Card>();
             cards.AddRange(match.AwayTeam.Squad.Lineup.Values.SelectMany(x => x));
@@ -81,7 +82,7 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
             }
         }
 
-        private void SetLineups(Match.Match match)
+        private void SetLineups(Engine.Models.Match match)
         {
             var homeSquad = new Squad
             {
@@ -100,7 +101,7 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
             };
         }
 
-        private static Stats GetStats(Match.Match match, IList<IEvent> homeTeamEvents, Guid teamId)
+        private static Stats GetStats(Engine.Models.Match match, IList<IEvent> homeTeamEvents, Guid teamId)
         {
             return new Stats()
             {
@@ -113,14 +114,14 @@ namespace Pitch.Match.API.ApplicationCore.Models.MatchResult
             };
         }
 
-        private static int CalculatePossession(Match.Match match, Guid teamId)
+        private static int CalculatePossession(Engine.Models.Match match, Guid teamId)
         {
             var stats = match.Minutes.Where(x => x.Stats != null).Select(x => x.Stats).ToList();
             if (!stats.Any()) return 0;
             return (int)Math.Round(stats.Count(x => x.SquadIdInPossession == teamId) / (double)stats.Count * 100);
         }
 
-        private IEnumerable<string> GetScorers(Match.Match match, IList<MatchEventsWithMinute> events, ApplicationCore.Models.Squad team)
+        private IEnumerable<string> GetScorers(Engine.Models.Match match, IList<MatchEventsWithMinute> events, Engine.Models.Squad team)
         {
             return events.SelectMany(x => 
             {

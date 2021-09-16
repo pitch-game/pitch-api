@@ -1,13 +1,13 @@
 ﻿using System;
-using Pitch.Match.API.ApplicationCore.Engine.Events;
 using Pitch.Match.Api.Tests.Shared;
 using Pitch.Match.Api.Tests.Shared.Builders;
+using Pitch.Match.Engine.Events;
 
 namespace Pitch.Match.Api.Tests.Functional.Fixtures
 {
     public class MatchFixtures
     {
-        public MatchBuilder DefaultMatch => new MatchBuilder()
+        public MatchDtoBuilder DefaultMatch => new MatchDtoBuilder()
             .WithId(TestConstants.DefaultMatchId)
             .WithKickOff(DateTime.Now.AddMinutes(-34))
             .WithHomeTeam(new TeamDetailsBuilder()

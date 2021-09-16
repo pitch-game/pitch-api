@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Pitch.Match.API.ApplicationCore.Engine;
-using Pitch.Match.API.ApplicationCore.Engine.Actions;
-using Pitch.Match.API.ApplicationCore.Engine.Providers;
-using Pitch.Match.API.ApplicationCore.Engine.Services;
+using Pitch.Match.Engine;
+using Pitch.Match.Engine.Actions;
+using Pitch.Match.Engine.Providers;
+using Pitch.Match.Engine.Services;
 
-namespace Pitch.Match.API.Installers
+namespace Pitch.Match.Api.Installers
 {
     public static class MatchEngineInstaller
     {

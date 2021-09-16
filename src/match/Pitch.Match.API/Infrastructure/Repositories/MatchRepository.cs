@@ -2,31 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Pitch.Match.API.Infrastructure.Repositories.Contexts;
+using Pitch.Match.Api.Infrastructure.Repositories.Contexts;
 
-namespace Pitch.Match.API.Infrastructure.Repositories
+namespace Pitch.Match.Api.Infrastructure.Repositories
 {
     public interface IMatchRepository
     {
-        Task<ApplicationCore.Models.Match.Match> CreateAsync(ApplicationCore.Models.Match.Match match);
-        Task<ApplicationCore.Models.Match.Match> GetAsync(Guid id);
-        Task<ApplicationCore.Models.Match.Match> UpdateAsync(ApplicationCore.Models.Match.Match match);
-        Task<IEnumerable<ApplicationCore.Models.Match.Match>> GetUnclaimedAsync(Guid userId);
+        Task<Models.Match> CreateAsync(Models.Match match);
+        Task<Models.Match> GetAsync(Guid id);
+        Task<Models.Match> UpdateAsync(Models.Match match);
+        Task<IEnumerable<Models.Match>> GetUnclaimedAsync(Guid userId);
         Task<bool> HasUnclaimedAsync(Guid userId);
         Task<Guid?> GetInProgressAsync(Guid userId);
-        Task<IEnumerable<ApplicationCore.Models.Match.Match>> GetAllAsync(int skip, int take, Guid userId);
+        Task<IEnumerable<Models.Match>> GetAllAsync(int skip, int take, Guid userId);
     }
 
     public class MatchRepository : IMatchRepository
     {
-        private readonly IDataContext<ApplicationCore.Models.Match.Match> _dataContext;
+        private readonly IDataContext<Models.Match> _dataContext;
 
-        public MatchRepository(IDataContext<ApplicationCore.Models.Match.Match> dataContext)
+        public MatchRepository(IDataContext<Models.Match> dataContext)
         {
             _dataContext = dataContext;
         }
 
-        public async Task<ApplicationCore.Models.Match.Match> GetAsync(Guid id)
+        public async Task<Models.Match> GetAsync(Guid id)
         {
             return await _dataContext.FindOneAsync(x => x.Id == id);
         }
@@ -38,19 +38,19 @@ namespace Pitch.Match.API.Infrastructure.Repositories
             return result?.Id;
         }
 
-        public async Task<ApplicationCore.Models.Match.Match> CreateAsync(ApplicationCore.Models.Match.Match match)
+        public async Task<Models.Match> CreateAsync(Models.Match match)
         {
             await _dataContext.CreateAsync(match);
             return match;
         }
 
-        public async Task<ApplicationCore.Models.Match.Match> UpdateAsync(ApplicationCore.Models.Match.Match match)
+        public async Task<Models.Match> UpdateAsync(Models.Match match)
         {
             await _dataContext.UpdateAsync(match);
             return match;
         }
 
-        public async Task<IEnumerable<ApplicationCore.Models.Match.Match>> GetUnclaimedAsync(Guid userId)
+        public async Task<IEnumerable<Models.Match>> GetUnclaimedAsync(Guid userId)
         {
             var minStartDate = DateTime.Now.AddMinutes(-90); //TODO Fix
             return await _dataContext.FindAsync(x =>
@@ -67,7 +67,7 @@ namespace Pitch.Match.API.Infrastructure.Repositories
             return result.Any();
         }
 
-        public async Task<IEnumerable<ApplicationCore.Models.Match.Match>> GetAllAsync(int skip, int take, Guid userId)
+        public async Task<IEnumerable<Models.Match>> GetAllAsync(int skip, int take, Guid userId)
         {
             //TODO include orderby and skip/take in query
             var result = await _dataContext.FindAsync(x => x.HomeTeam.UserId == userId || x.AwayTeam.UserId == userId);

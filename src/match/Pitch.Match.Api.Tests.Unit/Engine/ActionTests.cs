@@ -1,9 +1,10 @@
 ﻿using System;
-using Pitch.Match.API.ApplicationCore.Engine.Events;
-using Pitch.Match.API.ApplicationCore.Engine.Providers;
-using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.Api.ApplicationCore.Models;
+using Pitch.Match.Engine.Events;
+using Pitch.Match.Engine.Models;
+using Pitch.Match.Engine.Providers;
 using Xunit;
-using Foul = Pitch.Match.API.ApplicationCore.Engine.Actions.Foul;
+using Foul = Pitch.Match.Engine.Actions.Foul;
 
 namespace Pitch.Match.Api.Tests.Unit.Engine
 {
@@ -38,10 +39,10 @@ namespace Pitch.Match.Api.Tests.Unit.Engine
             var card = new Card {Id = Guid.NewGuid()};
 
             //Act
-            var @event = foul.SpawnEvent(card, new Guid(), new API.ApplicationCore.Models.Match.Match());
+            var @event = foul.SpawnEvent(card, new Guid(), new Match.Engine.Models.Match());
 
             //Assert
-            Assert.Equal(typeof(API.ApplicationCore.Engine.Events.Foul), @event.GetType());
+            Assert.Equal(typeof(Match.Engine.Events.Foul), @event.GetType());
         }
 
         [Fact]
@@ -53,7 +54,7 @@ namespace Pitch.Match.Api.Tests.Unit.Engine
             var card = new Card {Id = Guid.NewGuid()};
 
             //Act
-            var @event = foul.SpawnEvent(card, new Guid(), new API.ApplicationCore.Models.Match.Match());
+            var @event = foul.SpawnEvent(card, new Guid(), new Match.Engine.Models.Match());
 
             //Assert
             Assert.Equal(typeof(RedCard), @event.GetType());
@@ -68,7 +69,7 @@ namespace Pitch.Match.Api.Tests.Unit.Engine
             var card = new Card {Id = Guid.NewGuid()};
 
             //Act
-            var @event = foul.SpawnEvent(card, new Guid(), new API.ApplicationCore.Models.Match.Match());
+            var @event = foul.SpawnEvent(card, new Guid(), new Match.Engine.Models.Match());
 
             //Assert
             Assert.Equal(typeof(YellowCard), @event.GetType());
@@ -82,7 +83,7 @@ namespace Pitch.Match.Api.Tests.Unit.Engine
             var foul = new Foul(randomnessProvider);
             var cardId = Guid.NewGuid();
             var card = new Card {Id = cardId};
-            var match = new API.ApplicationCore.Models.Match.Match();
+            var match = new Match.Engine.Models.Match();
             match.Minutes[5].Events.Add(new YellowCard(cardId, new Guid()));
 
             //Act
@@ -101,7 +102,7 @@ namespace Pitch.Match.Api.Tests.Unit.Engine
             var card = new Card {Id = Guid.NewGuid()};
 
             //Act
-            var @event = foul.SpawnEvent(card, new Guid(), new API.ApplicationCore.Models.Match.Match());
+            var @event = foul.SpawnEvent(card, new Guid(), new Match.Engine.Models.Match());
 
             //Assert
             Assert.Null(@event);

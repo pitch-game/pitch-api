@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Pitch.Match.API.ApplicationCore.Engine.Events;
+using Pitch.Match.Engine.Events;
 using Xunit;
 
 namespace Pitch.Match.Api.Tests.Unit.Engine

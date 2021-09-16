@@ -6,11 +6,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Pitch.Match.API.ApplicationCore.Models;
-using Pitch.Match.API.ApplicationCore.Models.Match;
-using Pitch.Match.API.ApplicationCore.Services;
-using Pitch.Match.API.Controllers;
-using Pitch.Match.API.Models;
+using Pitch.Match.Api.ApplicationCore.Models;
+using Pitch.Match.Api.ApplicationCore.Services;
+using Pitch.Match.Api.Controllers;
+using Pitch.Match.Api.Models;
+using Pitch.Match.Engine.Models;
 using Xunit;
 
 namespace Pitch.Match.Api.Tests.Unit.Controllers
@@ -25,7 +25,7 @@ namespace Pitch.Match.Api.Tests.Unit.Controllers
             _matchId = Guid.NewGuid();
             var userId = Guid.NewGuid();
 
-            var matchStub = new API.ApplicationCore.Models.Match.Match
+            var matchStub = new Match.Engine.Models.Match
             {
                 HomeTeam = new TeamDetails
                 {

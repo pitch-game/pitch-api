@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pitch.Match.API.ApplicationCore.Engine.Services;
-using Pitch.Match.API.ApplicationCore.Models.Match;
+using Pitch.Match.Engine.Models;
+using Pitch.Match.Engine.Services;
 using Xunit;
 
 namespace Pitch.Match.Api.Tests.Unit.Engine.Services
@@ -13,18 +13,18 @@ namespace Pitch.Match.Api.Tests.Unit.Engine.Services
         public void Fitness_Returns_Correct_Value()
         {
             var cardId = Guid.NewGuid();
-            var stubMatch = new API.ApplicationCore.Models.Match.Match(){
+            var stubMatch = new Match.Engine.Models.Match(){
                 HomeTeam = new TeamDetails(){
-                    Squad = new API.ApplicationCore.Models.Squad(){
-                        Lineup = new Dictionary<string, IEnumerable<API.ApplicationCore.Models.Card>>()
+                    Squad = new Squad(){
+                        Lineup = new Dictionary<string, IEnumerable<Card>>()
                     }
                 },
                 AwayTeam = new TeamDetails(){
-                    Squad = new API.ApplicationCore.Models.Squad(){
-                        Lineup = new Dictionary<string, IEnumerable<API.ApplicationCore.Models.Card>>(){
+                    Squad = new Squad(){
+                        Lineup = new Dictionary<string, IEnumerable<Card>>(){
                            {
-                               "LST", new List<API.ApplicationCore.Models.Card>(){
-                                    new API.ApplicationCore.Models.Card(){
+                               "LST", new List<Card>(){
+                                    new Card(){
                                         Id = cardId
                                     }
                                 }

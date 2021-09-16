@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Pitch.Match.API.ApplicationCore.Models;
-using Pitch.Match.API.ApplicationCore.Models.MatchResult;
-using Lineup = Pitch.Match.API.ApplicationCore.Models.MatchResult.Lineup;
+using Pitch.Match.Api.ApplicationCore.Models;
+using Pitch.Match.Api.ApplicationCore.Models.MatchResult;
+using Pitch.Match.Engine.Models;
+using Lineup = Pitch.Match.Api.ApplicationCore.Models.MatchResult.Lineup;
 
-namespace Pitch.Match.API.Models
+namespace Pitch.Match.Api.Models
 {
     public class MatchResultModel
     {

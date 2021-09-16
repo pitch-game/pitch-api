@@ -1,8 +1,9 @@
-﻿using Pitch.Match.API.ApplicationCore.Models;
+﻿using Pitch.Match.Api.ApplicationCore.Models;
 using System;
 using System.Collections.Generic;
+using Pitch.Match.Engine.Models;
 
-namespace Pitch.Match.API.Infrastructure.MessageBus.Responses
+namespace Pitch.Match.Api.Infrastructure.MessageBus.Responses
 {
     public class GetSquadResponse
     {

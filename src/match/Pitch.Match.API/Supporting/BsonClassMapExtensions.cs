@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization;
 
-namespace Pitch.Match.API.Supporting
+namespace Pitch.Match.Api.Supporting
 {
     public static class BsonClassMapExtensions
     {

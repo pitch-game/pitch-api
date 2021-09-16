@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pitch.Match.API.ApplicationCore.Models
+namespace Pitch.Match.Api.ApplicationCore.Models
 {
     public class MatchStatusResult
     {

@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.Api.ApplicationCore.Models;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Pitch.Match.API.ApplicationCore.Services;
+using Pitch.Match.Api.ApplicationCore.Services;
 
-namespace Pitch.Match.API.Controllers
+namespace Pitch.Match.Api.Controllers
 {
     [Authorize]
     [Route("status")]

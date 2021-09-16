@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Pitch.Match.API.ApplicationCore.Models;
-using Pitch.Match.API.ApplicationCore.Models.MatchResult;
-using Pitch.Match.API.Models;
-using Lineup = Pitch.Match.API.ApplicationCore.Models.Lineup;
+using Pitch.Match.Api.ApplicationCore.Models;
+using Pitch.Match.Api.ApplicationCore.Models.MatchResult;
+using Pitch.Match.Api.Models;
+using Lineup = Pitch.Match.Api.ApplicationCore.Models.Lineup;
 
-namespace Pitch.Match.API.Supporting
+namespace Pitch.Match.Api.Supporting
 {
     public class AutoMapperProfile : Profile
     {

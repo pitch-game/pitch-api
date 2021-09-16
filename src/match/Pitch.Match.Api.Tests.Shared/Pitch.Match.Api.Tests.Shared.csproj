@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Pitch.Match.API\Pitch.Match.API.csproj" />
+    <ProjectReference Include="..\Pitch.Match.Api\Pitch.Match.Api.csproj" />
   </ItemGroup>
 
 </Project>

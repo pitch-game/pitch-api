@@ -1,5 +1,5 @@
 ﻿using System;
-using Pitch.Match.API.ApplicationCore.Models.Match;
+using Pitch.Match.Engine.Models;
 using Xunit;
 
 namespace Pitch.Match.Api.Tests.Unit.Engine

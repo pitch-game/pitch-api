@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Pitch.Match.API.Supporting;
+using Pitch.Match.Api.Supporting;
 using Xunit;
 
 namespace Pitch.Match.Api.Tests.Unit

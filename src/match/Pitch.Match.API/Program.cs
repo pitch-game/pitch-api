@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Pitch.Match.API
+namespace Pitch.Match.Api
 {
     public class Program
     {

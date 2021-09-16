@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Pitch.Match.API.Infrastructure.Repositories;
-using Pitch.Match.API.Infrastructure.Repositories.Contexts;
+using Pitch.Match.Api.Infrastructure.Repositories;
+using Pitch.Match.Api.Infrastructure.Repositories.Contexts;
 
-namespace Pitch.Match.API.Installers
+namespace Pitch.Match.Api.Installers
 {
     public static class MatchRepositoryInstaller
     {

@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 using EasyNetQ;
 using FluentAssertions;
 using Moq;
-using Pitch.Match.API.ApplicationCore.Engine;
-using Pitch.Match.API.ApplicationCore.Engine.Events;
-using Pitch.Match.API.ApplicationCore.Engine.Services;
-using Pitch.Match.API.ApplicationCore.Models;
-using Pitch.Match.API.ApplicationCore.Models.Match;
-using Pitch.Match.API.ApplicationCore.Models.Matchmaking;
-using Pitch.Match.API.ApplicationCore.Services;
-using Pitch.Match.API.Infrastructure.MessageBus.Events;
-using Pitch.Match.API.Infrastructure.MessageBus.Requests;
-using Pitch.Match.API.Infrastructure.MessageBus.Responses;
-using Pitch.Match.API.Infrastructure.Repositories;
-using Pitch.Match.Api.Tests.Unit.Builders;
+using Pitch.Match.Api.ApplicationCore.Models.Matchmaking;
+using Pitch.Match.Api.ApplicationCore.Services;
+using Pitch.Match.Api.Infrastructure.MessageBus.Events;
+using Pitch.Match.Api.Infrastructure.MessageBus.Requests;
+using Pitch.Match.Api.Infrastructure.MessageBus.Responses;
+using Pitch.Match.Api.Infrastructure.Repositories;
+using Pitch.Match.Api.Tests.Shared.Builders;
+using Pitch.Match.Engine;
+using Pitch.Match.Engine.Events;
+using Pitch.Match.Engine.Models;
+using Pitch.Match.Engine.Services;
 using Xunit;
 
 namespace Pitch.Match.Api.Tests.Unit.Services
@@ -37,7 +36,7 @@ namespace Pitch.Match.Api.Tests.Unit.Services
             var homeSquadId = Guid.NewGuid();
             var cardId = Guid.NewGuid();
 
-            var unclaimedMatch = new MatchBuilder()
+            var unclaimedMatch = new MatchDtoBuilder()
                 .WithId(matchId)
                 .WithAwayTeam(new TeamDetailsBuilder()
                     .WithSquad(new SquadBuilder()
@@ -48,14 +47,14 @@ namespace Pitch.Match.Api.Tests.Unit.Services
                     .WithEvent(new Goal(cardId, homeSquadId)))
                 .Build();
 
-            API.ApplicationCore.Models.Match.Match updatedMatch = null;
+            Match.Engine.Models.Match updatedMatch = null;
             MatchCompletedEvent publishedEvent = null;
 
             _matchRepositoryMock.Setup(x => x.GetUnclaimedAsync(userId)).Returns(
-                Task.FromResult((IEnumerable<API.ApplicationCore.Models.Match.Match>)new List<API.ApplicationCore.Models.Match.Match>
+                Task.FromResult((IEnumerable<Infrastructure.Models.Match>)new List<Infrastructure.Models.Match>
                     {unclaimedMatch}));
-            _matchRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<API.ApplicationCore.Models.Match.Match>()))
-                .Callback<API.ApplicationCore.Models.Match.Match>(r => updatedMatch = r);
+            _matchRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<Infrastructure.Models.Match>()))
+                .Callback<Match.Engine.Models.Match>(r => updatedMatch = r);
 
             var stubMatchEngine = new Mock<IMatchEngine>();
 
@@ -85,7 +84,7 @@ namespace Pitch.Match.Api.Tests.Unit.Services
             var homeSquadId = Guid.NewGuid();
             var cardId = Guid.NewGuid();
 
-            var unclaimedMatch = new MatchBuilder()
+            var unclaimedMatch = new MatchDtoBuilder()
                 .WithId(matchId)
                 .WithHomeTeam(new TeamDetailsBuilder()
                     .WithSquad(new SquadBuilder()
@@ -96,14 +95,14 @@ namespace Pitch.Match.Api.Tests.Unit.Services
                     .WithEvent(new Goal(cardId, homeSquadId)))
                 .Build();
 
-            API.ApplicationCore.Models.Match.Match updatedMatch = null;
+            Infrastructure.Models.Match updatedMatch = null;
             MatchCompletedEvent publishedEvent = null;
 
             _matchRepositoryMock.Setup(x => x.GetUnclaimedAsync(userId)).Returns(
-                Task.FromResult((IEnumerable<API.ApplicationCore.Models.Match.Match>)new List<API.ApplicationCore.Models.Match.Match>
+                Task.FromResult((IEnumerable<Infrastructure.Models.Match>)new List<Infrastructure.Models.Match>
                     {unclaimedMatch}));
-            _matchRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<API.ApplicationCore.Models.Match.Match>()))
-                .Callback<API.ApplicationCore.Models.Match.Match>(r => updatedMatch = r);
+            _matchRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<Infrastructure.Models.Match>()))
+                .Callback<Infrastructure.Models.Match>(r => updatedMatch = r);
 
             var stubMatchEngine = new Mock<IMatchEngine>();
 
@@ -129,7 +128,7 @@ namespace Pitch.Match.Api.Tests.Unit.Services
         public async Task Get_ReturnsMatch()
         {
             var matchId = Guid.NewGuid();
-            var match = new API.ApplicationCore.Models.Match.Match { Id = matchId };
+            var match = new Infrastructure.Models.Match { Id = matchId };
 
             _matchRepositoryMock.Setup(x => x.GetAsync(matchId)).Returns(Task.FromResult(match));
 
@@ -145,7 +144,7 @@ namespace Pitch.Match.Api.Tests.Unit.Services
             var returnedMatch = await _matchService.GetAsAtElapsedAsync(matchId);
 
             returnedMatch.Should().BeEquivalentTo(match);
-            mockCalculatedStatService.Verify(x => x.Set(It.IsAny<API.ApplicationCore.Models.Match.Match>()), Times.Once);
+            mockCalculatedStatService.Verify(x => x.Set(It.IsAny<Infrastructure.Models.Match>()), Times.Once);
         }
 
         [Fact]
@@ -164,10 +163,10 @@ namespace Pitch.Match.Api.Tests.Unit.Services
             _matchMatchingServiceMock.Setup(x => x.GetSession(sessionId)).Returns(session);
 
             var stubMatchEngine = new Mock<IMatchEngine>();
-            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<API.ApplicationCore.Models.Match.Match>()))
-                .Returns<API.ApplicationCore.Models.Match.Match>(x => x);
+            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<Match.Engine.Models.Match>()))
+                .Returns<Match.Engine.Models.Match>(x => x);
 
-            API.ApplicationCore.Models.Match.Match simulatedMatch = null;
+            Infrastructure.Models.Match simulatedMatch = null;
 
             var sub = new CardBuilder().Build();
             var lst = new CardBuilder().Build();
@@ -193,8 +192,8 @@ namespace Pitch.Match.Api.Tests.Unit.Services
                 .ReturnsAsync(squadResponse);
 
             var mockMatchRepository = new Mock<IMatchRepository>();
-            mockMatchRepository.Setup(x => x.CreateAsync(It.IsAny<API.ApplicationCore.Models.Match.Match>()))
-                .Callback<API.ApplicationCore.Models.Match.Match>(r => simulatedMatch = r);
+            mockMatchRepository.Setup(x => x.CreateAsync(It.IsAny<Infrastructure.Models.Match>()))
+                .Callback<Infrastructure.Models.Match>(r => simulatedMatch = r);
 
             var mockCalculatedStatService = new Mock<ICalculatedCardStatService>();
 
@@ -226,14 +225,14 @@ namespace Pitch.Match.Api.Tests.Unit.Services
                 UsedSubs = 0
             };
 
-            var mockMatch = new Mock<API.ApplicationCore.Models.Match.Match>();
+            var mockMatch = new Mock<Infrastructure.Models.Match>();
             mockMatch.SetupGet(x => x.HomeTeam).Returns(teamDetails);
             mockMatch.SetupSet(x => x.HomeTeam = It.IsAny<TeamDetails>()).Callback<TeamDetails>(r => teamDetails = r);
 
             var mockMatchmakingService = new Mock<IMatchmakingService>();
 
             var stubMatchEngine = new Mock<IMatchEngine>();
-            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<API.ApplicationCore.Models.Match.Match>()))
+            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<Infrastructure.Models.Match>()))
                 .Returns(mockMatch.Object);
 
             var mockBus = new Mock<IBus>();
@@ -257,7 +256,7 @@ namespace Pitch.Match.Api.Tests.Unit.Services
             var userId = Guid.NewGuid();
             var matchId = Guid.NewGuid();
 
-            var mockMatch = new Mock<API.ApplicationCore.Models.Match.Match>();
+            var mockMatch = new Mock<Infrastructure.Models.Match>();
             mockMatch.SetupGet(x => x.HomeTeam).Returns(new TeamDetails()
             {
                 UserId = userId,
@@ -267,7 +266,7 @@ namespace Pitch.Match.Api.Tests.Unit.Services
             var mockMatchmakingService = new Mock<IMatchmakingService>();
 
             var stubMatchEngine = new Mock<IMatchEngine>();
-            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<API.ApplicationCore.Models.Match.Match>()))
+            stubMatchEngine.Setup(x => x.Simulate(It.IsAny<Infrastructure.Models.Match>()))
                 .Returns(mockMatch.Object);
 
             var mockBus = new Mock<IBus>();
@@ -318,7 +317,7 @@ namespace Pitch.Match.Api.Tests.Unit.Services
 
             var mockBus = new Mock<IBus>();
             var mockMatchRepository = new Mock<IMatchRepository>();
-            mockMatchRepository.Setup(x => x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>(), userId)).ReturnsAsync(new List<API.ApplicationCore.Models.Match.Match>());
+            mockMatchRepository.Setup(x => x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>(), userId)).ReturnsAsync(new List<Infrastructure.Models.Match>());
 
             var mockCalculatedStatService = new Mock<ICalculatedCardStatService>();
 
@@ -337,7 +336,7 @@ namespace Pitch.Match.Api.Tests.Unit.Services
             var userId = Guid.NewGuid();
             var matchId = Guid.NewGuid();
 
-            var match = new MatchBuilder()
+            var match = new MatchDtoBuilder()
                 .WithHomeTeam(new TeamDetailsBuilder()
                     .WithUserId(userId)
                     .WithSquad(new SquadBuilder().WithSubs(new[]
@@ -377,7 +376,7 @@ namespace Pitch.Match.Api.Tests.Unit.Services
 
             var eventMinute = 20;
 
-            var match = new MatchBuilder()
+            var match = new MatchDtoBuilder()
                 .WithKickOff(DateTime.Now.AddMinutes(-eventMinute - 1))
                 .WithHomeTeam(new TeamDetailsBuilder()
                     .WithUserId(userId)

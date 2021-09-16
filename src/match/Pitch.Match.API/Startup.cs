@@ -12,13 +12,13 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
-using Pitch.Match.API.ApplicationCore.Engine.Events;
-using Pitch.Match.API.Hubs;
-using Pitch.Match.API.Infrastructure.MessageBus.Supporting;
-using Pitch.Match.API.Installers;
-using Pitch.Match.API.Supporting;
+using Pitch.Match.Api.Hubs;
+using Pitch.Match.Api.Infrastructure.MessageBus.Supporting;
+using Pitch.Match.Api.Installers;
+using Pitch.Match.Api.Supporting;
+using Pitch.Match.Engine.Events;
 
-namespace Pitch.Match.API
+namespace Pitch.Match.Api
 {
     public class Startup
     {

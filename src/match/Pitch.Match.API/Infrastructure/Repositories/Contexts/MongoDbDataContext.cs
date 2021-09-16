@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 
-namespace Pitch.Match.API.Infrastructure.Repositories.Contexts
+namespace Pitch.Match.Api.Infrastructure.Repositories.Contexts
 {
     public class MongoDbDataContext<T> : IDataContext<T> where T : IEntity
     {

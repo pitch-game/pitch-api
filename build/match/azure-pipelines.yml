@@ -17,8 +17,8 @@ jobs:
   steps:
   - script: |
       cd src/match
-      docker build --pull --target testrunner -t pitch.match.api:testrunner .
-      docker run --name matchapitest pitch.match.api:testrunner
+      docker build --pull --target testrunner -t Pitch.Match.Api:testrunner .
+      docker run --name matchapitest Pitch.Match.Api:testrunner
       mkdir $(System.DefaultWorkingDirectory)/Coverage && cd $_
       mkdir Unit
       mkdir Functional

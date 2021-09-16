@@ -1,7 +1,8 @@
-﻿using Pitch.Match.API.ApplicationCore.Models;
+﻿using Pitch.Match.Api.ApplicationCore.Models;
 using System.Collections.Generic;
+using Pitch.Match.Engine.Models;
 
-namespace Pitch.Match.API.Models
+namespace Pitch.Match.Api.Models
 {
     public class LineupModel
     {

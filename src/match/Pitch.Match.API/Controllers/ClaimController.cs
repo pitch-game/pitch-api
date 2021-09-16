@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Pitch.Match.API.ApplicationCore.Services;
+using Pitch.Match.Api.ApplicationCore.Services;
 
-namespace Pitch.Match.API.Controllers
+namespace Pitch.Match.Api.Controllers
 {
     [Authorize]
     [Route("claim")]

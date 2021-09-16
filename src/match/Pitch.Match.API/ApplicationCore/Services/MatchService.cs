@@ -3,23 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyNetQ;
-using Pitch.Match.API.ApplicationCore.Engine;
-using Pitch.Match.API.ApplicationCore.Engine.Events;
-using Pitch.Match.API.ApplicationCore.Engine.Services;
-using Pitch.Match.API.ApplicationCore.Models;
-using Pitch.Match.API.ApplicationCore.Models.Match;
-using Pitch.Match.API.ApplicationCore.Models.MatchResult;
-using Pitch.Match.API.Infrastructure.MessageBus.Events;
-using Pitch.Match.API.Infrastructure.MessageBus.Requests;
-using Pitch.Match.API.Infrastructure.MessageBus.Responses;
-using Pitch.Match.API.Infrastructure.Repositories;
+using Pitch.Match.Api.ApplicationCore.Models;
+using Pitch.Match.Api.ApplicationCore.Models.MatchResult;
+using Pitch.Match.Api.Infrastructure.Mapping;
+using Pitch.Match.Api.Infrastructure.MessageBus.Events;
+using Pitch.Match.Api.Infrastructure.MessageBus.Requests;
+using Pitch.Match.Api.Infrastructure.MessageBus.Responses;
+using Pitch.Match.Api.Infrastructure.Repositories;
+using Pitch.Match.Engine;
+using Pitch.Match.Engine.Events;
+using Pitch.Match.Engine.Models;
+using Pitch.Match.Engine.Services;
+using Squad = Pitch.Match.Engine.Models.Squad;
 
-namespace Pitch.Match.API.ApplicationCore.Services
+namespace Pitch.Match.Api.ApplicationCore.Services
 {
     public interface IMatchService
     {
         Task KickOff(Guid sessionId);
-        Task<Models.Match.Match> GetAsAtElapsedAsync(Guid id);
+        Task<Engine.Models.Match> GetAsAtElapsedAsync(Guid id);
         Task ClaimAsync(Guid userId);
         Task<IEnumerable<MatchListResult>> GetAllAsync(int skip, int? take, Guid userId);
         Task<MatchStatusResult> GetMatchStatus(Guid userId);
@@ -74,7 +76,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
             }
         }
 
-        public async Task<Models.Match.Match> GetAsAtElapsedAsync(Guid id)
+        public async Task<Engine.Models.Match> GetAsAtElapsedAsync(Guid id)
         {
             var match = await _matchRepository.GetAsync(id);
             match.AsAtElapsed();
@@ -86,7 +88,7 @@ namespace Pitch.Match.API.ApplicationCore.Services
         {
             var session = _matchmakingService.GetSession(sessionId);
 
-            var match = new Models.Match.Match
+            var match = new Engine.Models.Match
             {
                 Id = sessionId, HomeTeam = new TeamDetails { UserId = session.HostPlayerId }
             };
@@ -103,17 +105,19 @@ namespace Pitch.Match.API.ApplicationCore.Services
 
             var simulatedMatch = _matchEngine.Simulate(match);
 
-            await _matchRepository.CreateAsync(simulatedMatch);
+            var matchDto = MatchMapper.Map(simulatedMatch);
+
+            await _matchRepository.CreateAsync(matchDto);
         }
 
-        private ApplicationCore.Models.Squad BuildSquad(GetSquadResponse squadResp)
+        private Squad BuildSquad(GetSquadResponse squadResp)
         {
             var gk = squadResp.Lineup.Where(x => x.Key == "GK").Select(x => x.Value).ToList();
             var def = squadResp.Lineup.Where(x => (new [] { "LB", "LCB", "RCB", "RB" }).Contains(x.Key)).Select(x => x.Value).ToList();
             var mid = squadResp.Lineup.Where(x => (new [] { "LM", "LCM", "RCM", "RM" }).Contains(x.Key)).Select(x => x.Value).ToList();
             var att = squadResp.Lineup.Where(x => (new [] { "LST", "RST" }).Contains(x.Key)).Select(x => x.Value).ToList();
 
-            return new ApplicationCore.Models.Squad()
+            return new Squad()
             {
                 Id = squadResp.Id,
                 Name = squadResp.Name,
@@ -186,7 +190,9 @@ namespace Pitch.Match.API.ApplicationCore.Services
 
             newMatch.GetTeam(userId).UsedSubs++;
 
-            await _matchRepository.UpdateAsync(newMatch);
+            var matchDto = MatchMapper.Map(newMatch);
+
+            await _matchRepository.UpdateAsync(matchDto);
         }
     }
 }

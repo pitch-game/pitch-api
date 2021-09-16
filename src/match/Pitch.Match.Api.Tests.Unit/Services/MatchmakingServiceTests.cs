@@ -6,9 +6,9 @@ using EasyNetQ;
 using FluentAssertions;
 using Microsoft.AspNetCore.SignalR;
 using Moq;
-using Pitch.Match.API.ApplicationCore.Models.Matchmaking;
-using Pitch.Match.API.ApplicationCore.Services;
-using Pitch.Match.API.Infrastructure.Repositories;
+using Pitch.Match.Api.ApplicationCore.Models.Matchmaking;
+using Pitch.Match.Api.ApplicationCore.Services;
+using Pitch.Match.Api.Infrastructure.Repositories;
 using Xunit;
 
 namespace Pitch.Match.Api.Tests.Unit.Services

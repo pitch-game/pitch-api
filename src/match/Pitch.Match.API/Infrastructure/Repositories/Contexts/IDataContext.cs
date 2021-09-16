@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Pitch.Match.API.Infrastructure.Repositories.Contexts
+namespace Pitch.Match.Api.Infrastructure.Repositories.Contexts
 {
     public interface IEntity
     {

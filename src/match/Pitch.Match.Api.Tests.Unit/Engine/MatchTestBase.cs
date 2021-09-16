@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Pitch.Match.API.ApplicationCore.Engine;
-using Pitch.Match.API.ApplicationCore.Engine.Actions;
-using Pitch.Match.API.ApplicationCore.Engine.Providers;
-using Pitch.Match.API.ApplicationCore.Engine.Services;
-using Pitch.Match.API.ApplicationCore.Models;
-using Pitch.Match.API.ApplicationCore.Models.Match;
+using Pitch.Match.Engine;
+using Pitch.Match.Engine.Actions;
+using Pitch.Match.Engine.Models;
+using Pitch.Match.Engine.Providers;
+using Pitch.Match.Engine.Services;
 
 namespace Pitch.Match.Api.Tests.Unit.Engine
 {
@@ -24,7 +23,7 @@ namespace Pitch.Match.Api.Tests.Unit.Engine
 
         protected TeamDetails StubHomeTeamDetails;
 
-        protected API.ApplicationCore.Models.Match.Match StubMatch;
+        protected Match.Engine.Models.Match StubMatch;
         protected MatchEngine StubMatchEngine;
 
         protected MatchTestBase()
@@ -268,7 +267,7 @@ namespace Pitch.Match.Api.Tests.Unit.Engine
                 Squad = StubHomeSquad
             };
 
-            StubMatch = new API.ApplicationCore.Models.Match.Match
+            StubMatch = new Match.Engine.Models.Match
             {
                 Id = Guid.NewGuid(),
                 KickOff = DateTime.Now,

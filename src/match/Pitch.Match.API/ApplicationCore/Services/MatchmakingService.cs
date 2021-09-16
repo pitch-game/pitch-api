@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using Pitch.Match.API.ApplicationCore.Models.Matchmaking;
-using Pitch.Match.API.Infrastructure.Repositories;
+using Pitch.Match.Api.ApplicationCore.Models.Matchmaking;
+using Pitch.Match.Api.Infrastructure.Repositories;
 
-namespace Pitch.Match.API.ApplicationCore.Services
+namespace Pitch.Match.Api.ApplicationCore.Services
 {
     public interface IMatchmakingService
     {

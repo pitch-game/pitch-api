@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pitch.Match.API.ApplicationCore.Engine.Services;
-using Pitch.Match.API.ApplicationCore.Models;
-using Pitch.Match.API.ApplicationCore.Models.Match;
+using Pitch.Match.Engine.Models;
+using Pitch.Match.Engine.Services;
 using Xunit;
 
 namespace Pitch.Match.Api.Tests.Unit.Engine.Services
@@ -25,7 +24,7 @@ namespace Pitch.Match.Api.Tests.Unit.Engine.Services
                     {"ST", new[] {stubCard}}
                 }
             };
-            var stubMatch = new API.ApplicationCore.Models.Match.Match()
+            var stubMatch = new Match.Engine.Models.Match()
             {
                 HomeTeam = new TeamDetails()
                 {

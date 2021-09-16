@@ -1,4 +1,4 @@
-﻿namespace Pitch.Match.API.Models
+﻿namespace Pitch.Match.Api.Models
 {
     public class MatchModel
     {
