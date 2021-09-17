@@ -2,7 +2,7 @@
 using Pitch.Match.Engine.Events;
 using Xunit;
 
-namespace Pitch.Match.Api.Tests.Unit.Engine
+namespace Pitch.Match.Engine.Tests.Unit
 {
     public class EventTests
     {

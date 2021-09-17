@@ -1,12 +1,11 @@
 ﻿using System;
-using Pitch.Match.Api.ApplicationCore.Models;
 using Pitch.Match.Engine.Events;
 using Pitch.Match.Engine.Models;
 using Pitch.Match.Engine.Providers;
 using Xunit;
 using Foul = Pitch.Match.Engine.Actions.Foul;
 
-namespace Pitch.Match.Api.Tests.Unit.Engine
+namespace Pitch.Match.Engine.Tests.Unit
 {
     public class ActionTests
     {

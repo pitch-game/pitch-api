@@ -10,39 +10,39 @@ namespace Pitch.Match.Api.Tests.Functional.Fixtures
         public MatchDtoBuilder DefaultMatch => new MatchDtoBuilder()
             .WithId(TestConstants.DefaultMatchId)
             .WithKickOff(DateTime.Now.AddMinutes(-34))
-            .WithHomeTeam(new TeamDetailsBuilder()
+            .WithHomeTeam(new TeamDetailsDtoBuilder()
                 .WithUserId(TestConstants.DefaultUserId)
-                .WithSquad(new SquadBuilder()
+                .WithSquad(new SquadDtoBuilder()
                     .WithId(TestConstants.DefaultHomeSquadId)
                     .WithName("Default FC")
                     .WithCardsInLineup("ST", new[]
                     {
-                        new CardBuilder()
+                        new CardDtoBuilder()
                             .WithId(TestConstants.DefaultHomeActiveCardId)
                             .WithName("Jimmy Johnson")
                     })
                     .WithSubs(new[]
                     {
-                        new CardBuilder()
+                        new CardDtoBuilder()
                             .WithId(TestConstants.DefaultHomeSubCardId)
                     })))
-            .WithAwayTeam(new TeamDetailsBuilder()
-                .WithSquad(new SquadBuilder()
+            .WithAwayTeam(new TeamDetailsDtoBuilder()
+                .WithSquad(new SquadDtoBuilder()
                     .WithName("Evil FC")
                     .WithId(TestConstants.DefaultAwaySquadId)
                     .WithCardsInLineup("ST", new[]
                     {
-                        new CardBuilder()
+                        new CardDtoBuilder()
                             .WithId(TestConstants.DefaultAwayActiveCardId)
                     })
                     .WithSubs(new[]
                     {
-                        new CardBuilder()
+                        new CardDtoBuilder()
                             .WithId(TestConstants.DefaultAwaySubCardId)
                     })))
-            .WithMinute(0, new MatchMinuteBuilder().WithMinuteStats(new MinuteStatsBuilder().WithSquadInPossession(TestConstants.DefaultHomeSquadId))
+            .WithMinute(0, new MatchMinuteDtoBuilder().WithMinuteStats(new MinuteStatsDtoBuilder().WithSquadInPossession(TestConstants.DefaultHomeSquadId))
                 .WithEvent(new ShotOnTarget(TestConstants.DefaultHomeActiveCardId, TestConstants.DefaultHomeSquadId)))
-            .WithMinute(20, new MatchMinuteBuilder().WithMinuteStats(new MinuteStatsBuilder().WithSquadInPossession(TestConstants.DefaultHomeSquadId))
+            .WithMinute(20, new MatchMinuteDtoBuilder().WithMinuteStats(new MinuteStatsDtoBuilder().WithSquadInPossession(TestConstants.DefaultHomeSquadId))
                 .WithEvent(new Goal(TestConstants.DefaultHomeActiveCardId, TestConstants.DefaultHomeSquadId)));
     }
 }

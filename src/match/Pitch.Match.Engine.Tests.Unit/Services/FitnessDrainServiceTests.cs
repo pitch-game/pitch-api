@@ -5,7 +5,7 @@ using Pitch.Match.Engine.Models;
 using Pitch.Match.Engine.Services;
 using Xunit;
 
-namespace Pitch.Match.Api.Tests.Unit.Engine.Services
+namespace Pitch.Match.Engine.Tests.Unit.Services
 {
     public class FitnessDrainServiceTests
     {

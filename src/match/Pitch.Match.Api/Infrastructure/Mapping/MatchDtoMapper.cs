@@ -4,11 +4,11 @@ using Pitch.Match.Api.Infrastructure.Models;
 
 namespace Pitch.Match.Api.Infrastructure.Mapping
 {
-    public static class MatchDtoMapper
+    public static class MatchMapper
     {
-        public static Engine.Models.Match Map(Models.Match match)
+        public static Models.Match Map(Engine.Models.Match match)
         {
-            return new Engine.Models.Match
+            return new Models.Match
             {
                 Id = match.Id,
                 AwayTeam = MapTeamDetails(match.AwayTeam),
@@ -19,14 +19,9 @@ namespace Pitch.Match.Api.Infrastructure.Mapping
             };
         }
 
-        private static Engine.Models.TeamDetails MapTeamDetails(TeamDetails teamDetails)
+        private static TeamDetails MapTeamDetails(Engine.Models.TeamDetails teamDetails)
         {
-            if (teamDetails == null)
-            {
-                return null;
-            }
-
-            return new Engine.Models.TeamDetails
+            return new TeamDetails
             {
                 UserId = teamDetails.UserId,
                 HasClaimedRewards = teamDetails.HasClaimedRewards,
@@ -35,9 +30,9 @@ namespace Pitch.Match.Api.Infrastructure.Mapping
             };
         }
 
-        private static Engine.Models.Squad MapSquad(Squad squad)
+        private static Squad MapSquad(Engine.Models.Squad squad)
         {
-            return new Engine.Models.Squad
+            return new Squad
             {
                 Id = squad.Id,
                 Lineup = MapLineup(squad.Lineup),
@@ -46,9 +41,9 @@ namespace Pitch.Match.Api.Infrastructure.Mapping
             };
         }
 
-        private static Engine.Models.Card[] MapCards(IEnumerable<Card> cards)
+        private static Card[] MapCards(IEnumerable<Engine.Models.Card> cards)
         {
-            return cards?.Select(card => new Engine.Models.Card
+            return cards?.Select(card => new Card
             {
                 Id = card.Id,
                 Chemistry = card.Chemistry,
@@ -64,14 +59,14 @@ namespace Pitch.Match.Api.Infrastructure.Mapping
             }).ToArray();
         }
 
-        private static IDictionary<string, IEnumerable<Engine.Models.Card>> MapLineup(IDictionary<string, IEnumerable<Card>> lineup)
+        private static IDictionary<string, IEnumerable<Card>> MapLineup(IDictionary<string, IEnumerable<Engine.Models.Card>> lineup)
         {
-            return lineup.ToDictionary(x => x.Key, x => (IEnumerable<Engine.Models.Card>)MapCards(x.Value));
+            return lineup.ToDictionary(x => x.Key, x => (IEnumerable<Card>)MapCards(x.Value));
         }
 
-        private static Engine.Models.MatchMinute[] MapMinutes(MatchMinute[] matchMinutes)
+        private static MatchMinute[] MapMinutes(Engine.Models.MatchMinute[] matchMinutes)
         {
-            return matchMinutes?.Select(x => new Engine.Models.MatchMinute()
+            return matchMinutes.Select(x => new MatchMinute()
             {
                 Stats = MapMinuteStats(x.Stats),
                 Modifiers = MapModifiers(x.Modifiers),
@@ -79,15 +74,24 @@ namespace Pitch.Match.Api.Infrastructure.Mapping
             }).ToArray();
         }
 
-        private static Engine.Models.MinuteStats MapMinuteStats(MinuteStats minuteStats)
+        private static MinuteStats MapMinuteStats(Engine.Models.MinuteStats minuteStats)
         {
-            return new Engine.Models.MinuteStats(minuteStats.SquadIdInPossession, minuteStats.HomePossessionChance,
-                minuteStats.AwayPossessionChance);
+            if (minuteStats == null)
+            {
+                return null;
+            }
+
+            return new MinuteStats
+            {
+                AwayPossessionChance = minuteStats.AwayPossessionChance,
+                HomePossessionChance = minuteStats.HomePossessionChance,
+                SquadIdInPossession = minuteStats.SquadIdInPossession
+            };
         }
 
-        private static IList<Engine.Models.Modifier> MapModifiers(IEnumerable<Modifier> modifiers)
+        private static IList<Modifier> MapModifiers(IEnumerable<Engine.Models.Modifier> modifiers)
         {
-            return modifiers?.Select(modifier => new Engine.Models.Modifier
+            return modifiers.Select(modifier => new Modifier
             {
                 CardId = modifier.CardId,
                 DrainValue = modifier.DrainValue,

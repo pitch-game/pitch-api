@@ -3,7 +3,7 @@ using Pitch.Match.Engine.Events;
 using Pitch.Match.Engine.Models;
 using Xunit;
 
-namespace Pitch.Match.Api.Tests.Unit.Engine
+namespace Pitch.Match.Engine.Tests.Unit
 {
     public class MatchTests : MatchTestBase
     {

@@ -74,11 +74,11 @@ namespace Pitch.Match.Api.Tests.Unit.Repositories
             var stubMatch = new Infrastructure.Models.Match
             {
                 Id = matchId,
-                HomeTeam = new TeamDetails()
+                HomeTeam = new Infrastructure.Models.TeamDetails()
                 {
                     UserId = userId
                 },
-                AwayTeam =  new TeamDetails()
+                AwayTeam =  new Infrastructure.Models.TeamDetails()
                 {
                     UserId = Guid.NewGuid()
                 },
@@ -105,11 +105,11 @@ namespace Pitch.Match.Api.Tests.Unit.Repositories
             var stubMatch = new Infrastructure.Models.Match
             {
                 Id = matchId,
-                HomeTeam = new TeamDetails()
+                HomeTeam = new Infrastructure.Models.TeamDetails()
                 {
                     UserId = Guid.NewGuid()
                 },
-                AwayTeam = new TeamDetails()
+                AwayTeam = new Infrastructure.Models.TeamDetails()
                 {
                     UserId = userId
                 },
@@ -136,11 +136,11 @@ namespace Pitch.Match.Api.Tests.Unit.Repositories
             var stubMatch = new Infrastructure.Models.Match
             {
                 Id = matchId,
-                HomeTeam = new TeamDetails()
+                HomeTeam = new Infrastructure.Models.TeamDetails()
                 {
                     UserId = Guid.NewGuid()
                 },
-                AwayTeam = new TeamDetails()
+                AwayTeam = new Infrastructure.Models.TeamDetails()
                 {
                     UserId = userId
                 },
@@ -206,12 +206,12 @@ namespace Pitch.Match.Api.Tests.Unit.Repositories
             var stubMatch = new Infrastructure.Models.Match
             {
                 Id = matchId,
-                HomeTeam = new TeamDetails()
+                HomeTeam = new Infrastructure.Models.TeamDetails()
                 {
                     UserId = userId,
                     HasClaimedRewards = false
                 },
-                AwayTeam = new TeamDetails()
+                AwayTeam = new Infrastructure.Models.TeamDetails()
                 {
                     UserId = Guid.NewGuid()
                 },
@@ -237,12 +237,12 @@ namespace Pitch.Match.Api.Tests.Unit.Repositories
             var stubMatch = new Infrastructure.Models.Match
             {
                 Id = matchId,
-                HomeTeam = new TeamDetails()
+                HomeTeam = new Infrastructure.Models.TeamDetails()
                 {
                     UserId = userId,
                     HasClaimedRewards = false
                 },
-                AwayTeam = new TeamDetails()
+                AwayTeam = new Infrastructure.Models.TeamDetails()
                 {
                     UserId = Guid.NewGuid()
                 },
@@ -290,11 +290,11 @@ namespace Pitch.Match.Api.Tests.Unit.Repositories
             var stubMatch = new Infrastructure.Models.Match
             {
                 Id = matchId,
-                HomeTeam = new TeamDetails()
+                HomeTeam = new Infrastructure.Models.TeamDetails()
                 {
                     UserId = userId,
                 },
-                AwayTeam = new TeamDetails()
+                AwayTeam = new Infrastructure.Models.TeamDetails()
                 {
                     UserId = Guid.NewGuid()
                 }
@@ -318,11 +318,11 @@ namespace Pitch.Match.Api.Tests.Unit.Repositories
             var stubMatch = new Infrastructure.Models.Match
             {
                 Id = Guid.NewGuid(),
-                HomeTeam = new TeamDetails()
+                HomeTeam = new Infrastructure.Models.TeamDetails()
                 {
                     UserId = Guid.NewGuid()
                 },
-                AwayTeam = new TeamDetails()
+                AwayTeam = new Infrastructure.Models.TeamDetails()
                 {
                     UserId = Guid.NewGuid()
                 }

@@ -7,10 +7,10 @@ namespace Pitch.Match.Api.Tests.Shared.Builders
     public class MatchDtoBuilder
     {
         private Guid _id = Guid.NewGuid();
-        private TeamDetailsBuilder _awayTeam = new TeamDetailsBuilder();
-        private TeamDetailsBuilder _homeTeam = new TeamDetailsBuilder();
+        private TeamDetailsDtoBuilder _awayTeam = new TeamDetailsDtoBuilder();
+        private TeamDetailsDtoBuilder _homeTeam = new TeamDetailsDtoBuilder();
         private DateTime _kickOff = DateTime.Now; 
-        private readonly MatchMinuteBuilder[] _matchMinutes = Enumerable.Range(0, Constants.MatchLengthInMinutes).Select(i => new MatchMinuteBuilder()).ToArray();
+        private readonly MatchMinuteDtoBuilder[] _matchMinutes = Enumerable.Range(0, Constants.MatchLengthInMinutes).Select(i => new MatchMinuteDtoBuilder()).ToArray();
         private int _version = 0;
 
         public MatchDtoBuilder WithId(Guid id)
@@ -18,13 +18,13 @@ namespace Pitch.Match.Api.Tests.Shared.Builders
             _id = id;
             return this;
         }
-        public MatchDtoBuilder WithHomeTeam(TeamDetailsBuilder homeTeam)
+        public MatchDtoBuilder WithHomeTeam(TeamDetailsDtoBuilder homeTeam)
         {
             _homeTeam = homeTeam;
             return this;
         }
 
-        public MatchDtoBuilder WithAwayTeam(TeamDetailsBuilder awayTeam)
+        public MatchDtoBuilder WithAwayTeam(TeamDetailsDtoBuilder awayTeam)
         {
             _awayTeam = awayTeam;
             return this;
@@ -36,7 +36,7 @@ namespace Pitch.Match.Api.Tests.Shared.Builders
             return this;
         }
 
-        public MatchDtoBuilder WithMinute(int minute, MatchMinuteBuilder matchMinute)
+        public MatchDtoBuilder WithMinute(int minute, MatchMinuteDtoBuilder matchMinute)
         {
             _matchMinutes[minute] = matchMinute;
             return this;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using EasyNetQ;
 using Pitch.Match.Api.ApplicationCore.Models;
@@ -53,8 +54,9 @@ namespace Pitch.Match.Api.ApplicationCore.Services
         {
             var unclaimed = await _matchRepository.GetUnclaimedAsync(userId);
             var scorers = new Dictionary<Guid, int>();
-            foreach (var match in unclaimed)
+            foreach (var matchDto in unclaimed)
             {
+                var match = MatchDtoMapper.Map(matchDto);
                 var victorious = false;
                 if (match.AwayTeam.UserId == userId)
                 {
@@ -72,13 +74,17 @@ namespace Pitch.Match.Api.ApplicationCore.Services
                 }
 
                 await _bus.PubSub.PublishAsync(new MatchCompletedEvent(match.Id, userId, victorious, scorers));
-                await _matchRepository.UpdateAsync(match);
+
+                var matchUpdate = MatchMapper.Map(match);
+                await _matchRepository.UpdateAsync(matchUpdate);
             }
         }
 
         public async Task<Engine.Models.Match> GetAsAtElapsedAsync(Guid id)
         {
-            var match = await _matchRepository.GetAsync(id);
+            var matchDto = await _matchRepository.GetAsync(id);
+            var match = MatchDtoMapper.Map(matchDto);
+
             match.AsAtElapsed();
             _calculatedCardStatService.Set(match);
             return match;
@@ -136,10 +142,15 @@ namespace Pitch.Match.Api.ApplicationCore.Services
         public async Task<IEnumerable<MatchListResult>> GetAllAsync(int skip, int? take, Guid userId)
         {
             var matches = await _matchRepository.GetAllAsync(skip, take ?? 25, userId);
-            matches = matches.Where(x => x.HasFinished);
+            //matches = matches.Where(x => x.HasFinished);
             return matches.Select(x =>
             {
-                var matchResult = new MatchResult(x);
+                var match = MatchDtoMapper.Map(x);
+                if (match == null || !match.HasFinished)
+                {
+                    //continue;
+                }
+                var matchResult = new MatchResult(match);
                 var isHomeTeam = x.HomeTeam.UserId == userId;
                 var claimed = isHomeTeam ? x.HomeTeam.HasClaimedRewards : x.AwayTeam.HasClaimedRewards;
                 var result = matchResult.HomeResult.Score == matchResult.AwayResult.Score ? "D" : isHomeTeam ? matchResult.HomeResult.Score > matchResult.AwayResult.Score ? "W" : "L" : matchResult.AwayResult.Score > matchResult.HomeResult.Score ? "W" : "L";
@@ -180,7 +191,10 @@ namespace Pitch.Match.Api.ApplicationCore.Services
         public async Task Substitution(Guid off, Guid on, Guid matchId, Guid userId)
         {
             //TODO validate
-            var match = await _matchRepository.GetAsync(matchId);
+            var matchDto = await _matchRepository.GetAsync(matchId);
+
+            var match = MatchDtoMapper.Map(matchDto);
+
             var team = match.GetTeam(userId);
 
             if (team.UsedSubs >= SubCount) throw new Exception("No subs remaining");
@@ -190,9 +204,9 @@ namespace Pitch.Match.Api.ApplicationCore.Services
 
             newMatch.GetTeam(userId).UsedSubs++;
 
-            var matchDto = MatchMapper.Map(newMatch);
+            var updatedMatchDto = MatchMapper.Map(newMatch);
 
-            await _matchRepository.UpdateAsync(matchDto);
+            await _matchRepository.UpdateAsync(updatedMatchDto);
         }
     }
 }
