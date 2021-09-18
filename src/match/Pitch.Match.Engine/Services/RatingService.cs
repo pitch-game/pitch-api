@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Pitch.Match.Engine.Events;
 using Pitch.Match.Engine.Models;
 
 namespace Pitch.Match.Engine.Services
@@ -17,7 +16,7 @@ namespace Pitch.Match.Engine.Services
         {
             var players = squad.Lineup.Where(x => x.Value != null && x.Key == positionalArea.ToString()).SelectMany(x => x.Value).ToList();
 
-            var sentOffCardIds = match.Minutes.SelectMany(x => x.Events).Where(x => x is RedCard).Select(x => x.CardId);
+            var sentOffCardIds = match.Minutes.SelectMany(x => x.Events).Where(x => x.Type == EventType.RedCard).Select(x => x.CardId);
             var onTheField = players.Where(x => x != null && !sentOffCardIds.Contains(x.Id)).ToList();
 
             if (onTheField.Count == 0 || players.Count == 0)

@@ -1,7 +1,7 @@
 ﻿using System;
+using Pitch.Match.Api.Infrastructure.Models;
 using Pitch.Match.Api.Tests.Shared;
 using Pitch.Match.Api.Tests.Shared.Builders;
-using Pitch.Match.Engine.Events;
 
 namespace Pitch.Match.Api.Tests.Functional.Fixtures
 {
@@ -41,8 +41,8 @@ namespace Pitch.Match.Api.Tests.Functional.Fixtures
                             .WithId(TestConstants.DefaultAwaySubCardId)
                     })))
             .WithMinute(0, new MatchMinuteDtoBuilder().WithMinuteStats(new MinuteStatsDtoBuilder().WithSquadInPossession(TestConstants.DefaultHomeSquadId))
-                .WithEvent(new ShotOnTarget(TestConstants.DefaultHomeActiveCardId, TestConstants.DefaultHomeSquadId)))
+                .WithEvent(new Event(EventType.ShotOnTarget, TestConstants.DefaultHomeActiveCardId, TestConstants.DefaultHomeSquadId)))
             .WithMinute(20, new MatchMinuteDtoBuilder().WithMinuteStats(new MinuteStatsDtoBuilder().WithSquadInPossession(TestConstants.DefaultHomeSquadId))
-                .WithEvent(new Goal(TestConstants.DefaultHomeActiveCardId, TestConstants.DefaultHomeSquadId)));
+                .WithEvent(new Event(EventType.Goal, TestConstants.DefaultHomeActiveCardId, TestConstants.DefaultHomeSquadId)));
     }
 }

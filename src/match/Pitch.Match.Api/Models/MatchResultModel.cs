@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Pitch.Match.Api.ApplicationCore.Models;
 using Pitch.Match.Api.ApplicationCore.Models.MatchResult;
 using Pitch.Match.Engine.Models;
+using Event = Pitch.Match.Api.ApplicationCore.Models.MatchResult.Event;
 using Lineup = Pitch.Match.Api.ApplicationCore.Models.MatchResult.Lineup;
 
 namespace Pitch.Match.Api.Models

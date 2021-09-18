@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
-using Pitch.Match.Engine.Events;
 using Pitch.Match.Engine.Models;
 
 namespace Pitch.Match.Api.Tests.Shared.Builders
 {
     public class MatchMinuteBuilder
     {
-        private readonly IList<IEvent> _events = new List<IEvent>();
+        private readonly IList<Event> _events = new List<Event>();
         private MinuteStatsBuilder _stats = new MinuteStatsBuilder();
         private readonly IList<Modifier> _modifiers = new List<Modifier>();
 
-        public MatchMinuteBuilder WithEvent(IEvent @event)
+        public MatchMinuteBuilder WithEvent(Event @event)
         {
             _events.Add(@event);
             return this;

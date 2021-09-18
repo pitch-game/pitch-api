@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Pitch.Match.Engine.Events;
+using Pitch.Match.Engine.Models;
 using Xunit;
 
 namespace Pitch.Match.Engine.Tests.Unit
@@ -16,15 +16,15 @@ namespace Pitch.Match.Engine.Tests.Unit
         {
             //Arrange
             StubMatch.KickOff = DateTime.Now.AddMinutes(-minute);
-            StubMatch.Minutes[minute].Events.Add(new ShotOnTarget(StubHomePlayer.Id, StubMatch.HomeTeam.Squad.Id));
+            StubMatch.Minutes[minute].Events.Add(new Event(EventType.ShotOnTarget, StubHomePlayer.Id, StubMatch.HomeTeam.Squad.Id));
 
             //Act
             StubMatch.Substitute(StubHomePlayer.Id, StubHomeSub.Id, StubMatch.HomeTeam.UserId);
             SimulateStubMatch();
 
             //Assert
-            var shotEvent = StubMatch.Minutes[minute].Events.FirstOrDefault(x => x.CardId == StubHomePlayer.Id && x is ShotOnTarget);
-            var subEvent = StubMatch.Minutes[minute].Events.FirstOrDefault(x => x.CardId == StubHomeSub.Id && x is Substitution);
+            var shotEvent = StubMatch.Minutes[minute].Events.FirstOrDefault(x => x.CardId == StubHomePlayer.Id && x.Type == EventType.ShotOnTarget);
+            var subEvent = StubMatch.Minutes[minute].Events.FirstOrDefault(x => x.CardId == StubHomeSub.Id && x.Type == EventType.Sub);
             var shotEventIndex = StubMatch.Minutes[minute].Events.IndexOf(shotEvent);
             var subEventIndex = StubMatch.Minutes[minute].Events.IndexOf(subEvent);
             Assert.True(subEventIndex > shotEventIndex);
@@ -47,8 +47,8 @@ namespace Pitch.Match.Engine.Tests.Unit
             SimulateStubMatch();
 
             //Assert
-            Assert.Contains(StubMatch.Minutes[minute].Events, x => x.SquadId == StubMatch.HomeTeam.Squad.Id && x.CardId == StubHomeSub.Id && x is Substitution);
-            Assert.Contains(StubMatch.Minutes[minute].Events, x => x.SquadId == StubMatch.AwayTeam.Squad.Id && x.CardId == StubAwaySub.Id && x is Substitution);
+            Assert.Contains(StubMatch.Minutes[minute].Events, x => x.SquadId == StubMatch.HomeTeam.Squad.Id && x.CardId == StubHomeSub.Id && x.Type == EventType.Sub);
+            Assert.Contains(StubMatch.Minutes[minute].Events, x => x.SquadId == StubMatch.AwayTeam.Squad.Id && x.CardId == StubAwaySub.Id && x.Type == EventType.Sub);
         }
 
         [Theory]

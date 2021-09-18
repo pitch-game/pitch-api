@@ -11,13 +11,15 @@ using Pitch.Match.Api.ApplicationCore.Services;
 using Pitch.Match.Api.Infrastructure.MessageBus.Events;
 using Pitch.Match.Api.Infrastructure.MessageBus.Requests;
 using Pitch.Match.Api.Infrastructure.MessageBus.Responses;
+using Pitch.Match.Api.Infrastructure.Models;
 using Pitch.Match.Api.Infrastructure.Repositories;
 using Pitch.Match.Api.Tests.Shared.Builders;
 using Pitch.Match.Engine;
-using Pitch.Match.Engine.Events;
 using Pitch.Match.Engine.Models;
 using Pitch.Match.Engine.Services;
 using Xunit;
+using Event = Pitch.Match.Api.Infrastructure.Models.Event;
+using EventType = Pitch.Match.Api.Infrastructure.Models.EventType;
 
 namespace Pitch.Match.Api.Tests.Unit.Services
 {
@@ -44,7 +46,7 @@ namespace Pitch.Match.Api.Tests.Unit.Services
                     .WithUserId(userId)
                     .WithHasClaimedRewards(false))
                 .WithMinute(30, new MatchMinuteDtoBuilder().WithMinuteStats(new MinuteStatsDtoBuilder().WithSquadInPossession(homeSquadId))
-                    .WithEvent(new Goal(cardId, homeSquadId)))
+                    .WithEvent(new Event(EventType.Goal,cardId, homeSquadId)))
                 .Build();
 
             Infrastructure.Models.Match updatedMatch = null;
@@ -92,7 +94,7 @@ namespace Pitch.Match.Api.Tests.Unit.Services
                     .WithUserId(userId)
                     .WithHasClaimedRewards(false))
                 .WithMinute(30, new MatchMinuteDtoBuilder().WithMinuteStats(new MinuteStatsDtoBuilder().WithSquadInPossession(homeSquadId))
-                    .WithEvent(new Goal(cardId, homeSquadId)))
+                    .WithEvent(new Event(EventType.Goal, cardId, homeSquadId)))
                 .Build();
 
             Infrastructure.Models.Match updatedMatch = null;
@@ -219,21 +221,21 @@ namespace Pitch.Match.Api.Tests.Unit.Services
             var userId = Guid.NewGuid();
             var matchId = Guid.NewGuid();
 
-            //var teamDetails = new Engine.Models.TeamDetails()
-            //{
-            //    UserId = userId,
-            //    UsedSubs = 0
-            //};
+            var playerId = Guid.NewGuid();
+            var subId = Guid.NewGuid();
 
             var match = new MatchBuilder().WithHomeTeam(new TeamDetailsBuilder().WithUserId(userId).WithUsedSubs(0)).Build();
 
-            var matchDto = new MatchDtoBuilder().WithHomeTeam(new TeamDetailsDtoBuilder().WithUserId(userId).WithUsedSubs(0)).Build();
-
-            //var mockMatch = new Mock<Engine.Models.Match>();
-            //mockMatch.SetupGet(x => x.HomeTeam).Returns(teamDetails);
-            //mockMatch.SetupSet(x => x.HomeTeam = It.IsAny<Engine.Models.TeamDetails>()).Callback<Engine.Models.TeamDetails>(r => teamDetails = r);
-
-            //var mockMatchDto = new Mock<Infrastructure.Models.Match>();
+            var matchDto = new MatchDtoBuilder()
+                .WithHomeTeam(new TeamDetailsDtoBuilder()
+                    .WithUserId(userId)
+                    .WithUsedSubs(0)
+                    .WithSquad(new SquadDtoBuilder()
+                        .WithCardsInLineup("ST", new []{new CardDtoBuilder().WithId(playerId)})
+                        .WithSubs(new []{new CardDtoBuilder().WithId(subId)})
+                    )
+                )
+                .Build();
 
             var mockMatchmakingService = new Mock<IMatchmakingService>();
 
@@ -249,9 +251,8 @@ namespace Pitch.Match.Api.Tests.Unit.Services
             _matchService = new MatchService(mockMatchmakingService.Object, stubMatchEngine.Object,
                 mockMatchRepository.Object, mockBus.Object, mockCalculatedStatService.Object);
 
-            await _matchService.Substitution(Guid.NewGuid(), Guid.NewGuid(), matchId, userId); //TODO sub real player ids
+            await _matchService.Substitution(playerId, subId, matchId, userId);
 
-            //mockMatch.Verify(x => x.Substitute(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Once);
             match.HomeTeam.UsedSubs.Should().Be(1);
         }
 
@@ -393,7 +394,7 @@ namespace Pitch.Match.Api.Tests.Unit.Services
                             }
                         )))
                 .WithMinute(eventMinute, new MatchMinuteDtoBuilder().WithMinuteStats(new MinuteStatsDtoBuilder().WithSquadInPossession(squadId))
-                    .WithEvent(new RedCard(cardId, squadId)))
+                    .WithEvent(new Event(EventType.RedCard, cardId, squadId)))
                 .Build();
 
             var mockMatchmakingService = new Mock<IMatchmakingService>();

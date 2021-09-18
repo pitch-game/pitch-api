@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Pitch.Match.Engine.Events;
 
 namespace Pitch.Match.Engine.Models
 {
@@ -42,7 +41,7 @@ namespace Pitch.Match.Engine.Models
         {
             var team = GetTeam(userId);
             team.Squad.Substitute(off, on);
-            Minutes[Elapsed].Events.Add(new Substitution(on, team.Squad.Id));
+            Minutes[Elapsed].Events.Add(new Event(EventType.Sub, on, team.Squad.Id));
         }
 
         public Squad GetSquad(Guid id)

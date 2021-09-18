@@ -16,7 +16,6 @@ using Pitch.Match.Api.Hubs;
 using Pitch.Match.Api.Infrastructure.MessageBus.Supporting;
 using Pitch.Match.Api.Installers;
 using Pitch.Match.Api.Supporting;
-using Pitch.Match.Engine.Events;
 
 namespace Pitch.Match.Api
 {
@@ -76,14 +75,6 @@ namespace Pitch.Match.Api
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
-
-            BsonClassMapExtensions.TryRegisterClassMap<RedCard>();
-            BsonClassMapExtensions.TryRegisterClassMap<YellowCard>();
-            BsonClassMapExtensions.TryRegisterClassMap<Goal>();
-            BsonClassMapExtensions.TryRegisterClassMap<ShotOnTarget>();
-            BsonClassMapExtensions.TryRegisterClassMap<ShotOffTarget>();
-            BsonClassMapExtensions.TryRegisterClassMap<Foul>();
-            BsonClassMapExtensions.TryRegisterClassMap<Substitution>();
 
             app.UseSwagger(c =>
             {

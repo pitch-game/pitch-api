@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Pitch.Match.Engine.Events;
 
 namespace Pitch.Match.Engine.Models
 {
@@ -8,11 +7,11 @@ namespace Pitch.Match.Engine.Models
         public MatchMinute()
         {
             Modifiers = new List<Modifier>();
-            Events = new List<IEvent>();
+            Events = new List<Event>();
         }
 
         public MinuteStats Stats { get; set; }
         public IList<Modifier> Modifiers { get; set; }
-        public IList<IEvent> Events { get; set; }
+        public IList<Event> Events { get; set; }
     }
 }

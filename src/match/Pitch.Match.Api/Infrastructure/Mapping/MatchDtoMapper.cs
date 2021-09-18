@@ -70,7 +70,7 @@ namespace Pitch.Match.Api.Infrastructure.Mapping
             {
                 Stats = MapMinuteStats(x.Stats),
                 Modifiers = MapModifiers(x.Modifiers),
-                //Events = MapEvents(x.Events) //TODO 
+                Events = MapEvents(x.Events)
             }).ToArray();
         }
 
@@ -95,7 +95,17 @@ namespace Pitch.Match.Api.Infrastructure.Mapping
             {
                 CardId = modifier.CardId,
                 DrainValue = modifier.DrainValue,
-                //Type = modifier.Type //TODO map enum
+                Type = (ModifierType)modifier.Type
+            }).ToList();
+        }
+
+        private static IList<Event> MapEvents(IEnumerable<Engine.Models.Event> events)
+        {
+            return events?.Select(@event => new Event
+            {
+                SquadId = @event.SquadId,
+                CardId = @event.CardId,
+                Type = (EventType) @event.Type
             }).ToList();
         }
     }

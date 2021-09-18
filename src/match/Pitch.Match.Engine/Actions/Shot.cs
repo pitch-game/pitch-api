@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Pitch.Match.Engine.Events;
 using Pitch.Match.Engine.Models;
 using Pitch.Match.Engine.Providers;
 using Pitch.Match.Engine.Services;
@@ -33,7 +32,7 @@ namespace Pitch.Match.Engine.Actions
         //[BsonIgnore]
         public bool AffectsTeamInPossession => true;
 
-        public IEvent SpawnEvent(Card card, Guid squadId, Models.Match match)
+        public Event SpawnEvent(Card card, Guid squadId, Models.Match match)
         {
             var oppositionsDefenceRating = _ratingService.CurrentRating(PositionalArea.DEF, match, match.GetOppositionSquad(squadId));
             var shootersRating = _ratingService.CurrentRating(card.Id, match, match.GetSquad(squadId));
@@ -50,12 +49,12 @@ namespace Pitch.Match.Engine.Actions
                 var goalRandomNumber = _randomnessProvider.Next(0, goalChanceAccum);
                 if (goalRandomNumber <= shootersRating * Constants.ShooterAgainstGkModifier)
                 {
-                    return new Goal(card.Id, squadId);
+                    return new Event(EventType.Goal, card.Id, squadId);
                 }
-                return new ShotOnTarget(card.Id, squadId);
+                return new Event(EventType.ShotOnTarget, card.Id, squadId);
             }
 
-            return new ShotOffTarget(card.Id, squadId);
+            return new Event(EventType.ShotOffTarget, card.Id, squadId);
         }
     }
 }

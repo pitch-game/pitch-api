@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Pitch.Match.Engine.Actions;
-using Pitch.Match.Engine.Events;
 using Pitch.Match.Engine.Models;
 using Pitch.Match.Engine.Providers;
 
@@ -33,7 +32,7 @@ namespace Pitch.Match.Engine.Services
         {
             PositionalArea positionalArea = ChanceHelper.PercentBase100Chance(action.PositionalChance, x => x.Value).Key;
 
-            var sentOffCardIds = minutes.SelectMany(x => x.Events).Where(x => x is RedCard).Select(x => x.CardId);
+            var sentOffCardIds = minutes.SelectMany(x => x.Events).Where(x => x.Type == EventType.RedCard).Select(x => x.CardId);
 
             if (!team.Lineup.ContainsKey(positionalArea.ToString())) return null;
             var cards = team.Lineup[positionalArea.ToString()].Where(x => x != null && !sentOffCardIds.Contains(x.Id)).ToList();

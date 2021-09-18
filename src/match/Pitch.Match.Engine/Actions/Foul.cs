@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pitch.Match.Engine.Events;
 using Pitch.Match.Engine.Models;
 using Pitch.Match.Engine.Providers;
 
@@ -31,25 +30,25 @@ namespace Pitch.Match.Engine.Actions
         //[BsonIgnore]
         public bool AffectsTeamInPossession => false;
 
-        public IEvent SpawnEvent(Card card, Guid squadId, Models.Match match)
+        public Event SpawnEvent(Card card, Guid squadId, Models.Match match)
         {
             int randomNumber = _randomnessProvider.Next(1, 40);
 
             if (randomNumber == 1)
             {
-                return new RedCard(card.Id, squadId);
+                return new Event(EventType.RedCard, card.Id, squadId);
             }
             if (randomNumber >= 2 && randomNumber < 5)
             {
-                var yellowCards = match.Minutes.SelectMany(x => x.Events).Where(x => x is YellowCard).Select(x => x.CardId);
+                var yellowCards = match.Minutes.SelectMany(x => x.Events).Where(x => x.Type == EventType.YellowCard).Select(x => x.CardId);
                 if (yellowCards.Contains(card.Id))
                 {
-                    return new RedCard(card.Id, squadId); //TODO return yellow and red event
+                    return new Event(EventType.RedCard, card.Id, squadId); //TODO return yellow and red event
                 }
-                return new YellowCard(card.Id, squadId);
+                return new Event(EventType.YellowCard, card.Id, squadId);
             }
             if (randomNumber >= 5)
-                return new Events.Foul(card.Id, squadId);
+                return new Event(EventType.Foul, card.Id, squadId);
             return null;
         }
     }

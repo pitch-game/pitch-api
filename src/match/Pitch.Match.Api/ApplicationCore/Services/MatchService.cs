@@ -12,7 +12,6 @@ using Pitch.Match.Api.Infrastructure.MessageBus.Requests;
 using Pitch.Match.Api.Infrastructure.MessageBus.Responses;
 using Pitch.Match.Api.Infrastructure.Repositories;
 using Pitch.Match.Engine;
-using Pitch.Match.Engine.Events;
 using Pitch.Match.Engine.Models;
 using Pitch.Match.Engine.Services;
 using Squad = Pitch.Match.Engine.Models.Squad;
@@ -63,14 +62,14 @@ namespace Pitch.Match.Api.ApplicationCore.Services
                     match.AwayTeam.HasClaimedRewards = true;
                     var matchResult = new MatchResult(match);
                     victorious = matchResult.AwayResult.Score > matchResult.HomeResult.Score;
-                    scorers = match.Minutes.SelectMany(x => x.Events).Where(x => x.SquadId == match.AwayTeam.Squad.Id && x is Goal).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
+                    scorers = match.Minutes.SelectMany(x => x.Events).Where(x => x.SquadId == match.AwayTeam.Squad.Id && x.Type == EventType.Goal).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
                 }
                 else if (match.HomeTeam.UserId == userId)
                 {
                     match.HomeTeam.HasClaimedRewards = true;
                     var matchResult = new MatchResult(match);
                     victorious = matchResult.HomeResult.Score > matchResult.AwayResult.Score;
-                    scorers = match.Minutes.SelectMany(x => x.Events).Where(x => x.SquadId == match.HomeTeam.Squad.Id && x is Goal).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
+                    scorers = match.Minutes.SelectMany(x => x.Events).Where(x => x.SquadId == match.HomeTeam.Squad.Id && x.Type == EventType.Goal).GroupBy(x => x.CardId).ToDictionary(x => x.Key, x => x.Count());
                 }
 
                 await _bus.PubSub.PublishAsync(new MatchCompletedEvent(match.Id, userId, victorious, scorers));
@@ -183,7 +182,7 @@ namespace Pitch.Match.Api.ApplicationCore.Services
         {
             var match = await GetAsAtElapsedAsync(matchId);
             var team = match.GetTeam(userId);
-            var sendingOffs = match.Minutes.SelectMany(x => x.Events).Where(x => x is RedCard).Select(x => x.CardId);
+            var sendingOffs = match.Minutes.SelectMany(x => x.Events).Where(x => x.Type == EventType.RedCard).Select(x => x.CardId);
             var lineup = team.Squad.Lineup.Values.SelectMany(x => x).Where(x => !sendingOffs.Contains(x.Id)).ToList();
             return new Models.Lineup { Active = lineup, Subs = team.Squad.Subs };
         }

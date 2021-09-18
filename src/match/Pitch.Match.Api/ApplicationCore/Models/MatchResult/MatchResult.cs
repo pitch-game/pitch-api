@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pitch.Match.Engine;
-using Pitch.Match.Engine.Events;
 using Pitch.Match.Engine.Models;
 
 namespace Pitch.Match.Api.ApplicationCore.Models.MatchResult
@@ -10,7 +9,7 @@ namespace Pitch.Match.Api.ApplicationCore.Models.MatchResult
     public class MatchEventsWithMinute
     {
         public int Minute { get; set; }
-        public IList<IEvent> Events { get; set; }
+        public IList<Engine.Models.Event> Events { get; set; }
     }
 
     //TODO Move to mapping class
@@ -32,24 +31,25 @@ namespace Pitch.Match.Api.ApplicationCore.Models.MatchResult
 
             HomeResult = new Result
             {
-                Score = homeTeamEvents.Count(x => x is Goal),
+                Score = homeTeamEvents.Count(x => x.Type == EventType.Goal),
                 Scorers = GetScorers(match, matchEventsWithMinutes, match.HomeTeam.Squad),
                 Name = match.HomeTeam.Squad.Name
             };
 
             AwayResult = new Result
             {
-                Score = awayTeamEvents.Count(x => x is Goal),
+                Score = awayTeamEvents.Count(x => x.Type == EventType.Goal),
                 Scorers = GetScorers(match, matchEventsWithMinutes, match.AwayTeam.Squad),
                 Name = match.AwayTeam.Squad.Name
             };
 
             Timeline = matchEventsWithMinutes.SelectMany(x =>
             {
-                return x.Events.Where(x => x.ShowInTimeline).Select((matchEvent, i) => new Event()
+                //TODO show in timeline false
+                return x.Events.Select((matchEvent, i) => new Event()
                 {
                     Minute = x.Minute,
-                    Name = matchEvent.Name,
+                    Name = matchEvent.Type.ToString(), //TODO DisplayText string
                     CardId = matchEvent.CardId,
                     SquadName = match.HomeTeam.Squad.Id == matchEvent.SquadId ? match.HomeTeam.Squad.Name : match.AwayTeam.Squad.Name
                 });
@@ -76,9 +76,9 @@ namespace Pitch.Match.Api.ApplicationCore.Models.MatchResult
         {
             foreach (var card in CardLookup)
             {
-                card.Value.Goals = events.Sum(x => x.Events.Count(e => e.CardId == card.Value.Id && e is Goal));
-                card.Value.YellowCards = events.Sum(x => x.Events.Count(e => e.CardId == card.Value.Id && e is YellowCard));
-                card.Value.RedCards = events.Sum(x => x.Events.Count(e => e.CardId == card.Value.Id && e is RedCard));
+                card.Value.Goals = events.Sum(x => x.Events.Count(e => e.CardId == card.Value.Id && e.Type == EventType.Goal));
+                card.Value.YellowCards = events.Sum(x => x.Events.Count(e => e.CardId == card.Value.Id && e.Type == EventType.YellowCard));
+                card.Value.RedCards = events.Sum(x => x.Events.Count(e => e.CardId == card.Value.Id && e.Type == EventType.RedCard));
             }
         }
 
@@ -101,16 +101,16 @@ namespace Pitch.Match.Api.ApplicationCore.Models.MatchResult
             };
         }
 
-        private static Stats GetStats(Engine.Models.Match match, IList<IEvent> homeTeamEvents, Guid teamId)
+        private static Stats GetStats(Engine.Models.Match match, IList<Engine.Models.Event> homeTeamEvents, Guid teamId)
         {
             return new Stats()
             {
-                Shots = homeTeamEvents.Count(x => (new Type[] { typeof(Goal), typeof(ShotOnTarget), typeof(ShotOffTarget) }).Contains(x.GetType())),
-                ShotsOnTarget = homeTeamEvents.Count(x => (new Type[] { typeof(Goal), typeof(ShotOnTarget) }).Contains(x.GetType())),
+                Shots = homeTeamEvents.Count(x => (new [] { EventType.Goal, EventType.ShotOnTarget, EventType.ShotOffTarget }).Contains(x.Type)),
+                ShotsOnTarget = homeTeamEvents.Count(x => (new [] { EventType.Goal, EventType.ShotOnTarget }).Contains(x.Type)),
                 Possession = CalculatePossession(match, teamId),
-                Fouls = homeTeamEvents.Count(x => (new Type[] { typeof(YellowCard), typeof(RedCard), typeof(Foul) }).Contains(x.GetType())),
-                YellowCards = homeTeamEvents.Count(x => x is YellowCard),
-                RedCards = homeTeamEvents.Count(x => x is RedCard)
+                Fouls = homeTeamEvents.Count(x => (new[] { EventType.YellowCard, EventType.RedCard, EventType.Foul }).Contains(x.Type)),
+                YellowCards = homeTeamEvents.Count(x => x.Type == EventType.YellowCard),
+                RedCards = homeTeamEvents.Count(x => x.Type == EventType.RedCard)
             };
         }
 
@@ -125,7 +125,7 @@ namespace Pitch.Match.Api.ApplicationCore.Models.MatchResult
         {
             return events.SelectMany(x => 
             {
-                return x.Events.Where(e => e is Goal && e.SquadId == team.Id).Cast<Goal>().Select(goal =>
+                return x.Events.Where(e => e.Type == EventType.Goal && e.SquadId == team.Id).Select(goal =>
                 {
                     var player = CardLookup[goal.CardId.ToString()];
                     return $"{player.Name} {x.Minute}'";

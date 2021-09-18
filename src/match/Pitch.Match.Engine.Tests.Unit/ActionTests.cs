@@ -1,5 +1,4 @@
 ﻿using System;
-using Pitch.Match.Engine.Events;
 using Pitch.Match.Engine.Models;
 using Pitch.Match.Engine.Providers;
 using Xunit;
@@ -41,7 +40,7 @@ namespace Pitch.Match.Engine.Tests.Unit
             var @event = foul.SpawnEvent(card, new Guid(), new Match.Engine.Models.Match());
 
             //Assert
-            Assert.Equal(typeof(Match.Engine.Events.Foul), @event.GetType());
+            Assert.Equal(EventType.Foul, @event.Type);
         }
 
         [Fact]
@@ -56,7 +55,7 @@ namespace Pitch.Match.Engine.Tests.Unit
             var @event = foul.SpawnEvent(card, new Guid(), new Match.Engine.Models.Match());
 
             //Assert
-            Assert.Equal(typeof(RedCard), @event.GetType());
+            Assert.Equal(EventType.RedCard, @event.Type);
         }
 
         [Fact]
@@ -71,7 +70,7 @@ namespace Pitch.Match.Engine.Tests.Unit
             var @event = foul.SpawnEvent(card, new Guid(), new Match.Engine.Models.Match());
 
             //Assert
-            Assert.Equal(typeof(YellowCard), @event.GetType());
+            Assert.Equal(EventType.YellowCard, @event.Type);
         }
 
         [Fact]
@@ -83,13 +82,13 @@ namespace Pitch.Match.Engine.Tests.Unit
             var cardId = Guid.NewGuid();
             var card = new Card {Id = cardId};
             var match = new Match.Engine.Models.Match();
-            match.Minutes[5].Events.Add(new YellowCard(cardId, new Guid()));
+            match.Minutes[5].Events.Add(new Event(EventType.YellowCard, cardId, new Guid()));
 
             //Act
             var @event = foul.SpawnEvent(card, new Guid(), match);
 
             //Assert
-            Assert.Equal(typeof(RedCard), @event.GetType());
+            Assert.Equal(EventType.RedCard, @event.Type);
         }
 
         [Fact]

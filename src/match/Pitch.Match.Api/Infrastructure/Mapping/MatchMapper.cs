@@ -1,6 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Pitch.Match.Api.Infrastructure.Models;
+using Pitch.Match.Engine.Models;
+using Card = Pitch.Match.Api.Infrastructure.Models.Card;
+using MatchMinute = Pitch.Match.Api.Infrastructure.Models.MatchMinute;
+using MinuteStats = Pitch.Match.Api.Infrastructure.Models.MinuteStats;
+using Modifier = Pitch.Match.Api.Infrastructure.Models.Modifier;
+using Squad = Pitch.Match.Api.Infrastructure.Models.Squad;
+using TeamDetails = Pitch.Match.Api.Infrastructure.Models.TeamDetails;
 
 namespace Pitch.Match.Api.Infrastructure.Mapping
 {
@@ -75,7 +81,7 @@ namespace Pitch.Match.Api.Infrastructure.Mapping
             {
                 Stats = MapMinuteStats(x.Stats),
                 Modifiers = MapModifiers(x.Modifiers),
-                //Events = MapEvents(x.Events) //TODO 
+                Events = MapEvents(x.Events)
             }).ToArray();
         }
 
@@ -91,7 +97,17 @@ namespace Pitch.Match.Api.Infrastructure.Mapping
             {
                 CardId = modifier.CardId,
                 DrainValue = modifier.DrainValue,
-                //Type = modifier.Type //TODO map enum
+                Type = (ModifierType)modifier.Type
+            }).ToList();
+        }
+
+        private static IList<Engine.Models.Event> MapEvents(IEnumerable<Infrastructure.Models.Event> events)
+        {
+            return events?.Select(@event => new Engine.Models.Event
+            {
+                SquadId = @event.SquadId,
+                CardId = @event.CardId,
+                Type = (Engine.Models.EventType)@event.Type
             }).ToList();
         }
     }
