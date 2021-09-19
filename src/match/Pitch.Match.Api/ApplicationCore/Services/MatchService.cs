@@ -36,16 +36,20 @@ namespace Pitch.Match.Api.ApplicationCore.Services
         private readonly IMatchRepository _matchRepository;
         private readonly ICalculatedCardStatService _calculatedCardStatService;
         private readonly IBus _bus;
+        private readonly IMatchDtoMapper _matchDtoMapper;
+        private readonly IMatchMapper _matchMapper;
 
         public const int SubCount = 3;
 
-        public MatchService(IMatchmakingService matchmakingService, IMatchEngine matchEngine, IMatchRepository matchRepository, IBus bus, ICalculatedCardStatService calculatedCardStatService)
+        public MatchService(IMatchmakingService matchmakingService, IMatchEngine matchEngine, IMatchRepository matchRepository, IBus bus, ICalculatedCardStatService calculatedCardStatService, IMatchDtoMapper matchDtoMapper, IMatchMapper matchMapper)
         {
             _matchmakingService = matchmakingService;
             _matchEngine = matchEngine;
             _matchRepository = matchRepository;
             _bus = bus;
             _calculatedCardStatService = calculatedCardStatService;
+            _matchDtoMapper = matchDtoMapper;
+            _matchMapper = matchMapper;
         }
 
         //TODO remove usage of match result model
@@ -55,7 +59,7 @@ namespace Pitch.Match.Api.ApplicationCore.Services
             var scorers = new Dictionary<Guid, int>();
             foreach (var matchDto in unclaimed)
             {
-                var match = MatchDtoMapper.Map(matchDto);
+                var match = _matchDtoMapper.Map(matchDto);
                 var victorious = false;
                 if (match.AwayTeam.UserId == userId)
                 {
@@ -74,7 +78,7 @@ namespace Pitch.Match.Api.ApplicationCore.Services
 
                 await _bus.PubSub.PublishAsync(new MatchCompletedEvent(match.Id, userId, victorious, scorers));
 
-                var matchUpdate = MatchMapper.Map(match);
+                var matchUpdate = _matchMapper.Map(match);
                 await _matchRepository.UpdateAsync(matchUpdate);
             }
         }
@@ -82,7 +86,7 @@ namespace Pitch.Match.Api.ApplicationCore.Services
         public async Task<Engine.Models.Match> GetAsAtElapsedAsync(Guid id)
         {
             var matchDto = await _matchRepository.GetAsync(id);
-            var match = MatchDtoMapper.Map(matchDto);
+            var match = _matchDtoMapper.Map(matchDto);
 
             match.AsAtElapsed();
             _calculatedCardStatService.Set(match);
@@ -110,7 +114,7 @@ namespace Pitch.Match.Api.ApplicationCore.Services
 
             var simulatedMatch = _matchEngine.Simulate(match);
 
-            var matchDto = MatchMapper.Map(simulatedMatch);
+            var matchDto = _matchMapper.Map(simulatedMatch);
 
             await _matchRepository.CreateAsync(matchDto);
         }
@@ -144,7 +148,7 @@ namespace Pitch.Match.Api.ApplicationCore.Services
             //matches = matches.Where(x => x.HasFinished);
             return matches.Select(x =>
             {
-                var match = MatchDtoMapper.Map(x);
+                var match = _matchDtoMapper.Map(x);
                 if (match == null || !match.HasFinished)
                 {
                     //continue;
@@ -192,7 +196,7 @@ namespace Pitch.Match.Api.ApplicationCore.Services
             //TODO validate
             var matchDto = await _matchRepository.GetAsync(matchId);
 
-            var match = MatchDtoMapper.Map(matchDto);
+            var match = _matchDtoMapper.Map(matchDto);
 
             var team = match.GetTeam(userId);
 
@@ -203,7 +207,7 @@ namespace Pitch.Match.Api.ApplicationCore.Services
 
             newMatch.GetTeam(userId).UsedSubs++;
 
-            var updatedMatchDto = MatchMapper.Map(newMatch);
+            var updatedMatchDto = _matchMapper.Map(newMatch);
 
             await _matchRepository.UpdateAsync(updatedMatchDto);
         }

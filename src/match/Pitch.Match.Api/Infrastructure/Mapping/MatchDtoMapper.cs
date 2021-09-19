@@ -4,9 +4,14 @@ using Pitch.Match.Api.Infrastructure.Models;
 
 namespace Pitch.Match.Api.Infrastructure.Mapping
 {
-    public static class MatchMapper
+    public interface IMatchMapper
     {
-        public static Models.Match Map(Engine.Models.Match match)
+        Models.Match Map(Engine.Models.Match match);
+    }
+
+    public class MatchMapper : IMatchMapper
+    {
+        public Models.Match Map(Engine.Models.Match match)
         {
             return new Models.Match
             {

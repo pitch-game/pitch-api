@@ -10,9 +10,14 @@ using TeamDetails = Pitch.Match.Api.Infrastructure.Models.TeamDetails;
 
 namespace Pitch.Match.Api.Infrastructure.Mapping
 {
-    public static class MatchDtoMapper
+    public interface IMatchDtoMapper
     {
-        public static Engine.Models.Match Map(Models.Match match)
+        Engine.Models.Match Map(Models.Match match);
+    }
+
+    public class MatchDtoMapper : IMatchDtoMapper
+    {
+        public Engine.Models.Match Map(Models.Match match)
         {
             return new Engine.Models.Match
             {
