@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Pitch.Match.API.ApplicationCore.Engine;
+using Pitch.Match.Engine;
 
 namespace Pitch.Match.Api.Tests.Shared.Builders
 {
@@ -42,9 +42,9 @@ namespace Pitch.Match.Api.Tests.Shared.Builders
             return this;
         }
 
-        public API.ApplicationCore.Models.Match.Match Build()
+        public Match.Engine.Models.Match Build()
         {
-            return new API.ApplicationCore.Models.Match.Match()
+            return new Match.Engine.Models.Match()
             {
                 Id = _id,
                 AwayTeam = _awayTeam.Build(),

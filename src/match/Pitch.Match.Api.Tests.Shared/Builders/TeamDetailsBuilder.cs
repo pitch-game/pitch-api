@@ -1,5 +1,5 @@
 ﻿using System;
-using Pitch.Match.API.ApplicationCore.Models.Match;
+using Pitch.Match.Engine.Models;
 
 namespace Pitch.Match.Api.Tests.Shared.Builders
 {

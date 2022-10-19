@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Moq;
-using Pitch.Match.API.ApplicationCore.Models.Matchmaking;
-using Pitch.Match.API.ApplicationCore.Services;
-using Pitch.Match.API.Hubs;
+using Pitch.Match.Api.ApplicationCore.Models.Matchmaking;
+using Pitch.Match.Api.ApplicationCore.Services;
+using Pitch.Match.Api.Hubs;
 using Xunit;
 
 namespace Pitch.Match.Api.Tests.Unit.Hubs

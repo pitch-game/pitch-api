@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.Engine.Models;
 
 namespace Pitch.Match.Api.Tests.Shared.Builders
 {

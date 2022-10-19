@@ -1,5 +1,5 @@
 ﻿using System;
-using Pitch.Match.API.Infrastructure.MessageBus.Supporting;
+using Pitch.Match.Api.Infrastructure.MessageBus.Supporting;
 using Xunit;
 
 namespace Pitch.Match.Api.Tests.Unit

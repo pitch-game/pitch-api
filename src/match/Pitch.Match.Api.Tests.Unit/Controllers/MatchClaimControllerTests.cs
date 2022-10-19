@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Pitch.Match.API.ApplicationCore.Services;
-using Pitch.Match.API.Controllers;
+using Pitch.Match.Api.ApplicationCore.Services;
+using Pitch.Match.Api.Controllers;
 using Xunit;
 
 namespace Pitch.Match.Api.Tests.Unit.Controllers

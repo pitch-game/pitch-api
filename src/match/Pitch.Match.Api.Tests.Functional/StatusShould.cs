@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Pitch.Match.API.ApplicationCore.Models;
+using Pitch.Match.Api.ApplicationCore.Models;
 using Pitch.Match.Api.Tests.Functional.Framework;
 using Pitch.Match.Api.Tests.Shared;
 using Xunit;
