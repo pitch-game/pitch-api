@@ -10,22 +10,14 @@ namespace Pitch.Match.Engine.Providers
 
     public class ThreadSafeRandomnessProvider : IRandomnessProvider
     {
-        private static readonly Random Random = new Random();
-        
         public int Next(int maxValue)
         {
-            lock (Random)
-            {
-                return Random.Next(maxValue);
-            }
+            return Random.Shared.Next(maxValue);
         }
 
         public int Next(int minValue, int maxValue)
         {
-            lock (Random)
-            {
-                return Random.Next(minValue, maxValue);
-            }
+            return Random.Shared.Next(minValue, maxValue);
         }
     }
 }
